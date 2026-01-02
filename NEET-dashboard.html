@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>NEET Dashboard</title>
+  <title>NEET Dashboard - GyaanSetu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Bootstrap CSS -->
@@ -56,13 +56,41 @@
       height: 0.45rem;
       border-radius: 999px;
     }
+
+    .quote-box {
+      border-radius: 0.75rem;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+    }
   </style>
+
+  <script>
+    const SCRIPT_URL =
+      'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+
+    // Access guard: only logged-in NEET users
+    (function guardAccess() {
+      const exam = localStorage.getItem('exam');
+      const userId = localStorage.getItem('userId');
+
+      if (!exam || !userId) {
+        window.location.href = 'index.html';
+        return;
+      }
+      if (exam !== 'NEET') {
+        window.location.href = 'index.html';
+        return;
+      }
+    })();
+  </script>
 </head>
 <body>
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
-      <aside class="col-12 col-md-3 col-lg-2 sidebar p-3">
+      <aside class="col-12 col-md-3 col-lg-2 sidebar p-3 d-flex flex-column">
         <div class="d-flex align-items-center mb-4">
           <div
             class="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
@@ -105,40 +133,40 @@
           <div class="jee-card p-3 bg-transparent border border-light">
             <div class="d-flex justify-content-between align-items-baseline">
               <span class="small text-white-50">Overall syllabus completion</span>
-              <span class="small fw-semibold text-white">55%</span>
+              <span class="small fw-semibold text-white" id="overallPercent">0%</span>
             </div>
             <div class="progress jee-progress bg-white-50 mt-2">
               <div
                 class="progress-bar bg-success"
                 role="progressbar"
-                style="width: 55%"
+                id="overallBar"
+                style="width: 0%"
               ></div>
             </div>
             <div class="mt-3">
               <div class="d-flex justify-content-between small">
-                <span class="text-white-50">Days to NEET UG</span>
-                <span class="text-white fw-semibold">140 days</span>
+                <span class="text-white-50">Days to NEET UG 2026</span>
+                <span class="text-white fw-semibold" id="daysToNeet">0 days</span>
               </div>
             </div>
           </div>
         </div>
       </aside>
 
-      <!-- MAIN: all sections full-width inside main -->
+      <!-- MAIN -->
       <main class="col-12 col-md-9 col-lg-10 px-4 py-3">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
           <div>
-            <h4 class="mb-1">Welcome back, Future Doctor 👩‍⚕️👨‍⚕️</h4>
+            <h4 class="mb-1">
+              Welcome back, <span id="userNameHeader">Future Doctor</span>
+            </h4>
             <div class="text-muted small">
-              Consistent study and calm mind crack <strong>NEET</strong>.
+              Consistent study and a calm mind crack <strong>NEET</strong>.
             </div>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-outline-secondary btn-sm">
-              <i class="bi bi-moon-stars"></i>
-            </button>
-            <button class="btn btn-success btn-sm">
-              <i class="bi bi-plus-lg me-1"></i> Add Study Session
+            <button class="btn btn-outline-secondary btn-sm" onclick="logout()">
+              <i class="bi bi-box-arrow-right me-1"></i> Logout
             </button>
             <div
               class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center"
@@ -149,6 +177,47 @@
           </div>
         </div>
 
+        <!-- COUNTDOWN + DAILY QUOTE -->
+        <section class="jee-card p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <h5 class="mb-0">NEET UG 2026 Countdown</h5>
+              <div class="small text-muted">
+                Stay regular with Physics, Chemistry & Biology.
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 align-items-center">
+            <div class="col-12 col-md-6">
+              <div class="row g-2">
+                <div class="col-6">
+                  <div class="border rounded p-3 text-center">
+                    <div class="small text-muted">Days Left</div>
+                    <div class="fs-3 fw-semibold" id="daysLeft">0</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="border rounded p-3 text-center">
+                    <div class="small text-muted">Hours Left</div>
+                    <div class="fs-3 fw-semibold" id="hoursLeft">0</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="quote-box">
+                <div class="small text-success fw-semibold mb-1">
+                  आज का मोटिवेशन (Quote of the Day)
+                </div>
+                <div id="dailyQuote" class="small">
+                  Your hard work today will become someone’s heartbeat tomorrow.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- DAILY PROGRESS INPUT -->
         <section class="jee-card p-3 mb-3" id="daily-progress">
           <div class="d-flex justify-content-between align-items-center mb-2">
@@ -156,7 +225,7 @@
             <span class="small text-muted">NEET preparation tracker</span>
           </div>
 
-          <form id="dailyProgressFormNeet" class="row g-3">
+          <form id="dailyProgressFormNeet" class="row g-3" onsubmit="updateProgress(event)">
             <div class="col-12 col-md-4">
               <label class="form-label small fw-semibold">Study Hours Today</label>
               <input
@@ -238,35 +307,17 @@
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h5 class="mb-0">Announcements</h5>
             <span class="small text-muted">
-              Admin updates; visible in student profile
+              NEET related updates from admin
             </span>
           </div>
-          <div class="list-group">
-            <div class="list-group-item border-0 border-bottom">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <div class="fw-semibold small">
-                    NEET Full Syllabus Test Series starting 15 February
-                  </div>
-                  <div class="small text-muted">
-                    Detailed schedule uploaded in Tests section. Attempt as per slot.
-                  </div>
-                </div>
-                <span class="badge text-bg-success align-self-start">New</span>
-              </div>
-            </div>
-            <div class="list-group-item border-0">
-              <div class="fw-semibold small">
-                Updated Biology NCERT Highlighted PDF added to Study Material
-              </div>
-              <div class="small text-muted">
-                Download and revise marked lines daily for better retention.
-              </div>
+          <div id="announcementsList">
+            <div class="text-center text-muted small py-3">
+              Admin will post important announcements here.
             </div>
           </div>
         </section>
 
-        <!-- TESTS: PYQs & MOCK PDFs -->
+        <!-- TESTS: PYQs & Mock PDFs -->
         <section class="jee-card p-3 mb-3" id="tests">
           <h5 class="mb-3">Tests</h5>
           <div class="row g-3">
@@ -276,26 +327,11 @@
                   <h6 class="mb-0">PYQs</h6>
                   <span class="small text-muted">Admin uploads</span>
                 </div>
-                <ul class="list-group list-group-flush small">
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>NEET PYQs 2020–2023 (Biology)</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-file-earmark-pdf me-1"></i>View
-                    </a>
-                  </li>
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>NEET Chemistry PYQ Pack</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-file-earmark-pdf me-1"></i>View
-                    </a>
-                  </li>
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>Physics PYQs – Mechanics</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-file-earmark-pdf me-1"></i>View
-                    </a>
-                  </li>
-                </ul>
+                <div id="pyqList">
+                  <div class="text-center text-muted small py-3">
+                    PYQ PDFs will appear here.
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -305,26 +341,11 @@
                   <h6 class="mb-0">Mock Tests PDFs</h6>
                   <span class="small text-muted">Offline practice</span>
                 </div>
-                <ul class="list-group list-group-flush small">
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>Full Syllabus NEET Mock #05</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-download me-1"></i>Download
-                    </a>
-                  </li>
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>Biology Module Test – Human Physiology</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-download me-1"></i>Download
-                    </a>
-                  </li>
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>Physics + Chemistry Mixed Paper</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-download me-1"></i>Download
-                    </a>
-                  </li>
-                </ul>
+                <div id="mockPdfList">
+                  <div class="text-center text-muted small py-3">
+                    Mock test PDFs will appear here.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -340,17 +361,11 @@
                   <h6 class="mb-0">Books</h6>
                   <span class="small text-muted">Core references</span>
                 </div>
-                <ul class="list-group list-group-flush small">
-                  <li class="list-group-item px-0">
-                    NCERT Biology 11 & 12 (must‑do)
-                  </li>
-                  <li class="list-group-item px-0">
-                    MTG 30 Years NEET Chapterwise Solutions
-                  </li>
-                  <li class="list-group-item px-0">
-                    D.C. Pandey – Objective Physics for NEET
-                  </li>
-                </ul>
+                <div id="booksListNeet">
+                  <div class="text-center text-muted small py-3">
+                    Books list will appear here.
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -360,26 +375,11 @@
                   <h6 class="mb-0">PDFs, Notes & Others</h6>
                   <span class="small text-muted">Uploaded by admin</span>
                 </div>
-                <ul class="list-group list-group-flush small">
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>NCERT Biology Highlighted PDF</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
-                    </a>
-                  </li>
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>Important Diagrams – Biology</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
-                    </a>
-                  </li>
-                  <li class="list-group-item px-0 d-flex justify-content-between">
-                    <span>Physics Formula Sheet – NEET</span>
-                    <a href="#" class="text-decoration-none">
-                      <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
-                    </a>
-                  </li>
-                </ul>
+                <div id="notesListNeet">
+                  <div class="text-center text-muted small py-3">
+                    Important PDFs and notes will appear here.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -391,16 +391,18 @@
             <h5 class="mb-0">पथ प्रदर्शक</h5>
             <span class="small text-muted">Daily motivation for NEET & MBBS dream</span>
           </div>
-          <div class="border rounded p-3 bg-light">
-            <p class="small mb-2">
-              “जो विद्यार्थी रोज़ ईमानदारी से पढ़ता है, वही एक दिन सफेद कोट पहन कर
-              मरीजों की सेवा करता है। आज की मेहनत, कल किसी की जान बचाएगी।”
-            </p>
-            <p class="small mb-0">
-              Mobile से ज़्यादा समय किताबों को दें। हर 50 मिनट की पढ़ाई के बाद छोटा
-              ब्रेक लें और वापिस बैठ जाएँ। आपका निरंतर प्रयास ही आपकी
-              <strong>ताकत</strong> है।
-            </p>
+          <div id="pathPradarshakContent">
+            <div class="border rounded p-3 bg-light">
+              <p class="small mb-2">
+                “जो विद्यार्थी रोज़ ईमानदारी से पढ़ता है, वही एक दिन सफेद कोट पहन कर
+                मरीजों की सेवा करता है। आज की मेहनत, कल किसी की जान बचाएगी।”
+              </p>
+              <p class="small mb-0">
+                Mobile से ज़्यादा समय किताबों को दें। हर 50 मिनट की पढ़ाई के बाद छोटा
+                ब्रेक लें और वापिस बैठ जाएँ। आपका निरंतर प्रयास ही आपकी
+                <strong>ताकत</strong> है।
+              </p>
+            </div>
           </div>
         </section>
       </main>
@@ -410,36 +412,160 @@
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    let totalStudyHoursNeet = 0;
-    let totalTopicsCoveredNeet = 0;
-    let totalMocksCompletedNeet = 0;
+    // NEET quotes of the day [web:170][web:157]
+    const neetQuotes = [
+      'Your hard work today will become someone’s heartbeat tomorrow.',
+      'हर पेज जो आप आज पढ़ते हैं, कल किसी मरीज की जान बचा सकता है।',
+      'Consistent NCERT revision beats last-minute panic always.',
+      'एक-एक chapter मजबूत बनाते रहो, पूरी MBBS की नींव यहीं से शुरू होती है।',
+      'Discipline in study hours is your real coaching.'
+    ];
 
-    const formNeet = document.getElementById('dailyProgressFormNeet');
-    const inputStudyHoursNeet = document.getElementById('inputStudyHoursNeet');
-    const inputTopicsCoveredNeet = document.getElementById('inputTopicsCoveredNeet');
-    const inputMocksCompletedNeet = document.getElementById('inputMocksCompletedNeet');
+    function loadDailyQuote() {
+      const todayKey = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const stored = localStorage.getItem('neetQuote');
+      let quote;
 
-    const totalStudyHoursNeetEl = document.getElementById('totalStudyHoursNeet');
-    const totalTopicsCoveredNeetEl = document.getElementById('totalTopicsCoveredNeet');
-    const totalMocksCompletedNeetEl = document.getElementById('totalMocksCompletedNeet');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.date === todayKey) {
+          quote = parsed.text;
+        }
+      }
 
-    formNeet.addEventListener('submit', function (e) {
+      if (!quote) {
+        quote = neetQuotes[Math.floor(Math.random() * neetQuotes.length)];
+        localStorage.setItem(
+          'neetQuote',
+          JSON.stringify({ date: todayKey, text: quote })
+        );
+      }
+
+      document.getElementById('dailyQuote').textContent = quote;
+    }
+
+    function updateCountdown() {
+      // Example NEET 2026 tentative date (update when official) [web:167]
+      const examDate = new Date('2026-05-03T09:00:00');
+      const now = new Date();
+      const diff = examDate - now;
+
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      const hours = Math.max(0, Math.floor(diff / (1000 * 60 * 60)));
+
+      document.getElementById('daysLeft').textContent = days;
+      document.getElementById('hoursLeft').textContent = hours;
+      document.getElementById('daysToNeet').textContent = `${days} days`;
+    }
+
+    function logout() {
+      if (confirm('Logout from GyaanSetu?')) {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('name');
+        localStorage.removeItem('exam');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // STUDY PROGRESS (same backend pattern as UPSC/JEE) [web:169][web:178]
+    function updateProgress(e) {
       e.preventDefault();
 
-      const todayHours = parseFloat(inputStudyHoursNeet.value) || 0;
-      const todayTopics = parseInt(inputTopicsCoveredNeet.value) || 0;
-      const todayMocks = parseInt(inputMocksCompletedNeet.value) || 0;
+      const userId = localStorage.getItem('userId');
+      const exam = localStorage.getItem('exam');
 
-      totalStudyHoursNeet += todayHours;
-      totalTopicsCoveredNeet += todayTopics;
-      totalMocksCompletedNeet += todayMocks;
+      if (!userId || !exam) {
+        alert('Session expired. Please login again.');
+        window.location.href = 'index.html';
+        return;
+      }
 
-      totalStudyHoursNeetEl.textContent = totalStudyHoursNeet.toFixed(1);
-      totalTopicsCoveredNeetEl.textContent = totalTopicsCoveredNeet;
-      totalMocksCompletedNeetEl.textContent = totalMocksCompletedNeet;
+      const hours =
+        parseFloat(document.getElementById('inputStudyHoursNeet').value) || 0;
+      const topics =
+        parseInt(
+          document.getElementById('inputTopicsCoveredNeet').value || '0',
+          10
+        ) || 0;
+      const mocks =
+        parseInt(
+          document.getElementById('inputMocksCompletedNeet').value || '0',
+          10
+        ) || 0;
 
-      formNeet.reset();
-    });
+      const url =
+        `${SCRIPT_URL}?action=logStudy` +
+        `&userId=${encodeURIComponent(userId)}` +
+        `&exam=${encodeURIComponent(exam)}` +
+        `&hours=${encodeURIComponent(hours)}` +
+        `&topics=${encodeURIComponent(topics)}` +
+        `&mocks=${encodeURIComponent(mocks)}`;
+
+      fetch(url)
+        .then((r) => r.json())
+        .then((data) => {
+          if (!data.success) {
+            throw new Error(data.message || 'Failed to save study log');
+          }
+          const totalsUrl =
+            `${SCRIPT_URL}?action=getStudyTotals` +
+            `&userId=${encodeURIComponent(userId)}` +
+            `&exam=${encodeURIComponent(exam)}`;
+          return fetch(totalsUrl).then((r) => r.json());
+        })
+        .then((totals) => {
+          if (totals && totals.success) {
+            document.getElementById('totalStudyHoursNeet').textContent =
+              totals.totalHours || 0;
+            document.getElementById('totalTopicsCoveredNeet').textContent =
+              totals.totalTopics || 0;
+            document.getElementById('totalMocksCompletedNeet').textContent =
+              totals.totalMocks || 0;
+          }
+          alert('Progress updated successfully!');
+          document.getElementById('dailyProgressFormNeet').reset();
+        })
+        .catch((err) => {
+          console.error('Update progress error:', err);
+          alert('Error updating progress. Please try again.');
+        });
+    }
+
+    function loadTotals() {
+      const userId = localStorage.getItem('userId');
+      const exam = localStorage.getItem('exam');
+      if (!userId || !exam) return;
+
+      const totalsUrl =
+        `${SCRIPT_URL}?action=getStudyTotals` +
+        `&userId=${encodeURIComponent(userId)}` +
+        `&exam=${encodeURIComponent(exam)}`;
+
+      fetch(totalsUrl)
+        .then((r) => r.json())
+        .then((totals) => {
+          if (totals && totals.success) {
+            document.getElementById('totalStudyHoursNeet').textContent =
+              totals.totalHours || 0;
+            document.getElementById('totalTopicsCoveredNeet').textContent =
+              totals.totalTopics || 0;
+            document.getElementById('totalMocksCompletedNeet').textContent =
+              totals.totalMocks || 0;
+          }
+        })
+        .catch((err) => console.error('Load totals error:', err));
+    }
+
+    window.onload = function () {
+      document.getElementById('userNameHeader').textContent =
+        localStorage.getItem('name') || 'Future Doctor';
+
+      updateCountdown();
+      setInterval(updateCountdown, 60 * 60 * 1000);
+
+      loadDailyQuote();
+      loadTotals();
+    };
   </script>
 </body>
 </html>
