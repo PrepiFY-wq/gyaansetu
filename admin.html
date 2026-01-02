@@ -1156,14 +1156,14 @@
       }
 
       try {
-        const res = await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "saveDashboardSection",
-            payload
-          })
-        });
+       const form = new URLSearchParams();
+form.append("action", "saveDashboardSection");
+form.append("payload", JSON.stringify(payload));
+
+const res = await fetch(SCRIPT_URL, {
+  method: "POST",
+  body: form
+});
         const result = await res.json();
         const msgEl = document.getElementById(config.msgId);
         if (result && result.success) {
