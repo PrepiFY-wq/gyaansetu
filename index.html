@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GyaanSetu - Login Portal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -46,9 +42,7 @@
             font-style: italic;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         label {
             display: block;
@@ -124,13 +118,8 @@
             background: #e0e0e0;
         }
 
-        .divider::before {
-            left: 0;
-        }
-
-        .divider::after {
-            right: 0;
-        }
+        .divider::before { left: 0; }
+        .divider::after  { right: 0; }
 
         .message {
             padding: 12px 15px;
@@ -139,13 +128,11 @@
             font-size: 14px;
             display: none;
         }
-
         .message.success {
             background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-
         .message.error {
             background: #f8d7da;
             color: #721c24;
@@ -156,10 +143,8 @@
             display: none;
             position: fixed;
             z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.6);
             overflow-y: auto;
         }
@@ -177,7 +162,7 @@
 
         @keyframes slideDown {
             from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            to   { transform: translateY(0);      opacity: 1; }
         }
 
         .modal-header {
@@ -203,13 +188,9 @@
             transition: all 0.3s;
         }
 
-        .close:hover {
-            transform: rotate(90deg);
-        }
+        .close:hover { transform: rotate(90deg); }
 
-        .modal-body {
-            padding: 30px;
-        }
+        .modal-body { padding: 30px; }
 
         .form-row {
             display: grid;
@@ -231,6 +212,7 @@
 
         <div id="messageBox" class="message"></div>
 
+        <!-- LOGIN FORM -->
         <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label for="userId">User ID</label>
@@ -250,6 +232,7 @@
         <button class="btn btn-secondary" onclick="openRegistrationForm()">Register Here</button>
     </div>
 
+    <!-- REGISTRATION MODAL -->
     <div id="registrationModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -317,29 +300,39 @@
 
         window.onclick = function(event) {
             const modal = document.getElementById('registrationModal');
-            if (event.target == modal) {
+            if (event.target === modal) {
                 modal.style.display = 'none';
             }
         }
 
+        // ========== REGISTRATION ==========
+
         function handleRegistration(event) {
             event.preventDefault();
             
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim();
+            const name    = document.getElementById('regName').value.trim();
+            const email   = document.getElementById('regEmail').value.trim();
             const contact = document.getElementById('regContact').value.trim();
-            const exam = document.getElementById('regExam').value;
+            const exam    = document.getElementById('regExam').value;
             const address = document.getElementById('regAddress').value.trim();
             
             showMessage('Submitting registration...', 'success');
             
-            const url = `${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&contact=${encodeURIComponent(contact)}&exam=${encodeURIComponent(exam)}&address=${encodeURIComponent(address)}`;
+            const url = `${SCRIPT_URL}?action=register` +
+                        `&name=${encodeURIComponent(name)}` +
+                        `&email=${encodeURIComponent(email)}` +
+                        `&contact=${encodeURIComponent(contact)}` +
+                        `&exam=${encodeURIComponent(exam)}` +
+                        `&address=${encodeURIComponent(address)}`;
             
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showMessage('Registration successful! You will receive an email confirmation shortly.', 'success');
+                        showMessage(
+                          'Registration successful! You will receive an email confirmation shortly.',
+                          'success'
+                        );
                         document.getElementById('registrationForm').reset();
                         closeRegistrationModal();
                     } else {
@@ -352,35 +345,49 @@
                 });
         }
 
+        // ========== LOGIN ==========
+
         function handleLogin(event) {
             event.preventDefault();
             
-            const userId = document.getElementById('userId').value.trim();
+            const userId   = document.getElementById('userId').value.trim();
             const password = document.getElementById('password').value.trim();
             
             showMessage('Verifying credentials...', 'success');
             
-            const url = `${SCRIPT_URL}?action=login&userId=${encodeURIComponent(userId)}&password=${encodeURIComponent(password)}`;
+            const url = `${SCRIPT_URL}?action=login` +
+                        `&userId=${encodeURIComponent(userId)}` +
+                        `&password=${encodeURIComponent(password)}`;
             
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        const user = data.user;
+
+                        // store for dashboards (study log, guard, etc.)
+                        localStorage.setItem('userId', user.userId);
+                        localStorage.setItem('name', user.name);
+                        localStorage.setItem('exam', user.preparingFor);
+
                         showMessage('Login successful! Redirecting...', 'success');
+
                         setTimeout(() => {
-                            switch(data.exam) {
+                            switch (user.preparingFor) {
                                 case 'UPSC CSE':
-                                    window.location.href = '/upsc-cse.html';
+                                    window.location.href = 'upsc-dashboard.html';
                                     break;
                                 case 'JEE':
-                                    window.location.href = '/jee.html';
+                                    window.location.href = 'jee-dashboard.html';
                                     break;
                                 case 'NEET':
-                                    window.location.href = '/neet.html';
+                                    window.location.href = 'neet-dashboard.html';
                                     break;
                                 case 'RPSC':
-                                    window.location.href = '/rpsc.html';
+                                    window.location.href = 'rpsc-dashboard.html';
                                     break;
+                                default:
+                                    showMessage('Unknown exam type in your profile.', 'error');
                             }
                         }, 1500);
                     } else {
