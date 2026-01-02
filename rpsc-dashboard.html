@@ -1,0 +1,295 @@
+<!-- MAIN: all sections full width -->
+<main class="col-12 col-md-9 col-lg-10 px-4 py-3">
+  <!-- Top bar -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div>
+      <h4 class="mb-1">Welcome back, RPSC Aspirant</h4>
+      <div class="text-muted small">
+        Consistent answer writing and revision crack <strong>RAS</strong> & Teaching services.
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-moon-stars"></i>
+      </button>
+      <button class="btn btn-primary btn-sm">
+        <i class="bi bi-plus-lg me-1"></i> Add Study Session
+      </button>
+      <div
+        class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+        style="width: 36px; height: 36px"
+      >
+        <span class="small fw-semibold">YOU</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY PROGRESS INPUT -->
+  <section class="rpsc-card p-3 mb-3" id="daily-progress">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="mb-0">Update Your Daily Progress</h5>
+      <span class="small text-muted">
+        RAS, 1st Grade & 2nd Grade preparation tracker
+      </span>
+    </div>
+
+    <form id="dailyProgressFormRpsc" class="row g-3">
+      <div class="col-12 col-md-4">
+        <label class="form-label small fw-semibold">Study Hours Today</label>
+        <input
+          type="number"
+          min="0"
+          step="0.5"
+          class="form-control"
+          id="inputStudyHoursRpsc"
+          placeholder="e.g. 6"
+          required
+        />
+      </div>
+      <div class="col-12 col-md-4">
+        <label class="form-label small fw-semibold">Topics Covered Today</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          class="form-control"
+          id="inputTopicsCoveredRpsc"
+          placeholder="e.g. 4"
+          required
+        />
+      </div>
+      <div class="col-12 col-md-4">
+        <label class="form-label small fw-semibold">Mock Tests Completed</label>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          class="form-control"
+          id="inputMocksCompletedRpsc"
+          placeholder="e.g. 1"
+          required
+        />
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary btn-sm mt-1">
+          <i class="bi bi-check2-circle me-1"></i> Save & Add to Totals
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- TOTALS -->
+  <section class="rpsc-card p-3 mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="mb-0">Overall Progress Totals</h5>
+      <span class="small text-muted">Updated from daily entries</span>
+    </div>
+    <div class="row g-3">
+      <div class="col-12 col-md-4">
+        <div class="border rounded p-3 h-100">
+          <div class="small text-muted mb-1">Total Study Hours</div>
+          <h4 class="mb-1" id="totalStudyHoursRpsc">0</h4>
+          <div class="small text-muted">
+            RAS · 1st Grade · 2nd Grade
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="border rounded p-3 h-100">
+          <div class="small text-muted mb-1">Total Topics Covered</div>
+          <h4 class="mb-1" id="totalTopicsCoveredRpsc">0</h4>
+          <div class="small text-muted">
+            Rajasthan GK, GS, Pedagogy, Subjects
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="border rounded p-3 h-100">
+          <div class="small text-muted mb-1">Total Mock Tests</div>
+          <h4 class="mb-1" id="totalMocksCompletedRpsc">0</h4>
+          <div class="small text-muted">
+            RAS / 1st Grade / 2nd Grade papers
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section class="rpsc-card p-3 mb-3" id="announcements">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="mb-0">Announcements</h5>
+      <span class="small text-muted">
+        Admin updates; visible in candidate profile
+      </span>
+    </div>
+    <div class="list-group">
+      <div class="list-group-item border-0 border-bottom">
+        <div class="d-flex justify-content-between">
+          <div>
+            <div class="fw-semibold small">
+              RAS Prelims + 1st Grade + 2nd Grade Combined Test Series
+            </div>
+            <div class="small text-muted">
+              Check schedule in Tests section; pattern aligned with latest RPSC notifications.
+            </div>
+          </div>
+          <span class="badge text-bg-primary align-self-start">New</span>
+        </div>
+      </div>
+      <div class="list-group-item border-0">
+        <div class="fw-semibold small">
+          Updated Syllabus PDFs for RAS, 1st Grade & 2nd Grade uploaded
+        </div>
+        <div class="small text-muted">
+          Download latest syllabus from Study Material before planning your schedule.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTS: only RAS & Teaching -->
+  <section class="rpsc-card p-3 mb-3" id="tests">
+    <h5 class="mb-3">Tests</h5>
+    <div class="row g-3">
+      <!-- PYQs -->
+      <div class="col-12 col-lg-6">
+        <div class="border rounded p-3 h-100">
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="mb-0">PYQs</h6>
+            <span class="small text-muted">RAS · 1st Grade · 2nd Grade</span>
+          </div>
+          <ul class="list-group list-group-flush small">
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>RAS Prelims PYQs 2013–2023 (GS)</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-file-earmark-pdf me-1"></i>View
+              </a>
+            </li>
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>1st Grade Teacher PYQs – General Studies</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-file-earmark-pdf me-1"></i>View
+              </a>
+            </li>
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>2nd Grade Teacher PYQs – Subject wise</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-file-earmark-pdf me-1"></i>View
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Mock Tests PDFs -->
+      <div class="col-12 col-lg-6">
+        <div class="border rounded p-3 h-100">
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="mb-0">Mock Tests PDFs</h6>
+            <span class="small text-muted">Offline practice papers</span>
+          </div>
+          <ul class="list-group list-group-flush small">
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>RAS Prelims Full Syllabus Mock #01</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-download me-1"></i>Download
+              </a>
+            </li>
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>1st Grade Teacher GS Mock Paper</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-download me-1"></i>Download
+              </a>
+            </li>
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>2nd Grade Teacher Subject Test (e.g. SST)</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-download me-1"></i>Download
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDY MATERIAL -->
+  <section class="rpsc-card p-3 mb-3" id="study-material">
+    <h5 class="mb-3">Study Material</h5>
+    <div class="row g-3">
+      <!-- Books -->
+      <div class="col-12 col-lg-6">
+        <div class="border rounded p-3 h-100">
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="mb-0">Books</h6>
+            <span class="small text-muted">RAS · 1st Grade · 2nd Grade</span>
+          </div>
+          <ul class="list-group list-group-flush small">
+            <li class="list-group-item px-0">
+              Rajasthan Adhyan + RajRAS based books (for all three exams)
+            </li>
+            <li class="list-group-item px-0">
+              Laxmikant – Indian Polity (RAS & Teaching)
+            </li>
+            <li class="list-group-item px-0">
+              Subject‑specific textbooks for 1st Grade & 2nd Grade
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PDFs, Notes, etc. -->
+      <div class="col-12 col-lg-6">
+        <div class="border rounded p-3 h-100">
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="mb-0">PDFs, Notes & Others</h6>
+            <span class="small text-muted">Uploaded by admin</span>
+          </div>
+          <ul class="list-group list-group-flush small">
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>RAS Target Notes – Rajasthan GK</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
+              </a>
+            </li>
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>1st Grade & 2nd Grade Pedagogy Notes</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
+              </a>
+            </li>
+            <li class="list-group-item px-0 d-flex justify-content-between">
+              <span>Important Current Affairs – Rajasthan & India</span>
+              <a href="#" class="text-decoration-none">
+                <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- पथ प्रदर्शक -->
+  <section class="rpsc-card p-3 mb-3" id="path-pradarshak">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="mb-0">पथ प्रदर्शक</h5>
+      <span class="small text-muted">
+        Daily motivation for RAS & Teaching services
+      </span>
+    </div>
+    <div class="border rounded p-3 bg-light">
+      <p class="small mb-2">
+        “जो आज पढ़ कर खुद को बदल रहा है, वही कल कक्षा और प्रशासन दोनों में
+        बदलाव लाएगा। RAS हो या 1st / 2nd Grade, आपकी मेहनत बच्चों और समाज का
+        भविष्य तय करेगी।”
+      </p>
+      <p class="small mb-0">
+        रोज़ थोड़ा लिखें, थोड़ा पढ़ें, थोड़ा दोहराएँ। तीनों परीक्षाओं के लिए
+        आधार एक ही है – मजबूत <strong>आत्मअनुशासन</strong> और निरंतरता।
+      </p>
+    </div>
+  </section>
+</main>
