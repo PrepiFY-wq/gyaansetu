@@ -230,6 +230,17 @@
       font-size: 13px;
     }
 
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .list-item {
+      font-size: 13px;
+      color: #111827;
+    }
+
     .syllabus-item {
       display: flex;
       justify-content: space-between;
@@ -266,7 +277,7 @@
   </style>
 
   <script>
-   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
 
     // Access guard: only logged-in NEET users
     (function guardAccess() {
@@ -322,7 +333,7 @@
         <h2>Update Your Daily Progress</h2>
         <span>Track your NEET preparation honestly</span>
       </div>
-      <form onsubmit="updateProgress(event)">
+      <form id="progressForm" onsubmit="updateProgress(event)">
         <div class="update-grid">
           <div class="update-box">
             <label for="studyHours">Study Hours Today</label>
@@ -491,9 +502,8 @@
       'You are not competing with others, you are competing with your yesterday.'
     ];
 
-    // Daily quote that changes once per day using localStorage
     function loadDailyQuote() {
-      const todayKey = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const todayKey = new Date().toISOString().slice(0, 10);
       const stored = localStorage.getItem('neetQuote');
       let quote;
 
@@ -503,9 +513,7 @@
           if (parsed.date === todayKey) {
             quote = parsed.text;
           }
-        } catch (e) {
-          // ignore parse error
-        }
+        } catch (e) {}
       }
 
       if (!quote) {
@@ -516,11 +524,9 @@
       document.getElementById('dailyQuote').textContent = quote;
     }
 
-    // NEET 2026 countdown (single exam day)
+    // NEET 2026 countdown
     function updateCountdown() {
-      // NEET UG 2026 expected on Sunday, 3 May 2026 (first Sunday of May) [web:333][web:338]
       const examDate = new Date('2026-05-03T14:00:00');
-
       const now = new Date();
       const diff = examDate - now;
 
@@ -582,7 +588,7 @@
             document.getElementById('totalTests').textContent  = totals.totalMocks || 0;
           }
           alert('Progress updated successfully!');
-          e.target.reset();
+          document.getElementById('progressForm').reset();
         })
         .catch(err => {
           console.error('Update progress error:', err);
@@ -611,6 +617,83 @@
         .catch(err => console.error('Load totals error:', err));
     }
 
+    // Common list renderer
+    function renderList(containerId, items) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+      if (!items || !items.length) {
+        container.innerHTML = '<div class="empty-state">No data yet.</div>';
+        return;
+      }
+      const div = document.createElement('div');
+      div.className = 'list';
+      items.forEach(text => {
+        const p = document.createElement('div');
+        p.className = 'list-item';
+        p.textContent = text;
+        div.appendChild(p);
+      });
+      container.appendChild(div);
+    }
+
+    // Dashboard content from DashboardContent sheet (NEET)
+    function loadNeetDashboardContent() {
+      const url = `${SCRIPT_URL}?action=getDashboardContent&examType=NEET`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          if (!data || !data.success || !data.payload) return;
+          const p = data.payload;
+
+          if (p.announcements) {
+            renderList('announcements', p.announcements.items || []);
+          }
+          if (p.dailyTargets) {
+            renderList('dailyTargets', p.dailyTargets.items || []);
+          }
+          if (p.recentTopics) {
+            renderList('recentTopics', p.recentTopics.items || []);
+          }
+          if (p.mockTests) {
+            renderList('testSeriesList', p.mockTests.items || []);
+          }
+          if (p.pyqPapers) {
+            renderList('pypList', p.pyqPapers.items || []);
+          }
+          if (p.books) {
+            renderList('booksList', p.books.items || []);
+          }
+          if (p.formulaSheets) {
+            renderList('formulaList', p.formulaSheets.items || []);
+          }
+          if (p.notesPdfs) {
+            renderList('notesList', p.notesPdfs.items || []);
+          }
+
+          if (p.syllabus) {
+            const s = p.syllabus;
+            const phy  = s.phyPercent  || 0;
+            const chem = s.chemPercent || 0;
+            const bio  = s.bioPercent  || 0;
+
+            document.getElementById('phyPercent').textContent  = phy + '% Complete';
+            document.getElementById('chemPercent').textContent = chem + '% Complete';
+            document.getElementById('bioPercent').textContent  = bio + '% Complete';
+
+            document.getElementById('phyBar').style.width  = phy  + '%';
+            document.getElementById('chemBar').style.width = chem + '%';
+            document.getElementById('bioBar').style.width  = bio + '%';
+          }
+
+          if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
+            renderList('motivationalQuotes', p.quotes.items || []);
+          }
+        })
+        .catch(err => console.error('loadNeetDashboardContent error:', err));
+    }
+
     window.onload = function() {
       document.getElementById('userName').textContent =
         localStorage.getItem('name') || 'Candidate';
@@ -620,6 +703,7 @@
 
       loadDailyQuote();
       loadTotals();
+      loadNeetDashboardContent();
     };
   </script>
 </body>
