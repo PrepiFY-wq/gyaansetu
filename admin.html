@@ -806,7 +806,7 @@
 
   <!-- Admin Logic -->
   <script>
-   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
 
     let registrationsData = [];
 
@@ -1317,6 +1317,16 @@
         const msgEl = document.getElementById(config.msgId);
         if (result && result.success) {
           showMessageElement(msgEl, "Saved", false);
+
+          // success ke baad form clear
+          if (config.titleId) {
+            const t = document.getElementById(config.titleId);
+            if (t) t.value = "";
+          }
+          if (config.itemsId) {
+            const ta = document.getElementById(config.itemsId);
+            if (ta) ta.value = "";
+          }
         } else {
           showMessageElement(
             msgEl,
