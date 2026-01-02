@@ -480,6 +480,7 @@
         .then(data => {
           if (data.success) {
             const user = data.user;
+            console.log('preparingFor from server =', user.preparingFor);
 
             localStorage.setItem('userId', user.userId);
             localStorage.setItem('name', user.name);
@@ -553,5 +554,6 @@
   </script>
 </body>
 </html>
+
 
 
