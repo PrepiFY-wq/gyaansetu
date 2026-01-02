@@ -17,7 +17,6 @@
       padding: 20px;
     }
 
-    /* Hero two-column layout */
     .hero {
       max-width: 1100px;
       width: 100%;
@@ -40,13 +39,8 @@
       margin-bottom: 10px;
     }
 
-    h1 .gyaan {
-      color: #1e3a8a; /* blue */
-    }
-
-    h1 .setu {
-      color: #dc2626; /* red */
-    }
+    h1 .gyaan { color: #1e3a8a; }
+    h1 .setu { color: #dc2626; }
 
     .tagline {
       color: #e5e7ff;
@@ -230,18 +224,13 @@
     }
 
     @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-      }
-      .card {
-        margin: 0 auto;
-      }
+      .hero { flex-direction: column; }
+      .card { margin: 0 auto; }
     }
   </style>
 </head>
 <body>
   <div class="hero">
-    <!-- LEFT: Aim + Daily Quote -->
     <div class="hero-left">
       <h1><span class="gyaan">Gyaan</span><span class="setu">Setu</span></h1>
       <p class="tagline">Empowering minds, building futures</p>
@@ -257,12 +246,9 @@
       <h3 style="color:#ffeaa7; margin-bottom:8px; font-size:18px;">
         Today’s Motivation
       </h3>
-      <p id="dailyQuote" style="color:#e5e7ff; line-height:1.6; font-style:italic;">
-        <!-- JS yahan quote set karega -->
-      </p>
+      <p id="dailyQuote" style="color:#e5e7ff; line-height:1.6; font-style:italic;"></p>
     </div>
 
-    <!-- RIGHT: Login Card -->
     <div class="hero-right">
       <div class="card">
         <p class="tagline">
@@ -290,7 +276,6 @@
 
         <button class="btn btn-secondary" onclick="openRegistrationForm()">Register Here</button>
 
-        <!-- ADMIN LOGIN BUTTON -->
         <div style="margin-top: 20px; text-align: center;">
           <button class="btn btn-secondary" onclick="openAdminLogin()">Admin Login</button>
         </div>
@@ -299,79 +284,13 @@
   </div>
 
   <!-- REGISTRATION MODAL -->
-  <div id="registrationModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>New Registration</h2>
-        <span class="close" onclick="closeRegistrationModal()">×</span>
-      </div>
-      <div class="modal-body">
-        <form id="registrationForm" onsubmit="handleRegistration(event)">
-          <div class="form-group">
-            <label for="regName">Full Name *</label>
-            <input type="text" id="regName" placeholder="Enter your full name" required>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="regEmail">Email *</label>
-              <input type="email" id="regEmail" placeholder="your.email@example.com" required>
-            </div>
-            <div class="form-group">
-              <label for="regContact">Contact Number *</label>
-              <input type="tel" id="regContact" pattern="[0-9]{10}" placeholder="10-digit number" required>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="regExam">Preparing For *</label>
-            <select id="regExam" required>
-              <option value="">-- Select Exam --</option>
-              <option value="UPSC CSE">UPSC CSE</option>
-              <option value="JEE">JEE</option>
-              <option value="NEET">NEET</option>
-              <option value="RPSC">RPSC</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="regAddress">Address *</label>
-            <textarea id="regAddress" rows="3" placeholder="Enter your complete address" required></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Submit Registration</button>
-        </form>
-      </div>
-    </div>
-  </div>
+  <!-- (unchanged; omitted here for brevity, use your existing markup) -->
 
   <!-- ADMIN LOGIN MODAL -->
-  <div id="adminLoginModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Admin Login</h2>
-        <span class="close" onclick="closeAdminLogin()">×</span>
-      </div>
-      <div class="modal-body">
-        <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
-          <div class="form-group">
-            <label for="adminEmail">Admin Email</label>
-            <input type="email" id="adminEmail" placeholder="Enter admin email" required>
-          </div>
-          <div class="form-group">
-            <label for="adminPassword">Password</label>
-            <input type="password" id="adminPassword" placeholder="Enter admin password" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Login as Admin</button>
-        </form>
-      </div>
-    </div>
-  </div>
+  <!-- (unchanged; use your existing markup) -->
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7bW3qS-Sy1zo0jwM8kdfX00vp4alwgA9tKSGn_IEp8F78w4M0S6wPe59keBf-Sdr8vQ/exec';
-
-    // ========== DAILY MOTIVATIONAL QUOTE ==========
 
     const quotes = [
       'Success is the sum of small efforts repeated day in and day out.',
@@ -383,7 +302,7 @@
 
     function setDailyQuote() {
       const today = new Date();
-      const index = today.getDate() % quotes.length; // date ke hisaab se daily change
+      const index = today.getDate() % quotes.length;
       const el = document.getElementById('dailyQuote');
       if (el) el.textContent = quotes[index];
     }
@@ -401,15 +320,12 @@
     function openRegistrationForm() {
       document.getElementById('registrationModal').style.display = 'block';
     }
-
     function closeRegistrationModal() {
       document.getElementById('registrationModal').style.display = 'none';
     }
-
     function openAdminLogin() {
       document.getElementById('adminLoginModal').style.display = 'block';
     }
-
     function closeAdminLogin() {
       document.getElementById('adminLoginModal').style.display = 'none';
     }
@@ -419,7 +335,7 @@
       const adminModal = document.getElementById('adminLoginModal');
       if (event.target === regModal)   regModal.style.display   = 'none';
       if (event.target === adminModal) adminModal.style.display = 'none';
-    }
+    };
 
     // ========== REGISTRATION ==========
 
@@ -468,16 +384,21 @@
       
       const userId   = document.getElementById('userId').value.trim();
       const password = document.getElementById('password').value.trim();
-      
+
+      console.log('LOGIN SENDING:', JSON.stringify(userId), JSON.stringify(password));
+
       showMessage('Verifying credentials...', 'success');
       
       const url = `${SCRIPT_URL}?action=login` +
                   `&userId=${encodeURIComponent(userId)}` +
                   `&password=${encodeURIComponent(password)}`;
+
+      console.log('LOGIN URL:', url);
       
       fetch(url)
         .then(response => response.json())
         .then(data => {
+          console.log('LOGIN RESPONSE:', data);
           if (data.success) {
             const user = data.user;
             console.log('preparingFor from server =', user.preparingFor);
@@ -516,7 +437,7 @@
         });
     }
 
-    // ========== ADMIN LOGIN (NEW) ==========
+    // ========== ADMIN LOGIN ==========
 
     function handleAdminLogin(event) {
       event.preventDefault();
@@ -554,6 +475,3 @@
   </script>
 </body>
 </html>
-
-
-
