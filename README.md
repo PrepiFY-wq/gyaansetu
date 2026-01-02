@@ -1,1 +1,1 @@
-# GyaanSetu
+# GyaanSetu – Learn. Excel. Achieve.
