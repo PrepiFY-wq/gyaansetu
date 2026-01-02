@@ -99,6 +99,18 @@
       font-size: 0.8rem;
       color: #6c757d;
     }
+    .section-box {
+      border: 1px solid #e5e7f0;
+      border-radius: 10px;
+      padding: 12px 12px 10px 12px;
+      margin-bottom: 12px;
+      background-color: #f9fbff;
+    }
+    .section-box-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
@@ -205,321 +217,562 @@
         </ul>
       </div>
       <div class="card-body">
-        <!-- UPSC Section -->
+
+        <!-- ================= UPSC SECTION ================= -->
         <div id="upscSection" class="content-section">
           <h6 class="mb-3">UPSC CSE Dashboard</h6>
 
-          <div class="mb-3">
-            <label class="form-label">Announcements</label>
-            <textarea id="upscAnnouncements" class="form-control" rows="3"
-              placeholder="Ek line me ek update (text / link / file info)"></textarea>
-          </div>
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Daily Targets (for today)</label>
-              <textarea id="upscDailyTargets" class="form-control" rows="4"
-                placeholder="Har line ek target"></textarea>
-              <div class="sub-label mt-1">UPSC dashboard me Daily Targets list me show hoga.</div>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Recent Topics</label>
-              <textarea id="upscRecentTopics" class="form-control" rows="4"
-                placeholder="Har line ek topic / description"></textarea>
+          <!-- Announcements -->
+          <div class="section-box">
+            <div class="section-box-title">Announcements</div>
+            <input type="text" id="upsc_announcements_title" class="form-control mb-2"
+              placeholder="Title (e.g. Important Updates)" />
+            <textarea id="upsc_announcements_items" class="form-control" rows="3"
+              placeholder="Har line ek item (text / link / file info)"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','announcements')">
+                Save Announcements
+              </button>
+              <span id="upsc_announcements_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Mock Tests</label>
-              <textarea id="upscMockTests" class="form-control" rows="4"
-                placeholder="Har line me koi bhi text / link / file info likho"></textarea>
+          <!-- Daily Targets -->
+          <div class="section-box">
+            <div class="section-box-title">Daily Targets</div>
+            <input type="text" id="upsc_dailyTargets_title" class="form-control mb-2"
+              placeholder="Title (e.g. Today's Targets)" />
+            <textarea id="upsc_dailyTargets_items" class="form-control" rows="3"
+              placeholder="Har line ek target / resource"></textarea>
+            <div class="sub-label mt-1">
+              UPSC dashboard me Daily Targets list me show hoga.
             </div>
-            <div class="col-md-4">
-              <label class="form-label">Test Series</label>
-              <textarea id="upscTestSeries" class="form-control" rows="4"
-                placeholder="Har line me text / link / file info"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Previous Year Papers</label>
-              <textarea id="upscPyq" class="form-control" rows="4"
-                placeholder="Har line ek PYQ info (text/link)"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','dailyTargets')">
+                Save Daily Targets
+              </button>
+              <span id="upsc_dailyTargets_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Books</label>
-              <textarea id="upscBooks" class="form-control" rows="4"
-                placeholder="Har line ek book / note / file naam"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Current Affairs</label>
-              <textarea id="upscCurrentAffairs" class="form-control" rows="4"
-                placeholder="Har line ek CA source / link"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Notes & PDFs</label>
-              <textarea id="upscNotes" class="form-control" rows="4"
-                placeholder="Har line ek note / pdf info"></textarea>
+          <!-- Recent Topics -->
+          <div class="section-box">
+            <div class="section-box-title">Recent Topics</div>
+            <input type="text" id="upsc_recentTopics_title" class="form-control mb-2"
+              placeholder="Title (e.g. Recently Covered)" />
+            <textarea id="upsc_recentTopics_items" class="form-control" rows="3"
+              placeholder="Har line ek topic / description"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','recentTopics')">
+                Save Recent Topics
+              </button>
+              <span id="upsc_recentTopics_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Syllabus % Prelims</label>
-              <input type="number" id="upscPrelimsPercent" class="form-control" min="0" max="100" placeholder="e.g. 40" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Syllabus % Mains</label>
-              <input type="number" id="upscMainsPercent" class="form-control" min="0" max="100" placeholder="e.g. 25" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Path Pradarshak Quotes</label>
-              <textarea id="upscQuotes" class="form-control" rows="3"
-                placeholder="Har line ek short motivational line / story"></textarea>
+          <!-- Mock Tests -->
+          <div class="section-box">
+            <div class="section-box-title">Mock Tests</div>
+            <input type="text" id="upsc_mockTests_title" class="form-control mb-2"
+              placeholder="Title (e.g. Full Mocks)" />
+            <textarea id="upsc_mockTests_items" class="form-control" rows="3"
+              placeholder="Har line me koi bhi text / link / file info likho"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','mockTests')">
+                Save Mock Tests
+              </button>
+              <span id="upsc_mockTests_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <div class="mt-3">
-            <button class="btn btn-primary btn-sm" onclick="saveDashboardContent('UPSC')">
-              Save UPSC Content
-            </button>
-            <span id="upscMessage" class="ms-2 small text-success"></span>
+          <!-- Test Series -->
+          <div class="section-box">
+            <div class="section-box-title">Test Series</div>
+            <input type="text" id="upsc_testSeries_title" class="form-control mb-2"
+              placeholder="Title (e.g. GS Test Series)" />
+            <textarea id="upsc_testSeries_items" class="form-control" rows="3"
+              placeholder="Har line me text / link / file info"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','testSeries')">
+                Save Test Series
+              </button>
+              <span id="upsc_testSeries_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <!-- PYQs -->
+          <div class="section-box">
+            <div class="section-box-title">Previous Year Papers</div>
+            <input type="text" id="upsc_pyqPapers_title" class="form-control mb-2"
+              placeholder="Title (e.g. PYQs)" />
+            <textarea id="upsc_pyqPapers_items" class="form-control" rows="3"
+              placeholder="Har line ek PYQ info (text/link)"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','pyqPapers')">
+                Save PYQs
+              </button>
+              <span id="upsc_pyqPapers_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <!-- Books -->
+          <div class="section-box">
+            <div class="section-box-title">Books</div>
+            <input type="text" id="upsc_books_title" class="form-control mb-2"
+              placeholder="Title (e.g. Standard Books)" />
+            <textarea id="upsc_books_items" class="form-control" rows="3"
+              placeholder="Har line ek book / note / file naam"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','books')">
+                Save Books
+              </button>
+              <span id="upsc_books_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <!-- Current Affairs -->
+          <div class="section-box">
+            <div class="section-box-title">Current Affairs</div>
+            <input type="text" id="upsc_currentAffairs_title" class="form-control mb-2"
+              placeholder="Title (e.g. CA Sources)" />
+            <textarea id="upsc_currentAffairs_items" class="form-control" rows="3"
+              placeholder="Har line ek CA source / link"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','currentAffairs')">
+                Save Current Affairs
+              </button>
+              <span id="upsc_currentAffairs_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <!-- Notes & PDFs -->
+          <div class="section-box">
+            <div class="section-box-title">Notes & PDFs</div>
+            <input type="text" id="upsc_notesPdfs_title" class="form-control mb-2"
+              placeholder="Title (e.g. GS Notes / PDFs)" />
+            <textarea id="upsc_notesPdfs_items" class="form-control" rows="3"
+              placeholder="Har line ek note / pdf info"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','notesPdfs')">
+                Save Notes & PDFs
+              </button>
+              <span id="upsc_notesPdfs_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <!-- Syllabus -->
+          <div class="section-box">
+            <div class="section-box-title">Syllabus Coverage</div>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <label class="form-label">Prelims %</label>
+                <input type="number" id="upsc_syllabus_prelimsPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Mains %</label>
+                <input type="number" id="upsc_syllabus_mainsPercent" class="form-control" min="0" max="100" />
+              </div>
+            </div>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','syllabus')">
+                Save Syllabus
+              </button>
+              <span id="upsc_syllabus_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <!-- Path Pradarshak Quotes -->
+          <div class="section-box">
+            <div class="section-box-title">Path Pradarshak Quotes</div>
+            <input type="text" id="upsc_quotes_title" class="form-control mb-2"
+              placeholder="Title (e.g. Path Pradarshak)" />
+            <textarea id="upsc_quotes_items" class="form-control" rows="3"
+              placeholder="Har line ek short motivational line / story"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('UPSC','quotes')">
+                Save Quotes
+              </button>
+              <span id="upsc_quotes_msg" class="ms-2 small"></span>
+            </div>
           </div>
         </div>
 
-        <!-- JEE Section -->
+        <!-- ================= JEE SECTION ================= -->
         <div id="jeeSection" class="content-section d-none">
           <h6 class="mb-3">JEE Dashboard</h6>
 
-          <div class="mb-3">
-            <label class="form-label">Announcements</label>
-            <textarea id="jeeAnnouncements" class="form-control" rows="3"></textarea>
-          </div>
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Daily Targets (for today)</label>
-              <textarea id="jeeDailyTargets" class="form-control" rows="4"
-                placeholder="Physics: Kinematics 1D&#10;Chemistry: Mole concept"></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Recent Topics</label>
-              <textarea id="jeeRecentTopics" class="form-control" rows="4"></textarea>
+          <div class="section-box">
+            <div class="section-box-title">Announcements</div>
+            <input type="text" id="jee_announcements_title" class="form-control mb-2" />
+            <textarea id="jee_announcements_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','announcements')">
+                Save Announcements
+              </button>
+              <span id="jee_announcements_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Test Series</label>
-              <textarea id="jeeTestSeries" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">PYQs</label>
-              <textarea id="jeePyq" class="form-control" rows="4"></textarea>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Books</label>
-              <textarea id="jeeBooks" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Formula Sheets</label>
-              <textarea id="jeeFormula" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Notes & PDFs</label>
-              <textarea id="jeeNotes" class="form-control" rows="4"></textarea>
+          <div class="section-box">
+            <div class="section-box-title">Daily Targets</div>
+            <input type="text" id="jee_dailyTargets_title" class="form-control mb-2" />
+            <textarea id="jee_dailyTargets_items" class="form-control" rows="3"
+              placeholder="Physics: Kinematics 1D&#10;Chemistry: Mole concept"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','dailyTargets')">
+                Save Daily Targets
+              </button>
+              <span id="jee_dailyTargets_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Physics Syllabus %</label>
-              <input type="number" id="jeePhyPercent" class="form-control" min="0" max="100" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Chemistry Syllabus %</label>
-              <input type="number" id="jeeChemPercent" class="form-control" min="0" max="100" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Maths Syllabus %</label>
-              <input type="number" id="jeeMathPercent" class="form-control" min="0" max="100" />
+          <div class="section-box">
+            <div class="section-box-title">Recent Topics</div>
+            <input type="text" id="jee_recentTopics_title" class="form-control mb-2" />
+            <textarea id="jee_recentTopics_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','recentTopics')">
+                Save Recent Topics
+              </button>
+              <span id="jee_recentTopics_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <div class="mt-3">
-            <button class="btn btn-primary btn-sm" onclick="saveDashboardContent('JEE')">
-              Save JEE Content
-            </button>
-            <span id="jeeMessage" class="ms-2 small text-success"></span>
+          <div class="section-box">
+            <div class="section-box-title">Test Series</div>
+            <input type="text" id="jee_testSeries_title" class="form-control mb-2" />
+            <textarea id="jee_testSeries_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','testSeries')">
+                Save Test Series
+              </button>
+              <span id="jee_testSeries_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">PYQs</div>
+            <input type="text" id="jee_pyqPapers_title" class="form-control mb-2" />
+            <textarea id="jee_pyqPapers_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','pyqPapers')">
+                Save PYQs
+              </button>
+              <span id="jee_pyqPapers_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Books</div>
+            <input type="text" id="jee_books_title" class="form-control mb-2" />
+            <textarea id="jee_books_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','books')">
+                Save Books
+              </button>
+              <span id="jee_books_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Formula Sheets</div>
+            <input type="text" id="jee_formulaSheets_title" class="form-control mb-2" />
+            <textarea id="jee_formulaSheets_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','formulaSheets')">
+                Save Formula Sheets
+              </button>
+              <span id="jee_formulaSheets_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Notes & PDFs</div>
+            <input type="text" id="jee_notesPdfs_title" class="form-control mb-2" />
+            <textarea id="jee_notesPdfs_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','notesPdfs')">
+                Save Notes & PDFs
+              </button>
+              <span id="jee_notesPdfs_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Syllabus Coverage</div>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label">Physics %</label>
+                <input type="number" id="jee_syllabus_phyPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Chemistry %</label>
+                <input type="number" id="jee_syllabus_chemPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Maths %</label>
+                <input type="number" id="jee_syllabus_mathPercent" class="form-control" min="0" max="100" />
+              </div>
+            </div>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('JEE','syllabus')">
+                Save Syllabus
+              </button>
+              <span id="jee_syllabus_msg" class="ms-2 small"></span>
+            </div>
           </div>
         </div>
 
-        <!-- NEET Section -->
+        <!-- ================= NEET SECTION ================= -->
         <div id="neetSection" class="content-section d-none">
           <h6 class="mb-3">NEET Dashboard</h6>
 
-          <div class="mb-3">
-            <label class="form-label">Announcements</label>
-            <textarea id="neetAnnouncements" class="form-control" rows="3"></textarea>
-          </div>
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Daily Targets (for today)</label>
-              <textarea id="neetDailyTargets" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Recent Topics</label>
-              <textarea id="neetRecentTopics" class="form-control" rows="4"></textarea>
+          <div class="section-box">
+            <div class="section-box-title">Announcements</div>
+            <input type="text" id="neet_announcements_title" class="form-control mb-2" />
+            <textarea id="neet_announcements_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','announcements')">
+                Save Announcements
+              </button>
+              <span id="neet_announcements_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Mock Tests</label>
-              <textarea id="neetMockTests" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">PYQs</label>
-              <textarea id="neetPyq" class="form-control" rows="4"></textarea>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Books</label>
-              <textarea id="neetBooks" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Important Diagrams / Charts</label>
-              <textarea id="neetFormula" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Notes & PDFs</label>
-              <textarea id="neetNotes" class="form-control" rows="4"></textarea>
+          <div class="section-box">
+            <div class="section-box-title">Daily Targets</div>
+            <input type="text" id="neet_dailyTargets_title" class="form-control mb-2" />
+            <textarea id="neet_dailyTargets_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','dailyTargets')">
+                Save Daily Targets
+              </button>
+              <span id="neet_dailyTargets_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Physics Syllabus %</label>
-              <input type="number" id="neetPhyPercent" class="form-control" min="0" max="100" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Chemistry Syllabus %</label>
-              <input type="number" id="neetChemPercent" class="form-control" min="0" max="100" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Biology Syllabus %</label>
-              <input type="number" id="neetBioPercent" class="form-control" min="0" max="100" />
+          <div class="section-box">
+            <div class="section-box-title">Recent Topics</div>
+            <input type="text" id="neet_recentTopics_title" class="form-control mb-2" />
+            <textarea id="neet_recentTopics_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','recentTopics')">
+                Save Recent Topics
+              </button>
+              <span id="neet_recentTopics_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <div class="mt-3">
-            <button class="btn btn-primary btn-sm" onclick="saveDashboardContent('NEET')">
-              Save NEET Content
-            </button>
-            <span id="neetMessage" class="ms-2 small text-success"></span>
+          <div class="section-box">
+            <div class="section-box-title">Mock Tests</div>
+            <input type="text" id="neet_mockTests_title" class="form-control mb-2" />
+            <textarea id="neet_mockTests_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','mockTests')">
+                Save Mock Tests
+              </button>
+              <span id="neet_mockTests_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">PYQs</div>
+            <input type="text" id="neet_pyqPapers_title" class="form-control mb-2" />
+            <textarea id="neet_pyqPapers_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','pyqPapers')">
+                Save PYQs
+              </button>
+              <span id="neet_pyqPapers_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Books</div>
+            <input type="text" id="neet_books_title" class="form-control mb-2" />
+            <textarea id="neet_books_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','books')">
+                Save Books
+              </button>
+              <span id="neet_books_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Important Diagrams / Charts</div>
+            <input type="text" id="neet_formulaSheets_title" class="form-control mb-2" />
+            <textarea id="neet_formulaSheets_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','formulaSheets')">
+                Save Diagrams / Charts
+              </button>
+              <span id="neet_formulaSheets_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Notes & PDFs</div>
+            <input type="text" id="neet_notesPdfs_title" class="form-control mb-2" />
+            <textarea id="neet_notesPdfs_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','notesPdfs')">
+                Save Notes & PDFs
+              </button>
+              <span id="neet_notesPdfs_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Syllabus Coverage</div>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label">Physics %</label>
+                <input type="number" id="neet_syllabus_phyPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Chemistry %</label>
+                <input type="number" id="neet_syllabus_chemPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Biology %</label>
+                <input type="number" id="neet_syllabus_bioPercent" class="form-control" min="0" max="100" />
+              </div>
+            </div>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('NEET','syllabus')">
+                Save Syllabus
+              </button>
+              <span id="neet_syllabus_msg" class="ms-2 small"></span>
+            </div>
           </div>
         </div>
 
-        <!-- RPSC Section -->
+        <!-- ================= RPSC SECTION ================= -->
         <div id="rpscSection" class="content-section d-none">
           <h6 class="mb-3">RPSC Dashboard</h6>
 
-          <div class="mb-3">
-            <label class="form-label">Announcements</label>
-            <textarea id="rpscAnnouncements" class="form-control" rows="3"></textarea>
-          </div>
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Daily Targets (for today)</label>
-              <textarea id="rpscDailyTargets" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Recent Topics</label>
-              <textarea id="rpscRecentTopics" class="form-control" rows="4"></textarea>
+          <div class="section-box">
+            <div class="section-box-title">Announcements</div>
+            <input type="text" id="rpsc_announcements_title" class="form-control mb-2" />
+            <textarea id="rpsc_announcements_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','announcements')">
+                Save Announcements
+              </button>
+              <span id="rpsc_announcements_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Mock Tests</label>
-              <textarea id="rpscMockTests" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">PYQs</label>
-              <textarea id="rpscPyq" class="form-control" rows="4"></textarea>
-            </div>
-          </div>
-
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">Books</label>
-              <textarea id="rpscBooks" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Charts / Maps</label>
-              <textarea id="rpscFormula" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Notes & PDFs</label>
-              <textarea id="rpscNotes" class="form-control" rows="4"></textarea>
+          <div class="section-box">
+            <div class="section-box-title">Daily Targets</div>
+            <input type="text" id="rpsc_dailyTargets_title" class="form-control mb-2" />
+            <textarea id="rpsc_dailyTargets_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','dailyTargets')">
+                Save Daily Targets
+              </button>
+              <span id="rpsc_dailyTargets_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <hr />
-
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label class="form-label">GS Syllabus %</label>
-              <input type="number" id="rpscGsPercent" class="form-control" min="0" max="100" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Rajasthan GK %</label>
-              <input type="number" id="rpscRajPercent" class="form-control" min="0" max="100" />
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Optional / Subject %</label>
-              <input type="number" id="rpscOptPercent" class="form-control" min="0" max="100" />
+          <div class="section-box">
+            <div class="section-box-title">Recent Topics</div>
+            <input type="text" id="rpsc_recentTopics_title" class="form-control mb-2" />
+            <textarea id="rpsc_recentTopics_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','recentTopics')">
+                Save Recent Topics
+              </button>
+              <span id="rpsc_recentTopics_msg" class="ms-2 small"></span>
             </div>
           </div>
 
-          <div class="mt-3">
-            <button class="btn btn-primary btn-sm" onclick="saveDashboardContent('RPSC')">
-              Save RPSC Content
-            </button>
-            <span id="rpscMessage" class="ms-2 small text-success"></span>
+          <div class="section-box">
+            <div class="section-box-title">Mock Tests</div>
+            <input type="text" id="rpsc_mockTests_title" class="form-control mb-2" />
+            <textarea id="rpsc_mockTests_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','mockTests')">
+                Save Mock Tests
+              </button>
+              <span id="rpsc_mockTests_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">PYQs</div>
+            <input type="text" id="rpsc_pyqPapers_title" class="form-control mb-2" />
+            <textarea id="rpsc_pyqPapers_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','pyqPapers')">
+                Save PYQs
+              </button>
+              <span id="rpsc_pyqPapers_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Books</div>
+            <input type="text" id="rpsc_books_title" class="form-control mb-2" />
+            <textarea id="rpsc_books_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','books')">
+                Save Books
+              </button>
+              <span id="rpsc_books_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Charts / Maps</div>
+            <input type="text" id="rpsc_formulaSheets_title" class="form-control mb-2" />
+            <textarea id="rpsc_formulaSheets_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','formulaSheets')">
+                Save Charts / Maps
+              </button>
+              <span id="rpsc_formulaSheets_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Notes & PDFs</div>
+            <input type="text" id="rpsc_notesPdfs_title" class="form-control mb-2" />
+            <textarea id="rpsc_notesPdfs_items" class="form-control" rows="3"></textarea>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','notesPdfs')">
+                Save Notes & PDFs
+              </button>
+              <span id="rpsc_notesPdfs_msg" class="ms-2 small"></span>
+            </div>
+          </div>
+
+          <div class="section-box">
+            <div class="section-box-title">Syllabus Coverage</div>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label">GS %</label>
+                <input type="number" id="rpsc_syllabus_gsPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Rajasthan GK %</label>
+                <input type="number" id="rpsc_syllabus_rajPercent" class="form-control" min="0" max="100" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Optional / Subject %</label>
+                <input type="number" id="rpsc_syllabus_optPercent" class="form-control" min="0" max="100" />
+              </div>
+            </div>
+            <div class="mt-2 d-flex align-items-center">
+              <button class="btn btn-primary btn-sm" onclick="saveSection('RPSC','syllabus')">
+                Save Syllabus
+              </button>
+              <span id="rpsc_syllabus_msg" class="ms-2 small"></span>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -557,8 +810,7 @@
 
     let registrationsData = [];
 
-    function showMessage(elementId, message, isError = false) {
-      const el = document.getElementById(elementId);
+    function showMessageElement(el, message, isError = false) {
       if (!el) return;
       el.textContent = message;
       el.className = isError ? "ms-2 small text-danger" : "ms-2 small text-success";
@@ -575,7 +827,7 @@
       if (el) el.textContent = formatted;
     }
 
-    // ---------- REGISTRATIONS (yeh part backend ke getRegistrations/approve/reject pe depend hai) ----------
+    // ---------- REGISTRATIONS ----------
 
     async function loadRegistrations() {
       try {
@@ -784,7 +1036,7 @@
       }
     }
 
-    // ---------- DASHBOARD CONTENT LOAD & SAVE ----------
+    // ---------- CONTENT HELPERS ----------
 
     function setupContentTabs() {
       const nav = document.getElementById("contentTabNav");
@@ -804,12 +1056,126 @@
       });
     }
 
-    // Har textarea ko simple string list ke roop me treat karo
     function linesToArray(value) {
       return value
         .split("\n")
         .map((l) => l.trim())
         .filter((l) => l);
+    }
+
+    // Map: examType + sectionKey -> { titleId, itemsId, msgId, extraFields? }
+    const SECTION_CONFIG = {
+      UPSC: {
+        announcements: { titleId: "upsc_announcements_title", itemsId: "upsc_announcements_items", msgId: "upsc_announcements_msg" },
+        dailyTargets:  { titleId: "upsc_dailyTargets_title",  itemsId: "upsc_dailyTargets_items",  msgId: "upsc_dailyTargets_msg" },
+        recentTopics:  { titleId: "upsc_recentTopics_title",  itemsId: "upsc_recentTopics_items",  msgId: "upsc_recentTopics_msg" },
+        mockTests:     { titleId: "upsc_mockTests_title",     itemsId: "upsc_mockTests_items",     msgId: "upsc_mockTests_msg" },
+        testSeries:    { titleId: "upsc_testSeries_title",    itemsId: "upsc_testSeries_items",    msgId: "upsc_testSeries_msg" },
+        pyqPapers:     { titleId: "upsc_pyqPapers_title",     itemsId: "upsc_pyqPapers_items",     msgId: "upsc_pyqPapers_msg" },
+        books:         { titleId: "upsc_books_title",         itemsId: "upsc_books_items",         msgId: "upsc_books_msg" },
+        currentAffairs:{ titleId: "upsc_currentAffairs_title",itemsId: "upsc_currentAffairs_items",msgId: "upsc_currentAffairs_msg" },
+        notesPdfs:     { titleId: "upsc_notesPdfs_title",     itemsId: "upsc_notesPdfs_items",     msgId: "upsc_notesPdfs_msg" },
+        syllabus:      { msgId: "upsc_syllabus_msg",
+          extra: ["upsc_syllabus_prelimsPercent", "upsc_syllabus_mainsPercent"] },
+        quotes:        { titleId: "upsc_quotes_title",        itemsId: "upsc_quotes_items",        msgId: "upsc_quotes_msg" },
+      },
+      JEE: {
+        announcements: { titleId: "jee_announcements_title", itemsId: "jee_announcements_items", msgId: "jee_announcements_msg" },
+        dailyTargets:  { titleId: "jee_dailyTargets_title",  itemsId: "jee_dailyTargets_items",  msgId: "jee_dailyTargets_msg" },
+        recentTopics:  { titleId: "jee_recentTopics_title",  itemsId: "jee_recentTopics_items",  msgId: "jee_recentTopics_msg" },
+        testSeries:    { titleId: "jee_testSeries_title",    itemsId: "jee_testSeries_items",    msgId: "jee_testSeries_msg" },
+        pyqPapers:     { titleId: "jee_pyqPapers_title",     itemsId: "jee_pyqPapers_items",     msgId: "jee_pyqPapers_msg" },
+        books:         { titleId: "jee_books_title",         itemsId: "jee_books_items",         msgId: "jee_books_msg" },
+        formulaSheets: { titleId: "jee_formulaSheets_title", itemsId: "jee_formulaSheets_items", msgId: "jee_formulaSheets_msg" },
+        notesPdfs:     { titleId: "jee_notesPdfs_title",     itemsId: "jee_notesPdfs_items",     msgId: "jee_notesPdfs_msg" },
+        syllabus:      { msgId: "jee_syllabus_msg",
+          extra: ["jee_syllabus_phyPercent", "jee_syllabus_chemPercent", "jee_syllabus_mathPercent"] },
+      },
+      NEET: {
+        announcements: { titleId: "neet_announcements_title", itemsId: "neet_announcements_items", msgId: "neet_announcements_msg" },
+        dailyTargets:  { titleId: "neet_dailyTargets_title",  itemsId: "neet_dailyTargets_items",  msgId: "neet_dailyTargets_msg" },
+        recentTopics:  { titleId: "neet_recentTopics_title",  itemsId: "neet_recentTopics_items",  msgId: "neet_recentTopics_msg" },
+        mockTests:     { titleId: "neet_mockTests_title",     itemsId: "neet_mockTests_items",     msgId: "neet_mockTests_msg" },
+        pyqPapers:     { titleId: "neet_pyqPapers_title",     itemsId: "neet_pyqPapers_items",     msgId: "neet_pyqPapers_msg" },
+        books:         { titleId: "neet_books_title",         itemsId: "neet_books_items",         msgId: "neet_books_msg" },
+        formulaSheets: { titleId: "neet_formulaSheets_title", itemsId: "neet_formulaSheets_items", msgId: "neet_formulaSheets_msg" },
+        notesPdfs:     { titleId: "neet_notesPdfs_title",     itemsId: "neet_notesPdfs_items",     msgId: "neet_notesPdfs_msg" },
+        syllabus:      { msgId: "neet_syllabus_msg",
+          extra: ["neet_syllabus_phyPercent", "neet_syllabus_chemPercent", "neet_syllabus_bioPercent"] },
+      },
+      RPSC: {
+        announcements: { titleId: "rpsc_announcements_title", itemsId: "rpsc_announcements_items", msgId: "rpsc_announcements_msg" },
+        dailyTargets:  { titleId: "rpsc_dailyTargets_title",  itemsId: "rpsc_dailyTargets_items",  msgId: "rpsc_dailyTargets_msg" },
+        recentTopics:  { titleId: "rpsc_recentTopics_title",  itemsId: "rpsc_recentTopics_items",  msgId: "rpsc_recentTopics_msg" },
+        mockTests:     { titleId: "rpsc_mockTests_title",     itemsId: "rpsc_mockTests_items",     msgId: "rpsc_mockTests_msg" },
+        pyqPapers:     { titleId: "rpsc_pyqPapers_title",     itemsId: "rpsc_pyqPapers_items",     msgId: "rpsc_pyqPapers_msg" },
+        books:         { titleId: "rpsc_books_title",         itemsId: "rpsc_books_items",         msgId: "rpsc_books_msg" },
+        formulaSheets: { titleId: "rpsc_formulaSheets_title", itemsId: "rpsc_formulaSheets_items", msgId: "rpsc_formulaSheets_msg" },
+        notesPdfs:     { titleId: "rpsc_notesPdfs_title",     itemsId: "rpsc_notesPdfs_items",     msgId: "rpsc_notesPdfs_msg" },
+        syllabus:      { msgId: "rpsc_syllabus_msg",
+          extra: ["rpsc_syllabus_gsPercent", "rpsc_syllabus_rajPercent", "rpsc_syllabus_optPercent"] },
+      }
+    };
+
+    async function saveSection(examType, sectionKey) {
+      const config = SECTION_CONFIG[examType]?.[sectionKey];
+      if (!config) return;
+
+      const payload = { examType, sectionKey };
+
+      if (config.titleId) {
+        payload.title = document.getElementById(config.titleId)?.value || "";
+      }
+      if (config.itemsId) {
+        payload.items = linesToArray(
+          document.getElementById(config.itemsId)?.value || ""
+        );
+      }
+
+      // syllabus type extra numeric fields
+      if (config.extra && sectionKey === "syllabus") {
+        if (examType === "UPSC") {
+          payload.prelimsPercent = document.getElementById(config.extra[0])?.value || "0";
+          payload.mainsPercent   = document.getElementById(config.extra[1])?.value || "0";
+        }
+        if (examType === "JEE") {
+          payload.phyPercent  = document.getElementById(config.extra[0])?.value || "0";
+          payload.chemPercent = document.getElementById(config.extra[1])?.value || "0";
+          payload.mathPercent = document.getElementById(config.extra[2])?.value || "0";
+        }
+        if (examType === "NEET") {
+          payload.phyPercent  = document.getElementById(config.extra[0])?.value || "0";
+          payload.chemPercent = document.getElementById(config.extra[1])?.value || "0";
+          payload.bioPercent  = document.getElementById(config.extra[2])?.value || "0";
+        }
+        if (examType === "RPSC") {
+          payload.gsPercent  = document.getElementById(config.extra[0])?.value || "0";
+          payload.rajPercent = document.getElementById(config.extra[1])?.value || "0";
+          payload.optPercent = document.getElementById(config.extra[2])?.value || "0";
+        }
+      }
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "saveDashboardSection",
+            payload
+          })
+        });
+        const result = await res.json();
+        const msgEl = document.getElementById(config.msgId);
+        if (result && result.success) {
+          showMessageElement(msgEl, "Saved", false);
+        } else {
+          showMessageElement(msgEl, result.message || "Failed to save", true);
+        }
+      } catch (err) {
+        console.error("Error saving section", examType, sectionKey, err);
+        const msgEl = document.getElementById(config.msgId);
+        showMessageElement(msgEl, "Error while saving", true);
+      }
     }
 
     async function loadDashboardContent(examType) {
@@ -821,216 +1187,47 @@
         if (!data || !data.success || !data.payload) return;
         const p = data.payload;
 
-        if (examType === "UPSC") {
-          document.getElementById("upscAnnouncements").value =
-            (p.announcements || []).join("\n");
-          document.getElementById("upscDailyTargets").value =
-            (p.dailyTargets || []).join("\n");
-          document.getElementById("upscRecentTopics").value =
-            (p.recentTopics || []).join("\n");
+        const cfgExam = SECTION_CONFIG[examType];
+        if (!cfgExam) return;
 
-          document.getElementById("upscMockTests").value =
-            (p.mockTests || []).join("\n");
-          document.getElementById("upscTestSeries").value =
-            (p.testSeries || []).join("\n");
-          document.getElementById("upscPyq").value =
-            (p.pyqPapers || []).join("\n");
+        Object.keys(cfgExam).forEach((sectionKey) => {
+          const cfg = cfgExam[sectionKey];
+          const sectionData = p[sectionKey] || {};
 
-          document.getElementById("upscBooks").value =
-            (p.books || []).join("\n");
-          document.getElementById("upscCurrentAffairs").value =
-            (p.currentAffairs || []).join("\n");
-          document.getElementById("upscNotes").value =
-            (p.notesPdfs || []).join("\n");
-
-          if (p.syllabus) {
-            document.getElementById("upscPrelimsPercent").value =
-              p.syllabus.prelimsPercent || "";
-            document.getElementById("upscMainsPercent").value =
-              p.syllabus.mainsPercent || "";
+          if (cfg.titleId && sectionData.title !== undefined) {
+            const el = document.getElementById(cfg.titleId);
+            if (el) el.value = sectionData.title || "";
           }
-          document.getElementById("upscQuotes").value =
-            (p.quotes || []).join("\n");
-        }
-
-        if (examType === "JEE") {
-          document.getElementById("jeeAnnouncements").value =
-            (p.announcements || []).join("\n");
-          document.getElementById("jeeDailyTargets").value =
-            (p.dailyTargets || []).join("\n");
-          document.getElementById("jeeRecentTopics").value =
-            (p.recentTopics || []).join("\n");
-
-          document.getElementById("jeeTestSeries").value =
-            (p.testSeries || []).join("\n");
-          document.getElementById("jeePyq").value =
-            (p.pyqPapers || []).join("\n");
-
-          document.getElementById("jeeBooks").value =
-            (p.books || []).join("\n");
-          document.getElementById("jeeFormula").value =
-            (p.formulaSheets || []).join("\n");
-          document.getElementById("jeeNotes").value =
-            (p.notesPdfs || []).join("\n");
-
-          if (p.syllabus) {
-            document.getElementById("jeePhyPercent").value =
-              p.syllabus.phyPercent || "";
-            document.getElementById("jeeChemPercent").value =
-              p.syllabus.chemPercent || "";
-            document.getElementById("jeeMathPercent").value =
-              p.syllabus.mathPercent || "";
+          if (cfg.itemsId && Array.isArray(sectionData.items)) {
+            const el = document.getElementById(cfg.itemsId);
+            if (el) el.value = (sectionData.items || []).join("\n");
           }
-        }
 
-        if (examType === "NEET") {
-          document.getElementById("neetAnnouncements").value =
-            (p.announcements || []).join("\n");
-          document.getElementById("neetDailyTargets").value =
-            (p.dailyTargets || []).join("\n");
-          document.getElementById("neetRecentTopics").value =
-            (p.recentTopics || []).join("\n");
-
-          document.getElementById("neetMockTests").value =
-            (p.mockTests || []).join("\n");
-          document.getElementById("neetPyq").value =
-            (p.pyqPapers || []).join("\n");
-
-          document.getElementById("neetBooks").value =
-            (p.books || []).join("\n");
-          document.getElementById("neetFormula").value =
-            (p.formulaSheets || []).join("\n");
-          document.getElementById("neetNotes").value =
-            (p.notesPdfs || []).join("\n");
-
-          if (p.syllabus) {
-            document.getElementById("neetPhyPercent").value =
-              p.syllabus.phyPercent || "";
-            document.getElementById("neetChemPercent").value =
-              p.syllabus.chemPercent || "";
-            document.getElementById("neetBioPercent").value =
-              p.syllabus.bioPercent || "";
+          if (sectionKey === "syllabus" && cfg.extra) {
+            const syl = p.syllabus || {};
+            if (examType === "UPSC") {
+              document.getElementById(cfg.extra[0]).value = syl.prelimsPercent || "";
+              document.getElementById(cfg.extra[1]).value = syl.mainsPercent || "";
+            }
+            if (examType === "JEE") {
+              document.getElementById(cfg.extra[0]).value = syl.phyPercent || "";
+              document.getElementById(cfg.extra[1]).value = syl.chemPercent || "";
+              document.getElementById(cfg.extra[2]).value = syl.mathPercent || "";
+            }
+            if (examType === "NEET") {
+              document.getElementById(cfg.extra[0]).value = syl.phyPercent || "";
+              document.getElementById(cfg.extra[1]).value = syl.chemPercent || "";
+              document.getElementById(cfg.extra[2]).value = syl.bioPercent || "";
+            }
+            if (examType === "RPSC") {
+              document.getElementById(cfg.extra[0]).value = syl.gsPercent || "";
+              document.getElementById(cfg.extra[1]).value = syl.rajPercent || "";
+              document.getElementById(cfg.extra[2]).value = syl.optPercent || "";
+            }
           }
-        }
-
-        if (examType === "RPSC") {
-          document.getElementById("rpscAnnouncements").value =
-            (p.announcements || []).join("\n");
-          document.getElementById("rpscDailyTargets").value =
-            (p.dailyTargets || []).join("\n");
-          document.getElementById("rpscRecentTopics").value =
-            (p.recentTopics || []).join("\n");
-
-          document.getElementById("rpscMockTests").value =
-            (p.mockTests || []).join("\n");
-          document.getElementById("rpscPyq").value =
-            (p.pyqPapers || []).join("\n");
-
-          document.getElementById("rpscBooks").value =
-            (p.books || []).join("\n");
-          document.getElementById("rpscFormula").value =
-            (p.formulaSheets || []).join("\n");
-          document.getElementById("rpscNotes").value =
-            (p.notesPdfs || []).join("\n");
-
-          if (p.syllabus) {
-            document.getElementById("rpscGsPercent").value =
-              p.syllabus.gsPercent || "";
-            document.getElementById("rpscRajPercent").value =
-              p.syllabus.rajPercent || "";
-            document.getElementById("rpscOptPercent").value =
-              p.syllabus.optPercent || "";
-          }
-        }
+        });
       } catch (err) {
         console.error("Error loading dashboard content for " + examType, err);
-      }
-    }
-
-    async function saveDashboardContent(examType) {
-      let payload = { examType };
-
-      if (examType === "UPSC") {
-        payload.announcements   = linesToArray(document.getElementById("upscAnnouncements").value);
-        payload.dailyTargets    = linesToArray(document.getElementById("upscDailyTargets").value);
-        payload.recentTopics    = linesToArray(document.getElementById("upscRecentTopics").value);
-        payload.mockTests       = linesToArray(document.getElementById("upscMockTests").value);
-        payload.testSeries      = linesToArray(document.getElementById("upscTestSeries").value);
-        payload.pyqPapers       = linesToArray(document.getElementById("upscPyq").value);
-        payload.books           = linesToArray(document.getElementById("upscBooks").value);
-        payload.currentAffairs  = linesToArray(document.getElementById("upscCurrentAffairs").value);
-        payload.notesPdfs       = linesToArray(document.getElementById("upscNotes").value);
-        payload.prelimsPercent  = document.getElementById("upscPrelimsPercent").value || "0";
-        payload.mainsPercent    = document.getElementById("upscMainsPercent").value || "0";
-        payload.quotes          = linesToArray(document.getElementById("upscQuotes").value);
-      }
-
-      if (examType === "JEE") {
-        payload.announcements = linesToArray(document.getElementById("jeeAnnouncements").value);
-        payload.dailyTargets  = linesToArray(document.getElementById("jeeDailyTargets").value);
-        payload.recentTopics  = linesToArray(document.getElementById("jeeRecentTopics").value);
-        payload.testSeries    = linesToArray(document.getElementById("jeeTestSeries").value);
-        payload.pyqPapers     = linesToArray(document.getElementById("jeePyq").value);
-        payload.books         = linesToArray(document.getElementById("jeeBooks").value);
-        payload.formulaSheets = linesToArray(document.getElementById("jeeFormula").value);
-        payload.notesPdfs     = linesToArray(document.getElementById("jeeNotes").value);
-        payload.phyPercent    = document.getElementById("jeePhyPercent").value || "0";
-        payload.chemPercent   = document.getElementById("jeeChemPercent").value || "0";
-        payload.mathPercent   = document.getElementById("jeeMathPercent").value || "0";
-      }
-
-      if (examType === "NEET") {
-        payload.announcements = linesToArray(document.getElementById("neetAnnouncements").value);
-        payload.dailyTargets  = linesToArray(document.getElementById("neetDailyTargets").value);
-        payload.recentTopics  = linesToArray(document.getElementById("neetRecentTopics").value);
-        payload.mockTests     = linesToArray(document.getElementById("neetMockTests").value);
-        payload.pyqPapers     = linesToArray(document.getElementById("neetPyq").value);
-        payload.books         = linesToArray(document.getElementById("neetBooks").value);
-        payload.formulaSheets = linesToArray(document.getElementById("neetFormula").value);
-        payload.notesPdfs     = linesToArray(document.getElementById("neetNotes").value);
-        payload.phyPercent    = document.getElementById("neetPhyPercent").value || "0";
-        payload.chemPercent   = document.getElementById("neetChemPercent").value || "0";
-        payload.bioPercent    = document.getElementById("neetBioPercent").value || "0";
-      }
-
-      if (examType === "RPSC") {
-        payload.announcements = linesToArray(document.getElementById("rpscAnnouncements").value);
-        payload.dailyTargets  = linesToArray(document.getElementById("rpscDailyTargets").value);
-        payload.recentTopics  = linesToArray(document.getElementById("rpscRecentTopics").value);
-        payload.mockTests     = linesToArray(document.getElementById("rpscMockTests").value);
-        payload.pyqPapers     = linesToArray(document.getElementById("rpscPyq").value);
-        payload.books         = linesToArray(document.getElementById("rpscBooks").value);
-        payload.formulaSheets = linesToArray(document.getElementById("rpscFormula").value);
-        payload.notesPdfs     = linesToArray(document.getElementById("rpscNotes").value);
-        payload.gsPercent     = document.getElementById("rpscGsPercent").value || "0";
-        payload.rajPercent    = document.getElementById("rpscRajPercent").value || "0";
-        payload.optPercent    = document.getElementById("rpscOptPercent").value || "0";
-      }
-
-      try {
-        const res = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify({
-            action: "saveDashboardContent",
-            payload: payload,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const result = await res.json();
-        if (result && result.success) {
-          const msgId = examType.toLowerCase() + "Message";
-          showMessage(msgId, "Saved successfully.");
-        } else {
-          const msgId = examType.toLowerCase() + "Message";
-          showMessage(msgId, result.message || "Failed to save.", true);
-        }
-      } catch (err) {
-        console.error("Error saving dashboard content for " + examType, err);
-        const msgId = examType.toLowerCase() + "Message";
-        showMessage(msgId, "Error while saving content.", true);
       }
     }
 
@@ -1057,7 +1254,6 @@
       renderRegistrations("rejected");
     });
 
-    // On load
     (function init() {
       setupContentTabs();
       loadRegistrations();
