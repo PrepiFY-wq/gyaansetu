@@ -19,7 +19,7 @@
         .stat-card .number { font-size: 36px; font-weight: bold; color: #333; }
 
         .controls { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
-        .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
         .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.3); }
         .btn-success { background: #10b981; color: white; }
@@ -39,11 +39,12 @@
         .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         .badge-pending { background: #fef3c7; color: #92400e; }
         .badge-verified { background: #d1fae5; color: #065f46; }
+        .badge-rejected { background: #fee2e2; color: #991b1b; }
         .badge-paid { background: #d1fae5; color: #065f46; }
         .badge-unpaid { background: #fee2e2; color: #991b1b; }
 
-        .action-btns { display: flex; gap: 8px; }
-        .action-btn { padding: 6px 12px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .action-btn { padding: 6px 10px; border: none; border-radius: 6px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
 
         .message { padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; display: none; }
         .message.success { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
@@ -119,6 +120,11 @@
             .header { padding: 15px 20px; }
         }
     </style>
+    <!-- icons for admin buttons (optional) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
 </head>
 <body>
     <div class="header">
@@ -170,7 +176,7 @@
                         <th>Contact</th>
                         <th>Exam</th>
                         <th>Address</th>
-                        <th>Status</th>
+                        <th>Verification</th>
                         <th>Payment</th>
                         <th>Actions</th>
                     </tr>
@@ -194,9 +200,11 @@
                     <input type="text" id="upscAnnTitle" placeholder="Announcement title">
                     <label class="form-label">Description</label>
                     <textarea id="upscAnnDesc" rows="3" placeholder="Short description"></textarea>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('UPSC','announcement','upscAnnTitle','upscAnnDesc',null,'upscAnnList')">
                         <i class="bi bi-plus-lg"></i> Add Announcement
                     </button>
+                    <div id="upscAnnList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- UPSC Tests -->
@@ -205,16 +213,19 @@
                     <small>PYQs / Mock PDFs ke links add karein.</small>
                     <label class="form-label">Type</label>
                     <select id="upscTestType">
-                        <option>PYQ</option>
-                        <option>Mock Test PDF</option>
+                        <option value="pyq">PYQ</option>
+                        <option value="mock_test">Mock Test PDF</option>
+                        <option value="test_series">Test Series</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="upscTestTitle" placeholder="e.g. GS Paper 1 Mock #1">
                     <label class="form-label">PDF / Link</label>
                     <input type="url" id="upscTestLink" placeholder="https://...">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('UPSC',document.getElementById('upscTestType').value,'upscTestTitle',null,'upscTestLink','upscTestsList')">
                         <i class="bi bi-upload"></i> Save Test
                     </button>
+                    <div id="upscTestsList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- UPSC Study Material -->
@@ -223,16 +234,19 @@
                     <small>Books / PDFs / Notes.</small>
                     <label class="form-label">Category</label>
                     <select id="upscMatType">
-                        <option>Book</option>
-                        <option>PDF / Notes</option>
+                        <option value="book">Book</option>
+                        <option value="notes">PDF / Notes</option>
+                        <option value="current_affairs">Current Affairs</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="upscMatTitle" placeholder="e.g. Laxmikant – Polity">
                     <label class="form-label">Link (optional)</label>
                     <input type="url" id="upscMatLink" placeholder="https://...">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('UPSC',document.getElementById('upscMatType').value,'upscMatTitle',null,'upscMatLink','upscMatList')">
                         <i class="bi bi-save"></i> Add Material
                     </button>
+                    <div id="upscMatList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- UPSC Path Pradarshak -->
@@ -241,9 +255,11 @@
                     <small>Daily motivation text.</small>
                     <label class="form-label">Motivational Text</label>
                     <textarea id="upscPathText" rows="4" placeholder="Daily motivation for UPSC aspirants"></textarea>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('UPSC','path','upscPathText',null,null,'upscPathList',true)">
                         <i class="bi bi-chat-quote"></i> Update Message
                     </button>
+                    <div id="upscPathList" style="margin-top:8px;"></div>
                 </div>
             </div>
         </section>
@@ -263,9 +279,11 @@
                     <input type="text" id="jeeAnnTitle" placeholder="Announcement title">
                     <label class="form-label">Description</label>
                     <textarea id="jeeAnnDesc" rows="3" placeholder="Short description"></textarea>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('JEE','announcement','jeeAnnTitle','jeeAnnDesc',null,'jeeAnnList')">
                         <i class="bi bi-plus-lg"></i> Add Announcement
                     </button>
+                    <div id="jeeAnnList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- JEE Tests -->
@@ -274,16 +292,19 @@
                     <small>PYQs / Mock PDFs – Main & Advanced.</small>
                     <label class="form-label">Type</label>
                     <select id="jeeTestType">
-                        <option>PYQ</option>
-                        <option>Mock Test PDF</option>
+                        <option value="pyq">PYQ</option>
+                        <option value="mock_test">Mock Test PDF</option>
+                        <option value="test_series">Test Series</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="jeeTestTitle" placeholder="e.g. JEE Main Mock #5">
                     <label class="form-label">PDF / Link</label>
                     <input type="url" id="jeeTestLink" placeholder="https://...">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('JEE',document.getElementById('jeeTestType').value,'jeeTestTitle',null,'jeeTestLink','jeeTestsList')">
                         <i class="bi bi-upload"></i> Save Test
                     </button>
+                    <div id="jeeTestsList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- JEE Study Material -->
@@ -292,16 +313,19 @@
                     <small>Books + PDFs for PCM.</small>
                     <label class="form-label">Category</label>
                     <select id="jeeMatType">
-                        <option>Book</option>
-                        <option>PDF / Notes</option>
+                        <option value="book">Book</option>
+                        <option value="notes">PDF / Notes</option>
+                        <option value="formula">Formula Sheet</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="jeeMatTitle" placeholder="e.g. H.C. Verma Part I">
                     <label class="form-label">Link (optional)</label>
                     <input type="url" id="jeeMatLink" placeholder="https://...">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('JEE',document.getElementById('jeeMatType').value,'jeeMatTitle',null,'jeeMatLink','jeeMatList')">
                         <i class="bi bi-save"></i> Add Material
                     </button>
+                    <div id="jeeMatList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- JEE Path Pradarshak -->
@@ -310,9 +334,11 @@
                     <small>Daily motivation text for JEE.</small>
                     <label class="form-label">Motivational Text</label>
                     <textarea id="jeePathText" rows="4" placeholder="Daily motivation for JEE aspirants"></textarea>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('JEE','path','jeePathText',null,null,'jeePathList',true)">
                         <i class="bi bi-chat-quote"></i> Update Message
                     </button>
+                    <div id="jeePathList" style="margin-top:8px;"></div>
                 </div>
             </div>
         </section>
@@ -332,9 +358,11 @@
                     <input type="text" id="neetAnnTitle" placeholder="Announcement title">
                     <label class="form-label">Description</label>
                     <textarea id="neetAnnDesc" rows="3" placeholder="Short description"></textarea>
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success" type="button"
+                            onclick="saveContent('NEET','announcement','neetAnnTitle','neetAnnDesc',null,'neetAnnList')">
                         <i class="bi bi-plus-lg"></i> Add Announcement
                     </button>
+                    <div id="neetAnnList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- NEET Tests -->
@@ -343,16 +371,19 @@
                     <small>PYQs / Mock PDFs – PCB.</small>
                     <label class="form-label">Type</label>
                     <select id="neetTestType">
-                        <option>PYQ</option>
-                        <option>Mock Test PDF</option>
+                        <option value="pyq">PYQ</option>
+                        <option value="mock_test">Mock Test PDF</option>
+                        <option value="test_series">Test Series</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="neetTestTitle" placeholder="e.g. NEET Full Mock #3">
                     <label class="form-label">PDF / Link</label>
                     <input type="url" id="neetTestLink" placeholder="https://...">
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success" type="button"
+                            onclick="saveContent('NEET',document.getElementById('neetTestType').value,'neetTestTitle',null,'neetTestLink','neetTestsList')">
                         <i class="bi bi-upload"></i> Save Test
                     </button>
+                    <div id="neetTestsList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- NEET Study Material -->
@@ -361,16 +392,18 @@
                     <small>Books + PDFs for NEET.</small>
                     <label class="form-label">Category</label>
                     <select id="neetMatType">
-                        <option>Book</option>
-                        <option>PDF / Notes</option>
+                        <option value="book">Book</option>
+                        <option value="notes">PDF / Notes</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="neetMatTitle" placeholder="e.g. NCERT Biology 11 & 12">
                     <label class="form-label">Link (optional)</label>
                     <input type="url" id="neetMatLink" placeholder="https://...">
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success" type="button"
+                            onclick="saveContent('NEET',document.getElementById('neetMatType').value,'neetMatTitle',null,'neetMatLink','neetMatList')">
                         <i class="bi bi-save"></i> Add Material
                     </button>
+                    <div id="neetMatList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- NEET Path Pradarshak -->
@@ -379,9 +412,11 @@
                     <small>Daily motivation text.</small>
                     <label class="form-label">Motivational Text</label>
                     <textarea id="neetPathText" rows="4" placeholder="Daily motivation for NEET aspirants"></textarea>
-                    <button class="btn btn-success" type="button">
+                    <button class="btn btn-success" type="button"
+                            onclick="saveContent('NEET','path','neetPathText',null,null,'neetPathList',true)">
                         <i class="bi bi-chat-quote"></i> Update Message
                     </button>
+                    <div id="neetPathList" style="margin-top:8px;"></div>
                 </div>
             </div>
         </section>
@@ -401,9 +436,11 @@
                     <input type="text" id="rpscAnnTitle" placeholder="Announcement title">
                     <label class="form-label">Description</label>
                     <textarea id="rpscAnnDesc" rows="3" placeholder="Short description"></textarea>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('RPSC','announcement','rpscAnnTitle','rpscAnnDesc',null,'rpscAnnList')">
                         <i class="bi bi-plus-lg"></i> Add Announcement
                     </button>
+                    <div id="rpscAnnList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- RPSC Tests -->
@@ -412,16 +449,19 @@
                     <small>PYQs / Mock PDFs for RPSC exams.</small>
                     <label class="form-label">Type</label>
                     <select id="rpscTestType">
-                        <option>PYQ</option>
-                        <option>Mock Test PDF</option>
+                        <option value="pyq">PYQ</option>
+                        <option value="mock_test">Mock Test PDF</option>
+                        <option value="test_series">Test Series</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="rpscTestTitle" placeholder="e.g. RAS Prelims Mock #1">
                     <label class="form-label">PDF / Link</label>
                     <input type="url" id="rpscTestLink" placeholder="https://...">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('RPSC',document.getElementById('rpscTestType').value,'rpscTestTitle',null,'rpscTestLink','rpscTestsList')">
                         <i class="bi bi-upload"></i> Save Test
                     </button>
+                    <div id="rpscTestsList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- RPSC Study Material -->
@@ -430,16 +470,18 @@
                     <small>Books + PDFs for RAS & Teaching.</small>
                     <label class="form-label">Category</label>
                     <select id="rpscMatType">
-                        <option>Book</option>
-                        <option>PDF / Notes</option>
+                        <option value="book">Book</option>
+                        <option value="notes">PDF / Notes</option>
                     </select>
                     <label class="form-label">Title</label>
                     <input type="text" id="rpscMatTitle" placeholder="e.g. Rajasthan Adhyan Book">
                     <label class="form-label">Link (optional)</label>
                     <input type="url" id="rpscMatLink" placeholder="https://...">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('RPSC',document.getElementById('rpscMatType').value,'rpscMatTitle',null,'rpscMatLink','rpscMatList')">
                         <i class="bi bi-save"></i> Add Material
                     </button>
+                    <div id="rpscMatList" style="margin-top:8px;"></div>
                 </div>
 
                 <!-- RPSC Path Pradarshak -->
@@ -448,9 +490,11 @@
                     <small>Daily motivation text.</small>
                     <label class="form-label">Motivational Text</label>
                     <textarea id="rpscPathText" rows="4" placeholder="Daily motivation for RAS / 1st / 2nd Grade"></textarea>
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" type="button"
+                            onclick="saveContent('RPSC','path','rpscPathText',null,null,'rpscPathList',true)">
                         <i class="bi bi-chat-quote"></i> Update Message
                     </button>
+                    <div id="rpscPathList" style="margin-top:8px;"></div>
                 </div>
             </div>
         </section>
@@ -468,6 +512,8 @@
             setTimeout(() => msgBox.style.display = 'none', 5000);
         }
 
+        // ========== REGISTRATION LIST ==========
+
         function loadRegistrations() {
             document.getElementById('loadingDiv').style.display = 'block';
             document.getElementById('registrationTable').style.display = 'none';
@@ -476,13 +522,15 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        allRegistrations = data.registrations;
+                        // backend getAll returns {success, users:[...]}
+                        const list = data.users || data.registrations || [];
+                        allRegistrations = list;
                         displayRegistrations(allRegistrations);
                         updateStats();
                         document.getElementById('loadingDiv').style.display = 'none';
                         document.getElementById('registrationTable').style.display = 'table';
                     } else {
-                        showMessage('Failed to load registrations', 'error');
+                        showMessage(data.message || 'Failed to load registrations', 'error');
                     }
                 })
                 .catch(error => {
@@ -501,30 +549,51 @@
             }
 
             registrations.forEach(reg => {
+                // Ensure field names exist (align with Apps Script getAll)
+                const name = reg.name || '';
+                const email = reg.email || '';
+                const contact = reg.contact || '';
+                const exam = reg.exam || '';
+                const address = reg.address || '';
+                const verification = reg.verificationStatus || reg.verification || reg.verificationStatusText || 'Pending';
+                const payment = reg.paymentStatus || reg.payment || 'Pending';
+
+                const verClass = verification.toLowerCase() === 'verified'
+                  ? 'badge-verified'
+                  : verification.toLowerCase() === 'rejected'
+                  ? 'badge-rejected'
+                  : 'badge-pending';
+
+                const payClass = payment.toLowerCase() === 'verified'
+                  ? 'badge-paid'
+                  : payment.toLowerCase() === 'paid'
+                  ? 'badge-paid'
+                  : 'badge-unpaid';
+
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${reg.name}</td>
-                    <td>${reg.email}</td>
-                    <td>${reg.contact}</td>
-                    <td>${reg.exam}</td>
-                    <td>${reg.address}</td>
+                    <td>${name}</td>
+                    <td>${email}</td>
+                    <td>${contact}</td>
+                    <td>${exam}</td>
+                    <td>${address}</td>
                     <td>
-                        <span class="badge badge-${reg.verification.toLowerCase()}">
-                            ${reg.verification}
+                        <span class="badge ${verClass}">
+                            ${verification}
                         </span>
                     </td>
                     <td>
-                        <span class="badge badge-${reg.payment.toLowerCase()}">
-                            ${reg.payment}
+                        <span class="badge ${payClass}">
+                            ${payment}
                         </span>
                     </td>
                     <td>
                         <div class="action-btns">
-                            <button class="action-btn btn-success" onclick="verifyCandidate('${reg.contact}')">
-                                Verify
+                            <button class="action-btn btn-success" onclick="approveUser('${contact}')">
+                                Approve
                             </button>
-                            <button class="action-btn btn-primary" onclick="updatePayment('${reg.contact}')">
-                                Payment OK
+                            <button class="action-btn btn-danger" onclick="rejectUser('${contact}')">
+                                Reject
                             </button>
                         </div>
                     </td>
@@ -535,8 +604,8 @@
 
         function updateStats() {
             const total = allRegistrations.length;
-            const pending = allRegistrations.filter(r => r.verification === 'Pending').length;
-            const verified = allRegistrations.filter(r => r.verification === 'Verified').length;
+            const pending = allRegistrations.filter(r => (r.verificationStatus || r.verification || 'Pending') === 'Pending').length;
+            const verified = allRegistrations.filter(r => (r.verificationStatus || r.verification || '') === 'Verified').length;
 
             document.getElementById('totalCount').textContent = total;
             document.getElementById('pendingCount').textContent = pending;
@@ -545,57 +614,187 @@
 
         function filterTable() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allRegistrations.filter(reg =>
-                reg.name.toLowerCase().includes(searchTerm) ||
-                reg.email.toLowerCase().includes(searchTerm) ||
-                reg.contact.includes(searchTerm) ||
-                reg.exam.toLowerCase().includes(searchTerm)
-            );
+            const filtered = allRegistrations.filter(reg => {
+                const name = (reg.name || '').toLowerCase();
+                const email = (reg.email || '').toLowerCase();
+                const contact = reg.contact || '';
+                const exam = (reg.exam || '').toLowerCase();
+                return (
+                    name.includes(searchTerm) ||
+                    email.includes(searchTerm) ||
+                    contact.includes(searchTerm) ||
+                    exam.includes(searchTerm)
+                );
+            });
             displayRegistrations(filtered);
         }
 
-        function verifyCandidate(contact) {
-            if (!confirm('Verify this candidate? This will generate credentials and send an email.')) return;
-            showMessage('Processing verification...', 'success');
+        // ========== APPROVE / REJECT LOGIC ==========
 
-            fetch(`${SCRIPT_URL}?action=verify&contact=${contact}`)
+        function approveUser(contact) {
+            if (!confirm('Approve this registration? This will generate credentials (if needed) and send email.')) return;
+            showMessage('Processing approval...', 'success');
+
+            fetch(`${SCRIPT_URL}?action=approveRegistration&contact=${encodeURIComponent(contact)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showMessage('Candidate verified successfully! Email sent with credentials.', 'success');
+                        showMessage('Registration approved. Credentials email sent (if not already).', 'success');
                         loadRegistrations();
                     } else {
-                        showMessage(data.message || 'Verification failed', 'error');
+                        showMessage(data.message || 'Approval failed', 'error');
                     }
                 })
                 .catch(error => {
-                    showMessage('Error during verification', 'error');
+                    showMessage('Error during approval', 'error');
                     console.error('Error:', error);
                 });
         }
 
-        function updatePayment(contact) {
-            if (!confirm('Mark payment as verified?')) return;
-            showMessage('Updating payment status...', 'success');
+        function rejectUser(contact) {
+            const reason = prompt('Enter rejection reason (will be sent in email):', 'Incomplete / invalid details');
+            if (reason === null) return;
 
-            fetch(`${SCRIPT_URL}?action=updatePayment&contact=${contact}`)
+            showMessage('Processing rejection...', 'success');
+
+            fetch(`${SCRIPT_URL}?action=rejectRegistration&contact=${encodeURIComponent(contact)}&reason=${encodeURIComponent(reason)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showMessage('Payment status updated', 'success');
+                        showMessage('Registration rejected. Rejection email sent.', 'success');
                         loadRegistrations();
                     } else {
-                        showMessage(data.message || 'Update failed', 'error');
+                        showMessage(data.message || 'Rejection failed', 'error');
                     }
                 })
                 .catch(error => {
-                    showMessage('Error updating payment', 'error');
+                    showMessage('Error during rejection', 'error');
                     console.error('Error:', error);
                 });
+        }
+
+        // ========== CONTENT SAVE / LOAD (UPSC/JEE/NEET/RPSC) ==========
+
+        function saveContent(exam, type, titleId, descId, linkId, listContainerId, useTextAreaAsTitle = false) {
+            const titleInput = document.getElementById(titleId);
+            if (!titleInput) {
+                alert('Title field not found.');
+                return;
+            }
+            const title = titleInput.value.trim();
+            const description = descId ? (document.getElementById(descId)?.value.trim() || '') : '';
+            const link = linkId ? (document.getElementById(linkId)?.value.trim() || '') : '';
+
+            if (!title && !useTextAreaAsTitle) {
+                alert('Please enter a title.');
+                return;
+            }
+
+            const finalTitle = useTextAreaAsTitle ? '' : title;
+            const finalDesc = useTextAreaAsTitle ? title : description; // for path, full text in description
+
+            const url =
+              `${SCRIPT_URL}?action=saveContent` +
+              `&exam=${encodeURIComponent(exam)}` +
+              `&type=${encodeURIComponent(type)}` +
+              `&title=${encodeURIComponent(finalTitle)}` +
+              `&description=${encodeURIComponent(finalDesc)}` +
+              `&link=${encodeURIComponent(link)}`;
+
+            fetch(url)
+              .then(r => r.json())
+              .then(data => {
+                if (!data.success) {
+                  alert(data.message || 'Error saving content');
+                  return;
+                }
+                alert('Saved successfully.');
+                if (titleId) document.getElementById(titleId).value = '';
+                if (descId) document.getElementById(descId).value = '';
+                if (linkId) document.getElementById(linkId).value = '';
+
+                loadContentList(exam, type, listContainerId);
+              })
+              .catch(err => {
+                console.error('Save content error:', err);
+                alert('Error saving content');
+              });
+        }
+
+        function loadContentList(exam, type, containerId) {
+            const url =
+              `${SCRIPT_URL}?action=getContent` +
+              `&exam=${encodeURIComponent(exam)}` +
+              `&type=${encodeURIComponent(type)}`;
+
+            fetch(url)
+              .then(r => r.json())
+              .then(data => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                if (!data.success || !data.items || data.items.length === 0) {
+                  container.innerHTML = '<div class="text-muted" style="font-size:12px;">No items yet.</div>';
+                  return;
+                }
+
+                container.innerHTML = data.items
+                  .map(item => `
+                    <div class="border rounded p-2 mb-1" style="font-size:12px;">
+                      ${item.title ? `<div class="fw-semibold">${item.title}</div>` : ''}
+                      ${item.description ? `<div class="text-muted">${item.description}</div>` : ''}
+                      ${item.link ? `<a href="${item.link}" target="_blank">Open</a>` : ''}
+                    </div>
+                  `)
+                  .join('');
+              })
+              .catch(err => {
+                console.error('Load content error:', err);
+              });
+        }
+
+        function initialLoadContent() {
+          // UPSC
+          loadContentList('UPSC', 'announcement', 'upscAnnList');
+          loadContentList('UPSC', 'pyq', 'upscTestsList');
+          loadContentList('UPSC', 'mock_test', 'upscTestsList');
+          loadContentList('UPSC', 'test_series', 'upscTestsList');
+          loadContentList('UPSC', 'book', 'upscMatList');
+          loadContentList('UPSC', 'notes', 'upscMatList');
+          loadContentList('UPSC', 'current_affairs', 'upscMatList');
+          loadContentList('UPSC', 'path', 'upscPathList');
+
+          // JEE
+          loadContentList('JEE', 'announcement', 'jeeAnnList');
+          loadContentList('JEE', 'pyq', 'jeeTestsList');
+          loadContentList('JEE', 'mock_test', 'jeeTestsList');
+          loadContentList('JEE', 'test_series', 'jeeTestsList');
+          loadContentList('JEE', 'book', 'jeeMatList');
+          loadContentList('JEE', 'notes', 'jeeMatList');
+          loadContentList('JEE', 'formula', 'jeeMatList');
+          loadContentList('JEE', 'path', 'jeePathList');
+
+          // NEET
+          loadContentList('NEET', 'announcement', 'neetAnnList');
+          loadContentList('NEET', 'pyq', 'neetTestsList');
+          loadContentList('NEET', 'mock_test', 'neetTestsList');
+          loadContentList('NEET', 'test_series', 'neetTestsList');
+          loadContentList('NEET', 'book', 'neetMatList');
+          loadContentList('NEET', 'notes', 'neetMatList');
+          loadContentList('NEET', 'path', 'neetPathList');
+
+          // RPSC
+          loadContentList('RPSC', 'announcement', 'rpscAnnList');
+          loadContentList('RPSC', 'pyq', 'rpscTestsList');
+          loadContentList('RPSC', 'mock_test', 'rpscTestsList');
+          loadContentList('RPSC', 'test_series', 'rpscTestsList');
+          loadContentList('RPSC', 'book', 'rpscMatList');
+          loadContentList('RPSC', 'notes', 'rpscMatList');
+          loadContentList('RPSC', 'path', 'rpscPathList');
         }
 
         window.onload = function() {
             loadRegistrations();
+            initialLoadContent();
         };
     </script>
 </body>
