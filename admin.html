@@ -2,694 +2,601 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>GyaanSetu Admin Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fees Management Admin Panel</title>
+
+  <!-- Bootstrap CSS -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
   />
+
   <style>
     body {
+      background-color: #f5f7fb;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f3f4f6;
-      padding: 20px;
     }
-
+    .navbar {
+      background: linear-gradient(90deg, #1f3c88, #4e73df);
+    }
+    .navbar-brand {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
     .card {
-      box-shadow: 0 8px 25px rgba(15, 23, 42, 0.12);
-      border-radius: 16px;
       border: none;
+      box-shadow: 0 4px 15px rgba(15, 34, 58, 0.12);
+      border-radius: 12px;
     }
-
     .card-header {
-      border-radius: 16px 16px 0 0;
+      border-bottom: none;
+      border-radius: 12px 12px 0 0 !important;
+      background: linear-gradient(90deg, #4e73df, #1cc88a);
+      color: #fff;
     }
-
+    .status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    .status-paid {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .status-verified {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+    .tab-btn {
+      border-radius: 999px !important;
+      font-size: 0.9rem;
+      padding: 6px 18px;
+    }
+    .tab-btn.active {
+      background-color: #4e73df;
+      color: #fff;
+    }
+    .table thead {
+      background-color: #f1f4ff;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .table tbody tr:hover {
+      background-color: #f9fbff;
+    }
+    .action-btn-sm {
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      border-radius: 999px;
+    }
     .badge-pill {
       border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 11px;
     }
-
-    .message {
-      display: none;
-      margin-bottom: 10px;
+    .list-group-item {
+      border: none;
+      border-radius: 10px !important;
+      margin-bottom: 5px;
+      background-color: #f7f9ff;
     }
-
-    .message.success {
-      display: block;
-      background: #d1fae5;
-      color: #065f46;
-    }
-
-    .message.error {
-      display: block;
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .table-responsive {
-      max-height: 400px;
-      overflow-y: auto;
+    .list-group-item small {
+      color: #6c757d;
     }
   </style>
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="mb-0">
-        <span style="color:#1e3a8a;">Gyaan</span><span style="color:#dc2626;">Setu</span>
-        Admin
-      </h2>
-      <span id="adminEmailLabel" class="text-muted" style="font-size:13px;"></span>
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-dark mb-4">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Fees Management Admin</span>
+      <span class="text-light small">Admin Dashboard</span>
     </div>
+  </nav>
 
-    <div id="messageBox" class="alert message"></div>
-
-    <!-- Stats -->
-    <div class="row g-3 mb-3">
-      <div class="col-12 col-md-4">
-        <div class="card">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Total Registrations</div>
-              <div class="h4 mb-0" id="totalCount">0</div>
-            </div>
-            <span class="badge bg-primary badge-pill">All</span>
+  <div class="container mb-4">
+    <div class="row g-3">
+      <!-- Registrations Summary -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">Total Registrations</h6>
+            <h3 id="totalRegistrations" class="mb-0">0</h3>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4">
-        <div class="card">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Pending Verification</div>
-              <div class="h4 mb-0" id="pendingCount">0</div>
-            </div>
-            <span class="badge bg-warning text-dark badge-pill">Pending</span>
+      <!-- Pending Payments -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">Pending Payments</h6>
+            <h3 id="pendingPayments" class="mb-0 text-warning">0</h3>
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4">
-        <div class="card">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <div class="text-muted small">Verified Students</div>
-              <div class="h4 mb-0" id="verifiedCount">0</div>
-            </div>
-            <span class="badge bg-success badge-pill">Verified</span>
+      <!-- Verified Payments -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">Verified</h6>
+            <h3 id="verifiedPayments" class="mb-0 text-success">0</h3>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Registrations table -->
-    <div class="card mb-4">
-      <div class="card-header bg-gradient bg-primary text-white d-flex justify-content-between align-items-center">
-        <span>Registrations</span>
-        <button class="btn btn-sm btn-light" onclick="loadRegistrations()">Refresh</button>
-      </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-sm mb-0 align-middle">
-            <thead class="table-light position-sticky top-0">
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Contact</th>
-                <th>Exam</th>
-                <th>Payment</th>
-                <th>Verification</th>
-                <th>User ID</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="usersTbody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Content management -->
-    <div class="card mb-4">
-      <div class="card-header bg-dark text-white">
-        Exam Content Management
-      </div>
-      <div class="card-body">
-        <p class="text-muted small">
-          Yahan se UPSC / JEE / NEET / RPSC ke announcements, tests, material, study path aur UPSC daily targets manage kar sakte ho.
-        </p>
-
-        <ul class="nav nav-tabs" id="contentTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#upscTab" type="button">UPSC</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#jeeTab" type="button">JEE</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#neetTab" type="button">NEET</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rpscTab" type="button">RPSC</button>
-          </li>
-        </ul>
-
-        <div class="tab-content pt-3">
-          <!-- UPSC -->
-          <div class="tab-pane fade show active" id="upscTab">
-            <h6>UPSC Content</h6>
-
-            <!-- General UPSC content -->
-            <div class="row g-2 mb-2">
-              <div class="col-md-4">
-                <select id="upscType" class="form-select form-select-sm">
-                  <option value="announcement">Announcement</option>
-                  <option value="pyq">PYQ / Test</option>
-                  <option value="mock_test">Mock Test</option>
-                  <option value="test_series">Test Series</option>
-                  <option value="book">Book / Material</option>
-                  <option value="notes">Notes</option>
-                  <option value="current_affairs">Current Affairs</option>
-                  <option value="path">Study Path</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <input id="upscTitle" class="form-control form-control-sm" placeholder="Title" />
-              </div>
-              <div class="col-md-4">
-                <input id="upscLink" class="form-control form-control-sm" placeholder="Link (optional)" />
-              </div>
-            </div>
-            <div class="mb-2">
-              <textarea id="upscDesc" rows="2" class="form-control form-control-sm" placeholder="Description / details"></textarea>
-            </div>
-            <button class="btn btn-sm btn-primary mb-3" onclick="saveContent('UPSC')">
-              Save UPSC Content
-            </button>
-
-            <div id="upscAnnList" class="mb-2"></div>
-            <div id="upscTestsList" class="mb-2"></div>
-            <div id="upscMatList" class="mb-2"></div>
-            <div id="upscPathList" class="mb-3"></div>
-
-            <!-- UPSC Daily Targets -->
-            <hr />
-            <h6>UPSC Daily Targets</h6>
-            <div class="row g-2 mb-2">
-              <div class="col-md-3">
-                <input
-                  type="date"
-                  id="upscTargetDate"
-                  class="form-control form-control-sm"
-                  placeholder="Date"
-                />
-              </div>
-              <div class="col-md-9">
-                <input
-                  id="upscTargetTitle"
-                  class="form-control form-control-sm"
-                  placeholder="Target title (e.g. Polity Laxmikanth Ch-1 to 3)"
-                />
-              </div>
-            </div>
-            <div class="mb-2">
-              <textarea
-                id="upscTargetDesc"
-                rows="2"
-                class="form-control form-control-sm"
-                placeholder="Details / topics / questions to solve"
-              ></textarea>
-            </div>
-            <button class="btn btn-sm btn-success mb-3" onclick="saveUpscTarget()">
-              Save Daily Target
-            </button>
-
-            <div id="upscTargetList" class="mb-2"></div>
-          </div>
-
-          <!-- JEE -->
-          <div class="tab-pane fade" id="jeeTab">
-            <h6>JEE Content</h6>
-            <div class="row g-2 mb-2">
-              <div class="col-md-4">
-                <select id="jeeType" class="form-select form-select-sm">
-                  <option value="announcement">Announcement</option>
-                  <option value="pyq">PYQ / Test</option>
-                  <option value="mock_test">Mock Test</option>
-                  <option value="test_series">Test Series</option>
-                  <option value="book">Book / Material</option>
-                  <option value="notes">Notes</option>
-                  <option value="formula">Formula Sheet</option>
-                  <option value="path">Study Path</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <input id="jeeTitle" class="form-control form-control-sm" placeholder="Title" />
-              </div>
-              <div class="col-md-4">
-                <input id="jeeLink" class="form-control form-control-sm" placeholder="Link (optional)" />
-              </div>
-            </div>
-            <div class="mb-2">
-              <textarea id="jeeDesc" rows="2" class="form-control form-control-sm" placeholder="Description / details"></textarea>
-            </div>
-            <button class="btn btn-sm btn-primary mb-3" onclick="saveContent('JEE')">
-              Save JEE Content
-            </button>
-            <div id="jeeAnnList" class="mb-2"></div>
-            <div id="jeeTestsList" class="mb-2"></div>
-            <div id="jeeMatList" class="mb-2"></div>
-            <div id="jeePathList" class="mb-2"></div>
-          </div>
-
-          <!-- NEET -->
-          <div class="tab-pane fade" id="neetTab">
-            <h6>NEET Content</h6>
-            <div class="row g-2 mb-2">
-              <div class="col-md-4">
-                <select id="neetType" class="form-select form-select-sm">
-                  <option value="announcement">Announcement</option>
-                  <option value="pyq">PYQ / Test</option>
-                  <option value="mock_test">Mock Test</option>
-                  <option value="test_series">Test Series</option>
-                  <option value="book">Book / Material</option>
-                  <option value="notes">Notes</option>
-                  <option value="path">Study Path</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <input id="neetTitle" class="form-control form-control-sm" placeholder="Title" />
-              </div>
-              <div class="col-md-4">
-                <input id="neetLink" class="form-control form-control-sm" placeholder="Link (optional)" />
-              </div>
-            </div>
-            <div class="mb-2">
-              <textarea id="neetDesc" rows="2" class="form-control form-control-sm" placeholder="Description / details"></textarea>
-            </div>
-            <button class="btn btn-sm btn-primary mb-3" onclick="saveContent('NEET')">
-              Save NEET Content
-            </button>
-            <div id="neetAnnList" class="mb-2"></div>
-            <div id="neetTestsList" class="mb-2"></div>
-            <div id="neetMatList" class="mb-2"></div>
-            <div id="neetPathList" class="mb-2"></div>
-          </div>
-
-          <!-- RPSC -->
-          <div class="tab-pane fade" id="rpscTab">
-            <h6>RPSC Content</h6>
-            <div class="row g-2 mb-2">
-              <div class="col-md-4">
-                <select id="rpscType" class="form-select form-select-sm">
-                  <option value="announcement">Announcement</option>
-                  <option value="pyq">PYQ / Test</option>
-                  <option value="mock_test">Mock Test</option>
-                  <option value="test_series">Test Series</option>
-                  <option value="book">Book / Material</option>
-                  <option value="notes">Notes</option>
-                  <option value="path">Study Path</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <input id="rpscTitle" class="form-control form-control-sm" placeholder="Title" />
-              </div>
-              <div class="col-md-4">
-                <input id="rpscLink" class="form-control form-control-sm" placeholder="Link (optional)" />
-              </div>
-            </div>
-            <div class="mb-2">
-              <textarea id="rpscDesc" rows="2" class="form-control form-control-sm" placeholder="Description / details"></textarea>
-            </div>
-            <button class="btn btn-sm btn-primary mb-3" onclick="saveContent('RPSC')">
-              Save RPSC Content
-            </button>
-            <div id="rpscAnnList" class="mb-2"></div>
-            <div id="rpscTestsList" class="mb-2"></div>
-            <div id="rpscMatList" class="mb-2"></div>
-            <div id="rpscPathList" class="mb-2"></div>
+      <!-- Last Sync -->
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">Last Sync</h6>
+            <h6 id="lastSyncTime" class="mb-0 small text-secondary">–</h6>
           </div>
         </div>
       </div>
     </div>
   </div>
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  const SCRIPT_URL =
-    'https://script.google.com/macros/s/AKfycby7bW3qS-Sy1zo0jwM8kdfX00vp4alwgA9tKSGn_IEp8F78w4M0S6wPe59keBf-Sdr8vQ/exec';
+  <div class="container">
+    <!-- Registration Management -->
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Registrations</span>
+        <div>
+          <button class="btn btn-light btn-sm tab-btn me-1 active" id="tab-all">All</button>
+          <button class="btn btn-light btn-sm tab-btn me-1" id="tab-pending">Pending</button>
+          <button class="btn btn-light btn-sm tab-btn" id="tab-verified">Verified</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0" id="registrationsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student</th>
+                <th>Details</th>
+                <th>Payment</th>
+                <th>Txn / Ref</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="registrationsBody">
+              <!-- Dynamic rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-  function showMessage(text, type) {
-    const box = document.getElementById('messageBox');
-    box.textContent = text;
-    box.className = 'alert message ' + (type === 'error' ? 'error' : 'success');
-    box.style.display = 'block';
-    setTimeout(() => (box.style.display = 'none'), 4000);
-  }
+    <!-- Content & UPSC Targets -->
+    <div class="row g-4">
+      <!-- Content Management -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">Content Management</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Notification Banner</label>
+              <textarea
+                id="notificationInput"
+                class="form-control"
+                rows="2"
+                placeholder="Enter notification text to show on student dashboard"
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Content Links (one per line)</label>
+              <textarea
+                id="contentInput"
+                class="form-control"
+                rows="4"
+                placeholder="https://...\nhttps://..."
+              ></textarea>
+            </div>
+            <button class="btn btn-primary btn-sm" id="saveContentBtn">Save Content</button>
+            <span id="contentMessage" class="ms-2 small text-success"></span>
+          </div>
+        </div>
+      </div>
 
-  // ========== REGISTRATIONS ==========
+      <!-- UPSC Targets Management -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">UPSC Targets</div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Targets (one per line)</label>
+              <textarea
+                id="targetsInput"
+                class="form-control"
+                rows="5"
+                placeholder="Target 1\nTarget 2\nTarget 3"
+              ></textarea>
+            </div>
+            <button class="btn btn-success btn-sm" id="saveTargetsBtn">Save Targets</button>
+            <span id="targetsMessage" class="ms-2 small text-success"></span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  function loadRegistrations() {
-    const url = `${SCRIPT_URL}?action=getUsers`;
-    console.log('LOAD URL:', url);
+    <!-- Recent Activity -->
+    <div class="row g-4 my-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">Recent Registrations</div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush" id="recentRegistrations">
+              <!-- Dynamic -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">Recent Payment Updates</div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush" id="recentPayments">
+              <!-- Dynamic -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        console.log('LOAD RESPONSE:', data);
-        if (!data.success) {
-          showMessage(data.message || 'Error in loading data', 'error');
-          return;
-        }
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        const users = data.users || [];
-        renderTable(users);
+  <!-- Admin Logic -->
+  <script>
+    // TODO: yahan apna Apps Script Web App URL lagao agar alag hai
+    const SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycby7bW3qS-Sy1zo0jwM8kdfX00vp4alwgA9tKSGn_IEp8F78w4M0S6wPe59keBf-Sdr8vQ/exec";
 
-        const total = users.length;
-        const pending = users.filter((u) => u.verificationStatus !== 'Verified').length;
-        const verified = users.filter((u) => u.verificationStatus === 'Verified').length;
+    let registrationsData = [];
 
-        document.getElementById('totalCount').textContent = total;
-        document.getElementById('pendingCount').textContent = pending;
-        document.getElementById('verifiedCount').textContent = verified;
-      })
-      .catch((err) => {
-        console.error('loadRegistrations error:', err);
-        showMessage('Error in loading data', 'error');
-      });
-  }
-
-  function renderTable(users) {
-    const tbody = document.getElementById('usersTbody');
-    if (!tbody) return;
-
-    tbody.innerHTML = users
-      .map(
-        (u, idx) => `
-      <tr>
-        <td>${idx + 1}</td>
-        <td>${u.name}</td>
-        <td>${u.email}</td>
-        <td>${u.contact}</td>
-        <td>${u.exam}</td>
-        <td>
-          <span class="badge badge-pill ${
-            u.paymentStatus === 'Verified' ? 'bg-success' : 'bg-warning text-dark'
-          }">${u.paymentStatus}</span>
-        </td>
-        <td>
-          <span class="badge badge-pill ${
-            u.verificationStatus === 'Verified' ? 'bg-success' : 'bg-warning text-dark'
-          }">${u.verificationStatus}</span>
-        </td>
-        <td>${u.userId}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-success me-1" onclick="markPaymentVerified('${
-            u.contact
-          }')">Payment OK</button>
-          <button class="btn btn-sm btn-outline-primary" onclick="markVerified('${
-            u.contact
-          }')">Verify</button>
-        </td>
-      </tr>`
-      )
-      .join('');
-  }
-
-  function markVerified(contact) {
-    if (!confirm('Mark candidate as Verified?')) return;
-    const url = `${SCRIPT_URL}?action=verify&contact=${encodeURIComponent(contact)}`;
-    console.log('VERIFY URL:', url);
-
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        console.log('VERIFY RESPONSE:', data);
-        if (!data.success) {
-          showMessage(data.message || 'Error updating verification', 'error');
-          return;
-        }
-        showMessage('Verification updated', 'success');
-        loadRegistrations();
-      })
-      .catch((err) => {
-        console.error('verify error:', err);
-        showMessage('Error updating verification', 'error');
-      });
-  }
-
-  function markPaymentVerified(contact) {
-    if (!confirm('Mark payment as Verified?')) return;
-    const url = `${SCRIPT_URL}?action=updatePayment&contact=${encodeURIComponent(contact)}`;
-    console.log('PAYMENT URL:', url);
-
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        console.log('PAYMENT RESPONSE:', data);
-        if (!data.success) {
-          showMessage(data.message || 'Error updating payment', 'error');
-          return;
-        }
-        showMessage('Payment updated', 'success');
-        loadRegistrations();
-      })
-      .catch((err) => {
-        console.error('payment error:', err);
-        showMessage('Error updating payment', 'error');
-      });
-  }
-
-  // ========== CONTENT MANAGEMENT (COMMON) ==========
-
-  function saveContent(exam) {
-    let typeId, titleId, descId, linkId;
-
-    if (exam === 'UPSC') {
-      typeId = 'upscType';
-      titleId = 'upscTitle';
-      descId = 'upscDesc';
-      linkId = 'upscLink';
-    } else if (exam === 'JEE') {
-      typeId = 'jeeType';
-      titleId = 'jeeTitle';
-      descId = 'jeeDesc';
-      linkId = 'jeeLink';
-    } else if (exam === 'NEET') {
-      typeId = 'neetType';
-      titleId = 'neetTitle';
-      descId = 'neetDesc';
-      linkId = 'neetLink';
-    } else if (exam === 'RPSC') {
-      typeId = 'rpscType';
-      titleId = 'rpscTitle';
-      descId = 'rpscDesc';
-      linkId = 'rpscLink';
+    function showMessage(elementId, message, isError = false) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.textContent = message;
+      el.className = isError ? "ms-2 small text-danger" : "ms-2 small text-success";
+      setTimeout(() => {
+        el.textContent = "";
+      }, 3000);
     }
 
-    const type = document.getElementById(typeId).value;
-    const title = document.getElementById(titleId).value.trim();
-    const description = document.getElementById(descId).value.trim();
-    const link = document.getElementById(linkId).value.trim();
-
-    if (!type) {
-      alert('Please select type');
-      return;
+    function setLastSync() {
+      const now = new Date();
+      const formatted =
+        now.toLocaleDateString("en-IN") + " " + now.toLocaleTimeString("en-IN");
+      const el = document.getElementById("lastSyncTime");
+      if (el) el.textContent = formatted;
     }
 
-    const url =
-      `${SCRIPT_URL}?action=saveContent` +
-      `&exam=${encodeURIComponent(exam)}` +
-      `&type=${encodeURIComponent(type)}` +
-      `&title=${encodeURIComponent(title)}` +
-      `&description=${encodeURIComponent(description)}` +
-      `&link=${encodeURIComponent(link)}`;
-
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        if (!data.success) {
-          alert(data.message || 'Error saving content');
-          return;
-        }
-        alert('Saved successfully.');
-
-        document.getElementById(titleId).value = '';
-        document.getElementById(descId).value = '';
-        document.getElementById(linkId).value = '';
-
-        initialLoadContent();
-      })
-      .catch((err) => {
-        console.error('Save content error:', err);
-        alert('Error saving content');
-      });
-  }
-
-  function loadContentList(exam, type, containerId) {
-    const url =
-      `${SCRIPT_URL}?action=getContent` +
-      `&exam=${encodeURIComponent(exam)}` +
-      `&type=${encodeURIComponent(type)}`;
-
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-
-        if (!data.success || !data.items || data.items.length === 0) {
-          container.innerHTML =
-            '<div class="text-muted" style="font-size:12px;">No items yet.</div>';
+    async function loadRegistrations() {
+      try {
+        const res = await fetch(SCRIPT_URL + "?action=getRegistrations");
+        const data = await res.json();
+        if (!Array.isArray(data)) {
+          console.error("Invalid registrations data", data);
           return;
         }
 
-        container.innerHTML = data.items
-          .map(
-            (item) => `
-          <div class="border rounded p-2 mb-1" style="font-size:12px;">
-            ${item.title ? `<div class="fw-semibold">${item.title}</div>` : ''}
-            ${item.description ? `<div class="text-muted">${item.description}</div>` : ''}
-            ${item.link ? `<a href="${item.link}" target="_blank">Open</a>` : ''}
-          </div>`
-          )
-          .join('');
-      })
-      .catch((err) => {
-        console.error('Load content error:', err);
-      });
-  }
-
-  // ========== UPSC DAILY TARGETS ==========
-
-  function saveUpscTarget() {
-    const dateInput = document.getElementById('upscTargetDate').value;
-    const title = document.getElementById('upscTargetTitle').value.trim();
-    const desc = document.getElementById('upscTargetDesc').value.trim();
-
-    if (!dateInput || !title) {
-      alert('Please select date and enter target title');
-      return;
+        registrationsData = data;
+        renderRegistrations("all");
+        updateStats();
+        updateRecentSections();
+        setLastSync();
+      } catch (err) {
+        console.error("Error loading registrations:", err);
+      }
     }
 
-    const dateStr = dateInput;
+    function renderRegistrations(filter) {
+      const tbody = document.getElementById("registrationsBody");
+      tbody.innerHTML = "";
 
-    const url =
-      `${SCRIPT_URL}?action=saveContent` +
-      `&exam=${encodeURIComponent('UPSC')}` +
-      `&type=${encodeURIComponent('target')}` +
-      `&title=${encodeURIComponent(dateStr + ' - ' + title)}` +
-      `&description=${encodeURIComponent(desc)}` +
-      `&link=${encodeURIComponent('')}`;
-
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        if (!data.success) {
-          alert(data.message || 'Error saving target');
-          return;
-        }
-        alert('Daily target saved.');
-
-        document.getElementById('upscTargetDate').value = '';
-        document.getElementById('upscTargetTitle').value = '';
-        document.getElementById('upscTargetDesc').value = '';
-
-        loadUpscTargets();
-      })
-      .catch((err) => {
-        console.error('Save target error:', err);
-        alert('Error saving target');
+      const filtered = registrationsData.filter((row) => {
+        const status = (row.status || "").toLowerCase();
+        if (filter === "pending") return status === "pending";
+        if (filter === "verified") return status === "verified" || status === "paid";
+        return true;
       });
-  }
 
-  function loadUpscTargets() {
-    const url =
-      `${SCRIPT_URL}?action=getContent` +
-      `&exam=${encodeURIComponent('UPSC')}` +
-      `&type=${encodeURIComponent('target')}`;
+      filtered.forEach((row, index) => {
+        const tr = document.createElement("tr");
 
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        const container = document.getElementById('upscTargetList');
-        if (!container) return;
-
-        if (!data.success || !data.items || data.items.length === 0) {
-          container.innerHTML =
-            '<div class="text-muted" style="font-size:12px;">No targets added yet.</div>';
-          return;
+        const status = (row.status || "Pending").toLowerCase();
+        let statusClass = "status-pending";
+        let statusLabel = "Pending";
+        if (status === "paid") {
+          statusClass = "status-paid";
+          statusLabel = "Paid";
+        } else if (status === "verified") {
+          statusClass = "status-verified";
+          statusLabel = "Verified";
         }
 
-        container.innerHTML = data.items
-          .map(
-            (item) => `
-      <div class="border rounded p-2 mb-1" style="font-size:12px;">
-        ${item.title ? `<div class="fw-semibold">${item.title}</div>` : ''}
-        ${item.description ? `<div class="text-muted">${item.description}</div>` : ''}
-      </div>`
-          )
-          .join('');
-      })
-      .catch((err) => {
-        console.error('Load UPSC targets error:', err);
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>
+            <div class="fw-semibold">${row.name || "-"}</div>
+            <div class="small text-muted">${row.email || "-"}</div>
+            <div class="small text-muted">${row.phone || "-"}</div>
+          </td>
+          <td>
+            <div class="small">Course: <span class="fw-semibold">${
+              row.course || "-"
+            }</span></div>
+            <div class="small">Mode: ${row.mode || "-"}</div>
+            <div class="small text-muted">Reg: ${row.timestamp || "-"}</div>
+          </td>
+          <td>
+            <div class="small fw-semibold">₹${row.amount || "0"}</div>
+            <div class="small text-muted">${row.paymentMethod || "-"}</div>
+          </td>
+          <td>
+            <div class="small">${row.transactionId || "-"}</div>
+            <div class="small text-muted">${row.paymentDate || ""}</div>
+          </td>
+          <td>
+            <span class="status-pill ${statusClass}">${statusLabel}</span>
+          </td>
+          <td>
+            <button class="btn btn-success btn-sm action-btn-sm mb-1"
+              onclick="confirmPayment('${row.id}')">
+              Payment OK
+            </button>
+            <button class="btn btn-primary btn-sm action-btn-sm"
+              onclick="verifyAndSend('${row.id}')">
+              Verify & Send
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
-  }
+    }
 
-  // ========== INITIAL LOAD ==========
+    function updateStats() {
+      const total = registrationsData.length;
+      const pending = registrationsData.filter(
+        (r) => (r.status || "").toLowerCase() === "pending"
+      ).length;
+      const verified = registrationsData.filter((r) => {
+        const s = (r.status || "").toLowerCase();
+        return s === "verified" || s === "paid";
+      }).length;
 
-  function initialLoadContent() {
-    // UPSC
-    loadContentList('UPSC', 'announcement', 'upscAnnList');
-    loadContentList('UPSC', 'pyq', 'upscTestsList');
-    loadContentList('UPSC', 'mock_test', 'upscTestsList');
-    loadContentList('UPSC', 'test_series', 'upscTestsList');
-    loadContentList('UPSC', 'book', 'upscMatList');
-    loadContentList('UPSC', 'notes', 'upscMatList');
-    loadContentList('UPSC', 'current_affairs', 'upscMatList');
-    loadContentList('UPSC', 'path', 'upscPathList');
-    loadUpscTargets();
+      document.getElementById("totalRegistrations").textContent = total;
+      document.getElementById("pendingPayments").textContent = pending;
+      document.getElementById("verifiedPayments").textContent = verified;
+    }
 
-    // JEE
-    loadContentList('JEE', 'announcement', 'jeeAnnList');
-    loadContentList('JEE', 'pyq', 'jeeTestsList');
-    loadContentList('JEE', 'mock_test', 'jeeTestsList');
-    loadContentList('JEE', 'test_series', 'jeeTestsList');
-    loadContentList('JEE', 'book', 'jeeMatList');
-    loadContentList('JEE', 'notes', 'jeeMatList');
-    loadContentList('JEE', 'formula', 'jeeMatList');
-    loadContentList('JEE', 'path', 'jeePathList');
+    function updateRecentSections() {
+      const recentRegUl = document.getElementById("recentRegistrations");
+      const recentPayUl = document.getElementById("recentPayments");
+      recentRegUl.innerHTML = "";
+      recentPayUl.innerHTML = "";
 
-    // NEET
-    loadContentList('NEET', 'announcement', 'neetAnnList');
-    loadContentList('NEET', 'pyq', 'neetTestsList');
-    loadContentList('NEET', 'mock_test', 'neetTestsList');
-    loadContentList('NEET', 'test_series', 'neetTestsList');
-    loadContentList('NEET', 'book', 'neetMatList');
-    loadContentList('NEET', 'notes', 'neetMatList');
-    loadContentList('NEET', 'path', 'neetPathList');
+      const sortedByTime = [...registrationsData].sort((a, b) => {
+        return new Date(b.timestamp || 0) - new Date(a.timestamp || 0);
+      });
 
-    // RPSC
-    loadContentList('RPSC', 'announcement', 'rpscAnnList');
-    loadContentList('RPSC', 'pyq', 'rpscTestsList');
-    loadContentList('RPSC', 'mock_test', 'rpscTestsList');
-    loadContentList('RPSC', 'test_series', 'rpscTestsList');
-    loadContentList('RPSC', 'book', 'rpscMatList');
-    loadContentList('RPSC', 'notes', 'rpscMatList');
-    loadContentList('RPSC', 'path', 'rpscPathList');
-  }
+      sortedByTime.slice(0, 5).forEach((row) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.innerHTML = `
+          <div class="fw-semibold">${row.name || "-"}</div>
+          <small>${row.course || "-"} • ${row.mode || "-"} • ${
+          row.timestamp || "-"
+        }</small>
+        `;
+        recentRegUl.appendChild(li);
+      });
 
-  // Admin email label
-  const adminMail = localStorage.getItem('adminEmail');
-  if (adminMail) {
-    const lbl = document.getElementById('adminEmailLabel');
-    if (lbl) lbl.textContent = `Logged in as: ${adminMail}`;
-  }
+      const paymentUpdated = registrationsData
+        .filter((r) => (r.status || "").toLowerCase() !== "pending")
+        .sort((a, b) => {
+          return new Date(b.paymentDate || 0) - new Date(a.paymentDate || 0);
+        });
 
-  window.onload = function () {
-    loadRegistrations();
-    initialLoadContent();
-  };
-</script>
+      paymentUpdated.slice(0, 5).forEach((row) => {
+        const li = document.createElement("li");
+        const status = (row.status || "").toLowerCase();
+        const badgeClass =
+          status === "verified" ? "bg-primary" : "bg-success";
+
+        li.className = "list-group-item d-flex justify-content-between align-items-start";
+        li.innerHTML = `
+          <div>
+            <div class="fw-semibold">${row.name || "-"}</div>
+            <small>₹${row.amount || "0"} • ${row.paymentMethod || "-"}</small><br />
+            <small>Txn: ${row.transactionId || "-"}</small>
+          </div>
+          <span class="badge ${badgeClass} badge-pill align-self-center">
+            ${status === "verified" ? "Verified" : "Paid"}
+          </span>
+        `;
+        recentPayUl.appendChild(li);
+      });
+    }
+
+    async function confirmPayment(id) {
+      if (!id) return;
+      if (!confirm("Mark payment as OK for this student?")) return;
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: new URLSearchParams({
+            action: "confirmPayment",
+            id: id,
+          }),
+        });
+        const result = await res.json();
+        if (result && result.success) {
+          alert("Payment marked as OK.");
+          await loadRegistrations();
+        } else {
+          alert("Failed to update payment. Please try again.");
+        }
+      } catch (err) {
+        console.error("Error in confirmPayment:", err);
+        alert("Error updating payment.");
+      }
+    }
+
+    async function verifyAndSend(id) {
+      if (!id) return;
+      if (!confirm("Verify payment and send login credentials email?")) return;
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: new URLSearchParams({
+            action: "verifyAndSend",
+            id: id,
+          }),
+        });
+        const result = await res.json();
+        if (result && result.success) {
+          alert("Payment verified and email sent successfully.");
+          await loadRegistrations();
+        } else {
+          alert(result.message || "Failed to verify & send email.");
+        }
+      } catch (err) {
+        console.error("Error in verifyAndSend:", err);
+        alert("Error while verifying payment.");
+      }
+    }
+
+    async function loadContent() {
+      try {
+        const res = await fetch(SCRIPT_URL + "?action=getContent");
+        const data = await res.json();
+        if (data) {
+          if (data.notification !== undefined) {
+            document.getElementById("notificationInput").value =
+              data.notification || "";
+          }
+          if (Array.isArray(data.contentLinks)) {
+            document.getElementById("contentInput").value =
+              data.contentLinks.join("\n");
+          }
+        }
+      } catch (err) {
+        console.error("Error loading content:", err);
+      }
+    }
+
+    async function saveContent() {
+      const notification = document.getElementById("notificationInput").value.trim();
+      const contentLines = document
+        .getElementById("contentInput")
+        .value.split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l);
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: new URLSearchParams({
+            action: "saveContent",
+            notification: notification,
+            content: JSON.stringify(contentLines),
+          }),
+        });
+        const result = await res.json();
+        if (result && result.success) {
+          showMessage("contentMessage", "Content saved.");
+        } else {
+          showMessage("contentMessage", "Failed to save.", true);
+        }
+      } catch (err) {
+        console.error("Error saving content:", err);
+        showMessage("contentMessage", "Error saving content.", true);
+      }
+    }
+
+    async function loadTargets() {
+      try {
+        const res = await fetch(SCRIPT_URL + "?action=getTargets");
+        const data = await res.json();
+        if (Array.isArray(data.targets)) {
+          document.getElementById("targetsInput").value =
+            data.targets.join("\n");
+        }
+      } catch (err) {
+        console.error("Error loading targets:", err);
+      }
+    }
+
+    async function saveTargets() {
+      const targets = document
+        .getElementById("targetsInput")
+        .value.split("\n")
+        .map((l) => l.trim())
+        .filter((l) => l);
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: "POST",
+          body: new URLSearchParams({
+            action: "saveTargets",
+            targets: JSON.stringify(targets),
+          }),
+        });
+        const result = await res.json();
+        if (result && result.success) {
+          showMessage("targetsMessage", "Targets saved.");
+        } else {
+          showMessage("targetsMessage", "Failed to save.", true);
+        }
+      } catch (err) {
+        console.error("Error saving targets:", err);
+        showMessage("targetsMessage", "Error saving targets.", true);
+      }
+    }
+
+    function setupTabs() {
+      const allBtn = document.getElementById("tab-all");
+      const pendingBtn = document.getElementById("tab-pending");
+      const verifiedBtn = document.getElementById("tab-verified");
+
+      function activate(btn, filter) {
+        [allBtn, pendingBtn, verifiedBtn].forEach((b) =>
+          b.classList.remove("active")
+        );
+        btn.classList.add("active");
+        renderRegistrations(filter);
+      }
+
+      allBtn.addEventListener("click", () => activate(allBtn, "all"));
+      pendingBtn.addEventListener("click", () => activate(pendingBtn, "pending"));
+      verifiedBtn.addEventListener("click", () =>
+        activate(verifiedBtn, "verified")
+      );
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadRegistrations();
+      loadContent();
+      loadTargets();
+      setupTabs();
+
+      document
+        .getElementById("saveContentBtn")
+        .addEventListener("click", saveContent);
+      document
+        .getElementById("saveTargetsBtn")
+        .addEventListener("click", saveTargets);
+    });
+  </script>
+</body>
+</html>
