@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NEET Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+  />
+
+  <style>
+    :root {
+      --neet-primary: #198754;
+      --neet-light-bg: #f5f7fb;
+    }
+
+    body {
+      background-color: var(--neet-light-bg);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #198754, #05291a);
+      color: #fff;
+    }
+
+    .sidebar a {
+      color: #e6ffed;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .jee-card {
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      background-color: #fff;
+    }
+
+    .jee-progress {
+      height: 0.45rem;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <aside class="col-12 col-md-3 col-lg-2 sidebar p-3">
+        <div class="d-flex align-items-center mb-4">
+          <div
+            class="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
+            style="width: 40px; height: 40px"
+          >
+            <span class="fw-bold text-success">N</span>
+          </div>
+          <div>
+            <div class="fw-semibold">NEET Dashboard</div>
+            <div class="small text-white-50">Target: 2026</div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="small text-uppercase text-white-50 mb-2">Navigation</div>
+          <nav class="nav nav-pills flex-column gap-1">
+            <a class="nav-link active d-flex align-items-center" href="#">
+              <i class="bi bi-speedometer2 me-2"></i> Overview
+            </a>
+            <a class="nav-link d-flex align-items-center" href="#daily-progress">
+              <i class="bi bi-clipboard-check me-2"></i> Daily Progress
+            </a>
+            <a class="nav-link d-flex align-items-center" href="#announcements">
+              <i class="bi bi-megaphone me-2"></i> Announcements
+            </a>
+            <a class="nav-link d-flex align-items-center" href="#tests">
+              <i class="bi bi-file-earmark-medical me-2"></i> Tests
+            </a>
+            <a class="nav-link d-flex align-items-center" href="#study-material">
+              <i class="bi bi-journal-medical me-2"></i> Study Material
+            </a>
+            <a class="nav-link d-flex align-items-center" href="#path-pradarshak">
+              <i class="bi bi-heart-pulse me-2"></i> पथ प्रदर्शक
+            </a>
+          </nav>
+        </div>
+
+        <div class="mt-auto">
+          <div class="small text-uppercase text-white-50 mb-2">Target</div>
+          <div class="jee-card p-3 bg-transparent border border-light">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <span class="small text-white-50">Overall syllabus completion</span>
+              <span class="small fw-semibold text-white">55%</span>
+            </div>
+            <div class="progress jee-progress bg-white-50 mt-2">
+              <div
+                class="progress-bar bg-success"
+                role="progressbar"
+                style="width: 55%"
+              ></div>
+            </div>
+            <div class="mt-3">
+              <div class="d-flex justify-content-between small">
+                <span class="text-white-50">Days to NEET UG</span>
+                <span class="text-white fw-semibold">140 days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN: all sections full-width inside main -->
+      <main class="col-12 col-md-9 col-lg-10 px-4 py-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+          <div>
+            <h4 class="mb-1">Welcome back, Future Doctor 👩‍⚕️👨‍⚕️</h4>
+            <div class="text-muted small">
+              Consistent study and calm mind crack <strong>NEET</strong>.
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-outline-secondary btn-sm">
+              <i class="bi bi-moon-stars"></i>
+            </button>
+            <button class="btn btn-success btn-sm">
+              <i class="bi bi-plus-lg me-1"></i> Add Study Session
+            </button>
+            <div
+              class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center"
+              style="width: 36px; height: 36px"
+            >
+              <span class="small fw-semibold">YOU</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DAILY PROGRESS INPUT -->
+        <section class="jee-card p-3 mb-3" id="daily-progress">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Update Your Daily Progress</h5>
+            <span class="small text-muted">NEET preparation tracker</span>
+          </div>
+
+          <form id="dailyProgressFormNeet" class="row g-3">
+            <div class="col-12 col-md-4">
+              <label class="form-label small fw-semibold">Study Hours Today</label>
+              <input
+                type="number"
+                min="0"
+                step="0.5"
+                class="form-control"
+                id="inputStudyHoursNeet"
+                placeholder="e.g. 6"
+                required
+              />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label small fw-semibold">Topics Covered Today</label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                class="form-control"
+                id="inputTopicsCoveredNeet"
+                placeholder="e.g. 8"
+                required
+              />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label small fw-semibold">Mock Tests Completed</label>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                class="form-control"
+                id="inputMocksCompletedNeet"
+                placeholder="e.g. 1"
+                required
+              />
+            </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-success btn-sm mt-1">
+                <i class="bi bi-check2-circle me-1"></i> Save & Add to Totals
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- TOTALS -->
+        <section class="jee-card p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Overall Progress Totals</h5>
+            <span class="small text-muted">Updated from daily entries</span>
+          </div>
+          <div class="row g-3">
+            <div class="col-12 col-md-4">
+              <div class="border rounded p-3 h-100">
+                <div class="small text-muted mb-1">Total Study Hours</div>
+                <h4 class="mb-1" id="totalStudyHoursNeet">0</h4>
+                <div class="small text-muted">Physics · Chemistry · Biology</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="border rounded p-3 h-100">
+                <div class="small text-muted mb-1">Total Topics Covered</div>
+                <h4 class="mb-1" id="totalTopicsCoveredNeet">0</h4>
+                <div class="small text-muted">NCERT + extra reference</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="border rounded p-3 h-100">
+                <div class="small text-muted mb-1">Total Mock Tests</div>
+                <h4 class="mb-1" id="totalMocksCompletedNeet">0</h4>
+                <div class="small text-muted">Full + subject tests</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ANNOUNCEMENTS -->
+        <section class="jee-card p-3 mb-3" id="announcements">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Announcements</h5>
+            <span class="small text-muted">
+              Admin updates; visible in student profile
+            </span>
+          </div>
+          <div class="list-group">
+            <div class="list-group-item border-0 border-bottom">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <div class="fw-semibold small">
+                    NEET Full Syllabus Test Series starting 15 February
+                  </div>
+                  <div class="small text-muted">
+                    Detailed schedule uploaded in Tests section. Attempt as per slot.
+                  </div>
+                </div>
+                <span class="badge text-bg-success align-self-start">New</span>
+              </div>
+            </div>
+            <div class="list-group-item border-0">
+              <div class="fw-semibold small">
+                Updated Biology NCERT Highlighted PDF added to Study Material
+              </div>
+              <div class="small text-muted">
+                Download and revise marked lines daily for better retention.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TESTS: PYQs & MOCK PDFs -->
+        <section class="jee-card p-3 mb-3" id="tests">
+          <h5 class="mb-3">Tests</h5>
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <div class="border rounded p-3 h-100">
+                <div class="d-flex justify-content-between mb-2">
+                  <h6 class="mb-0">PYQs</h6>
+                  <span class="small text-muted">Admin uploads</span>
+                </div>
+                <ul class="list-group list-group-flush small">
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>NEET PYQs 2020–2023 (Biology)</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-file-earmark-pdf me-1"></i>View
+                    </a>
+                  </li>
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>NEET Chemistry PYQ Pack</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-file-earmark-pdf me-1"></i>View
+                    </a>
+                  </li>
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>Physics PYQs – Mechanics</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-file-earmark-pdf me-1"></i>View
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+              <div class="border rounded p-3 h-100">
+                <div class="d-flex justify-content-between mb-2">
+                  <h6 class="mb-0">Mock Tests PDFs</h6>
+                  <span class="small text-muted">Offline practice</span>
+                </div>
+                <ul class="list-group list-group-flush small">
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>Full Syllabus NEET Mock #05</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-download me-1"></i>Download
+                    </a>
+                  </li>
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>Biology Module Test – Human Physiology</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-download me-1"></i>Download
+                    </a>
+                  </li>
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>Physics + Chemistry Mixed Paper</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-download me-1"></i>Download
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STUDY MATERIAL -->
+        <section class="jee-card p-3 mb-3" id="study-material">
+          <h5 class="mb-3">Study Material</h5>
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <div class="border rounded p-3 h-100">
+                <div class="d-flex justify-content-between mb-2">
+                  <h6 class="mb-0">Books</h6>
+                  <span class="small text-muted">Core references</span>
+                </div>
+                <ul class="list-group list-group-flush small">
+                  <li class="list-group-item px-0">
+                    NCERT Biology 11 & 12 (must‑do)
+                  </li>
+                  <li class="list-group-item px-0">
+                    MTG 30 Years NEET Chapterwise Solutions
+                  </li>
+                  <li class="list-group-item px-0">
+                    D.C. Pandey – Objective Physics for NEET
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+              <div class="border rounded p-3 h-100">
+                <div class="d-flex justify-content-between mb-2">
+                  <h6 class="mb-0">PDFs, Notes & Others</h6>
+                  <span class="small text-muted">Uploaded by admin</span>
+                </div>
+                <ul class="list-group list-group-flush small">
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>NCERT Biology Highlighted PDF</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
+                    </a>
+                  </li>
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>Important Diagrams – Biology</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
+                    </a>
+                  </li>
+                  <li class="list-group-item px-0 d-flex justify-content-between">
+                    <span>Physics Formula Sheet – NEET</span>
+                    <a href="#" class="text-decoration-none">
+                      <i class="bi bi-file-earmark-arrow-down me-1"></i>Download
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- पथ प्रदर्शक -->
+        <section class="jee-card p-3 mb-3" id="path-pradarshak">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">पथ प्रदर्शक</h5>
+            <span class="small text-muted">Daily motivation for NEET & MBBS dream</span>
+          </div>
+          <div class="border rounded p-3 bg-light">
+            <p class="small mb-2">
+              “जो विद्यार्थी रोज़ ईमानदारी से पढ़ता है, वही एक दिन सफेद कोट पहन कर
+              मरीजों की सेवा करता है। आज की मेहनत, कल किसी की जान बचाएगी।”
+            </p>
+            <p class="small mb-0">
+              Mobile से ज़्यादा समय किताबों को दें। हर 50 मिनट की पढ़ाई के बाद छोटा
+              ब्रेक लें और वापिस बैठ जाएँ। आपका निरंतर प्रयास ही आपकी
+              <strong>ताकत</strong> है।
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let totalStudyHoursNeet = 0;
+    let totalTopicsCoveredNeet = 0;
+    let totalMocksCompletedNeet = 0;
+
+    const formNeet = document.getElementById('dailyProgressFormNeet');
+    const inputStudyHoursNeet = document.getElementById('inputStudyHoursNeet');
+    const inputTopicsCoveredNeet = document.getElementById('inputTopicsCoveredNeet');
+    const inputMocksCompletedNeet = document.getElementById('inputMocksCompletedNeet');
+
+    const totalStudyHoursNeetEl = document.getElementById('totalStudyHoursNeet');
+    const totalTopicsCoveredNeetEl = document.getElementById('totalTopicsCoveredNeet');
+    const totalMocksCompletedNeetEl = document.getElementById('totalMocksCompletedNeet');
+
+    formNeet.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const todayHours = parseFloat(inputStudyHoursNeet.value) || 0;
+      const todayTopics = parseInt(inputTopicsCoveredNeet.value) || 0;
+      const todayMocks = parseInt(inputMocksCompletedNeet.value) || 0;
+
+      totalStudyHoursNeet += todayHours;
+      totalTopicsCoveredNeet += todayTopics;
+      totalMocksCompletedNeet += todayMocks;
+
+      totalStudyHoursNeetEl.textContent = totalStudyHoursNeet.toFixed(1);
+      totalTopicsCoveredNeetEl.textContent = totalTopicsCoveredNeet;
+      totalMocksCompletedNeetEl.textContent = totalMocksCompletedNeet;
+
+      formNeet.reset();
+    });
+  </script>
+</body>
+</html>
