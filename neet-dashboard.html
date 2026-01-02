@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NEET Dashboard - GyaanSetu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      color: white;
+      padding: 20px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 { font-size: 26px; }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.6);
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 25px auto 40px;
+      padding: 0 20px;
+    }
+
+    .section-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 2px 12px rgba(15,23,42,0.06);
+      margin-bottom: 25px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .section-header h2 {
+      font-size: 18px;
+      color: #111827;
+    }
+
+    .section-header span {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* Countdown */
+    .exam-countdown {
+      background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      margin-bottom: 25px;
+    }
+
+    .exam-countdown h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .exam-subtitle {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 15px;
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      margin: 15px 0 10px;
+    }
+
+    .countdown-item {
+      background: rgba(255,255,255,0.15);
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .countdown-item .number {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .countdown-item .label {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .quote {
+      font-style: italic;
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.96;
+    }
+
+    /* Update progress as 3 boxes */
+    .update-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .update-box {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .update-box label {
+      display: block;
+      margin-bottom: 6px;
+      color: #4b5563;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .update-box input {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: 8px;
+      border: 2px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    .update-box input:focus {
+      outline: none;
+      border-color: #ec4899;
+      box-shadow: 0 0 0 3px rgba(236,72,153,0.15);
+    }
+
+    .update-actions {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    .btn {
+      padding: 11px 18px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+      color: white;
+    }
+
+    .btn:hover {
+      box-shadow: 0 8px 18px rgba(236,72,153,0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Totals cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 16px 18px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+      border-left: 4px solid #ec4899;
+    }
+
+    .stat-card h3 {
+      color: #4b5563;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .number {
+      font-size: 26px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .stat-card .meta {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 10px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    .syllabus-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 10px 0 5px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ec4899 0%, #3b82f6 100%);
+      width: 0%;
+    }
+
+    @media (max-width: 640px) {
+      .header {
+        padding: 16px 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .container {
+        padding: 0 14px;
+      }
+    }
+  </style>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+
+    // Access guard: only logged-in NEET users
+    (function guardAccess() {
+      const exam = localStorage.getItem('exam');
+      const userId = localStorage.getItem('userId');
+
+      if (!exam || !userId) {
+        window.location.href = 'index.html';
+        return;
+      }
+      if (exam !== 'NEET') {
+        window.location.href = 'index.html';
+        return;
+      }
+    })();
+  </script>
+</head>
+<body>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>NEET Dashboard</h1>
+    <div class="header-right">
+      <span id="userName">Welcome</span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- COUNTDOWN -->
+    <section class="exam-countdown">
+      <h2>NEET UG 2026</h2>
+      <div class="exam-subtitle">
+        Har roz ka focused study aapko ek seat ke kareeb le jaata hai.
+      </div>
+      <div class="countdown-grid">
+        <div class="countdown-item">
+          <div class="number" id="daysLeft">0</div>
+          <div class="label">Days Left</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="hoursLeft">0</div>
+          <div class="label">Hours Left</div>
+        </div>
+      </div>
+      <div class="quote" id="dailyQuote">
+        Every focused study session today becomes confidence inside the exam hall.
+      </div>
+    </section>
+
+    <!-- UPDATE DAILY PROGRESS -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Update Your Daily Progress</h2>
+        <span>Track your NEET preparation honestly</span>
+      </div>
+      <form onsubmit="updateProgress(event)">
+        <div class="update-grid">
+          <div class="update-box">
+            <label for="studyHours">Study Hours Today</label>
+            <input type="number" id="studyHours" min="0" step="0.5" placeholder="e.g. 6" required>
+          </div>
+          <div class="update-box">
+            <label for="topicsCovered">Topics Covered Today</label>
+            <input type="number" id="topicsCovered" min="0" step="1" placeholder="Chapters/Topics" required>
+          </div>
+          <div class="update-box">
+            <label for="mockTests">Questions / Tests</label>
+            <input type="number" id="mockTests" min="0" step="1" placeholder="MCQs or tests count" required>
+          </div>
+          <div class="update-box update-actions">
+            <button type="submit" class="btn">Save & Add to Totals</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- OVERALL TOTALS -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Overall Progress Totals</h2>
+        <span>Calculated from your daily entries</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Study Hours</h3>
+          <div class="number" id="totalHours">0</div>
+          <div class="meta">Physics · Chemistry · Biology combined</div>
+        </div>
+        <div class="stat-card">
+          <h3>Topics Covered</h3>
+          <div class="number" id="totalTopics">0</div>
+          <div class="meta">Important topics across PCB</div>
+        </div>
+        <div class="stat-card">
+          <h3>Questions / Tests</h3>
+          <div class="number" id="totalTests">0</div>
+          <div class="meta">MCQs attempted / tests taken</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANNOUNCEMENTS -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Announcements</h2>
+        <span>NEET related updates from admin</span>
+      </div>
+      <div id="announcements">
+        <div class="empty-state">No announcements yet. Admin will update here.</div>
+      </div>
+    </section>
+
+    <!-- DAILY TARGETS & RECENT TOPICS -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Daily Targets & Recent Topics</h2>
+        <span>Keep Physics · Chemistry · Biology in balance</span>
+      </div>
+      <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Daily Targets</h3>
+      <div id="dailyTargets">
+        <div class="empty-state">Admin will upload today's targets soon.</div>
+      </div>
+
+      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Recent Topics</h3>
+      <div id="recentTopics">
+        <div class="empty-state">No recent topics yet.</div>
+      </div>
+    </section>
+
+    <!-- TEST PORTAL -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Test Portal</h2>
+        <span>Mock Tests · Previous Year Questions</span>
+      </div>
+
+      <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Mock Tests</h3>
+      <div id="testSeriesList">
+        <div class="empty-state">Admin will upload mock tests soon.</div>
+      </div>
+
+      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Previous Year Questions (PYQs)</h3>
+      <div id="pypList">
+        <div class="empty-state">Admin will upload PYQ PDFs soon.</div>
+      </div>
+    </section>
+
+    <!-- STUDY MATERIALS -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Study Materials</h2>
+        <span>NCERT · Reference Books · Notes</span>
+      </div>
+
+      <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Books</h3>
+      <div id="booksList">
+        <div class="empty-state">Admin will upload books list soon.</div>
+      </div>
+
+      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Important Diagrams / Charts</h3>
+      <div id="formulaList">
+        <div class="empty-state">Admin will upload diagrams & charts soon.</div>
+      </div>
+
+      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Notes & PDFs</h3>
+      <div id="notesList">
+        <div class="empty-state">Admin will upload notes & PDFs soon.</div>
+      </div>
+    </section>
+
+    <!-- SYLLABUS TRACKER -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>Syllabus Tracker</h2>
+        <span>Physics · Chemistry · Biology completion overview</span>
+      </div>
+
+      <div class="syllabus-item">
+        <span><strong>Physics</strong></span>
+        <span id="phyPercent">0% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="phyBar" style="width: 0%"></div>
+      </div>
+
+      <div class="syllabus-item">
+        <span><strong>Chemistry</strong></span>
+        <span id="chemPercent">0% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="chemBar" style="width: 0%"></div>
+      </div>
+
+      <div class="syllabus-item">
+        <span><strong>Biology</strong></span>
+        <span id="bioPercent">0% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="bioBar" style="width: 0%"></div>
+      </div>
+    </section>
+
+    <!-- PATH PRADARSHAK -->
+    <section class="section-card">
+      <div class="section-header">
+        <h2>पथ प्रदर्शक</h2>
+        <span>Daily motivation for NEET aspirants</span>
+      </div>
+      <div id="motivationalQuotes">
+        <div class="empty-state">Admin will share motivational quotes soon.</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Daily NEET-focused quotes
+    const neetQuotes = [
+      'Every NCERT page revised today reduces panic on exam day.',
+      'Strong concepts plus repeated MCQs is the real NEET strategy.',
+      'Solve one more biology diagram, one more physics numericals, one more chemistry reaction.',
+      'Consistency in small chapters creates big ranks in NEET.',
+      'You are not competing with others, you are competing with your yesterday.'
+    ];
+
+    // Daily quote that changes once per day using localStorage
+    function loadDailyQuote() {
+      const todayKey = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+      const stored = localStorage.getItem('neetQuote');
+      let quote;
+
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed.date === todayKey) {
+            quote = parsed.text;
+          }
+        } catch (e) {
+          // ignore parse error
+        }
+      }
+
+      if (!quote) {
+        quote = neetQuotes[Math.floor(Math.random() * neetQuotes.length)];
+        localStorage.setItem('neetQuote', JSON.stringify({ date: todayKey, text: quote }));
+      }
+
+      document.getElementById('dailyQuote').textContent = quote;
+    }
+
+    // NEET 2026 countdown (single exam day)
+    function updateCountdown() {
+      // NEET UG 2026 expected on Sunday, 3 May 2026 (first Sunday of May) [web:333][web:338]
+      const examDate = new Date('2026-05-03T14:00:00');
+
+      const now = new Date();
+      const diff = examDate - now;
+
+      const days = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+      const hours = Math.max(0, Math.floor(diff / (1000 * 60 * 60)));
+
+      document.getElementById('daysLeft').textContent = days;
+      document.getElementById('hoursLeft').textContent = hours;
+    }
+
+    function logout() {
+      if (confirm('Logout from GyaanSetu?')) {
+        localStorage.removeItem('userId');
+        localStorage.removeItem('name');
+        localStorage.removeItem('exam');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // STUDY PROGRESS
+    function updateProgress(e) {
+      e.preventDefault();
+
+      const userId = localStorage.getItem('userId');
+      const exam   = localStorage.getItem('exam');
+
+      if (!userId || !exam) {
+        alert('Session expired. Please login again.');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      const hours  = parseFloat(document.getElementById('studyHours').value) || 0;
+      const topics = parseInt(document.getElementById('topicsCovered').value || '0', 10);
+      const mocks  = parseInt(document.getElementById('mockTests').value || '0', 10);
+
+      const url = `${SCRIPT_URL}?action=logStudy` +
+                  `&userId=${encodeURIComponent(userId)}` +
+                  `&exam=${encodeURIComponent(exam)}` +
+                  `&hours=${encodeURIComponent(hours)}` +
+                  `&topics=${encodeURIComponent(topics)}` +
+                  `&mocks=${encodeURIComponent(mocks)}`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success) {
+            throw new Error(data.message || 'Failed to save study log');
+          }
+          const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
+                            `&userId=${encodeURIComponent(userId)}` +
+                            `&exam=${encodeURIComponent(exam)}`;
+          return fetch(totalsUrl).then(r => r.json());
+        })
+        .then(totals => {
+          if (totals && totals.success) {
+            document.getElementById('totalHours').textContent  = totals.totalHours || 0;
+            document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
+            document.getElementById('totalTests').textContent  = totals.totalMocks || 0;
+          }
+          alert('Progress updated successfully!');
+          e.target.reset();
+        })
+        .catch(err => {
+          console.error('Update progress error:', err);
+          alert('Error updating progress. Please try again.');
+        });
+    }
+
+    function loadTotals() {
+      const userId = localStorage.getItem('userId');
+      const exam   = localStorage.getItem('exam');
+      if (!userId || !exam) return;
+
+      const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
+                        `&userId=${encodeURIComponent(userId)}` +
+                        `&exam=${encodeURIComponent(exam)}`;
+
+      fetch(totalsUrl)
+        .then(r => r.json())
+        .then(totals => {
+          if (totals && totals.success) {
+            document.getElementById('totalHours').textContent  = totals.totalHours || 0;
+            document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
+            document.getElementById('totalTests').textContent  = totals.totalMocks || 0;
+          }
+        })
+        .catch(err => console.error('Load totals error:', err));
+    }
+
+    window.onload = function() {
+      document.getElementById('userName').textContent =
+        localStorage.getItem('name') || 'Candidate';
+
+      updateCountdown();
+      setInterval(updateCountdown, 60 * 60 * 1000);
+
+      loadDailyQuote();
+      loadTotals();
+    };
+  </script>
+</body>
+</html>
