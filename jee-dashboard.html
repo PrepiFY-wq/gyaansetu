@@ -319,28 +319,36 @@
   </div>
 
   <div class="container">
-    <!-- COUNTDOWN (2 attempts) -->
+    <!-- COUNTDOWN (JEE Main 2 sessions + JEE Advanced) -->
     <section class="exam-countdown">
-      <h2>JEE Main 2026</h2>
+      <h2>JEE Main & JEE Advanced 2026</h2>
       <div class="exam-subtitle">
         Every problem solved today brings you closer to your dream rank.
       </div>
       <div class="countdown-grid">
         <div class="countdown-item">
           <div class="number" id="daysLeft1">0</div>
-          <div class="label">Session 1 · Days Left</div>
+          <div class="label">JEE Main Session 1 · Days Left</div>
         </div>
         <div class="countdown-item">
           <div class="number" id="hoursLeft1">0</div>
-          <div class="label">Session 1 · Hours Left</div>
+          <div class="label">JEE Main Session 1 · Hours Left</div>
         </div>
         <div class="countdown-item">
           <div class="number" id="daysLeft2">0</div>
-          <div class="label">Session 2 · Days Left</div>
+          <div class="label">JEE Main Session 2 · Days Left</div>
         </div>
         <div class="countdown-item">
           <div class="number" id="hoursLeft2">0</div>
-          <div class="label">Session 2 · Hours Left</div>
+          <div class="label">JEE Main Session 2 · Hours Left</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="daysLeftAdv">0</div>
+          <div class="label">JEE Advanced · Days Left</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="hoursLeftAdv">0</div>
+          <div class="label">JEE Advanced · Hours Left</div>
         </div>
       </div>
       <div class="quote" id="dailyQuote">
@@ -545,28 +553,42 @@
       document.getElementById('dailyQuote').textContent = quote;
     }
 
-    // JEE Main 2026: Session 1 (21 Jan), Session 2 (2 Apr) – mid date approx for countdown
-    const session1Date = new Date('2026-01-26T09:00:00'); // between 21–30 Jan[web:98]
-    const session2Date = new Date('2026-04-05T09:00:00'); // between 1–10 Apr[web:98]
+    // Official / widely reported windows [web:205][web:206][web:209]
+    // Session 1: 21–30 Jan 2026 → countdown to 21 Jan 2026, 9:00 AM
+    const session1Date = new Date('2026-01-21T09:00:00+05:30');
+    // Session 2: 2–9 Apr 2026 → countdown to 2 Apr 2026, 9:00 AM
+    const session2Date = new Date('2026-04-02T09:00:00+05:30');
+    // JEE Advanced 2026: 17 May 2026, 9:00 AM (Paper 1 start) [web:209][web:207]
+    const advancedDate = new Date('2026-05-17T09:00:00+05:30');
+
+    function computeDaysHours(targetDate) {
+      const now = new Date();
+      const diffMs = targetDate - now;
+
+      if (diffMs <= 0) {
+        return { days: 0, hours: 0 };
+      }
+
+      let delta = Math.floor(diffMs / 1000); // total seconds [web:120][web:185]
+      const days = Math.floor(delta / 86400); // 24*60*60
+      delta -= days * 86400;
+      const hours = Math.floor(delta / 3600);
+      return { days, hours };
+    }
 
     function updateCountdown() {
-      const now = new Date();
+      const s1 = computeDaysHours(session1Date);
+      const s2 = computeDaysHours(session2Date);
+      const adv = computeDaysHours(advancedDate);
 
-      const diff1 = session1Date - now;
-      const diff2 = session2Date - now;
+      document.getElementById('daysLeft1').textContent = s1.days;
+      document.getElementById('hoursLeft1').textContent = s1.hours;
 
-      const totalHours1 = Math.max(0, Math.floor(diff1 / (1000 * 60 * 60)));
-      const days1 = Math.floor(totalHours1 / 24);
-      const hours1 = totalHours1 % 24;
+      document.getElementById('daysLeft2').textContent = s2.days;
+      document.getElementById('hoursLeft2').textContent = s2.hours;
 
-      const totalHours2 = Math.max(0, Math.floor(diff2 / (1000 * 60 * 60)));
-      const days2 = Math.floor(totalHours2 / 24);
-      const hours2 = totalHours2 % 24;
-
-      document.getElementById('daysLeft1').textContent = days1;
-      document.getElementById('hoursLeft1').textContent = hours1;
-      document.getElementById('daysLeft2').textContent = days2;
-      document.getElementById('hoursLeft2').textContent = hours2;
+      document.getElementById('daysLeftAdv').textContent = adv.days;
+      document.getElementById('hoursLeftAdv').textContent = adv.hours;
     }
 
     function logout() {
@@ -826,7 +848,8 @@
         localStorage.getItem('name') || 'Candidate';
 
       updateCountdown();
-      setInterval(updateCountdown, 60 * 1000); // har minute refresh
+      // har minute countdown refresh (teenon exams ke liye)
+      setInterval(updateCountdown, 60 * 1000); // [web:39][web:191]
 
       loadDailyQuote();
       loadTotals();
