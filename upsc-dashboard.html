@@ -684,12 +684,32 @@
         return;
       }
 
-      const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
-      const days  = Math.floor(totalHours / 24);
-      const hours = totalHours % 24;
+     function updateCountdown() {
+  const now = new Date();
 
-      document.getElementById('daysLeft').textContent  = days;
-      document.getElementById('hoursLeft').textContent = hours;
+  // 3 Jan 2026, 8:00 AM se pehle ho to 0-0
+  if (now < countdownStart) {
+    document.getElementById('daysLeft').textContent  = 0;
+    document.getElementById('hoursLeft').textContent = 0;
+    return;
+  }
+
+  const diffMs = examDate.getTime() - now.getTime();
+
+  if (diffMs <= 0) {
+    document.getElementById('daysLeft').textContent  = 0;
+    document.getElementById('hoursLeft').textContent = 0;
+    return;
+  }
+
+  // Total hours exam tak
+  const totalHours = Math.floor(diffMs / (1000 * 60 * 60)); // [web:62][web:68]
+  const days  = Math.floor(diffMs / (1000 * 60 * 60 * 24)); // total days
+  // Hours box me ab se exam tak ke TOTAL hours dikhayenge
+  document.getElementById('daysLeft').textContent  = days;
+  document.getElementById('hoursLeft').textContent = totalHours;
+}
+
     }
 
     function logout() {
