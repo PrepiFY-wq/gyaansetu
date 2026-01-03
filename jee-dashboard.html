@@ -492,7 +492,7 @@
       document.getElementById('dailyQuote').textContent = quote;
     }
 
-    // Fixed countdown numbers
+    // Fixed countdown numbers (example values)
     function updateCountdown() {
       document.getElementById('daysLeft1').textContent  = 17;
       document.getElementById('hoursLeft1').textContent = 420;
@@ -528,12 +528,12 @@
       const topics = parseInt(document.getElementById('topicsCovered').value || '0', 10);
       const mocks  = parseInt(document.getElementById('mockTests').value || '0', 10);
 
-      const url = `${SCRIPT_URL}?action=logStudy` +
-                  `&userId=${encodeURIComponent(userId)}` +
-                  `&exam=${encodeURIComponent(exam)}` +
-                  `&hours=${encodeURIComponent(hours)}` +
-                  `&topics=${encodeURIComponent(topics)}` +
-                  `&mocks=${encodeURIComponent(mocks)}`;
+      const url = `${SCRIPT_URL}?action=logStudy`
+                + `&userId=${encodeURIComponent(userId)}`
+                + `&exam=${encodeURIComponent(exam)}`
+                + `&hours=${encodeURIComponent(hours)}`
+                + `&topics=${encodeURIComponent(topics)}`
+                + `&mocks=${encodeURIComponent(mocks)}`;
 
       fetch(url)
         .then(r => {
@@ -545,9 +545,9 @@
             throw new Error(data && data.message ? data.message : 'Failed to save study log');
           }
 
-          const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
-                            `&userId=${encodeURIComponent(userId)}` +
-                            `&exam=${encodeURIComponent(exam)}`;
+          const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals`
+                          + `&userId=${encodeURIComponent(userId)}`
+                          + `&exam=${encodeURIComponent(exam)}`;
           return fetch(totalsUrl).then(r => r.json());
         })
         .then(totals => {
@@ -573,9 +573,9 @@
       const exam   = localStorage.getItem('exam');
       if (!userId || !exam) return;
 
-      const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
-                        `&userId=${encodeURIComponent(userId)}` +
-                        `&exam=${encodeURIComponent(exam)}`;
+      const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals`
+                      + `&userId=${encodeURIComponent(userId)}`
+                      + `&exam=${encodeURIComponent(exam)}`;
 
       fetch(totalsUrl)
         .then(r => r.json())
@@ -594,9 +594,9 @@
       const exam   = localStorage.getItem('exam');
       if (!userId || !exam) return;
 
-      const url = `${SCRIPT_URL}?action=getStudyAnalytics` +
-                  `&userId=${encodeURIComponent(userId)}` +
-                  `&exam=${encodeURIComponent(exam)}`;
+      const url = `${SCRIPT_URL}?action=getStudyAnalytics`
+                + `&userId=${encodeURIComponent(userId)}`
+                + `&exam=${encodeURIComponent(exam)}`;
 
       fetch(url)
         .then(r => r.json())
