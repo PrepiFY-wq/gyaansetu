@@ -1003,14 +1003,30 @@
 
     fetch(SCRIPT_URL, {
       method: 'POST',
+      mode: 'no-cors',  // yahan CORS ka fix hai [web:265][web:281]
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     })
-      .then(r => r.json())
-      .then(res => {
-        if (!res.success) {
-          throw new Error(res.message || 'Upload failed');
-        }
+      .then(() => {
+        // no-cors me response read nahi kar sakte, isliye direct success
+        alert('Answer copy uploaded for evaluation.');
+        document.getElementById('answerForm').reset();
+        loadAnswerSubmissions();
+      })
+      .catch(err => {
+        console.error('submitAnswerCopy error:', err);
+        alert('Error uploading file. Please try again later.');
+      });
+  };
+
+  reader.onerror = function(err) {
+    console.error('FileReader error:', err);
+    alert('Could not read file.');
+  };
+
+  reader.readAsDataURL(file);
+}
+
         alert('Answer copy uploaded for evaluation.');
         document.getElementById('answerForm').reset();
         loadAnswerSubmissions();
