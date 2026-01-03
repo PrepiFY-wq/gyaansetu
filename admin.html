@@ -109,12 +109,6 @@ textarea.section-items {
             Exam Dashboards Content
           </button>
         </li>
-        <li class="nav-item">
-          <button class="nav-link w-100 text-start"
-                  onclick="switchView('view-answers', this)">
-            Answer Copies
-          </button>
-        </li>
       </ul>
 
       <div class="mt-auto small text-gray-500">
@@ -511,10 +505,52 @@ textarea.section-items {
                       </div>
                     </div>
                   </div>
+
+                  <!-- UPSC Answer Copies (MERGED) -->
+                  <div class="col-12">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                          <span>UPSC Answer Copies</span>
+                          <small class="text-muted d-block">
+                            Under Evaluation / Evaluated status update
+                          </small>
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="loadAnswerCopies()">
+                          Refresh
+                        </button>
+                      </div>
+                      <div class="card-body p-0">
+                        <div class="table-responsive">
+                          <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                              <tr>
+                                <th>#</th>
+                                <th>Student</th>
+                                <th>Paper</th>
+                                <th>Submitted On</th>
+                                <th>File</th>
+                                <th>Status</th>
+                                <th>Update</th>
+                              </tr>
+                            </thead>
+                            <tbody id="answerCopiesBody">
+                              <tr>
+                                <td colspan="7" class="text-center py-3 text-muted">
+                                  Click Refresh to load answer copies.
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
 
-              <!-- JEE TAB (shorter) -->
+              <!-- JEE TAB (unchanged) -->
               <div class="tab-pane fade" id="jee-pane" role="tabpanel">
                 <div class="row g-3">
                   <!-- Announcements -->
@@ -633,7 +669,7 @@ textarea.section-items {
                 </div>
               </div>
 
-              <!-- NEET TAB -->
+              <!-- NEET TAB (unchanged) -->
               <div class="tab-pane fade" id="neet-pane" role="tabpanel">
                 <div class="row g-3">
                   <!-- Announcements -->
@@ -752,7 +788,7 @@ textarea.section-items {
                 </div>
               </div>
 
-              <!-- RPSC TAB -->
+              <!-- RPSC TAB (unchanged) -->
               <div class="tab-pane fade" id="rpsc-pane" role="tabpanel">
                 <div class="row g-3">
                   <!-- Announcements -->
@@ -876,45 +912,6 @@ textarea.section-items {
         </div>
       </section>
 
-      <!-- ANSWER COPIES VIEW -->
-      <section id="view-answers" class="d-none">
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="mb-0">Answer Copies</h5>
-              <small class="text-muted">Under Evaluation / Evaluated status update</small>
-            </div>
-            <button class="btn btn-sm btn-outline-secondary" onclick="loadAnswerCopies()">
-              Refresh
-            </button>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover mb-0 align-middle">
-                <thead class="table-light">
-                  <tr>
-                    <th>#</th>
-                    <th>Student</th>
-                    <th>Paper</th>
-                    <th>Submitted On</th>
-                    <th>File</th>
-                    <th>Status</th>
-                    <th>Update</th>
-                  </tr>
-                </thead>
-                <tbody id="answerCopiesBody">
-                  <tr>
-                    <td colspan="7" class="text-center py-3 text-muted">
-                      Click Refresh to load answer copies.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
     </main>
   </div>
 </div>
@@ -929,7 +926,6 @@ let answerCopiesData = [];
 function switchView(viewId, btn) {
   document.getElementById('view-registrations').classList.add('d-none');
   document.getElementById('view-content').classList.add('d-none');
-  document.getElementById('view-answers').classList.add('d-none');
   document.getElementById(viewId).classList.remove('d-none');
 
   document.querySelectorAll('.sidebar .nav-link').forEach(el => el.classList.remove('active'));
