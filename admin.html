@@ -108,7 +108,7 @@
       <ul class="nav flex-column mb-4">
         <li class="nav-item">
           <button class="nav-link active w-100 text-start" onclick="switchView('view-registrations', this)">
-            Registrations &amp; Fees
+            Registrations & Fees
           </button>
         </li>
         <li class="nav-item">
@@ -178,7 +178,7 @@
                 <tr>
                   <th>#</th>
                   <th>Student</th>
-                  <th>Exam &amp; User ID</th>
+                  <th>Exam & User ID</th>
                   <th>Payment / Verification</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -391,7 +391,7 @@
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>UPSC Books &amp; Materials</span>
+                        <span>UPSC Books & Materials</span>
                         <small id="upscbooksmsg" class="text-muted small"></small>
                       </div>
                       <div class="card-body">
@@ -455,7 +455,7 @@
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>UPSC Notes &amp; PDFs</span>
+                        <span>UPSC Notes & PDFs</span>
                         <small id="upscnotesPdfsmsg" class="text-muted small"></small>
                       </div>
                       <div class="card-body">
@@ -588,12 +588,696 @@
                 </div>
               </div>
 
-              <!-- ================ JEE TAB, NEET TAB, RPSC TAB ================ -->
-              <!-- JEE / NEET / RPSC sections ko existing structure jaisa hi rakho,
-                   bas har section me "last" textarea add karo aur IDs prefix+key+last
-                   pattern follow karo (jeeannouncementslast, neettestSerieslast, etc.).
-                   Syllabus cards me bhi jeesyllabuslast / neetsyllabuslast / rpscsyllabuslast
-                   readonly textarea add karo. (Space bachane ke liye yahan repeat nahi kiya.) -->
+              <!-- ================= JEE TAB ================= -->
+              <div class="tab-pane fade" id="jee-pane" role="tabpanel">
+                <div class="row g-3">
+                  <!-- JEE Announcements -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE Announcements</span>
+                        <small id="jeeannouncementsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeeannouncementstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Important Updates">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one announcement)</label>
+                          <textarea id="jeeannouncementsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="New JEE test series from 10 Jan&#10;Weekly target details"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeeannouncementslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','announcements')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- JEE Test Series (mock tests on JEE dashboard) -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE Test Series</span>
+                        <small id="jeetestSeriesmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeetestSeriestitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Test Series">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line test / link)</label>
+                          <textarea id="jeetestSeriesitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="JEE Test 1 - Physics + Chemistry&#10;JEE Test 2 - Full Syllabus"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeetestSerieslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','testSeries')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- JEE PYQs -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE PYQs</span>
+                        <small id="jeepyqPapersmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeepyqPaperstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Previous Year Papers">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line paper link)</label>
+                          <textarea id="jeepyqPapersitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="JEE Main 2024 Shift 1 - PDF link"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeepyqPaperslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','pyqPapers')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- JEE Books -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE Books</span>
+                        <small id="jeebooksmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeebookstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Booklist (PCM)">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (book / link per line)</label>
+                          <textarea id="jeebooksitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="HC Verma - Physics&#10;Cengage Maths Vol 1"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeebookslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','books')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- JEE Formula Sheets -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE Formula Sheets</span>
+                        <small id="jeeformulaSheetsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeeformulaSheetstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Important Formula Sheets">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line sheet link)</label>
+                          <textarea id="jeeformulaSheetsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Physics Formula Sheet - PDF&#10;Organic Chemistry Reactions Sheet"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeeformulaSheetslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','formulaSheets')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- JEE Notes & PDFs -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE Notes & PDFs</span>
+                        <small id="jeenotesPdfsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeenotesPdfstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Notes PDFs">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (note PDF link per line)</label>
+                          <textarea id="jeenotesPdfsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Physics Kinematics Notes - PDF link"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeenotesPdfslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','notesPdfs')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- JEE Quotes -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>JEE Path Pradarshak Quotes</span>
+                        <small id="jeequotesmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="jeequotestitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Path Pradarshak (JEE)">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one quote)</label>
+                          <textarea id="jeequotesitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Every hour you study today is one less mark of regret on exam day."></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="jeequoteslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','quotes')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- ================= NEET TAB ================= -->
+              <div class="tab-pane fade" id="neet-pane" role="tabpanel">
+                <div class="row g-3">
+                  <!-- NEET Announcements -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET Announcements</span>
+                        <small id="neetannouncementsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neetannouncementstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Important Updates">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one announcement)</label>
+                          <textarea id="neetannouncementsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="NEET mock schedule&#10;Important notice"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neetannouncementslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','announcements')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- NEET Mock Tests (testSeries key on NEET dashboard) -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET Mock Tests</span>
+                        <small id="neettestSeriesmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neettestSeriestitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Mock Tests">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line test / link)</label>
+                          <textarea id="neettestSeriesitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="NEET Mock 1 - PCB&#10;NEET Mock 2 - Full Syllabus"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neettestSerieslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','testSeries')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- NEET PYQs -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET PYQs</span>
+                        <small id="neetpyqPapersmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neetpyqPaperstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Previous Year Papers">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line paper link)</label>
+                          <textarea id="neetpyqPapersitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="NEET 2024 Official Paper - PDF link"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neetpyqPaperslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','pyqPapers')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- NEET Books -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET Books</span>
+                        <small id="neetbooksmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neetbookstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. NCERT + Reference Books">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (book / link per line)</label>
+                          <textarea id="neetbooksitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="NCERT Biology 11&#10;NCERT Biology 12"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neetbookslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','books')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- NEET Diagrams / Charts (formulaSheets key) -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET Diagrams / Charts</span>
+                        <small id="neetformulaSheetsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neetformulaSheetstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Important Diagrams / Charts">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line sheet / link)</label>
+                          <textarea id="neetformulaSheetsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Human Physiology diagram sheet&#10;Plant Morphology chart"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neetformulaSheetslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','formulaSheets')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- NEET Notes & PDFs -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET Notes & PDFs</span>
+                        <small id="neetnotesPdfsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neetnotesPdfstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Notes PDFs">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (note PDF link per line)</label>
+                          <textarea id="neetnotesPdfsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Biology short notes PDF&#10;Physics formula PDF"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neetnotesPdfslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','notesPdfs')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- NEET Quotes -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>NEET Path Pradarshak Quotes</span>
+                        <small id="neetquotesmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="neetquotestitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Path Pradarshak (NEET)">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one quote)</label>
+                          <textarea id="neetquotesitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Every NCERT page revised today reduces panic on exam day."></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="neetquoteslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','quotes')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- ================= RPSC TAB ================= -->
+              <div class="tab-pane fade" id="rpsc-pane" role="tabpanel">
+                <div class="row g-3">
+
+                  <!-- RPSC Announcements -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC Announcements</span>
+                        <small id="rpscannouncementsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpscannouncementstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Important Updates">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one announcement)</label>
+                          <textarea id="rpscannouncementsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="RAS Pre schedule&#10;1st Grade update"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpscannouncementslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','announcements')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RPSC Mock Tests (testSeries key) -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC Mock Tests</span>
+                        <small id="rpsctestSeriesmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpsctestSeriestitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Mock Tests">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line test / link)</label>
+                          <textarea id="rpsctestSeriesitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="RAS Pre Mock 1&#10;1st Grade Mock 1"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpsctestSerieslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','testSeries')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RPSC PYQs -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC PYQs</span>
+                        <small id="rpscpyqPapersmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpscpyqPaperstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Previous Year Papers">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line paper link)</label>
+                          <textarea id="rpscpyqPapersitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="RAS Pre 2023 paper PDF link"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpscpyqPaperslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','pyqPapers')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RPSC Books -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC Books</span>
+                        <small id="rpscbooksmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpscbookstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Standard Books">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (book / link per line)</label>
+                          <textarea id="rpscbooksitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Laxmikanth&#10;Rajasthan GK book"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpscbookslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','books')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RPSC Charts / Maps (formulaSheets key) -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC Charts / Maps</span>
+                        <small id="rpscformulaSheetsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpscformulaSheetstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Important Charts / Maps">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line chart / map link)</label>
+                          <textarea id="rpscformulaSheetsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Rajasthan rivers map&#10;District-wise infographic"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpscformulaSheetslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','formulaSheets')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RPSC Notes & PDFs -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC Notes & PDFs</span>
+                        <small id="rpscnotesPdfsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpscnotesPdfstitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Notes PDFs">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (note PDF link per line)</label>
+                          <textarea id="rpscnotesPdfsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Rajasthan History notes PDF&#10;GS static notes PDF"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpscnotesPdfslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','notesPdfs')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- RPSC Quotes -->
+                  <div class="col-md-6">
+                    <div class="card h-100">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>RPSC Path Pradarshak Quotes</span>
+                        <small id="rpscquotesmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title</label>
+                          <input id="rpscquotestitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Path Pradarshak (RPSC)">
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one quote)</label>
+                          <textarea id="rpscquotesitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="Aaj likhi gayi har answer practice, kal Mains copy par clarity banegi."></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="rpscquoteslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','quotes')">Save</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
 
             </div>
           </div>
@@ -607,7 +1291,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // ================== CONFIG ==================
-  const SCRIPTURL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+  const SCRIPTURL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec'; // same Apps Script endpoint [file:45]
 
   let registrationsData = [];
   let answerCopiesData = [];
@@ -868,7 +1552,6 @@
           return;
         }
 
-        // Clear inputs after successful save
         const titleInput = document.getElementById(titleId);
         const itemsArea  = document.getElementById(itemsId);
         if (titleInput) titleInput.value = '';
@@ -880,7 +1563,7 @@
           setTimeout(() => { msgEl.textContent = ''; }, 2000);
         }
 
-        // Reload latest content so "last saved" area update ho jaye
+        // Latest content reload
         loadDashboardContentForAdmin(examType);
       })
       .catch(err => {
@@ -937,7 +1620,6 @@
           return;
         }
 
-        // Clear percentage inputs
         if (examType === 'UPSC') {
           document.getElementById('upscsyllabusprelims').value = '';
           document.getElementById('upscsyllabusmains').value   = '';
@@ -987,7 +1669,6 @@
           const itemsArea  = document.getElementById(prefix + key + 'items');
           const lastArea   = document.getElementById(prefix + key + 'last');
 
-          // Admin inputs blank rahenge
           if (titleInput) titleInput.value = '';
           if (itemsArea)  itemsArea.value  = '';
 
@@ -1004,20 +1685,33 @@
           }
         }
 
-        ['announcements', 'dailyTargets', 'mockTests', 'testSeries',
-          'pyqPapers', 'books', 'currentAffairs', 'notesPdfs', 'quotes'
+        // Common keys used on dashboards
+        [
+          'announcements',
+          'dailyTargets',   // sirf UPSC me use hoga; JEE/NEET/RPSC me ignore ho jayega
+          'mockTests',
+          'testSeries',
+          'pyqPapers',
+          'books',
+          'currentAffairs', // UPSC only; baaki me ignore
+          'formulaSheets',
+          'notesPdfs',
+          'quotes'
         ].forEach(fillSection);
 
         if (p.syllabus) {
-          let text = '';
           if (examType === 'UPSC') {
             document.getElementById('upscsyllabusprelims').value = '';
             document.getElementById('upscsyllabusmains').value   = '';
-            text = `Prelims: ${p.syllabus.prelimsPercent || 0}%\nMains: ${p.syllabus.mainsPercent || 0}%`;
             const last = document.getElementById('upscsyllabuslast');
-            if (last) last.value = text;
+            if (last) {
+              last.value =
+                'Prelims: ' + (p.syllabus.prelimsPercent || 0) + '%\n' +
+                'Mains: '   + (p.syllabus.mainsPercent   || 0) + '%';
+            }
           }
-          // JEE / NEET / RPSC ke syllabus last text ko bhi yahin pattern se set karo
+          // JEE / NEET / RPSC syllabus trackers ab dashboards se hata diye gaye hain,
+          // isliye yahan unka last text show karne ki zarurat nahi hai.
         }
       })
       .catch(err => {
