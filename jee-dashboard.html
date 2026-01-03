@@ -101,7 +101,7 @@
 
     .countdown-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 15px;
       margin: 15px 0 10px;
     }
@@ -114,7 +114,7 @@
     }
 
     .countdown-item .number {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 700;
     }
 
@@ -130,7 +130,7 @@
       opacity: 0.96;
     }
 
-    /* Update progress as 3 boxes */
+    /* Update progress */
     .update-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -234,11 +234,24 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      max-height: 260px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
     .list-item {
       font-size: 13px;
       color: #111827;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #dcfce7;
+      color: #047857;
+      margin-left: 6px;
     }
 
     .syllabus-item {
@@ -315,19 +328,19 @@
       <div class="countdown-grid">
         <div class="countdown-item">
           <div class="number" id="daysLeft1">0</div>
-          <div class="label">Days Left (Session 1)</div>
+          <div class="label">Session 1 · Days Left</div>
         </div>
         <div class="countdown-item">
           <div class="number" id="hoursLeft1">0</div>
-          <div class="label">Hours Left (Session 1)</div>
+          <div class="label">Session 1 · Hours Left</div>
         </div>
         <div class="countdown-item">
           <div class="number" id="daysLeft2">0</div>
-          <div class="label">Days Left (Session 2)</div>
+          <div class="label">Session 2 · Days Left</div>
         </div>
         <div class="countdown-item">
           <div class="number" id="hoursLeft2">0</div>
-          <div class="label">Hours Left (Session 2)</div>
+          <div class="label">Session 2 · Hours Left</div>
         </div>
       </div>
       <div class="quote" id="dailyQuote">
@@ -501,7 +514,7 @@
   </div>
 
   <script>
-    // Daily JEE-focused quotes
+    // JEE daily quotes (local)
     const jeeQuotes = [
       'Every hour you study today is one less mark of regret on exam day.',
       'Strong basics beat last-minute panic every single time.',
@@ -532,20 +545,23 @@
       document.getElementById('dailyQuote').textContent = quote;
     }
 
-    // Two-attempt countdown
+    // JEE Main 2026: Session 1 (21 Jan), Session 2 (2 Apr) – mid date approx for countdown
+    const session1Date = new Date('2026-01-26T09:00:00'); // between 21–30 Jan[web:98]
+    const session2Date = new Date('2026-04-05T09:00:00'); // between 1–10 Apr[web:98]
+
     function updateCountdown() {
-      const session1Date = new Date('2026-01-21T09:00:00');
-      const session2Date = new Date('2026-04-02T09:00:00');
       const now = new Date();
 
       const diff1 = session1Date - now;
       const diff2 = session2Date - now;
 
-      const days1 = Math.max(0, Math.floor(diff1 / (1000 * 60 * 60 * 24)));
-      const hours1 = Math.max(0, Math.floor(diff1 / (1000 * 60 * 60)));
+      const totalHours1 = Math.max(0, Math.floor(diff1 / (1000 * 60 * 60)));
+      const days1 = Math.floor(totalHours1 / 24);
+      const hours1 = totalHours1 % 24;
 
-      const days2 = Math.max(0, Math.floor(diff2 / (1000 * 60 * 60 * 24)));
-      const hours2 = Math.max(0, Math.floor(diff2 / (1000 * 60 * 60)));
+      const totalHours2 = Math.max(0, Math.floor(diff2 / (1000 * 60 * 60)));
+      const days2 = Math.floor(totalHours2 / 24);
+      const hours2 = totalHours2 % 24;
 
       document.getElementById('daysLeft1').textContent = days1;
       document.getElementById('hoursLeft1').textContent = hours1;
@@ -562,7 +578,7 @@
       }
     }
 
-    // Study progress
+    // STUDY PROGRESS
     function updateProgress(e) {
       e.preventDefault();
 
@@ -587,10 +603,13 @@
                   `&mocks=${encodeURIComponent(mocks)}`;
 
       fetch(url)
-        .then(r => r.json())
+        .then(r => {
+          if (!r.ok) throw new Error('Network error: ' + r.status);
+          return r.json();
+        })
         .then(data => {
-          if (!data.success) {
-            throw new Error(data.message || 'Failed to save study log');
+          if (!data || !data.success) {
+            throw new Error(data && data.message ? data.message : 'Failed to save study log');
           }
           const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
                             `&userId=${encodeURIComponent(userId)}` +
@@ -602,13 +621,15 @@
             document.getElementById('totalHours').textContent  = totals.totalHours || 0;
             document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
             document.getElementById('totalTests').textContent  = totals.totalMocks || 0;
+          } else {
+            throw new Error(totals && totals.message ? totals.message : 'Failed to load totals');
           }
           alert('Progress updated successfully!');
           document.getElementById('progressForm').reset();
         })
         .catch(err => {
           console.error('Update progress error:', err);
-          alert('Error updating progress. Please try again.');
+          alert('Error updating progress: ' + err.message);
         });
     }
 
@@ -633,27 +654,112 @@
         .catch(err => console.error('Load totals error:', err));
     }
 
-    // ---- Common list renderer ----
-    function renderList(containerId, items) {
+    // GENERIC LIST RENDERERS
+
+    function renderSimpleList(containerId, items) {
       const container = document.getElementById(containerId);
-      if (!container) return;
       container.innerHTML = '';
       if (!items || !items.length) {
         container.innerHTML = '<div class="empty-state">No data yet.</div>';
         return;
       }
-      const div = document.createElement('div');
-      div.className = 'list';
+      const list = document.createElement('div');
+      list.className = 'list';
       items.forEach(text => {
-        const p = document.createElement('div');
-        p.className = 'list-item';
-        p.textContent = text;
-        div.appendChild(p);
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.textContent = typeof text === 'string' ? text : (text.text || text.title || '');
+        list.appendChild(row);
       });
-      container.appendChild(div);
+      container.appendChild(list);
     }
 
-    // ---- Dashboard content from DashboardContent sheet (JEE) ----
+    function renderHighlightList(containerId, items, highlightLabel) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!items || !items.length) {
+        container.innerHTML = '<div class="empty-state">No data yet.</div>';
+        return;
+      }
+      const list = document.createElement('div');
+      list.className = 'list';
+      items.forEach((it, index) => {
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.textContent = typeof it === 'string' ? it : (it.text || it.title || '');
+        if (index === 0 && highlightLabel) {
+          row.style.fontWeight = '600';
+          row.style.background = '#fef3c7';
+          row.style.borderRadius = '6px';
+          row.style.padding = '6px 8px';
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.textContent = highlightLabel;
+          row.appendChild(tag);
+        }
+        list.appendChild(row);
+      });
+      container.appendChild(list);
+    }
+
+    function renderDailyTargets(items) {
+      const container = document.getElementById('dailyTargets');
+      container.innerHTML = '';
+      if (!items || !items.length) {
+        container.innerHTML = '<div class="empty-state">Admin will upload today\'s targets soon.</div>';
+        return;
+      }
+      const list = document.createElement('div');
+      list.className = 'list';
+      items.forEach((it, index) => {
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.textContent = typeof it === 'string' ? it : (it.text || it.title || '');
+        if (index === 0) {
+          row.style.fontWeight = '600';
+          row.style.background = '#dcfce7';
+          row.style.borderRadius = '6px';
+          row.style.padding = '6px 8px';
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.textContent = 'Today';
+          row.appendChild(tag);
+        }
+        list.appendChild(row);
+      });
+      container.appendChild(list);
+    }
+
+    function renderAnnouncements(items) {
+      const container = document.getElementById('announcements');
+      container.innerHTML = '';
+      if (!items || !items.length) {
+        container.innerHTML = '<div class="empty-state">No announcements yet. Admin will update here.</div>';
+        return;
+      }
+
+      const list = document.createElement('div');
+      list.className = 'list';
+      items.forEach((it, index) => {
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.textContent = typeof it === 'string' ? it : (it.text || it.title || '');
+        if (index === 0) {
+          row.style.fontWeight = '600';
+          row.style.background = '#eef2ff';
+          row.style.borderRadius = '6px';
+          row.style.padding = '6px 8px';
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.textContent = 'NEW';
+          row.appendChild(tag);
+        }
+        list.appendChild(row);
+      });
+      container.appendChild(list);
+    }
+
+    // DASHBOARD CONTENT (examType=JEE)
     function loadJeeDashboardContent() {
       const url = `${SCRIPT_URL}?action=getDashboardContent&examType=JEE`;
 
@@ -663,29 +769,36 @@
           if (!data || !data.success || !data.payload) return;
           const p = data.payload;
 
-          if (p.announcements) {
-            renderList('announcements', p.announcements.items || []);
+          if (p.announcements && Array.isArray(p.announcements.items)) {
+            renderAnnouncements(p.announcements.items);
           }
-          if (p.dailyTargets) {
-            renderList('dailyTargets', p.dailyTargets.items || []);
+
+          if (p.dailyTargets && Array.isArray(p.dailyTargets.items)) {
+            renderDailyTargets(p.dailyTargets.items);
           }
-          if (p.recentTopics) {
-            renderList('recentTopics', p.recentTopics.items || []);
+
+          if (p.recentTopics && Array.isArray(p.recentTopics.items)) {
+            renderSimpleList('recentTopics', p.recentTopics.items);
           }
-          if (p.testSeries) {
-            renderList('testSeriesList', p.testSeries.items || []);
+
+          if (p.testSeries && Array.isArray(p.testSeries.items)) {
+            renderHighlightList('testSeriesList', p.testSeries.items, 'NEW');
           }
-          if (p.pyqPapers) {
-            renderList('pypList', p.pyqPapers.items || []);
+
+          if (p.pyqPapers && Array.isArray(p.pyqPapers.items)) {
+            renderHighlightList('pypList', p.pyqPapers.items, 'NEW');
           }
-          if (p.books) {
-            renderList('booksList', p.books.items || []);
+
+          if (p.books && Array.isArray(p.books.items)) {
+            renderHighlightList('booksList', p.books.items, 'NEW');
           }
-          if (p.formulaSheets) {
-            renderList('formulaList', p.formulaSheets.items || []);
+
+          if (p.formulaSheets && Array.isArray(p.formulaSheets.items)) {
+            renderHighlightList('formulaList', p.formulaSheets.items, 'NEW');
           }
-          if (p.notesPdfs) {
-            renderList('notesList', p.notesPdfs.items || []);
+
+          if (p.notesPdfs && Array.isArray(p.notesPdfs.items)) {
+            renderHighlightList('notesList', p.notesPdfs.items, 'NEW');
           }
 
           if (p.syllabus) {
@@ -693,18 +806,16 @@
             const phy  = s.phyPercent  || 0;
             const chem = s.chemPercent || 0;
             const math = s.mathPercent || 0;
-
             document.getElementById('phyPercent').textContent  = phy + '% Complete';
             document.getElementById('chemPercent').textContent = chem + '% Complete';
             document.getElementById('mathPercent').textContent = math + '% Complete';
-
             document.getElementById('phyBar').style.width  = phy  + '%';
             document.getElementById('chemBar').style.width = chem + '%';
             document.getElementById('mathBar').style.width = math + '%';
           }
 
           if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
-            renderList('motivationalQuotes', p.quotes.items || []);
+            renderHighlightList('motivationalQuotes', p.quotes.items, 'NEW');
           }
         })
         .catch(err => console.error('loadJeeDashboardContent error:', err));
@@ -715,7 +826,7 @@
         localStorage.getItem('name') || 'Candidate';
 
       updateCountdown();
-      setInterval(updateCountdown, 60 * 60 * 1000);
+      setInterval(updateCountdown, 60 * 1000); // har minute refresh
 
       loadDailyQuote();
       loadTotals();
