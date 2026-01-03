@@ -47,34 +47,6 @@ body {
   background: rgba(255,255,255,0.25);
 }
 
-.notifications {
-  position: relative;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.1);
-}
-
-.notifications:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-.badge {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background: #ef4444;
-  color: #fff;
-  border-radius: 999px;
-  font-size: 11px;
-  padding: 2px 6px;
-  min-width: 18px;
-  text-align: center;
-  border: 2px solid #4f46e5;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
-}
-
 .container {
   max-width: 1400px;
   margin: 25px auto 40px;
@@ -267,19 +239,33 @@ body {
   padding-right: 4px;
 }
 
-.list a {
-  font-size: 13px;
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.list a:hover {
-  text-decoration: underline;
-}
-
 .list-item {
   font-size: 13px;
   color: #111827;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.list-title {
+  flex: 1 1 auto;
+}
+
+.list-actions a {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #667eea;
+  color: #4338ca;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.list-actions a:hover {
+  background: #667eea;
+  color: #fff;
 }
 
 .tag {
@@ -339,7 +325,7 @@ select:focus {
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
-const ANSWER_FORM_URL = 'https://forms.gle/EKGVgMSMFEErC5C19'; // Google Form link [web:319]
+const ANSWER_FORM_URL = 'https://forms.gle/EKGVgMSMFEErC5C19';
 
 // 24 May 2026, 9:00 AM IST
 const examDate = new Date('2026-05-24T09:00:00+05:30');
@@ -700,21 +686,21 @@ function updateProgress(e) {
   const topics = parseInt(document.getElementById('topicsCovered').value || '0', 10);
   const mocks  = parseInt(document.getElementById('mockTests').value || '0', 10);
 
-  const url = `${SCRIPT_URL}?action=logStudy` +
-              `&userId=${encodeURIComponent(userId)}` +
-              `&exam=${encodeURIComponent(exam)}` +
-              `&hours=${encodeURIComponent(hours)}` +
-              `&topics=${encodeURIComponent(topics)}` +
-              `&mocks=${encodeURIComponent(mocks)}`;
+  const url = `${SCRIPT_URL}?action=logStudy`
+            + `&userId=${encodeURIComponent(userId)}`
+            + `&exam=${encodeURIComponent(exam)}`
+            + `&hours=${encodeURIComponent(hours)}`
+            + `&topics=${encodeURIComponent(topics)}`
+            + `&mocks=${encodeURIComponent(mocks)}`;
 
   safeFetchJson(url)
     .then(data => {
       if (!data || !data.success) {
         throw new Error(data && data.message ? data.message : 'Failed to save study log');
       }
-      const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
-                        `&userId=${encodeURIComponent(userId)}` +
-                        `&exam=${encodeURIComponent(exam)}`;
+      const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals`
+                      + `&userId=${encodeURIComponent(userId)}`
+                      + `&exam=${encodeURIComponent(exam)}`;
       return safeFetchJson(totalsUrl);
     })
     .then(totals => {
@@ -740,9 +726,9 @@ function loadTotals() {
   const exam   = localStorage.getItem('exam');
   if (!userId || !exam) return;
 
-  const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
-                    `&userId=${encodeURIComponent(userId)}` +
-                    `&exam=${encodeURIComponent(exam)}`;
+  const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals`
+                  + `&userId=${encodeURIComponent(userId)}`
+                  + `&exam=${encodeURIComponent(exam)}`;
 
   safeFetchJson(totalsUrl)
     .then(totals => {
@@ -763,9 +749,9 @@ function loadAnalytics() {
   const exam   = localStorage.getItem('exam');
   if (!userId || !exam) return;
 
-  const url = `${SCRIPT_URL}?action=getStudyAnalytics` +
-              `&userId=${encodeURIComponent(userId)}` +
-              `&exam=${encodeURIComponent(exam)}`;
+  const url = `${SCRIPT_URL}?action=getStudyAnalytics`
+            + `&userId=${encodeURIComponent(userId)}`
+            + `&exam=${encodeURIComponent(exam)}`;
 
   safeFetchJson(url)
     .then(data => {
@@ -794,7 +780,12 @@ function renderAnnouncements(items) {
   items.forEach((it, index) => {
     const row = document.createElement('div');
     row.className = 'list-item';
-    row.textContent = it.text || it.title || '';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'list-title';
+    titleSpan.textContent = typeof it === 'string' ? it : (it.text || it.title || '');
+
+    row.appendChild(titleSpan);
 
     if (index === 0) {
       row.style.fontWeight = '600';
@@ -820,10 +811,15 @@ function renderDailyTargets(items) {
   const list = document.createElement('div');
   list.className = 'list';
 
-  items.forEach((it, index) => {
+  items.forEach((raw, index) => {
     const row = document.createElement('div');
     row.className = 'list-item';
-    row.textContent = it.text || it.title || '';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'list-title';
+    titleSpan.textContent = typeof raw === 'string' ? raw : (raw.text || raw.title || '');
+
+    row.appendChild(titleSpan);
 
     if (index === 0) {
       row.style.fontWeight = '600';
@@ -843,38 +839,62 @@ function renderDailyTargets(items) {
   container.appendChild(list);
 }
 
-function renderSectionList(containerId, items, highlightLabel) {
+// List renderer with link detection (for mock tests, series, PYQs, books, CA, notes)
+function renderListWithLinks(containerId, items, emptyMessage, highlightLabel) {
   const container = document.getElementById(containerId);
+  if (!container) return;
   container.innerHTML = '';
   if (!items || !items.length) {
-    container.innerHTML = '<div class="empty-state">No data yet.</div>';
+    container.innerHTML = `<div class="empty-state">${emptyMessage || 'No data yet.'}</div>`;
     return;
   }
 
-  const list = document.createElement('div');
-  list.className = 'list';
+  const div = document.createElement('div');
+  div.className = 'list';
 
-  items.forEach((it, index) => {
+  items.forEach((raw, index) => {
+    const itemText = typeof raw === 'string'
+      ? raw
+      : (raw.text || raw.title || raw.content || raw.link || '');
+
     const row = document.createElement('div');
     row.className = 'list-item';
-    row.textContent = it.text || it.title || '';
+
+    const titleSpan = document.createElement('span');
+    titleSpan.className = 'list-title';
+
+    let urlMatch = itemText.match(/https?:\/\/\S+/);
+    let link = urlMatch ? urlMatch[0] : null;
+    let titleOnly = link ? itemText.replace(link, '').trim().replace(/-\s*$/, '').trim() : itemText;
+
+    titleSpan.textContent = titleOnly || itemText;
+    row.appendChild(titleSpan);
+
+    if (link) {
+      const actions = document.createElement('span');
+      actions.className = 'list-actions';
+
+      const a = document.createElement('a');
+      a.href = link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = 'View';
+
+      actions.appendChild(a);
+      row.appendChild(actions);
+    }
 
     if (index === 0 && highlightLabel) {
-      row.style.fontWeight = '600';
-      row.style.background = '#fef3c7';
-      row.style.borderRadius = '6px';
-      row.style.padding = '6px 8px';
-
       const tag = document.createElement('span');
       tag.className = 'tag';
       tag.textContent = highlightLabel;
-      row.appendChild(tag);
+      titleSpan.appendChild(tag);
     }
 
-    list.appendChild(row);
+    div.appendChild(row);
   });
 
-  container.appendChild(list);
+  container.appendChild(div);
 }
 
 // ========== DASHBOARD CONTENT ==========
@@ -890,6 +910,7 @@ function loadDashboardContent() {
       }
       const p = data.payload;
 
+      // Announcements (text only)
       if (p.announcements && Array.isArray(p.announcements.items) && p.announcements.items.length) {
         renderAnnouncements(p.announcements.items);
       } else {
@@ -897,34 +918,75 @@ function loadDashboardContent() {
           '<div class="empty-state">No announcements yet. Admin will update here.</div>';
       }
 
+      // Daily Targets (text only)
       if (p.dailyTargets && Array.isArray(p.dailyTargets.items)) {
         renderDailyTargets(p.dailyTargets.items);
+      } else {
+        document.getElementById('dailyTargets').innerHTML =
+          '<div class="empty-state">Admin will upload today\'s targets soon.</div>';
       }
 
+      // Mock Tests
       if (p.mockTests && Array.isArray(p.mockTests.items)) {
-        renderSectionList('mockTestsList', p.mockTests.items, 'NEW');
+        renderListWithLinks(
+          'mockTestsList',
+          p.mockTests.items,
+          'Admin will create mock tests soon.',
+          'NEW'
+        );
       }
 
+      // Test Series
       if (p.testSeries && Array.isArray(p.testSeries.items)) {
-        renderSectionList('testSeriesList', p.testSeries.items, 'NEW');
+        renderListWithLinks(
+          'testSeriesList',
+          p.testSeries.items,
+          'Admin will upload test series soon.',
+          'NEW'
+        );
       }
 
+      // PYQ Papers
       if (p.pyqPapers && Array.isArray(p.pyqPapers.items)) {
-        renderSectionList('pypList', p.pyqPapers.items, 'NEW');
+        renderListWithLinks(
+          'pypList',
+          p.pyqPapers.items,
+          'Admin will upload PYQ PDFs soon.',
+          'NEW'
+        );
       }
 
+      // Books
       if (p.books && Array.isArray(p.books.items)) {
-        renderSectionList('booksList', p.books.items, 'NEW');
+        renderListWithLinks(
+          'booksList',
+          p.books.items,
+          'Admin will upload books list soon.',
+          'NEW'
+        );
       }
 
+      // Current Affairs
       if (p.currentAffairs && Array.isArray(p.currentAffairs.items)) {
-        renderSectionList('currentAffairsList', p.currentAffairs.items, 'NEW');
+        renderListWithLinks(
+          'currentAffairsList',
+          p.currentAffairs.items,
+          'Admin will upload current affairs soon.',
+          'NEW'
+        );
       }
 
+      // Notes & PDFs
       if (p.notesPdfs && Array.isArray(p.notesPdfs.items)) {
-        renderSectionList('notesList', p.notesPdfs.items, 'NEW');
+        renderListWithLinks(
+          'notesList',
+          p.notesPdfs.items,
+          'Admin will upload notes & PDFs soon.',
+          'NEW'
+        );
       }
 
+      // Syllabus
       if (p.syllabus) {
         const pre = p.syllabus.prelimsPercent || 0;
         const main = p.syllabus.mainsPercent || 0;
@@ -934,8 +996,14 @@ function loadDashboardContent() {
         document.getElementById('mainsBar').style.width   = main + '%';
       }
 
+      // Quotes (path pradarshak)
       if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
-        renderSectionList('motivationalQuotes', p.quotes.items, 'NEW');
+        renderListWithLinks(
+          'motivationalQuotes',
+          p.quotes.items,
+          'Admin will share motivational quotes soon.',
+          null
+        );
         const first = p.quotes.items[0];
         const text = typeof first === 'string' ? first : (first.text || first.title || '');
         setDailyQuote(text);
@@ -950,15 +1018,14 @@ function loadDashboardContent() {
 }
 
 // ========== ANSWER WRITING BACKEND (status list) ==========
-// Note: Submissions ab Google Form se aa rahe hain; Apps Script ko
-// getAnswerSubmissions action me Form response sheet se data dena hoga. [web:152][web:314]
+// Apps Script ko getAnswerSubmissions action me user-wise submissions dene honge.
 
 function loadAnswerSubmissions() {
   const userId = localStorage.getItem('userId');
   if (!userId) return;
 
-  const url = `${SCRIPT_URL}?action=getAnswerSubmissions` +
-              `&userId=${encodeURIComponent(userId)}`;
+  const url = `${SCRIPT_URL}?action=getAnswerSubmissions`
+            + `&userId=${encodeURIComponent(userId)}`;
 
   safeFetchJson(url)
     .then(data => {
@@ -984,8 +1051,8 @@ function loadAnswerSubmissions() {
 
         const left = document.createElement('div');
         left.innerHTML =
-          `<strong>${sub.paperType}</strong> | ${sub.uploadedOn} ` +
-          `<span class="tag">${sub.status}</span>`;
+          `<strong>${sub.paperType}</strong> | ${sub.uploadedOn} `
+          + `<span class="tag">${sub.status}</span>`;
 
         const right = document.createElement('div');
 
