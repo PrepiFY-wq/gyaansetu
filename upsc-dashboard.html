@@ -341,7 +341,9 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
 
     // UPSC CSE Prelims 2026: 24 May 2026, 9:00 AM (local) [web:39]
-    const examDate = new Date(2026, 4, 24, 9, 0, 0);
+   // 24 May 2026, 9:00 AM IST
+const examDate = new Date('2026-05-24T09:00:00+05:30'); // [web:92][web:79]
+
     // Countdown visible start: 3 Jan 2026, 8:00 AM
     const countdownStart = new Date(2026, 0, 3, 8, 0, 0);
 
@@ -666,23 +668,32 @@
     }
 
     // COUNTDOWN (days + hours) – har second refresh
-    function updateCountdown() {
-      const now = new Date();
+ function updateCountdown() {
+  const now = new Date();
 
-      // 3 Jan 2026, 8:00 AM se pehle ho to 0-0
-      if (now < countdownStart) {
-        document.getElementById('daysLeft').textContent  = 0;
-        document.getElementById('hoursLeft').textContent = 0;
-        return;
-      }
+  // 3 Jan 2026, 8:00 AM se pehle ho to 0-0
+  if (now < countdownStart) {
+    document.getElementById('daysLeft').textContent  = 0;
+    document.getElementById('hoursLeft').textContent = 0;
+    return;
+  }
 
-      const diffMs = examDate.getTime() - now.getTime();
+  const diffMs = examDate.getTime() - now.getTime();
 
-      if (diffMs <= 0) {
-        document.getElementById('daysLeft').textContent  = 0;
-        document.getElementById('hoursLeft').textContent = 0;
-        return;
-      }
+  if (diffMs <= 0) {
+    document.getElementById('daysLeft').textContent  = 0;
+    document.getElementById('hoursLeft').textContent = 0;
+    return;
+  }
+
+  // Total days + total hours exam tak [web:57][web:62]
+  const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const days       = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  document.getElementById('daysLeft').textContent  = days;
+  document.getElementById('hoursLeft').textContent = totalHours;
+}
+
 
      function updateCountdown() {
   const now = new Date();
