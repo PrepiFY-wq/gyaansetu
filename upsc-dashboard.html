@@ -634,11 +634,11 @@
         text || getRandomFallbackQuote();
     }
 
-    // COUNTDOWN (days + hours) from 3 Jan 2026, 8:00 AM to exam
+    // COUNTDOWN (days + hours) using fixed start 3 Jan 2026, 8:00 AM
     function updateCountdown() {
       const now = new Date();
 
-      // Agar abhi countdownStart se pehle hai to countdownStart se hi count karo
+      // 3 Jan 8AM se pehle ho to bhi base 3 Jan 8AM hi rahe
       const effectiveNow = now < countdownStart ? countdownStart : now;
 
       const diffMs = examDate - effectiveNow;
@@ -649,11 +649,12 @@
         return;
       }
 
-      // Total seconds
-      let delta = Math.floor(diffMs / 1000); // [web:120][web:185]
-      const days  = Math.floor(delta / 86400); // 86400 = 24*60*60
-      delta      -= days * 86400;
-      const hours = Math.floor(delta / 3600);
+      // Total hours remaining from effectiveNow to exam
+      const totalHours = Math.floor(diffMs / (1000 * 60 * 60)); // ms → hours [web:159][web:160]
+
+      // Days + remaining hours (layout same rakha)
+      const days = Math.floor(totalHours / 24);
+      const hours = totalHours % 24;
 
       document.getElementById('daysLeft').textContent  = days;
       document.getElementById('hoursLeft').textContent = hours;
@@ -1109,8 +1110,8 @@
         localStorage.getItem('name') || 'Candidate';
 
       updateCountdown();
-      // 1 minute me countdown refresh (days + hours auto update)
-      setInterval(updateCountdown, 60 * 1000); // [web:39][web:133]
+      // Har hour me countdown refresh (fixed hours countdown)
+      setInterval(updateCountdown, 60 * 60 * 1000); // [web:218][web:159]
 
       setDailyQuote();
       loadTotals();
