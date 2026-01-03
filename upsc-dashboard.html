@@ -1,1139 +1,1123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>UPSC CSE Dashboard - GyaanSetu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>UPSC CSE Dashboard - GyaanSetu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      min-height: 100vh;
-    }
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: #f5f7fa;
+min-height: 100vh;
+}
 
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px 40px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+.header {
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color: white;
+padding: 20px 40px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
 
-    .header h1 { font-size: 26px; }
+.header h1 { font-size: 26px; }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-    }
+.header-right {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 14px;
+}
 
-    .logout-btn {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.6);
-      cursor: pointer;
-      font-size: 13px;
-    }
+.logout-btn {
+background: rgba(255,255,255,0.15);
+color: white;
+padding: 8px 16px;
+border-radius: 8px;
+border: 1px solid rgba(255,255,255,0.6);
+cursor: pointer;
+font-size: 13px;
+}
 
-    .logout-btn:hover {
-      background: rgba(255,255,255,0.25);
-    }
+.logout-btn:hover {
+background: rgba(255,255,255,0.25);
+}
 
-    .notifications {
-      position: relative;
-      font-size: 14px;
-      cursor: pointer;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.1);
-    }
+.notifications {
+position: relative;
+font-size: 14px;
+cursor: pointer;
+padding: 6px 10px;
+border-radius: 999px;
+background: rgba(255,255,255,0.1);
+}
 
-    .notifications:hover {
-      background: rgba(255,255,255,0.2);
-    }
+.notifications:hover {
+background: rgba(255,255,255,0.2);
+}
 
-    .badge {
-      position: absolute;
-      top: -6px;
-      right: -8px;
-      background: #ef4444;
-      color: #fff;
-      border-radius: 999px;
-      font-size: 11px;
-      padding: 2px 6px;
-      min-width: 18px;
-      text-align: center;
-      border: 2px solid #4f46e5;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
-    }
+.badge {
+position: absolute;
+top: -6px;
+right: -8px;
+background: #ef4444;
+color: #fff;
+border-radius: 999px;
+font-size: 11px;
+padding: 2px 6px;
+min-width: 18px;
+text-align: center;
+border: 2px solid #4f46e5;
+box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+}
 
-    .container {
-      max-width: 1400px;
-      margin: 25px auto 40px;
-      padding: 0 20px;
-    }
+.container {
+max-width: 1400px;
+margin: 25px auto 40px;
+padding: 0 20px;
+}
 
-    .section-card {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 2px 12px rgba(15,23,42,0.06);
-      margin-bottom: 25px;
-    }
+.section-card {
+background: white;
+padding: 25px;
+border-radius: 15px;
+box-shadow: 0 2px 12px rgba(15,23,42,0.06);
+margin-bottom: 25px;
+}
 
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
+.section-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 15px;
+}
 
-    .section-header h2 {
-      font-size: 18px;
-      color: #111827;
-    }
+.section-header h2 {
+font-size: 18px;
+color: #111827;
+}
 
-    .section-header span {
-      font-size: 12px;
-      color: #6b7280;
-    }
+.section-header span {
+font-size: 12px;
+color: #6b7280;
+}
 
-    /* Countdown */
-    .exam-countdown {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      color: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-      margin-bottom: 25px;
-    }
+/* Countdown */
+.exam-countdown {
+background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+color: white;
+padding: 25px;
+border-radius: 15px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+margin-bottom: 25px;
+}
 
-    .exam-countdown h2 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
+.exam-countdown h2 {
+font-size: 22px;
+margin-bottom: 10px;
+}
 
-    .exam-subtitle {
-      font-size: 13px;
-      opacity: 0.9;
-      margin-bottom: 15px;
-    }
+.exam-subtitle {
+font-size: 13px;
+opacity: 0.9;
+margin-bottom: 15px;
+}
 
-    .countdown-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(140px, 1fr));
-      gap: 15px;
-      margin: 15px 0 10px;
-    }
+.countdown-grid {
+display: grid;
+grid-template-columns: repeat(2, minmax(140px, 1fr));
+gap: 15px;
+margin: 15px 0 10px;
+}
 
-    .countdown-item {
-      background: rgba(255,255,255,0.15);
-      padding: 12px;
-      border-radius: 10px;
-      text-align: center;
-    }
+.countdown-item {
+background: rgba(255,255,255,0.15);
+padding: 12px;
+border-radius: 10px;
+text-align: center;
+}
 
-    .countdown-item .number {
-      font-size: 28px;
-      font-weight: 700;
-    }
+.countdown-item .number {
+font-size: 28px;
+font-weight: 700;
+}
 
-    .countdown-item .label {
-      font-size: 13px;
-      opacity: 0.9;
-    }
+.countdown-item .label {
+font-size: 13px;
+opacity: 0.9;
+}
 
-    .quote {
-      font-style: italic;
-      margin-top: 10px;
-      font-size: 14px;
-      opacity: 0.96;
-    }
+.quote {
+font-style: italic;
+margin-top: 10px;
+font-size: 14px;
+opacity: 0.96;
+}
 
-    /* Update progress as 3 boxes */
-    .update-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
+/* Update progress as 3 boxes */
+.update-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 16px;
+}
 
-    .update-box {
-      background: #f9fafb;
-      border-radius: 12px;
-      padding: 14px 16px;
-      border: 1px solid #e5e7eb;
-    }
+.update-box {
+background: #f9fafb;
+border-radius: 12px;
+padding: 14px 16px;
+border: 1px solid #e5e7eb;
+}
 
-    .update-box label {
-      display: block;
-      margin-bottom: 6px;
-      color: #4b5563;
-      font-size: 13px;
-      font-weight: 600;
-    }
+.update-box label {
+display: block;
+margin-bottom: 6px;
+color: #4b5563;
+font-size: 13px;
+font-weight: 600;
+}
 
-    .update-box input {
-      width: 100%;
-      padding: 9px 11px;
-      border-radius: 8px;
-      border: 2px solid #e5e7eb;
-      font-size: 14px;
-    }
+.update-box input {
+width: 100%;
+padding: 9px 11px;
+border-radius: 8px;
+border: 2px solid #e5e7eb;
+font-size: 14px;
+}
 
-    .update-box input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
-    }
+.update-box input:focus {
+outline: none;
+border-color: #667eea;
+box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+}
 
-    .update-actions {
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-start;
-    }
+.update-actions {
+display: flex;
+align-items: flex-end;
+justify-content: flex-start;
+}
 
-    .btn {
-      padding: 11px 18px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
+.btn {
+padding: 11px 18px;
+border-radius: 8px;
+border: none;
+cursor: pointer;
+font-size: 14px;
+font-weight: 600;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+color: white;
+}
 
-    .btn:hover {
-      box-shadow: 0 8px 18px rgba(102,126,234,0.35);
-      transform: translateY(-1px);
-    }
+.btn:hover {
+box-shadow: 0 8px 18px rgba(102,126,234,0.35);
+transform: translateY(-1px);
+}
 
-    /* Totals cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
+/* Totals cards */
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 18px;
+}
 
-    .stat-card {
-      background: white;
-      padding: 16px 18px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(15,23,42,0.06);
-      border-left: 4px solid #667eea;
-    }
+.stat-card {
+background: white;
+padding: 16px 18px;
+border-radius: 12px;
+box-shadow: 0 2px 10px rgba(15,23,42,0.06);
+border-left: 4px solid #667eea;
+}
 
-    .stat-card h3 {
-      color: #4b5563;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
+.stat-card h3 {
+color: #4b5563;
+font-size: 13px;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+margin-bottom: 8px;
+}
 
-    .stat-card .number {
-      font-size: 26px;
-      font-weight: 700;
-      color: #111827;
-      margin-bottom: 4px;
-    }
+.stat-card .number {
+font-size: 26px;
+font-weight: 700;
+color: #111827;
+margin-bottom: 4px;
+}
 
-    .stat-card .meta {
-      font-size: 12px;
-      color: #6b7280;
-    }
+.stat-card .meta {
+font-size: 12px;
+color: #6b7280;
+}
 
-    .empty-state {
-      text-align: center;
-      padding: 28px 10px;
-      color: #9ca3af;
-      font-size: 13px;
-    }
+.empty-state {
+text-align: center;
+padding: 28px 10px;
+color: #9ca3af;
+font-size: 13px;
+}
 
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 260px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
+.list {
+display: flex;
+flex-direction: column;
+gap: 6px;
+max-height: 260px;
+overflow-y: auto;
+padding-right: 4px;
+}
 
-    .list a {
-      font-size: 13px;
-      color: #2563eb;
-      text-decoration: none;
-    }
+.list a {
+font-size: 13px;
+color: #2563eb;
+text-decoration: none;
+}
 
-    .list a:hover {
-      text-decoration: underline;
-    }
+.list a:hover {
+text-decoration: underline;
+}
 
-    .list-item {
-      font-size: 13px;
-      color: #111827;
-    }
+.list-item {
+font-size: 13px;
+color: #111827;
+}
 
-    .tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: #eef2ff;
-      color: #4f46e5;
-      margin-left: 6px;
-    }
+.tag {
+display: inline-block;
+padding: 2px 8px;
+border-radius: 999px;
+font-size: 11px;
+background: #eef2ff;
+color: #4f46e5;
+margin-left: 6px;
+}
 
-    .syllabus-item {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      padding: 10px 0 5px;
-    }
+.syllabus-item {
+display: flex;
+justify-content: space-between;
+font-size: 13px;
+padding: 10px 0 5px;
+}
 
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      border-radius: 999px;
-      background: #e5e7eb;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
+.progress-bar {
+width: 100%;
+height: 6px;
+border-radius: 999px;
+background: #e5e7eb;
+overflow: hidden;
+margin-bottom: 10px;
+}
 
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #667eea 0%, #22c55e 100%);
-      width: 0%;
-    }
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, #667eea 0%, #22c55e 100%);
+width: 0%;
+}
 
-    select {
-      background-color: #fff;
-    }
+select {
+background-color: #fff;
+}
 
-    select:focus {
-      outline: none;
-      border-color: #667eea !important;
-      box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
-    }
+select:focus {
+outline: none;
+border-color: #667eea !important;
+box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+}
 
-    @media (max-width: 640px) {
-      .header {
-        padding: 16px 18px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-      .container {
-        padding: 0 14px;
-      }
-    }
-  </style>
+@media (max-width: 640px) {
+.header {
+padding: 16px 18px;
+flex-direction: column;
+align-items: flex-start;
+gap: 8px;
+}
+.container {
+padding: 0 14px;
+}
+}
+</style>
 
-  <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
 
-    // 24 May 2026, 9:00 AM IST
-    const examDate = new Date('2026-05-24T09:00:00+05:30');
-    // Countdown visible start: 3 Jan 2026, 8:00 AM IST
-    const countdownStart = new Date('2026-01-03T08:00:00+05:30');
+// 24 May 2026, 9:00 AM IST
+const examDate = new Date('2026-05-24T09:00:00+05:30');
+// Countdown visible start: 3 Jan 2026, 8:00 AM IST
+const countdownStart = new Date('2026-01-03T08:00:00+05:30');
 
-    (function guardAccess() {
-      const exam = localStorage.getItem('exam');
-      const userId = localStorage.getItem('userId');
+(function guardAccess() {
+const exam = localStorage.getItem('exam');
+const userId = localStorage.getItem('userId');
 
-      if (!exam || !userId) {
-        window.location.href = 'index.html';
-        return;
-      }
-      if (exam !== 'UPSC CSE') {
-        window.location.href = 'index.html';
-        return;
-      }
-    })();
-  </script>
+if (!exam || !userId) {
+window.location.href = 'index.html';
+return;
+}
+if (exam !== 'UPSC CSE') {
+window.location.href = 'index.html';
+return;
+}
+})();
+</script>
 </head>
 <body>
-  <!-- HEADER -->
-  <div class="header">
-    <h1>UPSC CSE Dashboard</h1>
-    <div class="header-right">
-      <span id="userName">Welcome</span>
-      <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <!-- COUNTDOWN -->
-    <section class="exam-countdown">
-      <h2>UPSC CSE Prelims 2026</h2>
-      <div class="exam-subtitle">
-        Stay consistent. Daily discipline decides your rank.
-      </div>
-      <div class="countdown-grid">
-        <div class="countdown-item">
-          <div class="number" id="daysLeft">0</div>
-          <div class="label">Days Left</div>
-        </div>
-        <div class="countdown-item">
-          <div class="number" id="hoursLeft">0</div>
-          <div class="label">Hours Left</div>
-        </div>
-      </div>
-      <div class="quote" id="dailyQuote">
-        The future belongs to those who believe in the beauty of their dreams.
-      </div>
-    </section>
-
-    <!-- UPDATE DAILY PROGRESS -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Update Your Daily Progress</h2>
-        <span>Only for your UPSC CSE preparation</span>
-      </div>
-      <form id="progressForm" onsubmit="updateProgress(event)">
-        <div class="update-grid">
-          <div class="update-box">
-            <label for="studyHours">Study Hours Today</label>
-            <input type="number" id="studyHours" min="0" step="0.5" placeholder="e.g. 6" required>
-          </div>
-          <div class="update-box">
-            <label for="topicsCovered">Topics Covered Today</label>
-            <input type="number" id="topicsCovered" min="0" step="1" placeholder="e.g. 5" required>
-          </div>
-          <div class="update-box">
-            <label for="mockTests">Mock Tests Completed</label>
-            <input type="number" id="mockTests" min="0" step="1" placeholder="e.g. 1" required>
-          </div>
-          <div class="update-box update-actions">
-            <button type="submit" class="btn">Save & Add to Totals</button>
-          </div>
-        </div>
-      </form>
-    </section>
-
-    <!-- OVERALL TOTALS -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Overall Progress Totals</h2>
-        <span>Calculated from your daily entries</span>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h3>Total Study Hours</h3>
-          <div class="number" id="totalHours">0</div>
-          <div class="meta">Prelims + Mains combined</div>
-        </div>
-        <div class="stat-card">
-          <h3>Topics Covered</h3>
-          <div class="number" id="totalTopics">0</div>
-          <div class="meta">NCERT + Standard books</div>
-        </div>
-        <div class="stat-card">
-          <h3>Mock Tests</h3>
-          <div class="number" id="totalTests">0</div>
-          <div class="meta">Prelims + GS Mains tests</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PERFORMANCE ANALYTICS -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Performance Analytics</h2>
-        <span>Average effort & consistency streak</span>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h3>Average Study Hours</h3>
-          <div class="number" id="avgHours">0</div>
-          <div class="meta">Per active study day</div>
-        </div>
-        <div class="stat-card">
-          <h3>Current Streak</h3>
-          <div class="number" id="streakDays">0</div>
-          <div class="meta">Consecutive days with study log</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ANNOUNCEMENTS -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Announcements</h2>
-        <span>UPSC CSE related updates from admin</span>
-      </div>
-      <div id="announcements">
-        <div class="empty-state">No announcements yet. Admin will update here.</div>
-      </div>
-    </section>
-
-    <!-- DAILY TARGETS -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Daily Targets</h2>
-        <span>Short-term focus areas for you</span>
-      </div>
-      <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Daily Targets</h3>
-      <div id="dailyTargets">
-        <div class="empty-state">Admin will upload today's targets soon.</div>
-      </div>
-    </section>
-
-    <!-- TEST PORTAL -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Test Portal</h2>
-        <span>Mock tests · Test series · PYQs</span>
-      </div>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Mock Tests</h3>
-      <div id="mockTestsList">
-        <div class="empty-state">Admin will create mock tests soon.</div>
-      </div>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Test Series</h3>
-      <div id="testSeriesList">
-        <div class="empty-state">Admin will upload test series soon.</div>
-      </div>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Previous Year Papers</h3>
-      <div id="pypList">
-        <div class="empty-state">Admin will upload PYQ PDFs soon.</div>
-      </div>
-    </section>
-
-    <!-- STUDY MATERIALS -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Study Materials</h2>
-        <span>Books · Current Affairs · Notes & PDFs</span>
-      </div>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Books</h3>
-      <div id="booksList">
-        <div class="empty-state">Admin will upload books list soon.</div>
-      </div>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Current Affairs</h3>
-      <div id="currentAffairsList">
-        <div class="empty-state">Admin will upload current affairs soon.</div>
-      </div>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Notes & PDFs</h3>
-      <div id="notesList">
-        <div class="empty-state">Admin will upload notes & PDFs soon.</div>
-      </div>
-    </section>
-
-    <!-- SYLLABUS TRACKER -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Syllabus Tracker</h2>
-        <span>Prelims & Mains completion overview</span>
-      </div>
-
-      <div class="syllabus-item">
-        <span><strong>Prelims</strong></span>
-        <span id="prelimsPercent">0% Complete</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="prelimsBar" style="width: 0%"></div>
-      </div>
-
-      <div class="syllabus-item">
-        <span><strong>Mains</strong></span>
-        <span id="mainsPercent">0% Complete</span>
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="mainsBar" style="width: 0%"></div>
-      </div>
-    </section>
-
-    <!-- ANSWER WRITING -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>Answer Writing</h2>
-        <span>Upload copies for evaluation</span>
-      </div>
-
-      <form id="answerForm" onsubmit="submitAnswerCopy(event)">
-        <div class="update-grid">
-          <div class="update-box">
-            <label for="paperType">Select Paper</label>
-            <select id="paperType" required style="width:100%; padding:9px 11px; border-radius:8px; border:2px solid #e5e7eb; font-size:14px;">
-              <option value="">-- Select --</option>
-              <option value="GS1">GS1</option>
-              <option value="GS2">GS2</option>
-              <option value="GS3">GS3</option>
-              <option value="GS4">GS4</option>
-              <option value="Essay">Essay</option>
-              <option value="Ethics">Ethics</option>
-            </select>
-          </div>
-
-          <div class="update-box">
-            <label for="answerFile">Upload your file</label>
-            <input type="file" id="answerFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
-          </div>
-
-          <div class="update-box update-actions">
-            <button type="submit" class="btn">Upload for Evaluation</button>
-          </div>
-        </div>
-      </form>
-
-      <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Your Submissions</h3>
-      <div id="answerSubmissions">
-        <div class="empty-state">You have not uploaded any answer copies yet.</div>
-      </div>
-    </section>
-
-    <!-- PATH PRADARSHAK -->
-    <section class="section-card">
-      <div class="section-header">
-        <h2>पथ प्रदर्शक</h2>
-        <span>Daily motivation for UPSC CSE</span>
-      </div>
-      <div id="motivationalQuotes">
-        <div class="empty-state">Admin will share motivational quotes soon.</div>
-      </div>
-    </section>
-  </div>
-
-  <script>
-    // ---------- Generic safe fetch helper ----------
-    async function safeFetchJson(url, options = {}, retries = 1) {
-      try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-          throw new Error('HTTP ' + res.status);
-        }
-        return await res.json();
-      } catch (err) {
-        if (retries > 0) {
-          return safeFetchJson(url, options, retries - 1);
-        }
-        console.error('API error:', err);
-        throw err;
-      }
-    }
-
-    // Local fallback quotes
-    const fallbackQuotes = [
-      'The future belongs to those who believe in the beauty of their dreams.',
-      'Success is not final, failure is not fatal: it is the courage to continue that counts.',
-      'Believe you can and you are halfway there.',
-      'Hardships often prepare ordinary people for an extraordinary destiny.',
-      'The only way to do great work is to love what you do.'
-    ];
-
-    function getRandomFallbackQuote() {
-      return fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
-    }
-
-    function setDailyQuote(text) {
-      const today = new Date().toISOString().slice(0, 10);
-      const storedDate = localStorage.getItem('upsc_daily_quote_date');
-      const storedQuote = localStorage.getItem('upsc_daily_quote_text');
-
-      if (storedDate === today && storedQuote && !text) {
-        document.getElementById('dailyQuote').textContent = storedQuote;
-        return;
-      }
-
-      let finalText = text || getRandomFallbackQuote();
-      document.getElementById('dailyQuote').textContent = finalText;
-
-      localStorage.setItem('upsc_daily_quote_date', today);
-      localStorage.setItem('upsc_daily_quote_text', finalText);
-    }
-
-    // COUNTDOWN (days + total hours)
-    function updateCountdown() {
-      const now = new Date();
-
-      if (now < countdownStart) {
-        document.getElementById('daysLeft').textContent  = 0;
-        document.getElementById('hoursLeft').textContent = 0;
-        return;
-      }
-
-      const diffMs = examDate.getTime() - now.getTime();
-
-      if (diffMs <= 0) {
-        document.getElementById('daysLeft').textContent  = 0;
-        document.getElementById('hoursLeft').textContent = 0;
-        return;
-      }
-
-      const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
-      const days       = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-      document.getElementById('daysLeft').textContent  = days;
-      document.getElementById('hoursLeft').textContent = totalHours;
-    }
-
-    function logout() {
-      if (confirm('Logout from GyaanSetu?')) {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('name');
-        localStorage.removeItem('exam');
-        window.location.href = 'index.html';
-      }
-    }
-
-    // ========== STUDY PROGRESS ==========
-
-    function updateProgress(e) {
-      e.preventDefault();
-
-      const userId = localStorage.getItem('userId');
-      const exam   = localStorage.getItem('exam');
-
-      if (!userId || !exam) {
-        alert('Session expired. Please login again.');
-        window.location.href = 'index.html';
-        return;
-      }
-
-      const hours  = parseFloat(document.getElementById('studyHours').value) || 0;
-      const topics = parseInt(document.getElementById('topicsCovered').value || '0', 10);
-      const mocks  = parseInt(document.getElementById('mockTests').value || '0', 10);
-
-      const url = `${SCRIPT_URL}?action=logStudy` +
-                  `&userId=${encodeURIComponent(userId)}` +
-                  `&exam=${encodeURIComponent(exam)}` +
-                  `&hours=${encodeURIComponent(hours)}` +
-                  `&topics=${encodeURIComponent(topics)}` +
-                  `&mocks=${encodeURIComponent(mocks)}`;
-
-      safeFetchJson(url)
-        .then(data => {
-          if (!data || !data.success) {
-            throw new Error(data && data.message ? data.message : 'Failed to save study log');
-          }
-          const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
-                            `&userId=${encodeURIComponent(userId)}` +
-                            `&exam=${encodeURIComponent(exam)}`;
-          return safeFetchJson(totalsUrl);
-        })
-        .then(totals => {
-          if (totals && totals.success) {
-            document.getElementById('totalHours').textContent  = totals.totalHours || 0;
-            document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
-            document.getElementById('totalTests').textContent  = totals.totalMocks || 0;
-          } else {
-            throw new Error(totals && totals.message ? totals.message : 'Failed to load totals');
-          }
-          alert('Progress updated successfully!');
-          document.getElementById('progressForm').reset();
-          loadAnalytics();
-        })
-        .catch(err => {
-          console.error('Update progress error:', err);
-          alert('Error updating progress. Please try again later.');
-        });
-    }
-
-    function loadTotals() {
-      const userId = localStorage.getItem('userId');
-      const exam   = localStorage.getItem('exam');
-      if (!userId || !exam) return;
-
-      const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
-                        `&userId=${encodeURIComponent(userId)}` +
-                        `&exam=${encodeURIComponent(exam)}`;
-
-      safeFetchJson(totalsUrl)
-        .then(totals => {
-          if (totals && totals.success) {
-            document.getElementById('totalHours').textContent  = totals.totalHours || 0;
-            document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
-            document.getElementById('totalTests').textContent  = totals.totalMocks || 0;
-          }
-        })
-        .catch(err => {
-          console.error('Load totals error:', err);
-        });
-    }
-
-    // Performance analytics (avg hours + streak)
-    function loadAnalytics() {
-      const userId = localStorage.getItem('userId');
-      const exam   = localStorage.getItem('exam');
-      if (!userId || !exam) return;
-
-      const url = `${SCRIPT_URL}?action=getStudyAnalytics` +
-                  `&userId=${encodeURIComponent(userId)}` +
-                  `&exam=${encodeURIComponent(exam)}`;
-
-      safeFetchJson(url)
-        .then(data => {
-          if (!data || !data.success) return;
-          document.getElementById('avgHours').textContent =
-            (data.avgHours || 0).toFixed(1);
-          document.getElementById('streakDays').textContent =
-            data.streakDays || 0;
-        })
-        .catch(err => console.error('loadAnalytics error:', err));
-    }
-
-    // ========== LIST RENDERS ==========
-
-    function renderAnnouncements(items) {
-      const container = document.getElementById('announcements');
-      container.innerHTML = '';
-      if (!items || !items.length) {
-        container.innerHTML = '<div class="empty-state">No announcements yet. Admin will update here.</div>';
-        return;
-      }
-
-      const list = document.createElement('div');
-      list.className = 'list';
-
-      items.forEach((it, index) => {
-        const row = document.createElement('div');
-        row.className = 'list-item';
-        row.textContent = it.text || it.title || '';
-
-        if (index === 0) {
-          row.style.fontWeight = '600';
-          row.style.background = '#eef2ff';
-          row.style.borderRadius = '6px';
-          row.style.padding = '6px 8px';
-        }
-
-        list.appendChild(row);
-      });
-
-      container.appendChild(list);
-    }
-
-    function renderDailyTargets(items) {
-      const container = document.getElementById('dailyTargets');
-      container.innerHTML = '';
-      if (!items || !items.length) {
-        container.innerHTML = '<div class="empty-state">Admin will upload today\'s targets soon.</div>';
-        return;
-      }
-
-      const list = document.createElement('div');
-      list.className = 'list';
-
-      items.forEach((it, index) => {
-        const row = document.createElement('div');
-        row.className = 'list-item';
-        row.textContent = it.text || it.title || '';
-
-        if (index === 0) {
-          row.style.fontWeight = '600';
-          row.style.background = '#dcfce7';
-          row.style.borderRadius = '6px';
-          row.style.padding = '6px 8px';
-
-          const tag = document.createElement('span');
-          tag.className = 'tag';
-          tag.textContent = 'Today';
-          row.appendChild(tag);
-        }
-
-        list.appendChild(row);
-      });
-
-      container.appendChild(list);
-    }
-
-    function renderSectionList(containerId, items, highlightLabel) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      if (!items || !items.length) {
-        container.innerHTML = '<div class="empty-state">No data yet.</div>';
-        return;
-      }
-
-      const list = document.createElement('div');
-      list.className = 'list';
-
-      items.forEach((it, index) => {
-        const row = document.createElement('div');
-        row.className = 'list-item';
-        row.textContent = it.text || it.title || '';
-
-        if (index === 0 && highlightLabel) {
-          row.style.fontWeight = '600';
-          row.style.background = '#fef3c7';
-          row.style.borderRadius = '6px';
-          row.style.padding = '6px 8px';
-
-          const tag = document.createElement('span');
-          tag.className = 'tag';
-          tag.textContent = highlightLabel;
-          row.appendChild(tag);
-        }
-
-        list.appendChild(row);
-      });
-
-      container.appendChild(list);
-    }
-
-    // ========== DASHBOARD CONTENT ==========
-
-    function loadDashboardContent() {
-      const url = `${SCRIPT_URL}?action=getDashboardContent&examType=UPSC`;
-
-      safeFetchJson(url)
-        .then(data => {
-          if (!data || !data.success || !data.payload) {
-            setDailyQuote();
-            return;
-          }
-          const p = data.payload;
-
-          if (p.announcements && Array.isArray(p.announcements.items) && p.announcements.items.length) {
-            renderAnnouncements(p.announcements.items);
-          } else {
-            document.getElementById('announcements').innerHTML =
-              '<div class="empty-state">No announcements yet. Admin will update here.</div>';
-          }
-
-          if (p.dailyTargets && Array.isArray(p.dailyTargets.items)) {
-            renderDailyTargets(p.dailyTargets.items);
-          }
-
-          if (p.mockTests && Array.isArray(p.mockTests.items)) {
-            renderSectionList('mockTestsList', p.mockTests.items, 'NEW');
-          }
-
-          if (p.testSeries && Array.isArray(p.testSeries.items)) {
-            renderSectionList('testSeriesList', p.testSeries.items, 'NEW');
-          }
-
-          if (p.pyqPapers && Array.isArray(p.pyqPapers.items)) {
-            renderSectionList('pypList', p.pyqPapers.items, 'NEW');
-          }
-
-          if (p.books && Array.isArray(p.books.items)) {
-            renderSectionList('booksList', p.books.items, 'NEW');
-          }
-
-          if (p.currentAffairs && Array.isArray(p.currentAffairs.items)) {
-            renderSectionList('currentAffairsList', p.currentAffairs.items, 'NEW');
-          }
-
-          if (p.notesPdfs && Array.isArray(p.notesPdfs.items)) {
-            renderSectionList('notesList', p.notesPdfs.items, 'NEW');
-          }
-
-          if (p.syllabus) {
-            const pre = p.syllabus.prelimsPercent || 0;
-            const main = p.syllabus.mainsPercent || 0;
-            document.getElementById('prelimsPercent').textContent = pre + '% Complete';
-            document.getElementById('mainsPercent').textContent   = main + '% Complete';
-            document.getElementById('prelimsBar').style.width = pre + '%';
-            document.getElementById('mainsBar').style.width   = main + '%';
-          }
-
-          if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
-            renderSectionList('motivationalQuotes', p.quotes.items, 'NEW');
-            const first = p.quotes.items[0];
-            const text = typeof first === 'string' ? first : (first.text || first.title || '');
-            setDailyQuote(text);
-          } else {
-            setDailyQuote();
-          }
-        })
-        .catch(err => {
-          console.error('loadDashboardContent error:', err);
-          setDailyQuote();
-        });
-    }
-
-    // ========== ANSWER WRITING FRONT-END ==========
-
- function submitAnswerCopy(e) {
-  e.preventDefault();
-
-  const userId = localStorage.getItem('userId');
-  const name   = localStorage.getItem('name') || '';
-  const exam   = localStorage.getItem('exam');
-
-  if (!userId || !exam) {
-    alert('Session expired. Please login again.');
-    window.location.href = 'index.html';
-    return;
-  }
-
-  const paperType = document.getElementById('paperType').value;
-  const fileInput = document.getElementById('answerFile');
-  if (!paperType || !fileInput.files.length) {
-    alert('Please select paper and file.');
-    return;
-  }
-
-  const file = fileInput.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function(ev) {
-    // ev.target.result = "data:<mime>;base64,AAAA..."
-    const dataUrl = ev.target.result;
-    const base64  = dataUrl.split(',')[1] || '';
-    const mime    = dataUrl.substring(
-      dataUrl.indexOf(':') + 1,
-      dataUrl.indexOf(';')
-    ) || file.type || 'application/octet-stream';
-
-    const payload = {
-      action   : 'uploadAnswerCopy',
-      userId   : userId,
-      name     : name,
-      paperType: paperType,
-      fileName : file.name,
-      mimeType : mime,
-      data     : base64
-    };
-
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',  // yahan CORS ka fix hai [web:265][web:281]
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-      .then(() => {
-        // no-cors me response read nahi kar sakte, isliye direct success
-        alert('Answer copy uploaded for evaluation.');
-        document.getElementById('answerForm').reset();
-        loadAnswerSubmissions();
-      })
-      .catch(err => {
-        console.error('submitAnswerCopy error:', err);
-        alert('Error uploading file. Please try again later.');
-      });
-  };
-
-  reader.onerror = function(err) {
-    console.error('FileReader error:', err);
-    alert('Could not read file.');
-  };
-
-  reader.readAsDataURL(file);
+<!-- HEADER -->
+<div class="header">
+<h1>UPSC CSE Dashboard</h1>
+<div class="header-right">
+<span id="userName">Welcome</span>
+<button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+</div>
+
+<div class="container">
+<!-- COUNTDOWN -->
+<section class="exam-countdown">
+<h2>UPSC CSE Prelims 2026</h2>
+<div class="exam-subtitle">
+Stay consistent. Daily discipline decides your rank.
+</div>
+<div class="countdown-grid">
+<div class="countdown-item">
+<div class="number" id="daysLeft">0</div>
+<div class="label">Days Left</div>
+</div>
+<div class="countdown-item">
+<div class="number" id="hoursLeft">0</div>
+<div class="label">Hours Left</div>
+</div>
+</div>
+<div class="quote" id="dailyQuote">
+The future belongs to those who believe in the beauty of their dreams.
+</div>
+</section>
+
+<!-- UPDATE DAILY PROGRESS -->
+<section class="section-card">
+<div class="section-header">
+<h2>Update Your Daily Progress</h2>
+<span>Only for your UPSC CSE preparation</span>
+</div>
+<form id="progressForm" onsubmit="updateProgress(event)">
+<div class="update-grid">
+<div class="update-box">
+<label for="studyHours">Study Hours Today</label>
+<input type="number" id="studyHours" min="0" step="0.5" placeholder="e.g. 6" required>
+</div>
+<div class="update-box">
+<label for="topicsCovered">Topics Covered Today</label>
+<input type="number" id="topicsCovered" min="0" step="1" placeholder="e.g. 5" required>
+</div>
+<div class="update-box">
+<label for="mockTests">Mock Tests Completed</label>
+<input type="number" id="mockTests" min="0" step="1" placeholder="e.g. 1" required>
+</div>
+<div class="update-box update-actions">
+<button type="submit" class="btn">Save & Add to Totals</button>
+</div>
+</div>
+</form>
+</section>
+
+<!-- OVERALL TOTALS -->
+<section class="section-card">
+<div class="section-header">
+<h2>Overall Progress Totals</h2>
+<span>Calculated from your daily entries</span>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<h3>Total Study Hours</h3>
+<div class="number" id="totalHours">0</div>
+<div class="meta">Prelims + Mains combined</div>
+</div>
+<div class="stat-card">
+<h3>Topics Covered</h3>
+<div class="number" id="totalTopics">0</div>
+<div class="meta">NCERT + Standard books</div>
+</div>
+<div class="stat-card">
+<h3>Mock Tests</h3>
+<div class="number" id="totalTests">0</div>
+<div class="meta">Prelims + GS Mains tests</div>
+</div>
+</div>
+</section>
+
+<!-- PERFORMANCE ANALYTICS -->
+<section class="section-card">
+<div class="section-header">
+<h2>Performance Analytics</h2>
+<span>Average effort & consistency streak</span>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<h3>Average Study Hours</h3>
+<div class="number" id="avgHours">0</div>
+<div class="meta">Per active study day</div>
+</div>
+<div class="stat-card">
+<h3>Current Streak</h3>
+<div class="number" id="streakDays">0</div>
+<div class="meta">Consecutive days with study log</div>
+</div>
+</div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+<section class="section-card">
+<div class="section-header">
+<h2>Announcements</h2>
+<span>UPSC CSE related updates from admin</span>
+</div>
+<div id="announcements">
+<div class="empty-state">No announcements yet. Admin will update here.</div>
+</div>
+</section>
+
+<!-- DAILY TARGETS -->
+<section class="section-card">
+<div class="section-header">
+<h2>Daily Targets</h2>
+<span>Short-term focus areas for you</span>
+</div>
+<h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Daily Targets</h3>
+<div id="dailyTargets">
+<div class="empty-state">Admin will upload today's targets soon.</div>
+</div>
+</section>
+
+<!-- TEST PORTAL -->
+<section class="section-card">
+<div class="section-header">
+<h2>Test Portal</h2>
+<span>Mock tests · Test series · PYQs</span>
+</div>
+
+<h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Mock Tests</h3>
+<div id="mockTestsList">
+<div class="empty-state">Admin will create mock tests soon.</div>
+</div>
+
+<h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Test Series</h3>
+<div id="testSeriesList">
+<div class="empty-state">Admin will upload test series soon.</div>
+</div>
+
+<h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Previous Year Papers</h3>
+<div id="pypList">
+<div class="empty-state">Admin will upload PYQ PDFs soon.</div>
+</div>
+</section>
+
+<!-- STUDY MATERIALS -->
+<section class="section-card">
+<div class="section-header">
+<h2>Study Materials</h2>
+<span>Books · Current Affairs · Notes & PDFs</span>
+</div>
+
+<h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Books</h3>
+<div id="booksList">
+<div class="empty-state">Admin will upload books list soon.</div>
+</div>
+
+<h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Current Affairs</h3>
+<div id="currentAffairsList">
+<div class="empty-state">Admin will upload current affairs soon.</div>
+</div>
+
+<h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Notes & PDFs</h3>
+<div id="notesList">
+<div class="empty-state">Admin will upload notes & PDFs soon.</div>
+</div>
+</section>
+
+<!-- SYLLABUS TRACKER -->
+<section class="section-card">
+<div class="section-header">
+<h2>Syllabus Tracker</h2>
+<span>Prelims & Mains completion overview</span>
+</div>
+
+<div class="syllabus-item">
+<span><strong>Prelims</strong></span>
+<span id="prelimsPercent">0% Complete</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="prelimsBar" style="width: 0%"></div>
+</div>
+
+<div class="syllabus-item">
+<span><strong>Mains</strong></span>
+<span id="mainsPercent">0% Complete</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="mainsBar" style="width: 0%"></div>
+</div>
+</section>
+
+<!-- ANSWER WRITING -->
+<section class="section-card">
+<div class="section-header">
+<h2>Answer Writing</h2>
+<span>Upload copies for evaluation</span>
+</div>
+
+<form id="answerForm" onsubmit="submitAnswerCopy(event)">
+<div class="update-grid">
+<div class="update-box">
+<label for="paperType">Select Paper</label>
+<select id="paperType" required style="width:100%; padding:9px 11px; border-radius:8px; border:2px solid #e5e7eb; font-size:14px;">
+<option value="">-- Select --</option>
+<option value="GS1">GS1</option>
+<option value="GS2">GS2</option>
+<option value="GS3">GS3</option>
+<option value="GS4">GS4</option>
+<option value="Essay">Essay</option>
+<option value="Ethics">Ethics</option>
+</select>
+</div>
+
+<div class="update-box">
+<label for="answerFile">Upload your file</label>
+<input type="file" id="answerFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" required>
+</div>
+
+<div class="update-box update-actions">
+<button type="submit" class="btn">Upload for Evaluation</button>
+</div>
+</div>
+</form>
+
+<h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Your Submissions</h3>
+<div id="answerSubmissions">
+<div class="empty-state">You have not uploaded any answer copies yet.</div>
+</div>
+</section>
+
+<!-- PATH PRADARSHAK -->
+<section class="section-card">
+<div class="section-header">
+<h2>पथ प्रदर्शक</h2>
+<span>Daily motivation for UPSC CSE</span>
+</div>
+<div id="motivationalQuotes">
+<div class="empty-state">Admin will share motivational quotes soon.</div>
+</div>
+</section>
+</div>
+
+<script>
+// ---------- Generic safe fetch helper ----------
+async function safeFetchJson(url, options = {}, retries = 1) {
+try {
+const res = await fetch(url, options);
+if (!res.ok) {
+throw new Error('HTTP ' + res.status);
+}
+return await res.json();
+} catch (err) {
+if (retries > 0) {
+return safeFetchJson(url, options, retries - 1);
+}
+console.error('API error:', err);
+throw err;
+}
 }
 
-        alert('Answer copy uploaded for evaluation.');
-        document.getElementById('answerForm').reset();
-        loadAnswerSubmissions();
-      })
-      .catch(err => {
-        console.error('submitAnswerCopy error:', err);
-        alert('Error uploading file. Please try again later.');
-      });
-  };
+// Local fallback quotes
+const fallbackQuotes = [
+'The future belongs to those who believe in the beauty of their dreams.',
+'Success is not final, failure is not fatal: it is the courage to continue that counts.',
+'Believe you can and you are halfway there.',
+'Hardships often prepare ordinary people for an extraordinary destiny.',
+'The only way to do great work is to love what you do.'
+];
 
-  reader.onerror = function(err) {
-    console.error('FileReader error:', err);
-    alert('Could not read file.');
-  };
+function getRandomFallbackQuote() {
+return fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+}
 
-  reader.readAsDataURL(file);
+function setDailyQuote(text) {
+const today = new Date().toISOString().slice(0, 10);
+const storedDate = localStorage.getItem('upsc_daily_quote_date');
+const storedQuote = localStorage.getItem('upsc_daily_quote_text');
+
+if (storedDate === today && storedQuote && !text) {
+document.getElementById('dailyQuote').textContent = storedQuote;
+return;
+}
+
+let finalText = text || getRandomFallbackQuote();
+document.getElementById('dailyQuote').textContent = finalText;
+
+localStorage.setItem('upsc_daily_quote_date', today);
+localStorage.setItem('upsc_daily_quote_text', finalText);
+}
+
+// COUNTDOWN (days + total hours)
+function updateCountdown() {
+const now = new Date();
+
+if (now < countdownStart) {
+document.getElementById('daysLeft').textContent = 0;
+document.getElementById('hoursLeft').textContent = 0;
+return;
+}
+
+const diffMs = examDate.getTime() - now.getTime();
+
+if (diffMs <= 0) {
+document.getElementById('daysLeft').textContent = 0;
+document.getElementById('hoursLeft').textContent = 0;
+return;
+}
+
+const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+document.getElementById('daysLeft').textContent = days;
+document.getElementById('hoursLeft').textContent = totalHours;
+}
+
+function logout() {
+if (confirm('Logout from GyaanSetu?')) {
+localStorage.removeItem('userId');
+localStorage.removeItem('name');
+localStorage.removeItem('exam');
+window.location.href = 'index.html';
+}
+}
+
+// ========== STUDY PROGRESS ==========
+
+function updateProgress(e) {
+e.preventDefault();
+
+const userId = localStorage.getItem('userId');
+const exam = localStorage.getItem('exam');
+
+if (!userId || !exam) {
+alert('Session expired. Please login again.');
+window.location.href = 'index.html';
+return;
+}
+
+const hours = parseFloat(document.getElementById('studyHours').value) || 0;
+const topics = parseInt(document.getElementById('topicsCovered').value || '0', 10);
+const mocks = parseInt(document.getElementById('mockTests').value || '0', 10);
+
+const url = `${SCRIPT_URL}?action=logStudy` +
+`&userId=${encodeURIComponent(userId)}` +
+`&exam=${encodeURIComponent(exam)}` +
+`&hours=${encodeURIComponent(hours)}` +
+`&topics=${encodeURIComponent(topics)}` +
+`&mocks=${encodeURIComponent(mocks)}`;
+
+safeFetchJson(url)
+.then(data => {
+if (!data || !data.success) {
+throw new Error(data && data.message ? data.message : 'Failed to save study log');
+}
+const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
+`&userId=${encodeURIComponent(userId)}` +
+`&exam=${encodeURIComponent(exam)}`;
+return safeFetchJson(totalsUrl);
+})
+.then(totals => {
+if (totals && totals.success) {
+document.getElementById('totalHours').textContent = totals.totalHours || 0;
+document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
+document.getElementById('totalTests').textContent = totals.totalMocks || 0;
+} else {
+throw new Error(totals && totals.message ? totals.message : 'Failed to load totals');
+}
+alert('Progress updated successfully!');
+document.getElementById('progressForm').reset();
+loadAnalytics();
+})
+.catch(err => {
+console.error('Update progress error:', err);
+alert('Error updating progress. Please try again later.');
+});
+}
+
+function loadTotals() {
+const userId = localStorage.getItem('userId');
+const exam = localStorage.getItem('exam');
+if (!userId || !exam) return;
+
+const totalsUrl = `${SCRIPT_URL}?action=getStudyTotals` +
+`&userId=${encodeURIComponent(userId)}` +
+`&exam=${encodeURIComponent(exam)}`;
+
+safeFetchJson(totalsUrl)
+.then(totals => {
+if (totals && totals.success) {
+document.getElementById('totalHours').textContent = totals.totalHours || 0;
+document.getElementById('totalTopics').textContent = totals.totalTopics || 0;
+document.getElementById('totalTests').textContent = totals.totalMocks || 0;
+}
+})
+.catch(err => {
+console.error('Load totals error:', err);
+});
+}
+
+// Performance analytics (avg hours + streak)
+function loadAnalytics() {
+const userId = localStorage.getItem('userId');
+const exam = localStorage.getItem('exam');
+if (!userId || !exam) return;
+
+const url = `${SCRIPT_URL}?action=getStudyAnalytics` +
+`&userId=${encodeURIComponent(userId)}` +
+`&exam=${encodeURIComponent(exam)}`;
+
+safeFetchJson(url)
+.then(data => {
+if (!data || !data.success) return;
+document.getElementById('avgHours').textContent =
+(data.avgHours || 0).toFixed(1);
+document.getElementById('streakDays').textContent =
+data.streakDays || 0;
+})
+.catch(err => console.error('loadAnalytics error:', err));
+}
+
+// ========== LIST RENDERS ==========
+
+function renderAnnouncements(items) {
+const container = document.getElementById('announcements');
+container.innerHTML = '';
+if (!items || !items.length) {
+container.innerHTML = '<div class="empty-state">No announcements yet. Admin will update here.</div>';
+return;
+}
+
+const list = document.createElement('div');
+list.className = 'list';
+
+items.forEach((it, index) => {
+const row = document.createElement('div');
+row.className = 'list-item';
+row.textContent = it.text || it.title || '';
+
+if (index === 0) {
+row.style.fontWeight = '600';
+row.style.background = '#eef2ff';
+row.style.borderRadius = '6px';
+row.style.padding = '6px 8px';
+}
+
+list.appendChild(row);
+});
+
+container.appendChild(list);
+}
+
+function renderDailyTargets(items) {
+const container = document.getElementById('dailyTargets');
+container.innerHTML = '';
+if (!items || !items.length) {
+container.innerHTML = '<div class="empty-state">Admin will upload today\'s targets soon.</div>';
+return;
+}
+
+const list = document.createElement('div');
+list.className = 'list';
+
+items.forEach((it, index) => {
+const row = document.createElement('div');
+row.className = 'list-item';
+row.textContent = it.text || it.title || '';
+
+if (index === 0) {
+row.style.fontWeight = '600';
+row.style.background = '#dcfce7';
+row.style.borderRadius = '6px';
+row.style.padding = '6px 8px';
+
+const tag = document.createElement('span');
+tag.className = 'tag';
+tag.textContent = 'Today';
+row.appendChild(tag);
+}
+
+list.appendChild(row);
+});
+
+container.appendChild(list);
+}
+
+function renderSectionList(containerId, items, highlightLabel) {
+const container = document.getElementById(containerId);
+container.innerHTML = '';
+if (!items || !items.length) {
+container.innerHTML = '<div class="empty-state">No data yet.</div>';
+return;
+}
+
+const list = document.createElement('div');
+list.className = 'list';
+
+items.forEach((it, index) => {
+const row = document.createElement('div');
+row.className = 'list-item';
+row.textContent = it.text || it.title || '';
+
+if (index === 0 && highlightLabel) {
+row.style.fontWeight = '600';
+row.style.background = '#fef3c7';
+row.style.borderRadius = '6px';
+row.style.padding = '6px 8px';
+
+const tag = document.createElement('span');
+tag.className = 'tag';
+tag.textContent = highlightLabel;
+row.appendChild(tag);
+}
+
+list.appendChild(row);
+});
+
+container.appendChild(list);
+}
+
+// ========== DASHBOARD CONTENT ==========
+
+function loadDashboardContent() {
+const url = `${SCRIPT_URL}?action=getDashboardContent&examType=UPSC`;
+
+safeFetchJson(url)
+.then(data => {
+if (!data || !data.success || !data.payload) {
+setDailyQuote();
+return;
+}
+const p = data.payload;
+
+if (p.announcements && Array.isArray(p.announcements.items) && p.announcements.items.length) {
+renderAnnouncements(p.announcements.items);
+} else {
+document.getElementById('announcements').innerHTML =
+'<div class="empty-state">No announcements yet. Admin will update here.</div>';
+}
+
+if (p.dailyTargets && Array.isArray(p.dailyTargets.items)) {
+renderDailyTargets(p.dailyTargets.items);
+}
+
+if (p.mockTests && Array.isArray(p.mockTests.items)) {
+renderSectionList('mockTestsList', p.mockTests.items, 'NEW');
+}
+
+if (p.testSeries && Array.isArray(p.testSeries.items)) {
+renderSectionList('testSeriesList', p.testSeries.items, 'NEW');
+}
+
+if (p.pyqPapers && Array.isArray(p.pyqPapers.items)) {
+renderSectionList('pypList', p.pyqPapers.items, 'NEW');
+}
+
+if (p.books && Array.isArray(p.books.items)) {
+renderSectionList('booksList', p.books.items, 'NEW');
+}
+
+if (p.currentAffairs && Array.isArray(p.currentAffairs.items)) {
+renderSectionList('currentAffairsList', p.currentAffairs.items, 'NEW');
+}
+
+if (p.notesPdfs && Array.isArray(p.notesPdfs.items)) {
+renderSectionList('notesList', p.notesPdfs.items, 'NEW');
+}
+
+if (p.syllabus) {
+const pre = p.syllabus.prelimsPercent || 0;
+const main = p.syllabus.mainsPercent || 0;
+document.getElementById('prelimsPercent').textContent = pre + '% Complete';
+document.getElementById('mainsPercent').textContent = main + '% Complete';
+document.getElementById('prelimsBar').style.width = pre + '%';
+document.getElementById('mainsBar').style.width = main + '%';
+}
+
+if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
+renderSectionList('motivationalQuotes', p.quotes.items, 'NEW');
+const first = p.quotes.items[0];
+const text = typeof first === 'string' ? first : (first.text || first.title || '');
+setDailyQuote(text);
+} else {
+setDailyQuote();
+}
+})
+.catch(err => {
+console.error('loadDashboardContent error:', err);
+setDailyQuote();
+});
+}
+
+// ========== ANSWER WRITING FRONT-END ==========
+
+function submitAnswerCopy(e) {
+e.preventDefault();
+
+const userId = localStorage.getItem('userId');
+const name = localStorage.getItem('name') || '';
+const exam = localStorage.getItem('exam');
+
+if (!userId || !exam) {
+alert('Session expired. Please login again.');
+window.location.href = 'index.html';
+return;
+}
+
+const paperType = document.getElementById('paperType').value;
+const fileInput = document.getElementById('answerFile');
+if (!paperType || !fileInput.files.length) {
+alert('Please select paper and file.');
+return;
+}
+
+const file = fileInput.files[0];
+const reader = new FileReader();
+
+reader.onload = function(ev) {
+// ev.target.result = "data:<mime>;base64,AAAA..."
+const dataUrl = ev.target.result;
+const base64 = dataUrl.split(',')[1] || '';
+const mime = dataUrl.substring(
+dataUrl.indexOf(':') + 1,
+dataUrl.indexOf(';')
+) || file.type || 'application/octet-stream';
+
+const payload = {
+action : 'uploadAnswerCopy',
+userId : userId,
+name : name,
+paperType: paperType,
+fileName : file.name,
+mimeType : mime,
+data : base64
+};
+
+fetch(SCRIPT_URL, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(payload)
+})
+.then(r => r.json())
+.then(res => {
+if (!res.success) {
+throw new Error(res.message || 'Upload failed');
+}
+alert('Answer copy uploaded for evaluation.');
+document.getElementById('answerForm').reset();
+loadAnswerSubmissions();
+})
+.catch(err => {
+console.error('submitAnswerCopy error:', err);
+alert('Error uploading file. Please try again later.');
+});
+};
+
+reader.onerror = function(err) {
+console.error('FileReader error:', err);
+alert('Could not read file.');
+};
+
+reader.readAsDataURL(file);
 }
 
 
-    function loadAnswerSubmissions() {
-      const userId = localStorage.getItem('userId');
-      if (!userId) return;
+function loadAnswerSubmissions() {
+const userId = localStorage.getItem('userId');
+if (!userId) return;
 
-      const url = `${SCRIPT_URL}?action=getAnswerSubmissions` +
-                  `&userId=${encodeURIComponent(userId)}`;
+const url = `${SCRIPT_URL}?action=getAnswerSubmissions` +
+`&userId=${encodeURIComponent(userId)}`;
 
-      safeFetchJson(url)
-        .then(data => {
-          const container = document.getElementById('answerSubmissions');
-          container.innerHTML = '';
+safeFetchJson(url)
+.then(data => {
+const container = document.getElementById('answerSubmissions');
+container.innerHTML = '';
 
-          if (!data || !data.success || !data.submissions || !data.submissions.length) {
-            container.innerHTML =
-              '<div class="empty-state">You have not uploaded any answer copies yet.</div>';
-            return;
-          }
+if (!data || !data.success || !data.submissions || !data.submissions.length) {
+container.innerHTML =
+'<div class="empty-state">You have not uploaded any answer copies yet.</div>';
+return;
+}
 
-          const list = document.createElement('div');
-          list.className = 'list';
+const list = document.createElement('div');
+list.className = 'list';
 
-          data.submissions.forEach(sub => {
-            const row = document.createElement('div');
-            row.className = 'list-item';
-            row.style.display = 'flex';
-            row.style.justifyContent = 'space-between';
-            row.style.alignItems = 'center';
-            row.style.gap = '10px';
+data.submissions.forEach(sub => {
+const row = document.createElement('div');
+row.className = 'list-item';
+row.style.display = 'flex';
+row.style.justifyContent = 'space-between';
+row.style.alignItems = 'center';
+row.style.gap = '10px';
 
-            const left = document.createElement('div');
-            left.innerHTML =
-              `<strong>${sub.paperType}</strong> | ${sub.uploadedOn} ` +
-              `<span class="tag">${sub.status}</span>`;
+const left = document.createElement('div');
+left.innerHTML =
+`<strong>${sub.paperType}</strong> | ${sub.uploadedOn} ` +
+`<span class="tag">${sub.status}</span>`;
 
-            const right = document.createElement('div');
+const right = document.createElement('div');
 
-            if (sub.candidateFileUrl) {
-              const viewBtn = document.createElement('a');
-              viewBtn.href = sub.candidateFileUrl;
-              viewBtn.target = '_blank';
-              viewBtn.textContent = 'View';
-              viewBtn.style.fontSize = '12px';
-              viewBtn.style.marginRight = '8px';
-              right.appendChild(viewBtn);
-            }
+if (sub.candidateFileUrl) {
+const viewBtn = document.createElement('a');
+viewBtn.href = sub.candidateFileUrl;
+viewBtn.target = '_blank';
+viewBtn.textContent = 'View';
+viewBtn.style.fontSize = '12px';
+viewBtn.style.marginRight = '8px';
+right.appendChild(viewBtn);
+}
 
-            if (sub.status === 'Evaluated' && sub.evaluatedFileUrl) {
-              const getBtn = document.createElement('a');
-              getBtn.href = sub.evaluatedFileUrl;
-              getBtn.target = '_blank';
-              getBtn.textContent = 'Get file';
-              getBtn.style.fontSize = '12px';
-              getBtn.style.color = '#16a34a';
-              getBtn.style.fontWeight = '600';
-              right.appendChild(getBtn);
-            }
+if (sub.status === 'Evaluated' && sub.evaluatedFileUrl) {
+const getBtn = document.createElement('a');
+getBtn.href = sub.evaluatedFileUrl;
+getBtn.target = '_blank';
+getBtn.textContent = 'Get file';
+getBtn.style.fontSize = '12px';
+getBtn.style.color = '#16a34a';
+getBtn.style.fontWeight = '600';
+right.appendChild(getBtn);
+}
 
-            row.appendChild(left);
-            row.appendChild(right);
-            list.appendChild(row);
-          });
+row.appendChild(left);
+row.appendChild(right);
+list.appendChild(row);
+});
 
-          container.appendChild(list);
-        })
-        .catch(err => {
-          console.error('loadAnswerSubmissions error:', err);
-        });
-    }
+container.appendChild(list);
+})
+.catch(err => {
+console.error('loadAnswerSubmissions error:', err);
+});
+}
 
-    // ONLOAD + periodic auto-refresh
-    window.onload = function() {
-      document.getElementById('userName').textContent =
-        localStorage.getItem('name') || 'Candidate';
+// ONLOAD + periodic auto-refresh
+window.onload = function() {
+document.getElementById('userName').textContent =
+localStorage.getItem('name') || 'Candidate';
 
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
-      setDailyQuote();
-      loadTotals();
-      loadAnalytics();
-      loadDashboardContent();
-      loadAnswerSubmissions();
+setDailyQuote();
+loadTotals();
+loadAnalytics();
+loadDashboardContent();
+loadAnswerSubmissions();
 
-      setInterval(loadDashboardContent, 5 * 60 * 1000);
-      setInterval(loadTotals, 5 * 60 * 1000);
-      setInterval(loadAnalytics, 5 * 60 * 1000);
-      setInterval(loadAnswerSubmissions, 5 * 60 * 1000);
-    };
-  </script>
+setInterval(loadDashboardContent, 5 * 60 * 1000);
+setInterval(loadTotals, 5 * 60 * 1000);
+setInterval(loadAnalytics, 5 * 60 * 1000);
+setInterval(loadAnswerSubmissions, 5 * 60 * 1000);
+};
+</script>
 </body>
 </html>
