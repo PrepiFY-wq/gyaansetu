@@ -342,7 +342,6 @@
 
     // UPSC CSE Prelims 2026: 24 May 2026, 9:00 AM IST [web:150][web:152]
     const examDate = new Date('2026-05-24T09:00:00+05:30');
-
     // Countdown start: 3 Jan 2026, 8:00 AM IST
     const countdownStart = new Date('2026-01-03T08:00:00+05:30');
 
@@ -387,7 +386,11 @@
       </div>
       <div class="countdown-grid">
         <div class="countdown-item">
-          <div class="number" id="totalHoursLeft">0</div>
+          <div class="number" id="daysLeft">0</div>
+          <div class="label">Days Left</div>
+        </div>
+        <div class="countdown-item">
+          <div class="number" id="hoursLeft">0</div>
           <div class="label">Hours Left</div>
         </div>
       </div>
@@ -631,22 +634,29 @@
         text || getRandomFallbackQuote();
     }
 
-    // TOTAL HOURS countdown from 3 Jan 2026, 8:00 AM to exam
+    // COUNTDOWN (days + hours) from 3 Jan 2026, 8:00 AM to exam
     function updateCountdown() {
       const now = new Date();
 
-      // Agar abhi start se pehle hai to start ko base lo
+      // Agar abhi countdownStart se pehle hai to countdownStart se hi count karo
       const effectiveNow = now < countdownStart ? countdownStart : now;
 
-      const diff = examDate - effectiveNow;
+      const diffMs = examDate - effectiveNow;
 
-      if (diff <= 0) {
-        document.getElementById('totalHoursLeft').textContent = 0;
+      if (diffMs <= 0) {
+        document.getElementById('daysLeft').textContent = 0;
+        document.getElementById('hoursLeft').textContent = 0;
         return;
       }
 
-      const totalHours = Math.floor(diff / (1000 * 60 * 60)); // ms → hours [web:159][web:120]
-      document.getElementById('totalHoursLeft').textContent = totalHours;
+      // Total seconds
+      let delta = Math.floor(diffMs / 1000); // [web:120][web:185]
+      const days  = Math.floor(delta / 86400); // 86400 = 24*60*60
+      delta      -= days * 86400;
+      const hours = Math.floor(delta / 3600);
+
+      document.getElementById('daysLeft').textContent  = days;
+      document.getElementById('hoursLeft').textContent = hours;
     }
 
     function logout() {
@@ -1099,8 +1109,8 @@
         localStorage.getItem('name') || 'Candidate';
 
       updateCountdown();
-      // 1 ghante me ek baar countdown refresh
-      setInterval(updateCountdown, 60 * 60 * 1000); // [web:133][web:180]
+      // 1 minute me countdown refresh (days + hours auto update)
+      setInterval(updateCountdown, 60 * 1000); // [web:39][web:133]
 
       setDailyQuote();
       loadTotals();
