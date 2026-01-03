@@ -670,7 +670,7 @@
               <!-- ================= JEE TAB ================= -->
               <div class="tab-pane fade" id="jee-pane" role="tabpanel">
                 <div class="row g-3">
-                  <!-- JEE Announcements -->
+                  <!-- JEE Announcements (NO upload) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -702,7 +702,7 @@
                     </div>
                   </div>
 
-                  <!-- JEE Test Series -->
+                  <!-- JEE Test Series (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -715,6 +715,19 @@
                           <input id="jeetestSeriestitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Test Series">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="jeetestSeriesfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('JEE','testSeries')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            JEE test series PDFs / links yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line test / link)</label>
                           <textarea id="jeetestSeriesitems"
@@ -734,7 +747,7 @@
                     </div>
                   </div>
 
-                  <!-- JEE PYQs -->
+                  <!-- JEE PYQs (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -747,6 +760,19 @@
                           <input id="jeepyqPaperstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Previous Year Papers">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="jeepyqPapersfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('JEE','pyqPapers')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            JEE PYQ PDFs yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line paper link)</label>
                           <textarea id="jeepyqPapersitems"
@@ -766,7 +792,7 @@
                     </div>
                   </div>
 
-                  <!-- JEE Books -->
+                  <!-- JEE Books (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -779,6 +805,19 @@
                           <input id="jeebookstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Booklist (PCM)">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="jeebooksfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('JEE','books')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            JEE booklist / material PDFs yahan upload karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (book / link per line)</label>
                           <textarea id="jeebooksitems"
@@ -798,7 +837,7 @@
                     </div>
                   </div>
 
-                  <!-- JEE Formula Sheets -->
+                  <!-- JEE Formula Sheets (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -811,6 +850,19 @@
                           <input id="jeeformulaSheetstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Important Formula Sheets">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="jeeformulaSheetsfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('JEE','formulaSheets')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            Formula sheets / short notes PDFs yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line sheet link)</label>
                           <textarea id="jeeformulaSheetsitems"
@@ -875,7 +927,7 @@
                     </div>
                   </div>
 
-                  <!-- JEE Quotes -->
+                  <!-- JEE Quotes (NO upload) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -914,7 +966,7 @@
               <div class="tab-pane fade" id="neet-pane" role="tabpanel">
                 <div class="row g-3">
 
-                  <!-- NEET Announcements -->
+                  <!-- NEET Announcements (NO upload) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -946,7 +998,7 @@
                     </div>
                   </div>
 
-                  <!-- NEET Mock Tests -->
+                  <!-- NEET Mock Tests (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -959,6 +1011,19 @@
                           <input id="neettestSeriestitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Mock Tests">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="neettestSeriesfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('NEET','testSeries')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            NEET mock test PDFs / links yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line test / link)</label>
                           <textarea id="neettestSeriesitems"
@@ -978,7 +1043,7 @@
                     </div>
                   </div>
 
-                  <!-- NEET PYQs -->
+                  <!-- NEET PYQs (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -991,6 +1056,19 @@
                           <input id="neetpyqPaperstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Previous Year Papers">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="neetpyqPapersfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('NEET','pyqPapers')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            NEET PYQ PDFs yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line paper link)</label>
                           <textarea id="neetpyqPapersitems"
@@ -1010,7 +1088,7 @@
                     </div>
                   </div>
 
-                  <!-- NEET Books -->
+                  <!-- NEET Books (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1023,6 +1101,19 @@
                           <input id="neetbookstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. NCERT + Reference Books">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="neetbooksfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('NEET','books')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            NEET booklist / material PDFs yahan upload karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (book / link per line)</label>
                           <textarea id="neetbooksitems"
@@ -1042,7 +1133,7 @@
                     </div>
                   </div>
 
-                  <!-- NEET Diagrams / Charts -->
+                  <!-- NEET Diagrams / Charts (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1055,6 +1146,19 @@
                           <input id="neetformulaSheetstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Important Diagrams / Charts">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="neetformulaSheetsfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('NEET','formulaSheets')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            Diagrams / charts ke PDFs / images yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line sheet / link)</label>
                           <textarea id="neetformulaSheetsitems"
@@ -1119,7 +1223,7 @@
                     </div>
                   </div>
 
-                  <!-- NEET Quotes -->
+                  <!-- NEET Quotes (NO upload) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1158,7 +1262,7 @@
               <div class="tab-pane fade" id="rpsc-pane" role="tabpanel">
                 <div class="row g-3">
 
-                  <!-- RPSC Announcements -->
+                  <!-- RPSC Announcements (NO upload) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1190,7 +1294,7 @@
                     </div>
                   </div>
 
-                  <!-- RPSC Mock Tests -->
+                  <!-- RPSC Mock Tests (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1203,6 +1307,19 @@
                           <input id="rpsctestSeriestitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Mock Tests">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="rpsctestSeriesfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('RPSC','testSeries')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            RPSC mock test PDFs / links yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line test / link)</label>
                           <textarea id="rpsctestSeriesitems"
@@ -1222,7 +1339,7 @@
                     </div>
                   </div>
 
-                  <!-- RPSC PYQs -->
+                  <!-- RPSC PYQs (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1235,6 +1352,19 @@
                           <input id="rpscpyqPaperstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Previous Year Papers">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="rpscpyqPapersfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('RPSC','pyqPapers')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            RPSC PYQ PDFs yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line paper link)</label>
                           <textarea id="rpscpyqPapersitems"
@@ -1254,7 +1384,7 @@
                     </div>
                   </div>
 
-                  <!-- RPSC Books -->
+                  <!-- RPSC Books (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1267,6 +1397,19 @@
                           <input id="rpscbookstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Standard Books">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="rpscbooksfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('RPSC','books')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            RPSC books / notes PDFs yahan upload karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (book / link per line)</label>
                           <textarea id="rpscbooksitems"
@@ -1286,7 +1429,7 @@
                     </div>
                   </div>
 
-                  <!-- RPSC Charts / Maps -->
+                  <!-- RPSC Charts / Maps (UPLOAD ON) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1299,6 +1442,19 @@
                           <input id="rpscformulaSheetstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. Important Charts / Maps">
                         </div>
+
+                        <div class="mb-2">
+                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
+                          <input type="file" id="rpscformulaSheetsfile" class="form-control form-control-sm">
+                          <button class="btn btn-sm btn-outline-secondary mt-1"
+                                  onclick="uploadAndAppendLink('RPSC','formulaSheets')">
+                            Upload & attach
+                          </button>
+                          <small class="text-muted d-block">
+                            Rajasthan maps / charts ke PDFs / images yahan attach karo.
+                          </small>
+                        </div>
+
                         <div class="mb-2">
                           <label class="form-label small">Items (each line chart / map link)</label>
                           <textarea id="rpscformulaSheetsitems"
@@ -1363,7 +1519,7 @@
                     </div>
                   </div>
 
-                  <!-- RPSC Quotes -->
+                  <!-- RPSC Quotes (NO upload) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
