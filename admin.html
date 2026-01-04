@@ -91,7 +91,7 @@
     }
     .upload-folder-btn {
       font-size: 12px;
-      padding: 4px 10px;
+      padding: 6px 12px;
     }
   </style>
 </head>
@@ -130,7 +130,7 @@
     <!-- MAIN CONTENT -->
     <main class="col-md-9 ms-sm-auto col-lg-10 px-4 py-4">
 
-      <!-- REGISTRATIONS VIEW -->
+      <!-- REGISTRATIONS VIEW (unchanged) -->
       <section id="view-registrations">
         <div class="row g-3 mb-3">
           <div class="col-md-4">
@@ -188,8 +188,7 @@
                   <th>Actions</th>
                 </tr>
                 </thead>
-                <tbody id="registrationsBody">
-                </tbody>
+                <tbody id="registrationsBody"></tbody>
               </table>
             </div>
           </div>
@@ -202,8 +201,7 @@
           <div class="card-header">
             <h5 class="mb-0">Exam Dashboards Content</h5>
             <small class="text-muted">
-              UPSC, JEE, NEET, RPSC dashboards ke sections yahan se update honge. Title + items (per line) save kar sakte ho.
-              Jahan Drive folder bana hua hai, wahan “Open folder to upload files” button se directly Drive folder open hoga.
+              UPSC, JEE, NEET, RPSC dashboards ke sections yahan se update honge.
             </small>
           </div>
           <div class="card-body">
@@ -232,7 +230,7 @@
               <div class="tab-pane fade show active" id="upsc-pane" role="tabpanel">
                 <div class="row g-3">
 
-                  <!-- UPSC Announcements (NO upload, Last saved ON) -->
+                  <!-- Announcements -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -264,7 +262,7 @@
                     </div>
                   </div>
 
-                  <!-- UPSC Daily Targets (NO upload, Last saved ON, title = date) -->
+                  <!-- Daily Targets -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -273,7 +271,7 @@
                       </div>
                       <div class="card-body">
                         <div class="mb-2">
-                          <label class="form-label small">Section Title (Date + optional note)</label>
+                          <label class="form-label small">Section Title (Date + note)</label>
                           <input id="upscdailyTargetstitle" class="form-control form-control-sm section-title-input"
                                  placeholder="e.g. 05 Jan 2026 - Today's Targets">
                         </div>
@@ -296,7 +294,7 @@
                     </div>
                   </div>
 
-                  <!-- UPSC Mock Tests (UPLOAD, Last saved OFF) -->
+                  <!-- Mock Tests: Title + Items + Last saved -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -304,36 +302,22 @@
                         <small id="upscmockTestsmsg" class="text-muted small"></small>
                       </div>
                       <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscmockTeststitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Full-length Tests">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('UPSC','mockTests')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
                         <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="upscmockTestsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('UPSC','mockTests')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Mock test PDFs / links yahan se attach karo.
-                          </small>
+                          <label class="form-label small">Section Title</label>
+                          <input id="upscmockTeststitle" class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. Full-length Tests">
                         </div>
-
                         <div class="mb-2">
                           <label class="form-label small">Items (each line test link)</label>
                           <textarea id="upscmockTestsitems"
                                     class="form-control form-control-sm section-items"
                                     placeholder="FLT-1 Polity - Drive link"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="upscmockTestslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
                         </div>
                       </div>
                       <div class="card-footer text-end">
@@ -342,237 +326,87 @@
                     </div>
                   </div>
 
-                  <!-- UPSC Test Series (UPLOAD, Last saved OFF) -->
+                  <!-- Test Series: only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>UPSC Test Series</span>
-                        <small id="upsctestSeriesmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="upsctestSeriestitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Prelims Test Series">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('UPSC','testSeries')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="upsctestSeriesfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('UPSC','testSeries')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Test series schedule / PDFs yahan upload karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line series item / link)</label>
-                          <textarea id="upsctestSeriesitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Test Series 2026 - Paper 1"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('UPSC','testSeries')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('UPSC','testSeries')">
+                          Open folder to upload Test Series
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- UPSC PYQs (UPLOAD, Last saved OFF) -->
+                  <!-- PYQs: only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>UPSC PYQs</span>
-                        <small id="upscpyqPapersmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscpyqPaperstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Previous Year Papers">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('UPSC','pyqPapers')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="upscpyqPapersfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('UPSC','pyqPapers')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            PYQ PDFs yahan se attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line paper link)</label>
-                          <textarea id="upscpyqPapersitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Prelims 2023 Question Paper - PDF link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('UPSC','pyqPapers')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('UPSC','pyqPapers')">
+                          Open folder to upload PYQs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- UPSC Books & Materials (UPLOAD, Last saved OFF) -->
+                  <!-- Books & Materials: only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>UPSC Books & Materials</span>
-                        <small id="upscbooksmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscbookstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Booklist">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('UPSC','books')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="upscbooksfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('UPSC','books')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Booklist / notes ke PDFs yahan upload karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (book / note link per line)</label>
-                          <textarea id="upscbooksitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Laxmikanth - Polity&#10;Spectrum - Modern History"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('UPSC','books')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('UPSC','books')">
+                          Open folder to upload Books / Materials
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- UPSC Current Affairs (UPLOAD, Last saved OFF) -->
+                  <!-- Current Affairs: only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>UPSC Current Affairs</span>
-                        <small id="upsccurrentAffairsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="upsccurrentAffairstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Daily CA">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('UPSC','currentAffairs')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="upsccurrentAffairsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('UPSC','currentAffairs')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Daily CA PDFs / links yahan se attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (CA source / file link per line)</label>
-                          <textarea id="upsccurrentAffairsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="3 Jan 2026 - Daily CA PDF - Drive link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('UPSC','currentAffairs')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('UPSC','currentAffairs')">
+                          Open folder to upload Current Affairs files
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- UPSC Notes & PDFs (UPLOAD, Last saved OFF) -->
+                  <!-- Notes & PDFs: only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>UPSC Notes & PDFs</span>
-                        <small id="upscnotesPdfsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscnotesPdfstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Notes PDFs">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('UPSC','notesPdfs')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image)</label>
-                          <input type="file" id="upscnotesPdfsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('UPSC','notesPdfs')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Notes PDFs yahan upload karo, neeche list me link add ho jayega.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (note PDF link per line)</label>
-                          <textarea id="upscnotesPdfsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="GS-2 Governance notes - PDF link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('UPSC','notesPdfs')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('UPSC','notesPdfs')">
+                          Open folder to upload Notes / PDFs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- UPSC Quotes (NO upload, Last saved ON) -->
+                  <!-- Quotes (unchanged) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -604,7 +438,7 @@
                     </div>
                   </div>
 
-                  <!-- UPSC Syllabus (NO upload, Last saved ON) -->
+                  <!-- Syllabus (unchanged) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -637,7 +471,7 @@
                     </div>
                   </div>
 
-                  <!-- UPSC Answer Copies -->
+                  <!-- Answer Copies (unchanged) -->
                   <div class="col-12">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -681,7 +515,7 @@
               <div class="tab-pane fade" id="jee-pane" role="tabpanel">
                 <div class="row g-3">
 
-                  <!-- JEE Announcements (NO upload, Last saved ON) -->
+                  <!-- Announcements (normal) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -713,237 +547,87 @@
                     </div>
                   </div>
 
-                  <!-- JEE Test Series (UPLOAD, Last saved OFF) -->
+                  <!-- JEE Test Series – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>JEE Test Series</span>
-                        <small id="jeetestSeriesmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="jeetestSeriestitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Test Series">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('JEE','testSeries')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="jeetestSeriesfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('JEE','testSeries')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            JEE test series PDFs / links yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line test / link)</label>
-                          <textarea id="jeetestSeriesitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="JEE Test 1 - Physics + Chemistry&#10;JEE Test 2 - Full Syllabus"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','testSeries')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('JEE','testSeries')">
+                          Open folder to upload Test Series
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- JEE PYQs (UPLOAD, Last saved OFF) -->
+                  <!-- JEE PYQs – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>JEE PYQs</span>
-                        <small id="jeepyqPapersmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="jeepyqPaperstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Previous Year Papers">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('JEE','pyqPapers')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="jeepyqPapersfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('JEE','pyqPapers')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            JEE PYQ PDFs yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line paper link)</label>
-                          <textarea id="jeepyqPapersitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="JEE Main 2024 Shift 1 - PDF link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','pyqPapers')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('JEE','pyqPapers')">
+                          Open folder to upload PYQs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- JEE Books (UPLOAD, Last saved OFF) -->
+                  <!-- JEE Books – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>JEE Books</span>
-                        <small id="jeebooksmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="jeebookstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Booklist (PCM)">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('JEE','books')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="jeebooksfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('JEE','books')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            JEE booklist / material PDFs yahan upload karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (book / link per line)</label>
-                          <textarea id="jeebooksitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="HC Verma - Physics&#10;Cengage Maths Vol 1"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','books')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('JEE','books')">
+                          Open folder to upload Books
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- JEE Formula Sheets (UPLOAD, Last saved OFF) -->
+                  <!-- JEE Formula Sheets – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>JEE Formula Sheets</span>
-                        <small id="jeeformulaSheetsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="jeeformulaSheetstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Important Formula Sheets">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('JEE','formulaSheets')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="jeeformulaSheetsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('JEE','formulaSheets')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Formula sheets / short notes PDFs yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line sheet link)</label>
-                          <textarea id="jeeformulaSheetsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Physics Formula Sheet - PDF&#10;Organic Chemistry Reactions Sheet"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','formulaSheets')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('JEE','formulaSheets')">
+                          Open folder to upload Formula Sheets
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- JEE Notes & PDFs (UPLOAD, Last saved OFF) -->
+                  <!-- JEE Notes & PDFs – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>JEE Notes & PDFs</span>
-                        <small id="jeenotesPdfsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="jeenotesPdfstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Notes PDFs">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('JEE','notesPdfs')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image)</label>
-                          <input type="file" id="jeenotesPdfsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('JEE','notesPdfs')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            JEE notes PDFs yahan upload karo, neeche list me link add ho jayega.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (note PDF link per line)</label>
-                          <textarea id="jeenotesPdfsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Physics Kinematics Notes - PDF link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('JEE','notesPdfs')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('JEE','notesPdfs')">
+                          Open folder to upload Notes / PDFs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- JEE Quotes (NO upload, Last saved ON) -->
+                  <!-- JEE Quotes (normal) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -982,7 +666,7 @@
               <div class="tab-pane fade" id="neet-pane" role="tabpanel">
                 <div class="row g-3">
 
-                  <!-- NEET Announcements (NO upload, Last saved ON) -->
+                  <!-- NEET Announcements (normal) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1014,237 +698,87 @@
                     </div>
                   </div>
 
-                  <!-- NEET Mock Tests (UPLOAD, Last saved OFF) -->
+                  <!-- NEET Mock Tests – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>NEET Mock Tests</span>
-                        <small id="neettestSeriesmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="neettestSeriestitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Mock Tests">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('NEET','testSeries')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="neettestSeriesfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('NEET','testSeries')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            NEET mock test PDFs / links yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line test / link)</label>
-                          <textarea id="neettestSeriesitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="NEET Mock 1 - PCB&#10;NEET Mock 2 - Full Syllabus"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','testSeries')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('NEET','testSeries')">
+                          Open folder to upload Mock Tests
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEET PYQs (UPLOAD, Last saved OFF) -->
+                  <!-- NEET PYQs – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>NEET PYQs</span>
-                        <small id="neetpyqPapersmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="neetpyqPaperstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Previous Year Papers">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('NEET','pyqPapers')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="neetpyqPapersfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('NEET','pyqPapers')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            NEET PYQ PDFs yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line paper link)</label>
-                          <textarea id="neetpyqPapersitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="NEET 2024 Official Paper - PDF link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','pyqPapers')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('NEET','pyqPapers')">
+                          Open folder to upload PYQs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEET Books (UPLOAD, Last saved OFF) -->
+                  <!-- NEET Books – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>NEET Books</span>
-                        <small id="neetbooksmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="neetbookstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. NCERT + Reference Books">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('NEET','books')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="neetbooksfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('NEET','books')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            NEET booklist / material PDFs yahan upload karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (book / link per line)</label>
-                          <textarea id="neetbooksitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="NCERT Biology 11&#10;NCERT Biology 12"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','books')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('NEET','books')">
+                          Open folder to upload Books
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEET Diagrams / Charts (UPLOAD, Last saved OFF) -->
+                  <!-- NEET Diagrams / Charts – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>NEET Diagrams / Charts</span>
-                        <small id="neetformulaSheetsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="neetformulaSheetstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Important Diagrams / Charts">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('NEET','formulaSheets')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="neetformulaSheetsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('NEET','formulaSheets')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Diagrams / charts ke PDFs / images yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line sheet / link)</label>
-                          <textarea id="neetformulaSheetsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Human Physiology diagram sheet&#10;Plant Morphology chart"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','formulaSheets')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('NEET','formulaSheets')">
+                          Open folder to upload Diagrams / Charts
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEET Notes & PDFs (UPLOAD, Last saved OFF) -->
+                  <!-- NEET Notes & PDFs – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>NEET Notes & PDFs</span>
-                        <small id="neetnotesPdfsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="neetnotesPdfstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Notes PDFs">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('NEET','notesPdfs')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image)</label>
-                          <input type="file" id="neetnotesPdfsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('NEET','notesPdfs')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            NEET notes PDFs yahan upload karo, neeche list me link add ho jayega.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (note PDF link per line)</label>
-                          <textarea id="neetnotesPdfsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Biology short notes PDF&#10;Physics formula PDF"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('NEET','notesPdfs')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('NEET','notesPdfs')">
+                          Open folder to upload Notes / PDFs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- NEET Quotes (NO upload, Last saved ON) -->
+                  <!-- NEET Quotes (normal) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1283,7 +817,7 @@
               <div class="tab-pane fade" id="rpsc-pane" role="tabpanel">
                 <div class="row g-3">
 
-                  <!-- RPSC Announcements (NO upload, Last saved ON) -->
+                  <!-- RPSC Announcements (normal) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1315,237 +849,87 @@
                     </div>
                   </div>
 
-                  <!-- RPSC Mock Tests (UPLOAD, Last saved OFF) -->
+                  <!-- RPSC Mock Tests – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>RPSC Mock Tests</span>
-                        <small id="rpsctestSeriesmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="rpsctestSeriestitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Mock Tests">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('RPSC','testSeries')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="rpsctestSeriesfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('RPSC','testSeries')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            RPSC mock test PDFs / links yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line test / link)</label>
-                          <textarea id="rpsctestSeriesitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="RAS Pre Mock 1&#10;1st Grade Mock 1"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','testSeries')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('RPSC','testSeries')">
+                          Open folder to upload Mock Tests
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- RPSC PYQs (UPLOAD, Last saved OFF) -->
+                  <!-- RPSC PYQs – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>RPSC PYQs</span>
-                        <small id="rpscpyqPapersmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="rpscpyqPaperstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Previous Year Papers">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('RPSC','pyqPapers')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="rpscpyqPapersfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('RPSC','pyqPapers')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            RPSC PYQ PDFs yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line paper link)</label>
-                          <textarea id="rpscpyqPapersitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="RAS Pre 2023 paper PDF link"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','pyqPapers')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('RPSC','pyqPapers')">
+                          Open folder to upload PYQs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- RPSC Books (UPLOAD, Last saved OFF) -->
+                  <!-- RPSC Books – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>RPSC Books</span>
-                        <small id="rpscbooksmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="rpscbookstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Standard Books">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('RPSC','books')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="rpscbooksfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('RPSC','books')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            RPSC books / notes PDFs yahan upload karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (book / link per line)</label>
-                          <textarea id="rpscbooksitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Laxmikanth&#10;Rajasthan GK book"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','books')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('RPSC','books')">
+                          Open folder to upload Books
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- RPSC Charts / Maps (UPLOAD, Last saved OFF) -->
+                  <!-- RPSC Charts / Maps – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>RPSC Charts / Maps</span>
-                        <small id="rpscformulaSheetsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="rpscformulaSheetstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Important Charts / Maps">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('RPSC','formulaSheets')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image / Link)</label>
-                          <input type="file" id="rpscformulaSheetsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('RPSC','formulaSheets')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            Rajasthan maps / charts ke PDFs / images yahan attach karo.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line chart / map link)</label>
-                          <textarea id="rpscformulaSheetsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Rajasthan rivers map&#10;District-wise infographic"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','formulaSheets')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('RPSC','formulaSheets')">
+                          Open folder to upload Charts / Maps
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- RPSC Notes & PDFs (UPLOAD, Last saved OFF) -->
+                  <!-- RPSC Notes & PDFs – only Upload button -->
                   <div class="col-md-6">
-                    <div class="card h-100">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card h-100 d-flex flex-column">
+                      <div class="card-header">
                         <span>RPSC Notes & PDFs</span>
-                        <small id="rpscnotesPdfsmsg" class="text-muted small"></small>
                       </div>
-                      <div class="card-body">
-                        <div class="mb-2 d-flex justify-content-between align-items-center">
-                          <div>
-                            <label class="form-label small">Section Title</label>
-                            <input id="rpscnotesPdfstitle" class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Notes PDFs">
-                          </div>
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn ms-2"
-                                  onclick="openFolder('RPSC','notesPdfs')">
-                            Open folder to upload
-                          </button>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Upload file (PDF / Image)</label>
-                          <input type="file" id="rpscnotesPdfsfile" class="form-control form-control-sm">
-                          <button class="btn btn-sm btn-outline-secondary mt-1"
-                                  onclick="uploadAndAppendLink('RPSC','notesPdfs')">
-                            Upload & attach
-                          </button>
-                          <small class="text-muted d-block">
-                            RPSC notes PDFs yahan upload karo, neeche list me link add ho jayega.
-                          </small>
-                        </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (note PDF link per line)</label>
-                          <textarea id="rpscnotesPdfsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Rajasthan History notes PDF&#10;GS static notes PDF"></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary" onclick="saveSection('RPSC','notesPdfs')">Save</button>
+                      <div class="card-body d-flex justify-content-center align-items-center">
+                        <button type="button"
+                                class="btn btn-outline-secondary upload-folder-btn"
+                                onclick="openFolder('RPSC','notesPdfs')">
+                          Open folder to upload Notes / PDFs
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  <!-- RPSC Quotes (NO upload, Last saved ON) -->
+                  <!-- RPSC Quotes (normal) -->
                   <div class="col-md-6">
                     <div class="card h-100">
                       <div class="card-header d-flex justify-content-between align-items-center">
@@ -1993,28 +1377,17 @@
             itemsArea.value = itemsText;
           }
           if (lastArea) {
-            const lastText = (sec.items || [])
+            const itemsText = (sec.items || [])
               .map(it => typeof it === 'string'
                 ? it
                 : (it.text || it.title || it.content || it.link || ''))
               .filter(Boolean)
               .join('\n');
-            lastArea.value = lastText;
+            lastArea.value = itemsText;
           }
         }
 
-        [
-          'announcements',
-          'dailyTargets',
-          'mockTests',
-          'testSeries',
-          'pyqPapers',
-          'books',
-          'currentAffairs',
-          'formulaSheets',
-          'notesPdfs',
-          'quotes'
-        ].forEach(fillSection);
+        ['announcements', 'dailyTargets', 'mockTests', 'quotes'].forEach(fillSection);
 
         if (examType === 'UPSC' && p.syllabus) {
           const s = p.syllabus;
@@ -2132,89 +1505,6 @@
       .catch(err => {
         console.error('loadDashboardContentForAdmin error', err);
       });
-  }
-
-  function uploadAndAppendLink(examType, sectionKey) {
-    const prefix = prefixForExam(examType);
-    const fileId = prefix + sectionKey + 'file';
-    const itemsId = prefix + sectionKey + 'items';
-    const msgId = prefix + sectionKey + 'msg';
-
-    const fileInput = document.getElementById(fileId);
-    const textarea = document.getElementById(itemsId);
-    const msgEl = document.getElementById(msgId);
-
-    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-      alert('Pehele file choose karo');
-      return;
-    }
-
-    const file = fileInput.files[0];
-
-    if (msgEl) {
-      msgEl.textContent = 'Uploading...';
-      msgEl.className = 'text-muted small';
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      const result = e.target.result;
-      const base64 = result.split(',')[1] || '';
-
-      const payload = {
-        action: 'uploadDashboardFileJson',
-        examType: examType,
-        sectionKey: sectionKey,
-        fileName: file.name,
-        mimeType: file.type || 'application/octet-stream',
-        data: base64
-      };
-
-      fetch(SCRIPTURL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(r => r.json())
-        .then(res => {
-          if (!res.success || !res.link) {
-            throw new Error(res.message || 'Upload failed');
-          }
-
-          const current = (textarea.value || '').trim();
-          const title = res.name || file.name || 'File';
-          const line = `${title} - ${res.link}`;
-
-          textarea.value = current ? current + '\n' + line : line;
-          fileInput.value = '';
-
-          if (msgEl) {
-            msgEl.textContent = 'File uploaded, link added';
-            msgEl.className = 'text-success small';
-            setTimeout(() => { msgEl.textContent = ''; }, 2000);
-          }
-        })
-        .catch(err => {
-          console.error('uploadAndAppendLink JSON error', err);
-          alert('Error uploading file: ' + err.message);
-          if (msgEl) {
-            msgEl.textContent = 'Upload error';
-            msgEl.className = 'text-danger small';
-          }
-        });
-    };
-
-    reader.onerror = function (e) {
-      console.error('FileReader error', e);
-      alert('Unable to read file');
-      if (msgEl) {
-        msgEl.textContent = 'Upload error';
-        msgEl.className = 'text-danger small';
-      }
-    };
-
-    reader.readAsDataURL(file);
   }
 
   function loadAnswerCopies() {
