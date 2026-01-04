@@ -1952,64 +1952,75 @@
   }
 
   // FILE UPLOAD (Dashboard PDFs / images)
-  function uploadAndAppendLink(examType, sectionKey) {
-    const prefix = prefixForExam(examType);
-    const fileInputId = prefix + sectionKey + 'file';
-    const itemsId = prefix + sectionKey + 'items';
-    const msgId   = prefix + sectionKey + 'msg';
+function uploadAndAppendLink(examType, sectionKey) {
+  const prefix = prefixForExam(examType);
+  const fileInputId = prefix + sectionKey + 'file';
+  const itemsId = prefix + sectionKey + 'items';
+  const msgId   = prefix + sectionKey + 'msg';
 
-    const fileInput = document.getElementById(fileInputId);
-    const file = fileInput && fileInput.files && fileInput.files[0];
-    if (!file) {
-      alert('Pehele file choose karo');
-      return;
-    }
+  const fileInput = document.getElementById(fileInputId);
+  const file = fileInput && fileInput.files && fileInput.files[0];
 
-    const formData = new FormData();
-    formData.append('action', 'uploadDashboardFile');
-    formData.append('examType', examType);
-    formData.append('sectionKey', sectionKey);
-    formData.append('file', file); // key exact "file"
+  // YAHAN DEBUG LINE ADD KARO
+  console.log('DEBUG uploadAndAppendLink', {
+    examType,
+    sectionKey,
+    fileInputId,
+    fileInput,
+    file
+  });
 
-    const msgEl = document.getElementById(msgId);
-    if (msgEl) {
-      msgEl.textContent = 'Uploading...';
-      msgEl.className = 'text-muted small';
-    }
-
-    fetch(SCRIPTURL, {
-      method: 'POST',
-      body: formData
-    })
-      .then(r => r.json())
-      .then(res => {
-        if (!res.success || !res.link) {
-          throw new Error(res.message || 'Upload failed');
-        }
-
-        const textarea = document.getElementById(itemsId);
-        const current = (textarea.value || '').trim();
-        const title = res.name || file.name || 'File';
-        const line = `${title} - ${res.link}`;
-
-        textarea.value = current ? current + '\n' + line : line;
-        fileInput.value = '';
-
-        if (msgEl) {
-          msgEl.textContent = 'File uploaded, link added';
-          msgEl.className = 'text-success small';
-          setTimeout(() => { msgEl.textContent = ''; }, 2000);
-        }
-      })
-      .catch(err => {
-        console.error('uploadAndAppendLink error', err);
-        alert('Error uploading file');
-        if (msgEl) {
-          msgEl.textContent = 'Upload error';
-          msgEl.className = 'text-danger small';
-        }
-      });
+  if (!file) {
+    alert('Pehele file choose karo');
+    return;
   }
+
+  const formData = new FormData();
+  formData.append('action', 'uploadDashboardFile');
+  formData.append('examType', examType);
+  formData.append('sectionKey', sectionKey);
+  formData.append('file', file); // key exact "file"
+
+  const msgEl = document.getElementById(msgId);
+  if (msgEl) {
+    msgEl.textContent = 'Uploading...';
+    msgEl.className = 'text-muted small';
+  }
+
+  fetch(SCRIPTURL, {
+    method: 'POST',
+    body: formData
+  })
+    .then(r => r.json())
+    .then(res => {
+      if (!res.success || !res.link) {
+        throw new Error(res.message || 'Upload failed');
+      }
+
+      const textarea = document.getElementById(itemsId);
+      const current = (textarea.value || '').trim();
+      const title = res.name || file.name || 'File';
+      const line = `${title} - ${res.link}`;
+
+      textarea.value = current ? current + '\n' + line : line;
+      fileInput.value = '';
+
+      if (msgEl) {
+        msgEl.textContent = 'File uploaded, link added';
+        msgEl.className = 'text-success small';
+        setTimeout(() => { msgEl.textContent = ''; }, 2000);
+      }
+    })
+    .catch(err => {
+      console.error('uploadAndAppendLink error', err);
+      alert('Error uploading file');
+      if (msgEl) {
+        msgEl.textContent = 'Upload error';
+        msgEl.className = 'text-danger small';
+      }
+    });
+}
+
 
   // ANSWER COPIES
   function loadAnswerCopies() {
