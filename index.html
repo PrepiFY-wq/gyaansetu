@@ -347,10 +347,19 @@
             <textarea id="regAddress" rows="3" required></textarea>
           </div>
 
-          <!-- Optional coupon code -->
+          <!-- Do you have coupon? -->
           <div class="form-group">
-            <label for="regCoupon">Coupon Code (optional)</label>
-            <input type="text" id="regCoupon" placeholder="Enter coupon code if you have">
+            <label>Do you have a coupon?</label>
+            <div style="display:flex; gap:12px; align-items:center; font-size:14px;">
+              <label><input type="radio" name="hasCoupon" value="no" checked> No</label>
+              <label><input type="radio" name="hasCoupon" value="yes"> Yes</label>
+            </div>
+          </div>
+
+          <!-- Coupon code (shown only when Yes) -->
+          <div class="form-group" id="couponGroup" style="display:none;">
+            <label for="regCoupon">Coupon Code</label>
+            <input type="text" id="regCoupon" placeholder="Enter coupon code">
           </div>
 
           <button type="submit" class="btn btn-primary">Submit Registration</button>
@@ -423,7 +432,23 @@
       if (el) el.textContent = quotes[index];
     }
 
-    document.addEventListener('DOMContentLoaded', setDailyQuote);
+    document.addEventListener('DOMContentLoaded', () => {
+      setDailyQuote();
+
+      // coupon radio toggle
+      const radios = document.getElementsByName('hasCoupon');
+      const group  = document.getElementById('couponGroup');
+      radios.forEach(r => {
+        r.addEventListener('change', () => {
+          if (r.value === 'yes' && r.checked) {
+            group.style.display = 'block';
+          } else if (r.value === 'no' && r.checked) {
+            group.style.display = 'none';
+            document.getElementById('regCoupon').value = '';
+          }
+        });
+      });
+    });
 
     function showMessage(text, type) {
       const msgBox = document.getElementById('messageBox');
@@ -468,10 +493,17 @@
       const contact = document.getElementById('regContact').value.trim();
       const exam    = document.getElementById('regExam').value;
       const address = document.getElementById('regAddress').value.trim();
+      const hasCoupon = [...document.getElementsByName('hasCoupon')]
+        .find(r => r.checked)?.value || 'no';
       const coupon  = (document.getElementById('regCoupon').value || '').trim();
 
       if (!name || !email || !contact || !exam || !address) {
         showMessage('Please fill all required details.', 'error');
+        return;
+      }
+
+      if (hasCoupon === 'yes' && !coupon) {
+        showMessage('Please enter your coupon code.', 'error');
         return;
       }
 
@@ -483,19 +515,26 @@
                   `&contact=${encodeURIComponent(contact)}` +
                   `&exam=${encodeURIComponent(exam)}` +
                   `&address=${encodeURIComponent(address)}` +
+                  `&hasCoupon=${encodeURIComponent(hasCoupon)}` +
                   `&coupon=${encodeURIComponent(coupon)}`;
       
       fetch(url)
         .then(response => response.json())
         .then(data => {
           if (!data.success) {
-            showMessage(data.message || 'Registration failed. Please try again.', 'error');
+            // agar backend ne couponRequired + couponInvalid bheja ho
+            if (data.couponRequired && data.couponInvalid) {
+              showMessage('Invalid or expired coupon code.', 'error');
+            } else {
+              showMessage(data.message || 'Registration failed. Please try again.', 'error');
+            }
             return;
           }
 
           currentUserIdForPayment = data.userId;
 
-          const qrUrl = data.qrImageUrl || (data.qrType === 'B' ? QR_DEFAULT.B : QR_DEFAULT.A);
+          const qrUrl = data.qrImageUrl ||
+                        (data.qrType === 'B' ? QR_DEFAULT.B : QR_DEFAULT.A);
           document.getElementById('feeText').textContent =
             data.feeText || 'Pay the registration fee using this QR code.';
           document.getElementById('qrImage').src = qrUrl;
