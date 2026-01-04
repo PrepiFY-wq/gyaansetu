@@ -25,20 +25,10 @@ gap: 40px;
 align-items: stretch;
 }
 
-.hero-left,
-.hero-right {
-flex: 1;
-}
+.hero-left, .hero-right { flex: 1; }
+.hero-right .card { height: 100%; }
 
-.hero-right .card {
-height: 100%;
-}
-
-h1 {
-font-size: 42px;
-margin-bottom: 10px;
-}
-
+h1 { font-size: 42px; margin-bottom: 10px; }
 h1 .gyaan { color: #1e3a8a; }
 h1 .setu { color: #dc2626; }
 
@@ -130,9 +120,7 @@ background: #28a745;
 color: white;
 }
 
-.btn-success:hover {
-background: #218838;
-}
+.btn-success:hover { background: #218838; }
 
 .divider {
 text-align: center;
@@ -141,8 +129,7 @@ color: #999;
 position: relative;
 }
 
-.divider::before,
-.divider::after {
+.divider::before, .divider::after {
 content: '';
 position: absolute;
 top: 50%;
@@ -243,7 +230,6 @@ margin-bottom: 20px;
 .form-row { grid-template-columns: 1fr; }
 }
 
-/* Step sections */
 .step-section {
 margin-top: 20px;
 padding-top: 20px;
@@ -271,9 +257,7 @@ gap: 10px;
 margin-bottom: 10px;
 }
 
-.coupon-input-group input {
-flex: 1;
-}
+.coupon-input-group input { flex: 1; }
 
 .coupon-input-group button {
 padding: 12px 20px;
@@ -281,9 +265,7 @@ white-space: nowrap;
 width: auto;
 }
 
-#paymentSection {
-display: none;
-}
+#paymentSection { display: none; }
 
 #qrImage {
 width: 100%;
@@ -308,9 +290,7 @@ font-weight: bold;
 color: #2e7d32;
 }
 
-#finalSubmitBtn {
-display: none;
-}
+#finalSubmitBtn { display: none; }
 </style>
 </head>
 <body>
@@ -319,25 +299,19 @@ display: none;
 <h1><span class="gyaan">Gyaan</span><span class="setu">Setu</span></h1>
 <p class="tagline">Empowering minds, building futures</p>
 
-<h2 style="color:#fff; margin: 20px 0 10px; font-size:20px;">
-Our Aim
-</h2>
+<h2 style="color:#fff; margin: 20px 0 10px; font-size:20px;">Our Aim</h2>
 <p style="color:#f3f4ff; line-height:1.6; margin-bottom:25px;">
 To guide serious aspirants of UPSC, JEE, NEET and RPSC with structured plans,
 disciplined tracking and the right mentorship bridge between effort and success.
 </p>
 
-<h3 style="color:#ffeaa7; margin-bottom:8px; font-size:18px;">
-Today's Motivation
-</h3>
+<h3 style="color:#ffeaa7; margin-bottom:8px; font-size:18px;">Today's Motivation</h3>
 <p id="dailyQuote" style="color:#e5e7ff; line-height:1.6; font-style:italic;"></p>
 </div>
 
 <div class="hero-right">
 <div class="card">
-<p class="tagline">
-Login to access your personalised dashboard
-</p>
+<p class="tagline">Login to access your personalised dashboard</p>
 
 <div id="messageBox" class="message"></div>
 
@@ -377,7 +351,6 @@ Login to access your personalised dashboard
 <div class="modal-body">
 <div id="regMessage" class="message"></div>
 
-<!-- Step 1: Basic Details -->
 <form id="registrationForm">
 <div class="form-row">
 <div class="form-group">
@@ -421,7 +394,7 @@ Login to access your personalised dashboard
 </div>
 </div>
 
-<!-- Coupon Apply Section (shown only when Yes selected) -->
+<!-- Coupon Apply Section -->
 <div class="coupon-apply-section" id="couponApplySection">
 <div class="coupon-input-group">
 <input type="text" id="regCoupon" placeholder="Enter coupon code">
@@ -432,7 +405,7 @@ Login to access your personalised dashboard
 
 <button type="button" class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
 
-<!-- Step 2: Payment Section -->
+<!-- Payment Section -->
 <div class="step-section" id="paymentSection">
 <div class="step-title">💳 Payment Details</div>
 <div class="fee-display">
@@ -484,4 +457,8 @@ Submit Registration
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+
+const QR_DEFAULT = {
+  A: 'https://drive.google.com/uc?export=view&id=1ErZc2zV8HNTals3qbI4EELxOoDR7pNgH',
+  B: 'https://drive.google.com/uc?export=view&id=1D4r
