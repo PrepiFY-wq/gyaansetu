@@ -265,6 +265,15 @@
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
 
+    // Drive folders (account B) – JEE
+    const JEE_FOLDER_LINKS = {
+      testSeries:    'https://drive.google.com/drive/folders/1fw6BM2ifKcKgOw8P5TWXXJNfJtyk0GJJ',
+      pyqPapers:     'https://drive.google.com/drive/folders/13jg9aq--pR3RPzQubQ6wMxRm2zW36tyf',
+      books:         'https://drive.google.com/drive/folders/12A_AVi4cGD-Krhd2apVaz_vcIAf8pq8H',
+      formulaSheets: 'https://drive.google.com/drive/folders/1N628KWuxCVPs9kObJUIj1-pspa4oYFw-',
+      notesPdfs:     'https://drive.google.com/drive/folders/1qh-fs2WBsI9PJclST0D7xM2RIgfWOlst'
+    };
+
     // Access guard: only logged-in JEE users
     (function guardAccess() {
       const exam = localStorage.getItem('exam');
@@ -610,53 +619,7 @@
         .catch(err => console.error('loadAnalytics error:', err));
     }
 
-    // LIST RENDERERS
-    function renderSimpleList(containerId, items) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      if (!items || !items.length) {
-        container.innerHTML = '<div class="empty-state">No data yet.</div>';
-        return;
-      }
-      const list = document.createElement('div');
-      list.className = 'list';
-      items.forEach(text => {
-        const row = document.createElement('div');
-        row.className = 'list-item';
-        row.textContent = typeof text === 'string' ? text : (text.text || text.title || '');
-        list.appendChild(row);
-      });
-      container.appendChild(list);
-    }
-
-    function renderHighlightList(containerId, items, highlightLabel) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      if (!items || !items.length) {
-        container.innerHTML = '<div class="empty-state">No data yet.</div>';
-        return;
-      }
-      const list = document.createElement('div');
-      list.className = 'list';
-      items.forEach((it, index) => {
-        const row = document.createElement('div');
-        row.className = 'list-item';
-        row.textContent = typeof it === 'string' ? it : (it.text || it.title || '');
-        if (index === 0 && highlightLabel) {
-          row.style.fontWeight = '600';
-          row.style.background = '#fef3c7';
-          row.style.borderRadius = '6px';
-          row.style.padding = '6px 8px';
-          const tag = document.createElement('span');
-          tag.className = 'tag';
-          tag.textContent = highlightLabel;
-          row.appendChild(tag);
-        }
-        list.appendChild(row);
-      });
-      container.appendChild(list);
-    }
-
+    // Announcements
     function renderAnnouncements(items) {
       const container = document.getElementById('announcements');
       container.innerHTML = '';
@@ -686,6 +649,40 @@
       container.appendChild(list);
     }
 
+    // Folder View button renderer
+    function renderFolderButton(containerId, folderUrl, emptyMessage) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!folderUrl) {
+        container.innerHTML = `<div class="empty-state">${emptyMessage || 'No data yet.'}</div>`;
+        return;
+      }
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'View';
+      btn.onclick = () => window.open(folderUrl, '_blank');
+      container.appendChild(btn);
+    }
+
+    // Motivational quotes list (from backend)
+    function renderQuotesList(containerId, items) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!items || !items.length) {
+        container.innerHTML = '<div class="empty-state">Admin will share motivational quotes soon.</div>';
+        return;
+      }
+      const list = document.createElement('div');
+      list.className = 'list';
+      items.forEach(q => {
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.textContent = typeof q === 'string' ? q : (q.text || q.title || '');
+        list.appendChild(row);
+      });
+      container.appendChild(list);
+    }
+
     // DASHBOARD CONTENT (examType=JEE)
     function loadJeeDashboardContent() {
       const url = `${SCRIPT_URL}?action=getDashboardContent&examType=JEE`;
@@ -696,35 +693,48 @@
           if (!data || !data.success || !data.payload) return;
           const p = data.payload;
 
+          // Announcements
           if (p.announcements && Array.isArray(p.announcements.items)) {
             renderAnnouncements(p.announcements.items);
           }
 
-          if (p.testSeries && Array.isArray(p.testSeries.items)) {
-            renderHighlightList('testSeriesList', p.testSeries.items, 'NEW');
-          }
-
-          if (p.pyqPapers && Array.isArray(p.pyqPapers.items)) {
-            renderHighlightList('pypList', p.pyqPapers.items, 'NEW');
-          }
-
-          if (p.books && Array.isArray(p.books.items)) {
-            renderHighlightList('booksList', p.books.items, 'NEW');
-          }
-
-          if (p.formulaSheets && Array.isArray(p.formulaSheets.items)) {
-            renderHighlightList('formulaList', p.formulaSheets.items, 'NEW');
-          }
-
-          if (p.notesPdfs && Array.isArray(p.notesPdfs.items)) {
-            renderHighlightList('notesList', p.notesPdfs.items, 'NEW');
-          }
-
+          // Path Pradarshak quotes
           if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
-            renderHighlightList('motivationalQuotes', p.quotes.items, 'NEW');
+            renderQuotesList('motivationalQuotes', p.quotes.items);
           }
         })
         .catch(err => console.error('loadJeeDashboardContent error:', err));
+
+      // Static folder buttons (always render)
+      renderFolderButton(
+        'testSeriesList',
+        JEE_FOLDER_LINKS.testSeries,
+        'Admin will upload test series soon.'
+      );
+
+      renderFolderButton(
+        'pypList',
+        JEE_FOLDER_LINKS.pyqPapers,
+        'Admin will upload PYQ PDFs soon.'
+      );
+
+      renderFolderButton(
+        'booksList',
+        JEE_FOLDER_LINKS.books,
+        'Admin will upload books list soon.'
+      );
+
+      renderFolderButton(
+        'formulaList',
+        JEE_FOLDER_LINKS.formulaSheets,
+        'Admin will upload formula sheets soon.'
+      );
+
+      renderFolderButton(
+        'notesList',
+        JEE_FOLDER_LINKS.notesPdfs,
+        'Admin will upload notes & PDFs soon.'
+      );
     }
 
     window.onload = function() {
