@@ -234,30 +234,16 @@
     .list-item {
       font-size: 13px;
       color: #111827;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
     }
 
-    .list-title {
-      flex: 1 1 auto;
-    }
-
-    .list-actions a {
-      font-size: 12px;
-      padding: 3px 10px;
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
       border-radius: 999px;
-      border: 1px solid #ec4899;
-      color: #ec4899;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    .list-actions a:hover {
-      background: #ec4899;
-      color: #fff;
+      font-size: 11px;
+      background: #fee2e2;
+      color: #b91c1c;
+      margin-left: 6px;
     }
 
     @media (max-width: 640px) {
@@ -275,6 +261,15 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+
+    // NEET folder links (Drive – account B)
+    const NEET_FOLDER_LINKS = {
+      mockTests:     'https://drive.google.com/drive/folders/1S6jXk2DjkQrz18DkzLe7mE96LTgfJF82',
+      pyqPapers:     'https://drive.google.com/drive/folders/1_gmpV6arJev-2f3GqNruW9GlLTifb0Pz',
+      books:         'https://drive.google.com/drive/folders/1escuk7ilmtykvUnYeK0tYS-33yLY7N_M',
+      diagrams:      'https://drive.google.com/drive/folders/156IrNxBiQkVSGbmXM_WZYCuohiwJr2F2',
+      notesPdfs:     'https://drive.google.com/drive/folders/1Pddoss5g262eD8k7ECP_PJ6uBtJYcY-W'
+    };
 
     // Access guard: only logged-in NEET users
     (function guardAccess() {
@@ -553,59 +548,71 @@
         .catch(err => console.error('Load totals error:', err));
     }
 
-    // List renderer with View button for links
-    function renderListWithLinks(containerId, items, emptyMessage) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
+    // Announcements
+    function renderAnnouncements(items) {
+      const container = document.getElementById('announcements');
       container.innerHTML = '';
       if (!items || !items.length) {
-        container.innerHTML = `<div class="empty-state">${emptyMessage || 'No data yet.'}</div>`;
+        container.innerHTML = '<div class="empty-state">No announcements yet. Admin will update here.</div>';
         return;
       }
 
-      const div = document.createElement('div');
-      div.className = 'list';
-
-      items.forEach(raw => {
-        const itemText = typeof raw === 'string'
-          ? raw
-          : (raw.text || raw.title || raw.content || raw.link || '');
-
+      const list = document.createElement('div');
+      list.className = 'list';
+      items.forEach((it, index) => {
         const row = document.createElement('div');
         row.className = 'list-item';
-
-        const titleSpan = document.createElement('span');
-        titleSpan.className = 'list-title';
-
-        let urlMatch = itemText.match(/https?:\/\/\S+/);
-        let link = urlMatch ? urlMatch[0] : null;
-        let titleOnly = link ? itemText.replace(link, '').trim().replace(/-\s*$/, '').trim() : itemText;
-
-        titleSpan.textContent = titleOnly || itemText;
-
-        row.appendChild(titleSpan);
-
-        if (link) {
-          const actions = document.createElement('span');
-          actions.className = 'list-actions';
-
-          const a = document.createElement('a');
-          a.href = link;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.textContent = 'View';
-
-          actions.appendChild(a);
-          row.appendChild(actions);
+        row.textContent = typeof it === 'string' ? it : (it.text || it.title || '');
+        if (index === 0) {
+          row.style.fontWeight = '600';
+          row.style.background = '#eef2ff';
+          row.style.borderRadius = '6px';
+          row.style.padding = '6px 8px';
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.textContent = 'NEW';
+          row.appendChild(tag);
         }
-
-        div.appendChild(row);
+        list.appendChild(row);
       });
-
-      container.appendChild(div);
+      container.appendChild(list);
     }
 
-    // Dashboard content (NEET)
+    // Folder View button renderer
+    function renderFolderButton(containerId, folderUrl, emptyMessage) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!folderUrl) {
+        container.innerHTML = `<div class="empty-state">${emptyMessage || 'No data yet.'}</div>`;
+        return;
+      }
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'View';
+      btn.onclick = () => window.open(folderUrl, '_blank');
+      container.appendChild(btn);
+    }
+
+    // Motivational quotes (from backend sheet)
+    function renderQuotesList(containerId, items) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      if (!items || !items.length) {
+        container.innerHTML = '<div class="empty-state">Admin will share motivational quotes soon.</div>';
+        return;
+      }
+      const list = document.createElement('div');
+      list.className = 'list';
+      items.forEach(q => {
+        const row = document.createElement('div');
+        row.className = 'list-item';
+        row.textContent = typeof q === 'string' ? q : (q.text || q.title || '');
+        list.appendChild(row);
+      });
+      container.appendChild(list);
+    }
+
+    // Dashboard content (only announcements + quotes from backend)
     function loadNeetDashboardContent() {
       const url = `${SCRIPT_URL}?action=getDashboardContent&examType=NEET`;
 
@@ -615,36 +622,46 @@
           if (!data || !data.success || !data.payload) return;
           const p = data.payload;
 
-          if (p.announcements) {
-            renderListWithLinks('announcements', p.announcements.items || [],
-              'No announcements yet. Admin will update here.');
+          if (p.announcements && Array.isArray(p.announcements.items)) {
+            renderAnnouncements(p.announcements.items);
           }
-          if (p.mockTests) {
-            renderListWithLinks('testSeriesList', p.mockTests.items || [],
-              'Admin will upload mock tests soon.');
-          }
-          if (p.pyqPapers) {
-            renderListWithLinks('pypList', p.pyqPapers.items || [],
-              'Admin will upload PYQ PDFs soon.');
-          }
-          if (p.books) {
-            renderListWithLinks('booksList', p.books.items || [],
-              'Admin will upload books list soon.');
-          }
-          if (p.formulaSheets) {
-            renderListWithLinks('formulaList', p.formulaSheets.items || [],
-              'Admin will upload diagrams & charts soon.');
-          }
-          if (p.notesPdfs) {
-            renderListWithLinks('notesList', p.notesPdfs.items || [],
-              'Admin will upload notes & PDFs soon.');
-          }
+
           if (p.quotes && Array.isArray(p.quotes.items) && p.quotes.items.length) {
-            renderListWithLinks('motivationalQuotes', p.quotes.items || [],
-              'Admin will share motivational quotes soon.');
+            renderQuotesList('motivationalQuotes', p.quotes.items);
           }
         })
         .catch(err => console.error('loadNeetDashboardContent error:', err));
+
+      // Static folder buttons – always visible
+      renderFolderButton(
+        'testSeriesList',
+        NEET_FOLDER_LINKS.mockTests,
+        'Admin will upload mock tests soon.'
+      );
+
+      renderFolderButton(
+        'pypList',
+        NEET_FOLDER_LINKS.pyqPapers,
+        'Admin will upload PYQ PDFs soon.'
+      );
+
+      renderFolderButton(
+        'booksList',
+        NEET_FOLDER_LINKS.books,
+        'Admin will upload books list soon.'
+      );
+
+      renderFolderButton(
+        'formulaList',
+        NEET_FOLDER_LINKS.diagrams,
+        'Admin will upload diagrams & charts soon.'
+      );
+
+      renderFolderButton(
+        'notesList',
+        NEET_FOLDER_LINKS.notesPdfs,
+        'Admin will upload notes & PDFs soon.'
+      );
     }
 
     window.onload = function() {
