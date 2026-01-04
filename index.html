@@ -227,6 +227,28 @@
       .hero { flex-direction: column; }
       .card { margin: 0 auto; }
     }
+
+    /* Payment step block */
+    #paymentStep {
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      display: none;
+    }
+    #paymentStep h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    #paymentStep p {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    #qrImage {
+      width: 220px;
+      border-radius: 12px;
+      display: block;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -325,7 +347,29 @@
             <textarea id="regAddress" rows="3" required></textarea>
           </div>
 
+          <!-- Optional coupon code -->
+          <div class="form-group">
+            <label for="regCoupon">Coupon Code (optional)</label>
+            <input type="text" id="regCoupon" placeholder="Enter coupon code if you have">
+          </div>
+
           <button type="submit" class="btn btn-primary">Submit Registration</button>
+
+          <!-- Payment step (Step 2) -->
+          <div id="paymentStep">
+            <h3>Step 2: Pay Registration Fee</h3>
+            <p id="feeText"></p>
+            <img id="qrImage" src="" alt="QR Code">
+
+            <div class="form-group">
+              <label for="paymentScreenshot">Upload Payment Screenshot</label>
+              <input type="file" id="paymentScreenshot" accept="image/*">
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="uploadPaymentScreenshot()">
+              Upload screenshot & finish
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -355,7 +399,14 @@
   </div>
 
   <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2AAboplrOXAJn0XuW614KRzLihSL60qL8zy3GEgBVvm0DQPcmQg/exec';
+
+    const QR_DEFAULT = {
+      A: 'https://drive.google.com/uc?export=view&id=1ErZc2zV8HNTals3qbI4EELxOoDR7pNgH',
+      B: 'https://drive.google.com/uc?export=view&id=1D4r9J9F6U6fpiuSd3xFnTl_ylw6Vlxqu'
+    };
+
+    let currentUserIdForPayment = null;
 
     const quotes = [
       'Success is the sum of small efforts repeated day in and day out.',
@@ -387,6 +438,11 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2A
     }
     function closeRegistrationModal() {
       document.getElementById('registrationModal').style.display = 'none';
+      document.getElementById('paymentStep').style.display = 'none';
+      currentUserIdForPayment = null;
+      document.getElementById('registrationForm')
+        .querySelectorAll('input,select,textarea,button[type="submit"]')
+        .forEach(el => el.disabled = false);
     }
     function openAdminLogin() {
       document.getElementById('adminLoginModal').style.display = 'block';
@@ -402,7 +458,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2A
       if (event.target === adminModal) adminModal.style.display = 'none';
     };
 
-    // ========== REGISTRATION ==========
+    // ========== REGISTRATION (Step 1) ==========
 
     function handleRegistration(event) {
       event.preventDefault();
@@ -412,33 +468,100 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2A
       const contact = document.getElementById('regContact').value.trim();
       const exam    = document.getElementById('regExam').value;
       const address = document.getElementById('regAddress').value.trim();
+      const coupon  = (document.getElementById('regCoupon').value || '').trim();
+
+      if (!name || !email || !contact || !exam || !address) {
+        showMessage('Please fill all required details.', 'error');
+        return;
+      }
+
+      showMessage('Checking details & coupon...', 'success');
       
-      showMessage('Submitting registration...', 'success');
-      
-      const url = `${SCRIPT_URL}?action=register` +
+      const url = `${SCRIPT_URL}?action=registerWithPayment` +
                   `&name=${encodeURIComponent(name)}` +
                   `&email=${encodeURIComponent(email)}` +
                   `&contact=${encodeURIComponent(contact)}` +
                   `&exam=${encodeURIComponent(exam)}` +
-                  `&address=${encodeURIComponent(address)}`;
+                  `&address=${encodeURIComponent(address)}` +
+                  `&coupon=${encodeURIComponent(coupon)}`;
       
       fetch(url)
         .then(response => response.json())
         .then(data => {
-          if (data.success) {
-            showMessage(
-              'Registration successful! You will receive an email confirmation shortly.',
-              'success'
-            );
-            document.getElementById('registrationForm').reset();
-            closeRegistrationModal();
-          } else {
+          if (!data.success) {
             showMessage(data.message || 'Registration failed. Please try again.', 'error');
+            return;
           }
+
+          currentUserIdForPayment = data.userId;
+
+          const qrUrl = data.qrImageUrl || (data.qrType === 'B' ? QR_DEFAULT.B : QR_DEFAULT.A);
+          document.getElementById('feeText').textContent =
+            data.feeText || 'Pay the registration fee using this QR code.';
+          document.getElementById('qrImage').src = qrUrl;
+
+          document.getElementById('registrationForm')
+            .querySelectorAll('input,select,textarea,button[type="submit"]')
+            .forEach(el => el.disabled = true);
+
+          document.getElementById('paymentStep').style.display = 'block';
+          document.getElementById('paymentScreenshot').disabled = false;
+
+          showMessage('Step 1 saved. Ab QR se payment karke screenshot upload karo.', 'success');
         })
         .catch(error => {
           showMessage('Error submitting registration. Please try again.', 'error');
           console.error('Error:', error);
+        });
+    }
+
+    // ========== REGISTRATION (Step 2) ==========
+
+    function uploadPaymentScreenshot() {
+      if (!currentUserIdForPayment) {
+        showMessage('User not found, please register again.', 'error');
+        return;
+      }
+
+      const fileInput = document.getElementById('paymentScreenshot');
+      if (!fileInput.files || !fileInput.files[0]) {
+        showMessage('Payment screenshot select karo.', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('action', 'uploadPaymentProof');
+      formData.append('userId', currentUserIdForPayment);
+      formData.append('file', fileInput.files[0]);
+
+      showMessage('Uploading screenshot, please wait...', 'success');
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+      })
+        .then(r => r.json())
+        .then(data => {
+          if (!data.success) {
+            showMessage(data.message || 'Upload failed. Try again.', 'error');
+            return;
+          }
+
+          showMessage('Registration submitted. Payment verification ke baad email aayegi.', 'success');
+
+          document.getElementById('registrationForm').reset();
+          document.getElementById('paymentScreenshot').value = '';
+          document.getElementById('paymentStep').style.display = 'none';
+          document.getElementById('registrationForm')
+            .querySelectorAll('input,select,textarea,button[type="submit"]')
+            .forEach(el => el.disabled = false);
+
+          currentUserIdForPayment = null;
+          closeRegistrationModal();
+        })
+        .catch(err => {
+          console.error(err);
+          showMessage('Error uploading screenshot. Please try again.', 'error');
         });
     }
 
@@ -450,23 +573,17 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2A
       const userId   = document.getElementById('userId').value.trim();
       const password = document.getElementById('password').value.trim();
 
-      console.log('LOGIN SENDING:', JSON.stringify(userId), JSON.stringify(password));
-
       showMessage('Verifying credentials...', 'success');
       
       const url = `${SCRIPT_URL}?action=login` +
                   `&userId=${encodeURIComponent(userId)}` +
                   `&password=${encodeURIComponent(password)}`;
-
-      console.log('LOGIN URL:', url);
       
       fetch(url)
         .then(response => response.json())
         .then(data => {
-          console.log('LOGIN RESPONSE:', data);
           if (data.success) {
             const user = data.user;
-            console.log('preparingFor from server =', user.preparingFor);
 
             localStorage.setItem('userId', user.userId);
             localStorage.setItem('name', user.name);
@@ -540,5 +657,3 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFiEVyWCStmdOxaSz2A
   </script>
 </body>
 </html>
-
-
