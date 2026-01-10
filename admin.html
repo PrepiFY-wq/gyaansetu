@@ -1310,53 +1310,57 @@
 
   /* ========== DASHBOARD CONTENT HELPERS ========== */
 
-  function saveSection(examType, sectionKey) {
-    const msgId = examType.toLowerCase() + sectionKey + 'msg';
-    const msgEl = document.getElementById(msgId);
-    if (msgEl) msgEl.textContent = 'Saving...';
+ function saveSection(examType, sectionKey) {
+  const msgId = examType.toLowerCase() + sectionKey + 'msg';
+  const msgEl = document.getElementById(msgId);
+  if (msgEl) msgEl.textContent = 'Saving...';
 
-    const titleId = examType.toLowerCase() + sectionKey + 'title';
-    const itemsId = examType.toLowerCase() + sectionKey + 'items';
-    const lastId  = examType.toLowerCase() + sectionKey + 'last';
+  const titleId = examType.toLowerCase() + sectionKey + 'title';
+  const itemsId = examType.toLowerCase() + sectionKey + 'items';
+  const lastId  = examType.toLowerCase() + sectionKey + 'last';
 
-    const titleEl = document.getElementById(titleId);
-    const itemsEl = document.getElementById(itemsId);
-    const lastEl  = document.getElementById(lastId);
+  const titleEl = document.getElementById(titleId);
+  const itemsEl = document.getElementById(itemsId);
+  const lastEl  = document.getElementById(lastId);
 
-    if (!itemsEl || !itemsEl.value.trim()) {
-      if (msgEl) msgEl.textContent = 'Please add at least one line';
-      return;
-    }
-
-    const payload = {
-      examType: examType,
-      sectionKey: sectionKey,
-      title: titleEl ? titleEl.value : '',
-      items: itemsEl.value
-        .split('\n')
-        .map(x => x.trim())
-        .filter(x => x)
-    };
-
-    fetch(SCRIPTURL + '?action=saveDashboardSection', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'saveDashboardSection', payload: payload })
-    })
-      .then(r => r.json())
-      .then(res => {
-        if (!res.success) throw new Error(res.message || 'Failed');
-        if (lastEl && itemsEl) {
-          lastEl.value = itemsEl.value;
-        }
-        if (msgEl) msgEl.textContent = 'Saved';
-        setTimeout(() => { if (msgEl) msgEl.textContent = ''; }, 2000);
-      })
-      .catch(err => {
-        console.error('saveSection error', err);
-        if (msgEl) msgEl.textContent = err.message || 'Error';
-      });
+  if (!itemsEl || !itemsEl.value.trim()) {
+    if (msgEl) msgEl.textContent = 'Please add at least one line';
+    return;
   }
+
+  const payloadObj = {
+    examType: examType,
+    sectionKey: sectionKey,
+    title: titleEl ? titleEl.value : '',
+    items: itemsEl.value
+      .split('\n')
+      .map(x => x.trim())
+      .filter(x => x)
+  };
+
+  // URL-encoded body (Apps Script-friendly, CORS-safe)
+  const body = new URLSearchParams();
+  body.append('action', 'saveDashboardSection');
+  body.append('payload', JSON.stringify(payloadObj));
+
+  fetch(SCRIPTURL, {
+    method: 'POST',
+    body: body   // NOTE: koi explicit Content-Type header nahi
+  })
+    .then(r => r.json())
+    .then(res => {
+      if (!res.success) throw new Error(res.message || 'Failed');
+      if (lastEl && itemsEl) {
+        lastEl.value = itemsEl.value;
+      }
+      if (msgEl) msgEl.textContent = 'Saved';
+      setTimeout(() => { if (msgEl) msgEl.textContent = ''; }, 2000);
+    })
+    .catch(err => {
+      console.error('saveSection error', err);
+      if (msgEl) msgEl.textContent = err.message || 'Error';
+    });
+}
 
   function openFolder(examType, folderKey) {
     const map = {
