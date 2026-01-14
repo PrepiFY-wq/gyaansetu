@@ -59,7 +59,7 @@
       font-size: 12px;
     }
     textarea.section-last {
-      min-height: 80px;
+      min-height: 220px;
       resize: vertical;
       background-color: rgba(15,23,42,0.9);
       border-color: rgba(148,163,184,0.6);
@@ -171,34 +171,34 @@
       color: #e5e7eb;
     }
 
-    /* Feature cards (inner UPSC/RPSC sections) */
+    /* Feature cards base (used inside gradient boxes) */
     .feature-card {
-      border-radius: 18px;
+      border-radius: 16px;
       border: 1px solid rgba(148,163,184,0.5);
       padding: 0;
-      background: radial-gradient(circle at top left,#020617,#111827);
-      box-shadow: 0 16px 40px rgba(15,23,42,0.7);
+      background: transparent;
+      box-shadow: none;
       color: #e5e7eb;
     }
     .feature-card .card-header {
       border-bottom: 1px solid rgba(148,163,184,0.6);
-      background: linear-gradient(135deg,rgba(15,23,42,0.95),rgba(15,23,42,0.75));
+      background: rgba(15,23,42,0.9);
     }
     .feature-card .card-body {
-      background: radial-gradient(circle at top left,rgba(15,23,42,0.9),rgba(15,23,42,0.96));
+      background: rgba(15,23,42,0.96);
     }
     .feature-card .card-footer {
-      background: linear-gradient(135deg,rgba(15,23,42,0.98),rgba(15,23,42,0.9));
+      background: rgba(15,23,42,0.95);
       border-top: 1px solid rgba(148,163,184,0.5);
     }
 
     .feature-card.upsc {
-      border-left: 4px solid #f97316;
-      box-shadow: 0 20px 55px rgba(248,113,113,0.35);
+      border-left: 4px solid transparent;
+      box-shadow: none;
     }
     .feature-card.rpsc {
-      border-left: 4px solid #22c55e;
-      box-shadow: 0 20px 55px rgba(45,212,191,0.35);
+      border-left: 4px solid transparent;
+      box-shadow: none;
     }
 
     .feature-pill {
@@ -278,6 +278,43 @@
       color: #f9fafb;
     }
 
+    /* Gradient wrapper boxes for UPSC/RPSC inner sections */
+    .section-gradient-box {
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(135deg,#f97316,#ec4899,#6366f1);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.85);
+    }
+    .section-gradient-inner {
+      border-radius: 18px;
+      background: radial-gradient(circle at top left,#020617,#0b1120);
+      padding: 0;
+      color: #e5e7eb;
+    }
+
+    /* UPSC variants */
+    .section-upsc-1 { background: linear-gradient(135deg,#f97316,#ec4899); }
+    .section-upsc-2 { background: linear-gradient(135deg,#6366f1,#0ea5e9); }
+    .section-upsc-3 { background: linear-gradient(135deg,#22c55e,#14b8a6); }
+    .section-upsc-4 { background: linear-gradient(135deg,#eab308,#f97316); }
+
+    /* RPSC variants */
+    .section-rpsc-1 { background: linear-gradient(135deg,#22c55e,#16a34a); }
+    .section-rpsc-2 { background: linear-gradient(135deg,#0ea5e9,#0369a1); }
+    .section-rpsc-3 { background: linear-gradient(135deg,#a855f7,#6366f1); }
+    .section-rpsc-4 { background: linear-gradient(135deg,#f97316,#fb7185); }
+
+    .section-gradient-inner .card-header {
+      background: transparent;
+      border-bottom: 1px solid rgba(148,163,184,0.6);
+    }
+    .section-gradient-inner .card-body {
+      background: transparent;
+    }
+    .section-gradient-inner .card-footer {
+      background: transparent;
+      border-top: 1px solid rgba(148,163,184,0.6);
+    }
   </style>
 </head>
 
@@ -444,270 +481,288 @@
 
                   <!-- UPSC Announcements -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card upsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>UPSC Announcements</span>
-                        <small id="upscannouncementsmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title</label>
-                          <input id="upscannouncementstitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. Important Updates">
+                    <div class="section-gradient-box section-upsc-1">
+                      <div class="card h-100 section-gradient-inner feature-card upsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>UPSC Announcements</span>
+                          <small id="upscannouncementsmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line one announcement)</label>
-                          <textarea id="upscannouncementsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="New test series from 10 Jan&#10;Syllabus completion target for this week"></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title</label>
+                            <input id="upscannouncementstitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. Important Updates">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line one announcement)</label>
+                            <textarea id="upscannouncementsitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="New test series from 10 Jan&#10;Syllabus completion target for this week"></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="upscannouncementslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="upscannouncementslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('UPSC','announcements')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('UPSC','announcements')">Save</button>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Daily Targets (colorful) -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card upsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>UPSC Daily Targets</span>
-                        <small id="upscdailyTargetsmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title (Date + note)</label>
-                          <input id="upscdailyTargetstitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. 05 Jan 2026 - Today's Targets">
+                    <div class="section-gradient-box section-upsc-2">
+                      <div class="card h-100 section-gradient-inner feature-card upsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>UPSC Daily Targets</span>
+                          <small id="upscdailyTargetsmsg" class="text-muted small"></small>
                         </div>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title (Date + note)</label>
+                            <input id="upscdailyTargetstitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. 05 Jan 2026 - Today's Targets">
+                          </div>
 
-                        <!-- 2 colourful boxes -->
-                        <div class="row g-2 mb-2">
-                          <div class="col-12">
-                            <div class="p-2 rounded-3"
-                                 style="background: linear-gradient(135deg,#ec4899,#f97316); color:#fff;">
-                              <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="small fw-semibold">Daily Target 1</span>
-                                <span class="badge bg-light text-dark border">Subject + Topics</span>
-                              </div>
-                              <div class="p-2 rounded-3" style="background:rgba(15,23,42,0.35);">
-                                <div class="mb-1">
-                                  <label class="form-label small mb-1">Subject</label>
-                                  <input id="upscdailyTargetsSubject1"
-                                         class="form-control form-control-sm"
-                                         placeholder="e.g. Polity">
+                          <!-- 2 colourful boxes -->
+                          <div class="row g-2 mb-2">
+                            <div class="col-12">
+                              <div class="p-2 rounded-3"
+                                   style="background: linear-gradient(135deg,#ec4899,#f97316); color:#fff;">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                  <span class="small fw-semibold">Daily Target 1</span>
+                                  <span class="badge bg-light text-dark border">Subject + Topics</span>
                                 </div>
-                                <div>
-                                  <label class="form-label small mb-1">Topics</label>
-                                  <textarea id="upscdailyTargetsTopics1"
-                                            class="form-control form-control-sm"
-                                            rows="3"
-                                            placeholder="e.g. Laxmikanth - FR, DPSP, Preamble"></textarea>
+                                <div class="p-2 rounded-3" style="background:rgba(15,23,42,0.35);">
+                                  <div class="mb-1">
+                                    <label class="form-label small mb-1">Subject</label>
+                                    <input id="upscdailyTargetsSubject1"
+                                           class="form-control form-control-sm"
+                                           placeholder="e.g. Polity">
+                                  </div>
+                                  <div>
+                                    <label class="form-label small mb-1">Topics</label>
+                                    <textarea id="upscdailyTargetsTopics1"
+                                              class="form-control form-control-sm"
+                                              rows="3"
+                                              placeholder="e.g. Laxmikanth - FR, DPSP, Preamble"></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-12">
+                              <div class="p-2 rounded-3"
+                                   style="background: linear-gradient(135deg,#22c55e,#14b8a6); color:#fff;">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                  <span class="small fw-semibold">Daily Target 2</span>
+                                  <span class="badge bg-light text-dark border">Subject + Topics</span>
+                                </div>
+                                <div class="p-2 rounded-3" style="background:rgba(15,23,42,0.35);">
+                                  <div class="mb-1">
+                                    <label class="form-label small mb-1">Subject</label>
+                                    <input id="upscdailyTargetsSubject2"
+                                           class="form-control form-control-sm"
+                                           placeholder="e.g. Modern History">
+                                  </div>
+                                  <div>
+                                    <label class="form-label small mb-1">Topics</label>
+                                    <textarea id="upscdailyTargetsTopics2"
+                                              class="form-control form-control-sm"
+                                              rows="3"
+                                              placeholder="e.g. Revolt of 1857, Congress Sessions"></textarea>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
 
-                          <div class="col-12">
-                            <div class="p-2 rounded-3"
-                                 style="background: linear-gradient(135deg,#22c55e,#14b8a6); color:#fff;">
-                              <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="small fw-semibold">Daily Target 2</span>
-                                <span class="badge bg-light text-dark border">Subject + Topics</span>
-                              </div>
-                              <div class="p-2 rounded-3" style="background:rgba(15,23,42,0.35);">
-                                <div class="mb-1">
-                                  <label class="form-label small mb-1">Subject</label>
-                                  <input id="upscdailyTargetsSubject2"
-                                         class="form-control form-control-sm"
-                                         placeholder="e.g. Modern History">
-                                </div>
-                                <div>
-                                  <label class="form-label small mb-1">Topics</label>
-                                  <textarea id="upscdailyTargetsTopics2"
-                                            class="form-control form-control-sm"
-                                            rows="3"
-                                            placeholder="e.g. Revolt of 1857, Congress Sessions"></textarea>
-                                </div>
-                              </div>
-                            </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line one target)</label>
+                            <textarea id="upscdailyTargetsitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="2 GS tests&#10;Polity Laxmikanth revision"></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="upscdailyTargetslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
                           </div>
                         </div>
-
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line one target)</label>
-                          <textarea id="upscdailyTargetsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="2 GS tests&#10;Polity Laxmikanth revision"></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveUpscDailyTargets()">Save</button>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="upscdailyTargetslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
-                        </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveUpscDailyTargets()">Save</button>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Mock Tests -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card upsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>UPSC Mock Tests</span>
-                        <small id="upscmockTestsmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title</label>
-                          <input id="upscmockTeststitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. Full-length Tests">
+                    <div class="section-gradient-box section-upsc-3">
+                      <div class="card h-100 section-gradient-inner feature-card upsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>UPSC Mock Tests</span>
+                          <small id="upscmockTestsmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line test link)</label>
-                          <textarea id="upscmockTestsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="FLT-1 Polity - Drive link"></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title</label>
+                            <input id="upscmockTeststitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. Full-length Tests">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line test link)</label>
+                            <textarea id="upscmockTestsitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="FLT-1 Polity - Drive link"></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="upscmockTestslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="upscmockTestslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('UPSC','mockTests')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('UPSC','mockTests')">Save</button>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Test Series -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card upsc">
-                      <div class="card-header">
-                        <span>UPSC Test Series</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('UPSC','testSeries')">
-                          Open folder to upload Test Series
-                        </button>
+                    <div class="section-gradient-box section-upsc-4">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
+                        <div class="card-header">
+                          <span>UPSC Test Series</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('UPSC','testSeries')">
+                            Open folder to upload Test Series
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC PYQs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card upsc">
-                      <div class="card-header">
-                        <span>UPSC PYQs</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('UPSC','pyqPapers')">
-                          Open folder to upload PYQs
-                        </button>
+                    <div class="section-gradient-box section-upsc-1">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
+                        <div class="card-header">
+                          <span>UPSC PYQs</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('UPSC','pyqPapers')">
+                            Open folder to upload PYQs
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Books & Materials -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card upsc">
-                      <div class="card-header">
-                        <span>UPSC Books & Materials</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('UPSC','books')">
-                          Open folder to upload Books / Materials
-                        </button>
+                    <div class="section-gradient-box section-upsc-2">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
+                        <div class="card-header">
+                          <span>UPSC Books & Materials</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('UPSC','books')">
+                            Open folder to upload Books / Materials
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Current Affairs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card upsc">
-                      <div class="card-header">
-                        <span>UPSC Current Affairs</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('UPSC','currentAffairs')">
-                          Open folder to upload Current Affairs files
-                        </button>
+                    <div class="section-gradient-box section-upsc-3">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
+                        <div class="card-header">
+                          <span>UPSC Current Affairs</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('UPSC','currentAffairs')">
+                            Open folder to upload Current Affairs files
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Notes & PDFs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card upsc">
-                      <div class="card-header">
-                        <span>UPSC Notes & PDFs</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('UPSC','notesPdfs')">
-                          Open folder to upload Notes / PDFs
-                        </button>
+                    <div class="section-gradient-box section-upsc-4">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
+                        <div class="card-header">
+                          <span>UPSC Notes & PDFs</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('UPSC','notesPdfs')">
+                            Open folder to upload Notes / PDFs
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- UPSC Quotes -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card upsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>UPSC Path Pradarshak Quotes</span>
-                        <small id="upscquotesmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title</label>
-                          <input id="upscquotestitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. Path Pradarshak">
+                    <div class="section-gradient-box section-upsc-1">
+                      <div class="card h-100 section-gradient-inner feature-card upsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>UPSC Path Pradarshak Quotes</span>
+                          <small id="upscquotesmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line one quote)</label>
-                          <textarea id="upscquotesitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="The future belongs to those who believe in the beauty of their dreams."></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title</label>
+                            <input id="upscquotestitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. Path Pradarshak">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line one quote)</label>
+                            <textarea id="upscquotesitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="The future belongs to those who believe in the beauty of their dreams."></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="upscquoteslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="upscquoteslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('UPSC','quotes')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('UPSC','quotes')">Save</button>
                       </div>
                     </div>
                   </div>
@@ -740,200 +795,216 @@
 
                   <!-- RPSC Announcements -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card rpsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>RPSC Announcements</span>
-                        <small id="rpscannouncementsmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title</label>
-                          <input id="rpscannouncementstitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. Important Updates (RPSC)">
+                    <div class="section-gradient-box section-rpsc-1">
+                      <div class="card h-100 section-gradient-inner feature-card rpsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>RPSC Announcements</span>
+                          <small id="rpscannouncementsmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line one announcement)</label>
-                          <textarea id="rpscannouncementsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="New batch for RAS&#10;Important circulars"></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title</label>
+                            <input id="rpscannouncementstitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. Important Updates (RPSC)">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line one announcement)</label>
+                            <textarea id="rpscannouncementsitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="New batch for RAS&#10;Important circulars"></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="rpscannouncementslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="rpscannouncementslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('RPSC','announcements')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('RPSC','announcements')">Save</button>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC Daily Targets -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card rpsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>RPSC Daily Targets</span>
-                        <small id="rpscdailyTargetsmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title (Date + note)</label>
-                          <input id="rpscdailyTargetstitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. 05 Jan 2026 - Today's Targets (RPSC)">
+                    <div class="section-gradient-box section-rpsc-2">
+                      <div class="card h-100 section-gradient-inner feature-card rpsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>RPSC Daily Targets</span>
+                          <small id="rpscdailyTargetsmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line one target)</label>
-                          <textarea id="rpscdailyTargetsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Rajasthan polity&#10;Current affairs notes"></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title (Date + note)</label>
+                            <input id="rpscdailyTargetstitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. 05 Jan 2026 - Today's Targets (RPSC)">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line one target)</label>
+                            <textarea id="rpscdailyTargetsitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="Rajasthan polity&#10;Current affairs notes"></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="rpscdailyTargetslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="rpscdailyTargetslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('RPSC','dailyTargets')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('RPSC','dailyTargets')">Save</button>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC Mock Tests -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card rpsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>RPSC Mock Tests</span>
-                        <small id="rpscmockTestsmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title</label>
-                          <input id="rpscmockTeststitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. Full-length Tests (RPSC)">
+                    <div class="section-gradient-box section-rpsc-3">
+                      <div class="card h-100 section-gradient-inner feature-card rpsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>RPSC Mock Tests</span>
+                          <small id="rpscmockTestsmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line test link)</label>
-                          <textarea id="rpscmockTestsitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="RPSC FLT-1 - Drive link"></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title</label>
+                            <input id="rpscmockTeststitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. Full-length Tests (RPSC)">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line test link)</label>
+                            <textarea id="rpscmockTestsitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="RPSC FLT-1 - Drive link"></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="rpscmockTestslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="rpscmockTestslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('RPSC','mockTests')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('RPSC','mockTests')">Save</button>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC Test Series -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card rpsc">
-                      <div class="card-header">
-                        <span>RPSC Test Series</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('RPSC','testSeries')">
-                          Open folder to upload Test Series
-                        </button>
+                    <div class="section-gradient-box section-rpsc-4">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card rpsc">
+                        <div class="card-header">
+                          <span>RPSC Test Series</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('RPSC','testSeries')">
+                            Open folder to upload Test Series
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC PYQs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card rpsc">
-                      <div class="card-header">
-                        <span>RPSC PYQs</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('RPSC','pyqPapers')">
-                          Open folder to upload PYQs
-                        </button>
+                    <div class="section-gradient-box section-rpsc-1">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card rpsc">
+                        <div class="card-header">
+                          <span>RPSC PYQs</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('RPSC','pyqPapers')">
+                            Open folder to upload PYQs
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC Books & Materials -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card rpsc">
-                      <div class="card-header">
-                        <span>RPSC Books & Materials</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('RPSC','books')">
-                          Open folder to upload Books / Materials
-                        </button>
+                    <div class="section-gradient-box section-rpsc-2">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card rpsc">
+                        <div class="card-header">
+                          <span>RPSC Books & Materials</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('RPSC','books')">
+                            Open folder to upload Books / Materials
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC Notes & PDFs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column feature-card rpsc">
-                      <div class="card-header">
-                        <span>RPSC Notes & PDFs</span>
-                      </div>
-                      <div class="card-body d-flex justify-content-center align-items-center">
-                        <button type="button"
-                                class="btn btn-outline-secondary upload-folder-btn"
-                                onclick="openFolder('RPSC','notesPdfs')">
-                          Open folder to upload Notes / PDFs
-                        </button>
+                    <div class="section-gradient-box section-rpsc-3">
+                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card rpsc">
+                        <div class="card-header">
+                          <span>RPSC Notes & PDFs</span>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                          <button type="button"
+                                  class="btn btn-outline-secondary upload-folder-btn"
+                                  onclick="openFolder('RPSC','notesPdfs')">
+                            Open folder to upload Notes / PDFs
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <!-- RPSC Quotes -->
                   <div class="col-md-6">
-                    <div class="card h-100 feature-card rpsc">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>RPSC Path Pradarshak Quotes</span>
-                        <small id="rpscquotesmsg" class="text-muted small"></small>
-                      </div>
-                      <div class="card-body">
-                        <div class="mb-2">
-                          <label class="form-label small">Section Title</label>
-                          <input id="rpscquotestitle"
-                                 class="form-control form-control-sm section-title-input"
-                                 placeholder="e.g. Path Pradarshak (RPSC)">
+                    <div class="section-gradient-box section-rpsc-4">
+                      <div class="card h-100 section-gradient-inner feature-card rpsc">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                          <span>RPSC Path Pradarshak Quotes</span>
+                          <small id="rpscquotesmsg" class="text-muted small"></small>
                         </div>
-                        <div class="mb-2">
-                          <label class="form-label small">Items (each line one quote)</label>
-                          <textarea id="rpscquotesitems"
-                                    class="form-control form-control-sm section-items"
-                                    placeholder="Hard work in silence; result in RPSC hall."></textarea>
+                        <div class="card-body">
+                          <div class="mb-2">
+                            <label class="form-label small">Section Title</label>
+                            <input id="rpscquotestitle"
+                                   class="form-control form-control-sm section-title-input"
+                                   placeholder="e.g. Path Pradarshak (RPSC)">
+                          </div>
+                          <div class="mb-2">
+                            <label class="form-label small">Items (each line one quote)</label>
+                            <textarea id="rpscquotesitems"
+                                      class="form-control form-control-sm section-items"
+                                      placeholder="Hard work in silence; result in RPSC hall."></textarea>
+                          </div>
+                          <div>
+                            <label class="form-label small">Last saved (shown to students)</label>
+                            <textarea id="rpscquoteslast"
+                                      class="form-control form-control-sm section-last"
+                                      readonly></textarea>
+                          </div>
                         </div>
-                        <div>
-                          <label class="form-label small">Last saved (shown to students)</label>
-                          <textarea id="rpscquoteslast"
-                                    class="form-control form-control-sm section-last"
-                                    readonly></textarea>
+                        <div class="card-footer text-end">
+                          <button class="btn btn-sm btn-primary"
+                                  onclick="saveSection('RPSC','quotes')">Save</button>
                         </div>
-                      </div>
-                      <div class="card-footer text-end">
-                        <button class="btn btn-sm btn-primary"
-                                onclick="saveSection('RPSC','quotes')">Save</button>
                       </div>
                     </div>
                   </div>
