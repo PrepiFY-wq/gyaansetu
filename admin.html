@@ -10,73 +10,47 @@
 
   <style>
     body {
-      background-color: #f4f5fb;
+      background-color: #0f172a;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    .sidebar {
-      min-height: 100vh;
-      background: #111827;
       color: #e5e7eb;
-    }
-    .sidebar .nav-link {
-      color: #9ca3af;
-      border-radius: 8px;
-      margin-bottom: 4px;
-    }
-    .sidebar .nav-link.active,
-    .sidebar .nav-link:hover {
-      color: #fff;
-      background: #1f2937;
     }
     .brand {
       font-weight: 700;
       font-size: 20px;
       letter-spacing: 0.03em;
     }
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .status-pending {
-      background: #fef3c7;
-      color: #92400e;
-    }
-    .status-verified {
-      background: #dcfce7;
-      color: #166534;
-    }
-    .status-rejected {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
     .card {
-      border-radius: 16px;
+      border-radius: 18px;
       border: none;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      background: radial-gradient(circle at top left,#111827,#020617);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.65);
+      color: #e5e7eb;
     }
     .card-header {
       background: transparent;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid rgba(148,163,184,0.4);
     }
     .metric-value {
       font-size: 28px;
       font-weight: 700;
-      color: #111827;
+      color: #f9fafb;
     }
     .metric-label {
       font-size: 14px;
-      color: #6b7280;
+      color: #9ca3af;
     }
     textarea.section-items {
       min-height: 100px;
       resize: vertical;
+      background: rgba(15,23,42,0.8);
+      border-color: rgba(148,163,184,0.6);
+      color: #e5e7eb;
     }
     .section-title-input {
       font-size: 14px;
+      background: rgba(15,23,42,0.8);
+      border-color: rgba(148,163,184,0.6);
+      color: #e5e7eb;
     }
     .tab-pane {
       padding-top: 10px;
@@ -87,11 +61,15 @@
     textarea.section-last {
       min-height: 80px;
       resize: vertical;
-      background-color: #f9fafb;
+      background-color: rgba(15,23,42,0.9);
+      border-color: rgba(148,163,184,0.6);
+      color: #e5e7eb;
     }
     .upload-folder-btn {
       font-size: 12px;
-      padding: 6px 12px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border-width: 1px;
     }
 
     /* Big folder cards on main area */
@@ -101,59 +79,72 @@
       gap: 24px;
     }
     .folder-card {
-      border-radius: 20px;
+      border-radius: 22px;
       color: #fff;
       padding: 24px;
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 160px;
+      min-height: 170px;
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(248,250,252,0.22);
+      box-shadow: 0 22px 50px rgba(15,23,42,0.72);
     }
     .folder-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 28px 70px rgba(15,23,42,0.9);
     }
+    .folder-card.registration-card {
+      background: radial-gradient(circle at top left,#6366f1,#3b82f6 55%,#22c55e 120%);
+    }
+    .folder-card.upsc-card {
+      background: radial-gradient(circle at top left,#f97316,#ec4899 45%,#6366f1 120%);
+    }
+    .folder-card.rpsc-card {
+      background: radial-gradient(circle at top left,#22c55e,#16a34a 45%,#0ea5e9 120%);
+    }
+
     .folder-badge {
       font-size: 13px;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 999px;
-      background: rgba(15,23,42,0.15);
+      background: rgba(15,23,42,0.25);
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
     .folder-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-top: 10px;
+      font-size: 26px;
+      font-weight: 800;
+      margin-top: 12px;
       margin-bottom: 4px;
     }
     .folder-subtitle {
       font-size: 14px;
-      opacity: 0.9;
+      opacity: 0.95;
     }
     .folder-accent {
       position: absolute;
       right: -40px;
-      bottom: -40px;
-      width: 140px;
-      height: 140px;
+      bottom: -50px;
+      width: 150px;
+      height: 150px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.20);
-      filter: blur(1px);
+      background: rgba(255,255,255,0.2);
+      filter: blur(2px);
     }
     .folder-accent-2 {
       position: absolute;
-      right: 20px;
-      top: -40px;
+      right: 10px;
+      top: -35px;
       width: 90px;
       height: 90px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.16);
     }
     .folder-icon {
       font-size: 28px;
@@ -162,32 +153,147 @@
       display: none !important;
     }
 
-    /* Top bar for logout */
+    /* Top bar */
     .topbar {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 18px;
       gap: 10px;
     }
     .topbar-email {
       font-size: 13px;
-      color: #6b7280;
+      color: #9ca3af;
     }
+    .topbar-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    /* Feature cards (inner UPSC/RPSC sections) */
+    .feature-card {
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.5);
+      padding: 0;
+      background: radial-gradient(circle at top left,#020617,#111827);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.7);
+      color: #e5e7eb;
+    }
+    .feature-card .card-header {
+      border-bottom: 1px solid rgba(148,163,184,0.6);
+      background: linear-gradient(135deg,rgba(15,23,42,0.95),rgba(15,23,42,0.75));
+    }
+    .feature-card .card-body {
+      background: radial-gradient(circle at top left,rgba(15,23,42,0.9),rgba(15,23,42,0.96));
+    }
+    .feature-card .card-footer {
+      background: linear-gradient(135deg,rgba(15,23,42,0.98),rgba(15,23,42,0.9));
+      border-top: 1px solid rgba(148,163,184,0.5);
+    }
+
+    .feature-card.upsc {
+      border-left: 4px solid #f97316;
+      box-shadow: 0 20px 55px rgba(248,113,113,0.35);
+    }
+    .feature-card.rpsc {
+      border-left: 4px solid #22c55e;
+      box-shadow: 0 20px 55px rgba(45,212,191,0.35);
+    }
+
+    .feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(15,23,42,0.8);
+      color: #cbd5f5;
+    }
+
+    .form-control,
+    .form-select {
+      background-color: rgba(15,23,42,0.9);
+      border-color: rgba(148,163,184,0.55);
+      color: #e5e7eb;
+    }
+    .form-control:focus,
+    .form-select:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(129,140,248,0.8);
+      background-color: rgba(15,23,42,0.95);
+      color: #f9fafb;
+    }
+    .table {
+      color: #e5e7eb;
+    }
+    .table thead {
+      background: radial-gradient(circle at top left,#111827,#020617);
+    }
+    .table tbody tr:hover {
+      background: rgba(30,64,175,0.45);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-pending {
+      background: rgba(254,243,199,0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(252,211,77,0.5);
+    }
+    .status-verified {
+      background: rgba(220,252,231,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.5);
+    }
+    .status-rejected {
+      background: rgba(254,226,226,0.1);
+      color: #f87171;
+      border: 1px solid rgba(248,113,113,0.5);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg,#6366f1,#4f46e5);
+      border: none;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg,#4f46e5,#4338ca);
+    }
+    .btn-outline-secondary {
+      border-color: rgba(148,163,184,0.7);
+      color: #e5e7eb;
+    }
+    .btn-outline-secondary:hover {
+      background: rgba(148,163,184,0.2);
+      color: #f9fafb;
+    }
+
   </style>
 </head>
 
 <body>
 <div class="container-fluid">
   <div class="row">
-
-    <!-- MAIN CONTENT (full width) -->
+    <!-- MAIN CONTENT -->
     <main class="col-12 px-4 py-4">
 
       <!-- top bar with logout -->
       <div class="topbar">
-        <span id="adminEmailDisplay" class="topbar-email"></span>
-        <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">Logout</button>
+        <div class="topbar-title">GyaanSetu Admin Panel</div>
+        <div class="d-flex align-items-center gap-2">
+          <span id="adminEmailDisplay" class="topbar-email"></span>
+          <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">Logout</button>
+        </div>
       </div>
 
       <!-- Big folder home view -->
@@ -196,8 +302,7 @@
         <div class="folder-grid">
 
           <!-- Registration -->
-          <div class="folder-card admin-only-prepify"
-               style="background: linear-gradient(135deg,#6366f1,#3b82f6);"
+          <div class="folder-card registration-card admin-only-prepify"
                onclick="openFolderSection('registration', this)">
             <div>
               <div class="folder-badge">
@@ -214,8 +319,7 @@
           </div>
 
           <!-- UPSC -->
-          <div class="folder-card admin-only-prepify"
-               style="background: linear-gradient(135deg,#ec4899,#f97316);"
+          <div class="folder-card upsc-card admin-only-prepify"
                onclick="openFolderSection('upsc', this)">
             <div>
               <div class="folder-badge">
@@ -232,8 +336,7 @@
           </div>
 
           <!-- RPSC -->
-          <div class="folder-card admin-only-rpsc"
-               style="background: linear-gradient(135deg,#22c55e,#16a34a);"
+          <div class="folder-card rpsc-card admin-only-rpsc"
                onclick="openFolderSection('rpsc', this)">
             <div>
               <div class="folder-badge">
@@ -256,7 +359,7 @@
       <section id="view-registrations" class="d-none">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="mb-0">Registrations & Fees</h4>
-          <button class="btn btn-link btn-sm" onclick="showHome()">← Back to Sections</button>
+          <button class="btn btn-link btn-sm text-info" onclick="showHome()">← Back to Sections</button>
         </div>
 
         <div class="row g-3 mb-3">
@@ -303,7 +406,7 @@
           <div class="card-body p-0">
             <div class="table-responsive">
               <table class="table table-hover mb-0 align-middle">
-                <thead class="table-light">
+                <thead>
                 <tr>
                   <th>#</th>
                   <th>Student</th>
@@ -324,10 +427,10 @@
       <section id="view-upsc" class="d-none">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="mb-0">UPSC Dashboard Content</h4>
-          <button class="btn btn-link btn-sm" onclick="showHome()">← Back to Sections</button>
+          <button class="btn btn-link btn-sm text-info" onclick="showHome()">← Back to Sections</button>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 feature-card upsc">
           <div class="card-header">
             <h5 class="mb-0">UPSC Dashboard Content</h5>
             <small class="text-muted">
@@ -341,7 +444,7 @@
 
                   <!-- UPSC Announcements -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card upsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>UPSC Announcements</span>
                         <small id="upscannouncementsmsg" class="text-muted small"></small>
@@ -373,100 +476,97 @@
                     </div>
                   </div>
 
-                <!-- UPSC Daily Targets -->
-<div class="col-md-6">
-  <div class="card h-100">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <span>UPSC Daily Targets</span>
-      <small id="upscdailyTargetsmsg" class="text-muted small"></small>
-    </div>
-    <div class="card-body">
-      <div class="mb-2">
-        <label class="form-label small">Section Title (Date + note)</label>
-        <input id="upscdailyTargetstitle"
-               class="form-control form-control-sm section-title-input"
-               placeholder="e.g. 05 Jan 2026 - Today's Targets">
-      </div>
+                  <!-- UPSC Daily Targets (colorful) -->
+                  <div class="col-md-6">
+                    <div class="card h-100 feature-card upsc">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>UPSC Daily Targets</span>
+                        <small id="upscdailyTargetsmsg" class="text-muted small"></small>
+                      </div>
+                      <div class="card-body">
+                        <div class="mb-2">
+                          <label class="form-label small">Section Title (Date + note)</label>
+                          <input id="upscdailyTargetstitle"
+                                 class="form-control form-control-sm section-title-input"
+                                 placeholder="e.g. 05 Jan 2026 - Today's Targets">
+                        </div>
 
-      <!-- NEW: 2 colourful boxes in same pattern -->
-      <div class="row g-2 mb-2">
-        <div class="col-12">
-          <div class="p-2 rounded-3" style="
-               background: linear-gradient(135deg,#ec4899,#f97316);
-               color:#fff;">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-              <span class="small fw-semibold">Daily Target 1</span>
-              <span class="badge bg-light text-dark border">Subject + Topics</span>
-            </div>
-            <div class="p-2 rounded-3" style="background:rgba(255,255,255,0.18);">
-              <div class="mb-1">
-                <label class="form-label small mb-1">Subject</label>
-                <input id="upscdailyTargetsSubject1"
-                       class="form-control form-control-sm"
-                       placeholder="e.g. Polity">
-              </div>
-              <div>
-                <label class="form-label small mb-1">Topics</label>
-                <textarea id="upscdailyTargetsTopics1"
-                          class="form-control form-control-sm"
-                          rows="3"
-                          placeholder="e.g. Laxmikanth - FR, DPSP, Preamble"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
+                        <!-- 2 colourful boxes -->
+                        <div class="row g-2 mb-2">
+                          <div class="col-12">
+                            <div class="p-2 rounded-3"
+                                 style="background: linear-gradient(135deg,#ec4899,#f97316); color:#fff;">
+                              <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small fw-semibold">Daily Target 1</span>
+                                <span class="badge bg-light text-dark border">Subject + Topics</span>
+                              </div>
+                              <div class="p-2 rounded-3" style="background:rgba(15,23,42,0.35);">
+                                <div class="mb-1">
+                                  <label class="form-label small mb-1">Subject</label>
+                                  <input id="upscdailyTargetsSubject1"
+                                         class="form-control form-control-sm"
+                                         placeholder="e.g. Polity">
+                                </div>
+                                <div>
+                                  <label class="form-label small mb-1">Topics</label>
+                                  <textarea id="upscdailyTargetsTopics1"
+                                            class="form-control form-control-sm"
+                                            rows="3"
+                                            placeholder="e.g. Laxmikanth - FR, DPSP, Preamble"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
-        <div class="col-12">
-          <div class="p-2 rounded-3" style="
-               background: linear-gradient(135deg,#22c55e,#14b8a6);
-               color:#fff;">
-            <div class="d-flex justify-content-between align-items-center mb-1">
-              <span class="small fw-semibold">Daily Target 2</span>
-              <span class="badge bg-light text-dark border">Subject + Topics</span>
-            </div>
-            <div class="p-2 rounded-3" style="background:rgba(255,255,255,0.18);">
-              <div class="mb-1">
-                <label class="form-label small mb-1">Subject</label>
-                <input id="upscdailyTargetsSubject2"
-                       class="form-control form-control-sm"
-                       placeholder="e.g. Modern History">
-              </div>
-              <div>
-                <label class="form-label small mb-1">Topics</label>
-                <textarea id="upscdailyTargetsTopics2"
-                          class="form-control form-control-sm"
-                          rows="3"
-                          placeholder="e.g. Revolt of 1857, Congress Sessions"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- END new boxes -->
+                          <div class="col-12">
+                            <div class="p-2 rounded-3"
+                                 style="background: linear-gradient(135deg,#22c55e,#14b8a6); color:#fff;">
+                              <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small fw-semibold">Daily Target 2</span>
+                                <span class="badge bg-light text-dark border">Subject + Topics</span>
+                              </div>
+                              <div class="p-2 rounded-3" style="background:rgba(15,23,42,0.35);">
+                                <div class="mb-1">
+                                  <label class="form-label small mb-1">Subject</label>
+                                  <input id="upscdailyTargetsSubject2"
+                                         class="form-control form-control-sm"
+                                         placeholder="e.g. Modern History">
+                                </div>
+                                <div>
+                                  <label class="form-label small mb-1">Topics</label>
+                                  <textarea id="upscdailyTargetsTopics2"
+                                            class="form-control form-control-sm"
+                                            rows="3"
+                                            placeholder="e.g. Revolt of 1857, Congress Sessions"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
-      <div class="mb-2">
-        <label class="form-label small">Items (each line one target)</label>
-        <textarea id="upscdailyTargetsitems"
-                  class="form-control form-control-sm section-items"
-                  placeholder="2 GS tests&#10;Polity Laxmikanth revision"></textarea>
-      </div>
-      <div>
-        <label class="form-label small">Last saved (shown to students)</label>
-        <textarea id="upscdailyTargetslast"
-                  class="form-control form-control-sm section-last"
-                  readonly></textarea>
-      </div>
-    </div>
-    <div class="card-footer text-end">
-      <button class="btn btn-sm btn-primary"
-              onclick="saveUpscDailyTargets()">Save</button>
-    </div>
-  </div>
-</div>
+                        <div class="mb-2">
+                          <label class="form-label small">Items (each line one target)</label>
+                          <textarea id="upscdailyTargetsitems"
+                                    class="form-control form-control-sm section-items"
+                                    placeholder="2 GS tests&#10;Polity Laxmikanth revision"></textarea>
+                        </div>
+                        <div>
+                          <label class="form-label small">Last saved (shown to students)</label>
+                          <textarea id="upscdailyTargetslast"
+                                    class="form-control form-control-sm section-last"
+                                    readonly></textarea>
+                        </div>
+                      </div>
+                      <div class="card-footer text-end">
+                        <button class="btn btn-sm btn-primary"
+                                onclick="saveUpscDailyTargets()">Save</button>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- UPSC Mock Tests -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card upsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>UPSC Mock Tests</span>
                         <small id="upscmockTestsmsg" class="text-muted small"></small>
@@ -500,7 +600,7 @@
 
                   <!-- UPSC Test Series -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card upsc">
                       <div class="card-header">
                         <span>UPSC Test Series</span>
                       </div>
@@ -516,7 +616,7 @@
 
                   <!-- UPSC PYQs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card upsc">
                       <div class="card-header">
                         <span>UPSC PYQs</span>
                       </div>
@@ -532,7 +632,7 @@
 
                   <!-- UPSC Books & Materials -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card upsc">
                       <div class="card-header">
                         <span>UPSC Books & Materials</span>
                       </div>
@@ -548,7 +648,7 @@
 
                   <!-- UPSC Current Affairs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card upsc">
                       <div class="card-header">
                         <span>UPSC Current Affairs</span>
                       </div>
@@ -564,7 +664,7 @@
 
                   <!-- UPSC Notes & PDFs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card upsc">
                       <div class="card-header">
                         <span>UPSC Notes & PDFs</span>
                       </div>
@@ -580,7 +680,7 @@
 
                   <!-- UPSC Quotes -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card upsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>UPSC Path Pradarshak Quotes</span>
                         <small id="upscquotesmsg" class="text-muted small"></small>
@@ -623,10 +723,10 @@
       <section id="view-rpsc" class="d-none">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="mb-0">RPSC Dashboard Content</h4>
-          <button class="btn btn-link btn-sm" onclick="showHome()">← Back to Sections</button>
+          <button class="btn btn-link btn-sm text-info" onclick="showHome()">← Back to Sections</button>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 feature-card rpsc">
           <div class="card-header">
             <h5 class="mb-0">RPSC Dashboard Content</h5>
             <small class="text-muted">
@@ -640,7 +740,7 @@
 
                   <!-- RPSC Announcements -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card rpsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>RPSC Announcements</span>
                         <small id="rpscannouncementsmsg" class="text-muted small"></small>
@@ -674,7 +774,7 @@
 
                   <!-- RPSC Daily Targets -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card rpsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>RPSC Daily Targets</span>
                         <small id="rpscdailyTargetsmsg" class="text-muted small"></small>
@@ -708,7 +808,7 @@
 
                   <!-- RPSC Mock Tests -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card rpsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>RPSC Mock Tests</span>
                         <small id="rpscmockTestsmsg" class="text-muted small"></small>
@@ -742,7 +842,7 @@
 
                   <!-- RPSC Test Series -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card rpsc">
                       <div class="card-header">
                         <span>RPSC Test Series</span>
                       </div>
@@ -758,7 +858,7 @@
 
                   <!-- RPSC PYQs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card rpsc">
                       <div class="card-header">
                         <span>RPSC PYQs</span>
                       </div>
@@ -774,7 +874,7 @@
 
                   <!-- RPSC Books & Materials -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card rpsc">
                       <div class="card-header">
                         <span>RPSC Books & Materials</span>
                       </div>
@@ -790,7 +890,7 @@
 
                   <!-- RPSC Notes & PDFs -->
                   <div class="col-md-6">
-                    <div class="card h-100 d-flex flex-column">
+                    <div class="card h-100 d-flex flex-column feature-card rpsc">
                       <div class="card-header">
                         <span>RPSC Notes & PDFs</span>
                       </div>
@@ -806,7 +906,7 @@
 
                   <!-- RPSC Quotes -->
                   <div class="col-md-6">
-                    <div class="card h-100">
+                    <div class="card h-100 feature-card rpsc">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <span>RPSC Path Pradarshak Quotes</span>
                         <small id="rpscquotesmsg" class="text-muted small"></small>
@@ -854,10 +954,8 @@
 <script>
  const SCRIPTURL = 'https://script.google.com/macros/s/AKfycbzyvzuU8GqKfyeJ4hmP0EAKYzm4gNndftUj7eVOJXze-Z_9rFDYPeUyJfvGWG3Tg87SGg/exec';
 
+ let registrationsData = [];
 
-  let registrationsData = [];
-
-  // ----- View helpers -----
   function hideAllViews() {
     document.getElementById('home-folders').classList.add('d-none');
     document.getElementById('view-registrations').classList.add('d-none');
@@ -885,7 +983,6 @@
     }
   }
 
-  // Role-based visibility for cards/sections
   function applyEmailRole(email) {
     const lower = (email || '').toLowerCase();
     const isPrepify = (lower === 'prepifycse@gmail.com');
@@ -1126,7 +1223,6 @@
     fetch(SCRIPTURL, {
       method: 'POST',
       body: JSON.stringify(payload)
-      // no headers -> Apps Script side JSON parse by contents
     })
       .then(r => r.text())
       .then(txt => {
@@ -1146,33 +1242,33 @@
         setTimeout(() => { msgEl.textContent = ''; }, 4000);
       });
   }
-// Custom: UPSC Daily Targets - combine Subject + Topics into items textarea
-function saveUpscDailyTargets() {
-  const subj1  = document.getElementById('upscdailyTargetsSubject1')?.value || '';
-  const topics1 = document.getElementById('upscdailyTargetsTopics1')?.value || '';
-  const subj2  = document.getElementById('upscdailyTargetsSubject2')?.value || '';
-  const topics2 = document.getElementById('upscdailyTargetsTopics2')?.value || '';
 
-  const lines = [];
+  // UPSC Daily Targets custom save
+  function saveUpscDailyTargets() {
+    const subj1  = document.getElementById('upscdailyTargetsSubject1')?.value || '';
+    const topics1 = document.getElementById('upscdailyTargetsTopics1')?.value || '';
+    const subj2  = document.getElementById('upscdailyTargetsSubject2')?.value || '';
+    const topics2 = document.getElementById('upscdailyTargetsTopics2')?.value || '';
 
-  if (subj1 || topics1) {
-    lines.push('Subject 1: ' + subj1);
-    if (topics1) lines.push('Topics 1: ' + topics1);
+    const lines = [];
+
+    if (subj1 || topics1) {
+      lines.push('Subject 1: ' + subj1);
+      if (topics1) lines.push('Topics 1: ' + topics1);
+    }
+    if (subj2 || topics2) {
+      if (lines.length) lines.push('');
+      lines.push('Subject 2: ' + subj2);
+      if (topics2) lines.push('Topics 2: ' + topics2);
+    }
+
+    const itemsEl = document.getElementById('upscdailyTargetsitems');
+    if (itemsEl) {
+      itemsEl.value = lines.join('\n');
+    }
+
+    saveSection('UPSC', 'dailyTargets');
   }
-  if (subj2 || topics2) {
-    if (lines.length) lines.push(''); // blank line between targets
-    lines.push('Subject 2: ' + subj2);
-    if (topics2) lines.push('Topics 2: ' + topics2);
-  }
-
-  const itemsEl = document.getElementById('upscdailyTargetsitems');
-  if (itemsEl) {
-    itemsEl.value = lines.join('\n');
-  }
-
-  // ab normal saveSection hi call hoga
-  saveSection('UPSC', 'dailyTargets');
-}
 
   function openFolder(exam, folderKey) {
     const url = SCRIPTURL + '?action=openFolder&exam=' + encodeURIComponent(exam) +
@@ -1181,56 +1277,53 @@ function saveUpscDailyTargets() {
   }
 
   function loadDashboardContentForAdmin(exam) {
-  const url = SCRIPTURL + '?action=getAllSections&exam=' + encodeURIComponent(exam);
-  safeFetchJson(url)
-    .then(data => {
-      if (!data.success) throw new Error(data.message || 'Failed to load dashboard content');
+    const url = SCRIPTURL + '?action=getAllSections&exam=' + encodeURIComponent(exam);
+    safeFetchJson(url)
+      .then(data => {
+        if (!data.success) throw new Error(data.message || 'Failed to load dashboard content');
 
-      const sections = data.sections || {};
-      Object.keys(sections).forEach(key => {
-        const section = sections[key] || {};
-        const prefix = exam.toLowerCase();
-        const titleEl = document.getElementById(prefix + key + 'title');
-        const itemsEl = document.getElementById(prefix + key + 'items');
-        const lastEl  = document.getElementById(prefix + key + 'last');
+        const sections = data.sections || {};
+        Object.keys(sections).forEach(key => {
+          const section = sections[key] || {};
+          const prefix = exam.toLowerCase();
+          const titleEl = document.getElementById(prefix + key + 'title');
+          const itemsEl = document.getElementById(prefix + key + 'items');
+          const lastEl  = document.getElementById(prefix + key + 'last');
 
-        if (titleEl) titleEl.value = section.title || '';
-        if (itemsEl) itemsEl.value = section.items || '';
-        if (lastEl)  lastEl.value  = section.lastSaved || '';
+          if (titleEl) titleEl.value = section.title || '';
+          if (itemsEl) itemsEl.value = section.items || '';
+          if (lastEl)  lastEl.value  = section.lastSaved || '';
 
-        // 🔹 Extra addon: UPSC Daily Targets ke Subject/Topics boxes fill karna
-        if (exam === 'UPSC' && key === 'dailyTargets' && section.items) {
-          const txt = section.items || '';
-          const subj1El   = document.getElementById('upscdailyTargetsSubject1');
-          const topics1El = document.getElementById('upscdailyTargetsTopics1');
-          const subj2El   = document.getElementById('upscdailyTargetsSubject2');
-          const topics2El = document.getElementById('upscdailyTargetsTopics2');
+          if (exam === 'UPSC' && key === 'dailyTargets' && section.items) {
+            const txt = section.items || '';
+            const subj1El   = document.getElementById('upscdailyTargetsSubject1');
+            const topics1El = document.getElementById('upscdailyTargetsTopics1');
+            const subj2El   = document.getElementById('upscdailyTargetsSubject2');
+            const topics2El = document.getElementById('upscdailyTargetsTopics2');
 
-          if (subj1El && topics1El && subj2El && topics2El) {
-            // items ko 2 blocks me split (blank line ke basis par)
-            const blocks = txt.split(/\n\s*\n/);
-            const t1 = (blocks[0] || '').split('\n');
-            const t2 = (blocks[1] || '').split('\n');
+            if (subj1El && topics1El && subj2El && topics2El) {
+              const blocks = txt.split(/\n\s*\n/);
+              const t1 = (blocks[0] || '').split('\n');
+              const t2 = (blocks[1] || '').split('\n');
 
-            const s1 = (t1.find(l => l.startsWith('Subject 1:')) || '').replace('Subject 1:','').trim();
-            const p1 = (t1.find(l => l.startsWith('Topics 1:')) || '').replace('Topics 1:','').trim();
-            const s2 = (t2.find(l => l.startsWith('Subject 2:')) || '').replace('Subject 2:','').trim();
-            const p2 = (t2.find(l => l.startsWith('Topics 2:')) || '').replace('Topics 2:','').trim();
+              const s1 = (t1.find(l => l.startsWith('Subject 1:')) || '').replace('Subject 1:','').trim();
+              const p1 = (t1.find(l => l.startsWith('Topics 1:')) || '').replace('Topics 1:','').trim();
+              const s2 = (t2.find(l => l.startsWith('Subject 2:')) || '').replace('Subject 2:','').trim();
+              const p2 = (t2.find(l => l.startsWith('Topics 2:')) || '').replace('Topics 2:','').trim();
 
-            subj1El.value   = s1;
-            topics1El.value = p1;
-            subj2El.value   = s2;
-            topics2El.value = p2;
+              subj1El.value   = s1;
+              topics1El.value = p1;
+              subj2El.value   = s2;
+              topics2El.value = p2;
+            }
           }
-        }
+        });
+      })
+      .catch(err => {
+        console.error('loadDashboardContentForAdmin error', err);
       });
-    })
-    .catch(err => {
-      console.error('loadDashboardContentForAdmin error', err);
-    });
-}
+  }
 
-  // ========== LOGOUT FUNCTION ==========
   function logoutAdmin() {
     if (!confirm('Are you sure you want to logout?')) return;
     try {
