@@ -161,6 +161,19 @@
     .d-none {
       display: none !important;
     }
+
+    /* Top bar for logout */
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 10px;
+    }
+    .topbar-email {
+      font-size: 13px;
+      color: #6b7280;
+    }
   </style>
 </head>
 
@@ -170,6 +183,12 @@
 
     <!-- MAIN CONTENT (full width) -->
     <main class="col-12 px-4 py-4">
+
+      <!-- top bar with logout -->
+      <div class="topbar">
+        <span id="adminEmailDisplay" class="topbar-email"></span>
+        <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">Logout</button>
+      </div>
 
       <!-- Big folder home view -->
       <section id="home-folders">
@@ -786,7 +805,6 @@
     document.getElementById('view-registrations').classList.add('d-none');
     document.getElementById('view-upsc').classList.add('d-none');
     document.getElementById('view-rpsc').classList.add('d-none');
-    // sidebar hat chuka hai, ye line harmless hai (koi element nahi milega)
     document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
   }
 
@@ -813,7 +831,7 @@
 
   // Role-based visibility for cards/sections
   function applyEmailRole(email) {
-    const lower = email.toLowerCase();
+    const lower = (email || '').toLowerCase();
     const isPrepify = (lower === 'prepifycse@gmail.com');
 
     // Prepify admin: show registration + UPSC; hide RPSC
@@ -1118,14 +1136,33 @@
       });
   }
 
+  // ========== LOGOUT FUNCTION ==========
+  function logoutAdmin() {
+    if (!confirm('Are you sure you want to logout?')) return;
+    try {
+      localStorage.removeItem('adminEmail');
+      // yahan apna admin login page ka URL dal dena
+      window.location.href = 'admin-login.html';
+    } catch (e) {
+      console.error('logoutAdmin error', e);
+      window.location.reload();
+    }
+  }
+
   function init() {
     const email = localStorage.getItem('adminEmail') || '';
 
-    // adminEmail span ab HTML me nahi hai, isliye direct access nahi kar rahe
-    // const emailSpan = document.getElementById('adminEmail');
-    // if (email && emailSpan) {
-    //   emailSpan.textContent = email;
-    // }
+    // topbar me email show karega
+    const emailSpan = document.getElementById('adminEmailDisplay');
+    if (emailSpan && email) {
+      emailSpan.textContent = email;
+    }
+
+    // agar email hi nahi hai to direct login page pe bhej do
+    if (!email) {
+      window.location.href = 'admin-login.html';
+      return;
+    }
 
     applyEmailRole(email || '');
 
