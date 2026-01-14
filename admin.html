@@ -1057,44 +1057,57 @@
   /* ========== DASHBOARD CONTENT (UPSC / RPSC) ========== */
 
 function saveSection(exam, sectionKey) {
-  const prefix = exam.toLowerCase() + sectionKey; // jaisa bhi tumne ids banaye
-  const titleEl = document.getElementById(prefix + 'title');
-  const itemsEl = document.getElementById(prefix + 'items');
-  const msgEl   = document.getElementById(prefix + 'msg');
-  const lastEl  = document.getElementById(prefix + 'last');
+  const prefix = exam.toLowerCase();
+  const key = sectionKey;
+
+  const titleId = prefix + key + 'title';
+  const itemsId = prefix + key + 'items';
+  const lastId  = prefix + key + 'last';
+  const msgId   = prefix + key + 'msg';
+
+  const titleEl = document.getElementById(titleId);
+  const itemsEl = document.getElementById(itemsId);
+  const lastEl  = document.getElementById(lastId);
+  const msgEl   = document.getElementById(msgId);
+
+  if (!titleEl || !itemsEl || !lastEl || !msgEl) {
+    console.warn('Missing elements for section', exam, sectionKey);
+    return;
+  }
 
   const payload = {
     action: 'saveSection',
     exam: exam,
     sectionKey: sectionKey,
-    title: (titleEl?.value || ''),
-    items: (itemsEl?.value || '')
+    title: titleEl.value || '',
+    items: itemsEl.value || ''
   };
 
-  if (msgEl) msgEl.textContent = 'Saving...';
+  msgEl.textContent = 'Saving...';
 
   fetch(SCRIPTURL, {
     method: 'POST',
-    // IMPORTANT: sirf yahi header. Aur kuch nahi.
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    // headers hata bhi sakte ho, to preflight chance aur kam ho jayega:
+    // headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   })
-    .then(res => {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json();
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
     })
     .then(data => {
-      if (!data.success) throw new Error(data.message || 'Failed');
-      if (msgEl) msgEl.textContent = 'Saved at ' + (data.savedAt || '');
-      if (lastEl && data.lastSaved) lastEl.value = data.lastSaved;
+      if (!data.success) throw new Error(data.message || 'Failed to save section');
+      lastEl.value = data.lastSaved || '';
+      msgEl.textContent = 'Saved at ' + (data.savedAt || '');
+      setTimeout(() => { msgEl.textContent = ''; }, 4000);
     })
     .catch(err => {
       console.error('saveSection error', err);
-      if (msgEl) msgEl.textContent = 'Error: ' + err.message;
+      msgEl.textContent = 'Error saving section';
+      setTimeout(() => { msgEl.textContent = ''; }, 4000);
     });
 }
+
 
 
   function openFolder(exam, folderKey) {
