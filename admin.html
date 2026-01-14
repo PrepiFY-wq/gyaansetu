@@ -599,67 +599,115 @@
 
   /* ======== FOLDER HOME LOGIC ======== */
 
-  function buildFolderCards(email) {
-    const isPrepify = (email || '').toLowerCase() === 'prepifycse@gmail.com';
-    const container = document.getElementById('folderContainer');
-    container.innerHTML = '';
+/* ======== HOME SECTIONS (BIG COLOURFUL) ======== */
 
-    if (isPrepify) {
-      container.appendChild(createFolderCard('Registration', 'Registration & Fees System', '#f97316', '#fff7ed', 'openRegistration'));
-      container.appendChild(createFolderCard('UPSC', 'UPSC Complete Dashboard', '#4f46e5', '#e0e7ff', 'openUpsc'));
-    } else {
-      container.appendChild(createFolderCard('RPSC', 'RPSC Dashboard', '#16a34a', '#dcfce7', 'openRpsc'));
-    }
+function buildHomeSections(email) {
+  const isPrepify = (email || '').toLowerCase() === 'prepifycse@gmail.com';
+  const container = document.getElementById('folderContainer');
+  container.innerHTML = '';
+
+  if (isPrepify) {
+    container.appendChild(createHeroSection({
+      title: 'Registration & Fees',
+      subtitle: 'Student registrations, fees verification and approvals',
+      gradient: 'linear-gradient(135deg, #f97316, #fb7185)',
+      onClick: 'openRegistration()'
+    }));
+    container.appendChild(createHeroSection({
+      title: 'UPSC Dashboard',
+      subtitle: 'Manage UPSC announcements, targets, tests and materials',
+      gradient: 'linear-gradient(135deg, #4f46e5, #22d3ee)',
+      onClick: 'openUpsc()'
+    }));
+  } else {
+    container.appendChild(createHeroSection({
+      title: 'RPSC Dashboard',
+      subtitle: 'Manage RPSC announcements, tests and study materials',
+      gradient: 'linear-gradient(135deg, #16a34a, #22c55e)',
+      onClick: 'openRpsc()'
+    }));
   }
+}
 
-  function createFolderCard(title, subtitle, color, bg, actionFnName) {
-    const col = document.createElement('div');
-    col.className = 'col-md-4';
+function createHeroSection({ title, subtitle, gradient, onClick }) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'col-12';
 
-    col.innerHTML = `
-      <div class="card h-100 border-0 shadow-sm"
-           style="border-radius:18px; background:${bg}; cursor:pointer;"
-           onclick="${actionFnName}()">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <div style="width:40px;height:40px;border-radius:12px;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-size:20px;">
-              <span class="bi bi-folder2-open"></span>
-            </div>
-            <div class="ms-3">
-              <h5 class="mb-0">${title}</h5>
-              <small class="text-muted">${subtitle}</small>
-            </div>
-          </div>
-          <div class="mt-auto">
-            <span class="badge" style="background:${color};">Open</span>
-          </div>
+  wrapper.innerHTML = `
+    <div class="mb-4"
+         style="
+           border-radius: 24px;
+           background: ${gradient};
+           color: white;
+           padding: 24px 28px;
+           box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           cursor: pointer;
+           min-height: 140px;
+         "
+         onclick="${onClick}">
+      <div>
+        <div style="font-size: 14px; opacity: 0.9;">GyaanSetu Admin Section</div>
+        <h2 style="margin: 4px 0 8px; font-weight: 700; font-size: 28px;">
+          ${title}
+        </h2>
+        <div style="font-size: 14px; max-width: 420px;">
+          ${subtitle}
         </div>
       </div>
-    `;
-    return col;
-  }
+      <div style="text-align: right;">
+        <div style="
+          display:inline-flex;
+          align-items:center;
+          gap:8px;
+          background: rgba(15,23,42,0.2);
+          padding:8px 14px;
+          border-radius:999px;
+          font-size:13px;
+        ">
+          <span>Open Section</span>
+          <span style="
+            width:26px;
+            height:26px;
+            border-radius:999px;
+            background:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#0f172a;
+            font-weight:600;
+          ">&rarr;</span>
+        </div>
+      </div>
+    </div>
+  `;
+  return wrapper;
+}
 
-  function showFolderView() {
-    document.getElementById('folder-view').classList.remove('d-none');
-    document.getElementById('view-registrations').classList.add('d-none');
-    document.getElementById('view-upsc').classList.add('d-none');
-    document.getElementById('view-rpsc').classList.add('d-none');
-  }
+function showFolderView() {
+  document.getElementById('folder-view').classList.remove('d-none');
+  document.getElementById('view-registrations').classList.add('d-none');
+  document.getElementById('view-upsc').classList.add('d-none');
+  document.getElementById('view-rpsc').classList.add('d-none');
+}
 
-  function openRegistration() {
-    document.getElementById('folder-view').classList.add('d-none');
-    document.getElementById('view-registrations').classList.remove('d-none');
-  }
+function openRegistration() {
+  document.getElementById('folder-view').classList.add('d-none');
+  document.getElementById('view-registrations').classList.remove('d-none');
+}
 
-  function openUpsc() {
-    document.getElementById('folder-view').classList.add('d-none');
-    document.getElementById('view-upsc').classList.remove('d-none');
-  }
+function openUpsc() {
+  document.getElementById('folder-view').classList.add('d-none');
+  document.getElementById('view-upsc').classList.remove('d-none');
+}
 
-  function openRpsc() {
-    document.getElementById('folder-view').classList.add('d-none');
-    document.getElementById('view-rpsc').classList.remove('d-none');
-  }
+function openRpsc() {
+  document.getElementById('folder-view').classList.add('d-none');
+  document.getElementById('view-rpsc').classList.remove('d-none');
+}
+
 
   /* ======== HELPERS ======== */
 
