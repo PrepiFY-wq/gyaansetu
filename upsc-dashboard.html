@@ -10,21 +10,25 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f5f7fa;
+  background: radial-gradient(circle at top, #eef2ff 0, #f5f7fa 45%, #e0f2fe 100%);
   min-height: 100vh;
 }
 
+/* HEADER */
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #ec4899 100%);
   color: white;
-  padding: 20px 40px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 18px 32px;
+  box-shadow: 0 12px 32px rgba(15,23,42,0.35);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.header h1 { font-size: 26px; }
+.header h1 {
+  font-size: 24px;
+  letter-spacing: 0.03em;
+}
 
 .header-right {
   display: flex;
@@ -33,44 +37,98 @@ body {
   font-size: 14px;
 }
 
+.header-right span {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.25);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
 .logout-btn {
-  background: rgba(255,255,255,0.15);
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.15));
   color: white;
   padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.8);
   cursor: pointer;
   font-size: 13px;
+  font-weight: 600;
 }
 
 .logout-btn:hover {
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.6);
+  color: #1f2937;
 }
 
+/* MAIN CONTAINER + GRID */
 .container {
   max-width: 1400px;
   margin: 25px auto 40px;
-  padding: 0 20px;
+  padding: 0 20px 40px;
+  position: relative;
 }
 
+.section-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  margin-bottom: 26px;
+  position: relative;
+}
+
+/* vertical subtle divider between two cards */
+.section-row.two-col::after {
+  content: "";
+  position: absolute;
+  inset: 0 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  max-width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(148,163,184,0.35), transparent);
+  pointer-events: none;
+}
+
+/* SECTION CARD */
 .section-card {
   background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 2px 12px rgba(15,23,42,0.06);
-  margin-bottom: 25px;
+  padding: 22px 22px 20px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(15,23,42,0.10);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(99,102,241,0.16), transparent 55%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.section-card-inner {
+  position: relative;
+  z-index: 1;
 }
 
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
 .section-header h2 {
-  font-size: 18px;
+  font-size: 16px;
   color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-header h2 span.icon {
+  font-size: 18px;
 }
 
 .section-header span {
@@ -78,24 +136,38 @@ body {
   color: #6b7280;
 }
 
-/* Countdown */
+/* COUNTDOWN */
 .exam-countdown {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 40%, #6366f1 100%);
   color: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  margin-bottom: 25px;
+  padding: 24px 24px 22px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15,23,42,0.40);
+  margin-bottom: 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.exam-countdown::after {
+  content: "";
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.2);
+  filter: blur(2px);
 }
 
 .exam-countdown h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 20px;
+  margin-bottom: 4px;
 }
 
 .exam-subtitle {
   font-size: 13px;
-  opacity: 0.9;
+  opacity: 0.92;
   margin-bottom: 15px;
 }
 
@@ -103,14 +175,15 @@ body {
   display: grid;
   grid-template-columns: repeat(2, minmax(140px, 1fr));
   gap: 15px;
-  margin: 15px 0 10px;
+  margin: 15px 0 8px;
 }
 
 .countdown-item {
-  background: rgba(255,255,255,0.15);
+  background: rgba(15,23,42,0.2);
   padding: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
+  border: 1px solid rgba(255,255,255,0.25);
 }
 
 .countdown-item .number {
@@ -130,10 +203,10 @@ body {
   opacity: 0.96;
 }
 
-/* Update progress as 3 boxes */
+/* UPDATE PROGRESS BOXES */
 .update-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 16px;
 }
 
@@ -158,12 +231,13 @@ body {
   border-radius: 8px;
   border: 2px solid #e5e7eb;
   font-size: 14px;
+  background: white;
 }
 
 .update-box input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.25);
 }
 
 .update-actions {
@@ -172,27 +246,31 @@ body {
   justify-content: flex-start;
 }
 
+/* BUTTONS */
 .btn {
-  padding: 11px 18px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 40%, #22c55e 100%);
   color: white;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .btn:hover {
-  box-shadow: 0 8px 18px rgba(102,126,234,0.35);
+  box-shadow: 0 10px 20px rgba(37,99,235,0.35);
   transform: translateY(-1px);
 }
 
-/* Telegram style button */
+/* Telegram button */
 .btn-telegram {
-  background: linear-gradient(135deg, #0088cc 0%, #005fa3 100%);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
   padding: 12px 20px;
   font-size: 15px;
   text-align: center;
@@ -200,47 +278,48 @@ body {
 }
 
 .btn-telegram:hover {
-  box-shadow: 0 8px 18px rgba(0,136,204,0.35);
+  box-shadow: 0 10px 20px rgba(14,165,233,0.45);
 }
 
-/* Totals cards */
+/* STATS CARDS */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
 }
 
 .stat-card {
-  background: white;
-  padding: 16px 18px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(15,23,42,0.06);
-  border-left: 4px solid #667eea;
+  background: #f9fafb;
+  padding: 14px 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(148,163,184,0.25);
+  border-left: 4px solid #6366f1;
 }
 
 .stat-card h3 {
   color: #4b5563;
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .stat-card .number {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   color: #111827;
   margin-bottom: 4px;
 }
 
 .stat-card .meta {
-  font-size: 12px;
+  font-size: 11px;
   color: #6b7280;
 }
 
+/* LIST/EMPTY */
 .empty-state {
   text-align: center;
-  padding: 28px 10px;
+  padding: 24px 10px;
   color: #9ca3af;
   font-size: 13px;
 }
@@ -264,11 +343,12 @@ body {
   margin-left: 6px;
 }
 
+/* SYLLABUS */
 .syllabus-item {
   display: flex;
   justify-content: space-between;
   font-size: 13px;
-  padding: 10px 0 5px;
+  padding: 7px 0 4px;
 }
 
 .progress-bar {
@@ -282,11 +362,11 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #22c55e 100%);
+  background: linear-gradient(90deg, #6366f1 0%, #22c55e 100%);
   width: 0%;
 }
 
-/* Community & Help section */
+/* COMMUNITY & HELP */
 .community-help-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -294,12 +374,12 @@ body {
 }
 
 .community-box {
-  background: linear-gradient(135deg, #0088cc 0%, #005fa3 100%);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
   color: white;
   padding: 22px;
-  border-radius: 12px;
+  border-radius: 16px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0,136,204,0.2);
+  box-shadow: 0 12px 28px rgba(8,47,73,0.35);
 }
 
 .community-box h3 {
@@ -319,9 +399,9 @@ body {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   padding: 22px;
-  border-radius: 12px;
+  border-radius: 16px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(16,185,129,0.2);
+  box-shadow: 0 12px 28px rgba(6,95,70,0.35);
 }
 
 .help-box h3 {
@@ -343,7 +423,7 @@ body {
   margin-top: 10px;
   padding: 10px 12px;
   background: rgba(255,255,255,0.15);
-  border-radius: 8px;
+  border-radius: 10px;
   word-break: break-all;
 }
 
@@ -356,15 +436,24 @@ body {
   text-decoration: underline;
 }
 
+@media (max-width: 900px) {
+  .section-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .section-row.two-col::after {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .header {
-    padding: 16px 18px;
+    padding: 14px 16px;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
   .container {
-    padding: 0 14px;
+    padding: 0 14px 30px;
   }
 }
 </style>
@@ -375,7 +464,6 @@ const ANSWER_FORM_URL = 'https://forms.gle/EKGVgMSMFEErC5C19';
 
 // Drive folders (account B) – UPSC
 const UPSC_FOLDER_LINKS = {
-  // mockTests: '', // agar alag folder banaoge to yahan add karna
   testSeries:     'https://drive.google.com/drive/folders/1bc2B2m6PzdUjbsJlZiRgq1gifccooCsx',
   pyqPapers:      'https://drive.google.com/drive/folders/1ZZtz226dMcQyT2cSa7x5K37NbVVeGHud',
   books:          'https://drive.google.com/drive/folders/1ieWI_ejkVy8RdkKSVgP6svARf9NUJW5W',
@@ -434,231 +522,278 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </div>
   </section>
 
-  <!-- UPDATE DAILY PROGRESS -->
+  <!-- ROW 1: Update Your Daily Progress (full width) -->
   <section class="section-card">
-    <div class="section-header">
-      <h2>Update Your Daily Progress</h2>
-      <span>Only for your UPSC CSE preparation</span>
-    </div>
-    <form id="progressForm" onsubmit="updateProgress(event)">
-      <div class="update-grid">
-        <div class="update-box">
-          <label for="studyHours">Study Hours Today</label>
-          <input type="number" id="studyHours" min="0" step="0.5" placeholder="e.g. 6" required>
+    <div class="section-card-inner">
+      <div class="section-header">
+        <h2><span class="icon">📈</span>Update Your Daily Progress</h2>
+        <span>Only for your UPSC CSE preparation</span>
+      </div>
+      <form id="progressForm" onsubmit="updateProgress(event)">
+        <div class="update-grid">
+          <div class="update-box">
+            <label for="studyHours">Study Hours Today</label>
+            <input type="number" id="studyHours" min="0" step="0.5" placeholder="e.g. 6" required>
+          </div>
+          <div class="update-box">
+            <label for="topicsCovered">Topics Covered Today</label>
+            <input type="number" id="topicsCovered" min="0" step="1" placeholder="e.g. 5" required>
+          </div>
+          <div class="update-box">
+            <label for="mockTests">Mock Tests Completed</label>
+            <input type="number" id="mockTests" min="0" step="1" placeholder="e.g. 1" required>
+          </div>
+          <div class="update-box update-actions">
+            <button type="submit" class="btn">💾 Save & Add to Totals</button>
+          </div>
         </div>
-        <div class="update-box">
-          <label for="topicsCovered">Topics Covered Today</label>
-          <input type="number" id="topicsCovered" min="0" step="1" placeholder="e.g. 5" required>
+      </form>
+    </div>
+  </section>
+
+  <!-- ROW 2: Overall Totals (left) + Analytics (right) -->
+  <div class="section-row two-col">
+    <!-- OVERALL TOTALS -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">📊</span>Overall Progress Totals</h2>
+          <span>Calculated from your daily entries</span>
         </div>
-        <div class="update-box">
-          <label for="mockTests">Mock Tests Completed</label>
-          <input type="number" id="mockTests" min="0" step="1" placeholder="e.g. 1" required>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Study Hours</h3>
+            <div class="number" id="totalHours">0</div>
+            <div class="meta">Prelims + Mains combined</div>
+          </div>
+          <div class="stat-card">
+            <h3>Topics Covered</h3>
+            <div class="number" id="totalTopics">0</div>
+            <div class="meta">NCERT + Standard books</div>
+          </div>
+          <div class="stat-card">
+            <h3>Mock Tests</h3>
+            <div class="number" id="totalTests">0</div>
+            <div class="meta">Prelims + GS Mains tests</div>
+          </div>
         </div>
-        <div class="update-box update-actions">
-          <button type="submit" class="btn">Save & Add to Totals</button>
+      </div>
+    </section>
+
+    <!-- PERFORMANCE ANALYTICS -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">📉</span>Performance Analytics</h2>
+          <span>Average effort & consistency streak</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Average Study Hours</h3>
+            <div class="number" id="avgHours">0</div>
+            <div class="meta">Per active study day</div>
+          </div>
+          <div class="stat-card">
+            <h3>Current Streak</h3>
+            <div class="number" id="streakDays">0</div>
+            <div class="meta">Consecutive days with study log</div>
+          </div>
         </div>
       </div>
-    </form>
-  </section>
+    </section>
+  </div>
 
-  <!-- OVERALL TOTALS -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Overall Progress Totals</h2>
-      <span>Calculated from your daily entries</span>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>Total Study Hours</h3>
-        <div class="number" id="totalHours">0</div>
-        <div class="meta">Prelims + Mains combined</div>
+  <!-- ROW 3: Announcements (left) + Daily Targets (right) -->
+  <div class="section-row two-col">
+    <!-- ANNOUNCEMENTS -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">📣</span>Announcements</h2>
+          <span>UPSC CSE related updates from admin</span>
+        </div>
+        <div id="announcements">
+          <div class="empty-state">No announcements yet. Admin will update here.</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <h3>Topics Covered</h3>
-        <div class="number" id="totalTopics">0</div>
-        <div class="meta">NCERT + Standard books</div>
+    </section>
+
+    <!-- DAILY TARGETS -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">🎯</span>Daily Targets</h2>
+          <span>Short-term focus areas for you</span>
+        </div>
+        <h3 style="font-size: 14px; color:#4b5563; margin-bottom:8px;">Today's Targets</h3>
+        <div id="dailyTargets">
+          <div class="empty-state">Admin will upload today's targets soon.</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <h3>Mock Tests</h3>
-        <div class="number" id="totalTests">0</div>
-        <div class="meta">Prelims + GS Mains tests</div>
+    </section>
+  </div>
+
+  <!-- ROW 4: Test Portal (left) + Study Materials (right) -->
+  <div class="section-row two-col">
+    <!-- TEST PORTAL -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">📝</span>Test Portal</h2>
+          <span>Mock tests · Test series · PYQs</span>
+        </div>
+
+        <h3 style="font-size: 14px; color:#4b5563; margin-bottom:8px;">Mock Tests</h3>
+        <div id="mockTestsList">
+          <div class="empty-state">Admin will create mock tests soon.</div>
+        </div>
+
+        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Test Series</h3>
+        <div id="testSeriesList">
+          <div class="empty-state">Admin will upload test series soon.</div>
+        </div>
+
+        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Previous Year Papers</h3>
+        <div id="pypList">
+          <div class="empty-state">Admin will upload PYQ PDFs soon.</div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PERFORMANCE ANALYTICS -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Performance Analytics</h2>
-      <span>Average effort & consistency streak</span>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>Average Study Hours</h3>
-        <div class="number" id="avgHours">0</div>
-        <div class="meta">Per active study day</div>
+    <!-- STUDY MATERIALS -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">📚</span>Study Materials</h2>
+          <span>Books · Current Affairs</span>
+        </div>
+
+        <h3 style="font-size: 14px; color:#4b5563; margin-bottom:8px;">Books</h3>
+        <div id="booksList">
+          <div class="empty-state">Admin will upload books list soon.</div>
+        </div>
+
+        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Current Affairs</h3>
+        <div id="currentAffairsList">
+          <div class="empty-state">Admin will upload current affairs soon.</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <h3>Current Streak</h3>
-        <div class="number" id="streakDays">0</div>
-        <div class="meta">Consecutive days with study log</div>
+    </section>
+  </div>
+
+  <!-- ROW 5: Syllabus Tracker (full width) -->
+  <section class="section-card">
+    <div class="section-card-inner">
+      <div class="section-header">
+        <h2><span class="icon">📌</span>Syllabus Tracker</h2>
+        <span>Prelims & Mains completion overview</span>
       </div>
-    </div>
-  </section>
 
-  <!-- ANNOUNCEMENTS -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Announcements</h2>
-      <span>UPSC CSE related updates from admin</span>
-    </div>
-    <div id="announcements">
-      <div class="empty-state">No announcements yet. Admin will update here.</div>
-    </div>
-  </section>
+      <div class="syllabus-item">
+        <span><strong>Prelims</strong></span>
+        <span id="prelimsPercent">0% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="prelimsBar" style="width: 0%"></div>
+      </div>
 
-  <!-- DAILY TARGETS -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Daily Targets</h2>
-      <span>Short-term focus areas for you</span>
-    </div>
-    <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Daily Targets</h3>
-    <div id="dailyTargets">
-      <div class="empty-state">Admin will upload today's targets soon.</div>
-    </div>
-  </section>
-
-  <!-- TEST PORTAL -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Test Portal</h2>
-      <span>Mock tests · Test series · PYQs</span>
-    </div>
-
-    <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Mock Tests</h3>
-    <div id="mockTestsList">
-      <div class="empty-state">Admin will create mock tests soon.</div>
-    </div>
-
-    <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Test Series</h3>
-    <div id="testSeriesList">
-      <div class="empty-state">Admin will upload test series soon.</div>
-    </div>
-
-    <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Previous Year Papers</h3>
-    <div id="pypList">
-      <div class="empty-state">Admin will upload PYQ PDFs soon.</div>
-    </div>
-  </section>
-
-  <!-- STUDY MATERIALS -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Study Materials</h2>
-      <span>Books · Current Affairs</span>
-    </div>
-
-    <h3 style="font-size: 15px; color:#4b5563; margin-bottom:8px;">Books</h3>
-    <div id="booksList">
-      <div class="empty-state">Admin will upload books list soon.</div>
-    </div>
-
-    <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Current Affairs</h3>
-    <div id="currentAffairsList">
-      <div class="empty-state">Admin will upload current affairs soon.</div>
-    </div>
-  </section>
-
-  <!-- SYLLABUS TRACKER -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Syllabus Tracker</h2>
-      <span>Prelims & Mains completion overview</span>
-    </div>
-
-    <div class="syllabus-item">
-      <span><strong>Prelims</strong></span>
-      <span id="prelimsPercent">0% Complete</span>
-    </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="prelimsBar" style="width: 0%"></div>
-    </div>
-
-    <div class="syllabus-item">
-      <span><strong>Mains</strong></span>
-      <span id="mainsPercent">0% Complete</span>
-    </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="mainsBar" style="width: 0%"></div>
-    </div>
-  </section>
-
-  <!-- ANSWER WRITING (Google Form) -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Answer Writing</h2>
-      <span>Upload copies for evaluation</span>
-    </div>
-
-    <div class="update-grid">
-      <div class="update-box">
-        <label>Submit your answer copy</label>
-        <button type="button" class="btn" onclick="openAnswerForm()">
-          Open Answer Writing Form
-        </button>
-        <p style="font-size:12px; color:#6b7280; margin-top:6px;">
-          Form me details bharke answer copy upload karein. Status by default Under Evaluation hoga.
-        </p>
+      <div class="syllabus-item">
+        <span><strong>Mains</strong></span>
+        <span id="mainsPercent">0% Complete</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="mainsBar" style="width: 0%"></div>
       </div>
     </div>
-
-    <h3 style="font-size: 15px; color:#4b5563; margin:20px 0 8px;">Your Submissions</h3>
-    <div id="answerSubmissions">
-      <div class="empty-state">You have not uploaded any answer copies yet.</div>
-    </div>
   </section>
 
-  <!-- PATH PRADARSHAK -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>पथ प्रदर्शक</h2>
-      <span>Daily motivation for UPSC CSE</span>
-    </div>
-    <div id="motivationalQuotes">
-      <div class="empty-state">Admin will share motivational quotes soon.</div>
-    </div>
-  </section>
+  <!-- ROW 6: Answer Writing (left) + placeholder (right) -->
+  <div class="section-row two-col">
+    <!-- ANSWER WRITING -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">✍️</span>Answer Writing</h2>
+          <span>Upload copies for evaluation</span>
+        </div>
 
-  <!-- COMMUNITY & HELP -->
-  <section class="section-card">
-    <div class="section-header">
-      <h2>Community & Help</h2>
-      <span>Discussions · Interaction · Support</span>
-    </div>
-    <div class="community-help-grid">
-      <div class="community-box">
-        <h3>Join for discussions and interaction</h3>
-        <p>
-          UPSC CSE aspirants ke liye dedicated group jahan par doubts, strategy aur answer writing par baat ho sakti hai.
-        </p>
-        <a
-          href="https://t.me/+MRQjtR76vh4zZDVl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-telegram"
-        >
-          Join UPSC Telegram Group
-        </a>
+        <div class="update-grid">
+          <div class="update-box">
+            <label>Submit your answer copy</label>
+            <button type="button" class="btn" onclick="openAnswerForm()">
+              📤 Open Answer Writing Form
+            </button>
+            <p style="font-size:12px; color:#6b7280; margin-top:6px;">
+              Form me details bharke answer copy upload karein. Status by default Under Evaluation hoga.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="font-size: 14px; color:#4b5563; margin:18px 0 8px;">Your Submissions</h3>
+        <div id="answerSubmissions">
+          <div class="empty-state">You have not uploaded any answer copies yet.</div>
+        </div>
       </div>
-      <div class="help-box">
-        <h3>Contact for queries</h3>
-        <p>
-          Agar aapko dashboard, content ya kisi aur cheez se related query ho, to mail par contact karein.
-        </p>
-        <div class="email">
-          Mail us at
-          <a href="mailto:Gyaansetu2026@gmail.com">Gyaansetu2026@gmail.com</a>
+    </section>
+
+    <!-- Placeholder / Future use -->
+    <section class="section-card">
+      <div class="section-card-inner">
+        <div class="section-header">
+          <h2><span class="icon">🧩</span>Coming Soon</h2>
+          <span>Future UPSC features</span>
+        </div>
+        <div class="empty-state">
+          New features / analytics yahan add kiye ja sakte hain in future.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ROW 7: Path Pradarshak (full width) -->
+  <section class="section-card">
+    <div class="section-card-inner">
+      <div class="section-header">
+        <h2><span class="icon">🌟</span>पथ प्रदर्शक</h2>
+        <span>Daily motivation for UPSC CSE</span>
+      </div>
+      <div id="motivationalQuotes">
+        <div class="empty-state">Admin will share motivational quotes soon.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY & HELP (full width) -->
+  <section class="section-card">
+    <div class="section-card-inner">
+      <div class="section-header">
+        <h2><span class="icon">🤝</span>Community & Help</h2>
+        <span>Discussions · Interaction · Support</span>
+      </div>
+      <div class="community-help-grid">
+        <div class="community-box">
+          <h3>Join for discussions and interaction</h3>
+          <p>
+            UPSC CSE aspirants ke liye dedicated group jahan par doubts, strategy aur answer writing par baat ho sakti hai.
+          </p>
+          <a
+            href="https://t.me/+MRQjtR76vh4zZDVl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-telegram"
+          >
+            Join UPSC Telegram Group
+          </a>
+        </div>
+        <div class="help-box">
+          <h3>Contact for queries</h3>
+          <p>
+            Agar aapko dashboard, content ya kisi aur cheez se related query ho, to mail par contact karein.
+          </p>
+          <div class="email">
+            Mail us at
+            <a href="mailto:Gyaansetu2026@gmail.com">Gyaansetu2026@gmail.com</a>
+          </div>
         </div>
       </div>
     </div>
@@ -928,7 +1063,7 @@ function renderFolderButton(containerId, folderUrl, emptyMessage) {
   }
   const btn = document.createElement('button');
   btn.className = 'btn';
-  btn.textContent = 'View';
+  btn.textContent = '🔍 View';
   btn.onclick = () => window.open(folderUrl, '_blank');
   container.appendChild(btn);
 }
@@ -992,7 +1127,7 @@ function loadDashboardContent() {
       console.error('loadDashboardContent error:', err);
     });
 
-  // Static folder buttons (always render)
+  // Static folder buttons
   renderFolderButton(
     'testSeriesList',
     UPSC_FOLDER_LINKS.testSeries,
@@ -1049,8 +1184,8 @@ function loadAnswerSubmissions() {
 
         const left = document.createElement('div');
         left.innerHTML =
-          `<strong>${sub.paperType}</strong> | ${sub.uploadedOn} `
-          + `<span class="tag">${sub.status}</span>`;
+          `<strong>${sub.paperType}</strong> | ${sub.uploadedOn} ` +
+          `<span class="tag">${sub.status}</span>`;
 
         const right = document.createElement('div');
 
