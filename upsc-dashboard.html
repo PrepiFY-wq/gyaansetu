@@ -464,7 +464,7 @@ const ANSWER_FORM_URL = 'https://forms.gle/EKGVgMSMFEErC5C19';
 
 // Drive folders (account B) – UPSC
 const UPSC_FOLDER_LINKS = {
-  testSeries:     'https://drive.google.com/drive/folders/1bc2B2m6PzdUjbsJlZiRgq1gifccooCsx',
+  testSeries:     'https://drive.google.com/drive/folders/... 1bc2B2m6PzdUjbsJlZiRgq1gifccooCsx',
   pyqPapers:      'https://drive.google.com/drive/folders/1ZZtz226dMcQyT2cSa7x5K37NbVVeGHud',
   books:          'https://drive.google.com/drive/folders/1ieWI_ejkVy8RdkKSVgP6svARf9NUJW5W',
   currentAffairs: 'https://drive.google.com/drive/folders/1rLH3T-CU4fkI5FxAHACcXjjA6nPLY1hW'
@@ -613,7 +613,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
           <span>UPSC CSE related updates from admin</span>
         </div>
         <div id="announcements">
-          <div class="empty-state">No announcements yet. Admin will update here.</div>
+          <div class="empty-state">No announcements yet.... Admin will update here.</div>
         </div>
       </div>
     </section>
@@ -724,7 +724,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
               📤 Open Answer Writing Form
             </button>
             <p style="font-size:12px; color:#6b7280; margin-top:6px;">
-              Form me details bharke answer copy upload karein. Status by default Under Evaluation hoga.
+              Form me details bharke answer copy upload karein.... Status by default Under Evaluation hoga.
             </p>
           </div>
         </div>
@@ -1015,8 +1015,7 @@ function renderAnnouncements(items) {
   container.appendChild(list);
 }
 
-// Daily Targets - Structured Display
-// Daily Targets - Structured Display (Admin ke format ke according)
+// Daily Targets - improved parsing
 function renderDailyTargets(items) {
   const container = document.getElementById('dailyTargets');
   container.innerHTML = '';
@@ -1027,8 +1026,7 @@ function renderDailyTargets(items) {
     return;
   }
 
-  // Admin side dailyTargets.items ek hi long string hota hai (multi-line)
-  // ya multiple strings ka array ho sakta hai; dono handle karte hain
+  // Admin side dailyTargets.items ek hi long string ya multiple strings ka array ho sakta hai
   let txt = '';
   if (items.length === 1 && typeof items[0] === 'string') {
     txt = items[0];
@@ -1038,7 +1036,7 @@ function renderDailyTargets(items) {
       .join('\n');
   }
 
-  // 3 blocks: [Subject1+Topics1] [Subject2+Topics2] [other targets...]
+  // 3 blocks: [Subject1+Topics1+lines] [Subject2+Topics2+lines] [other targets...]
   const blocks = txt.split(/\n\s*\n/);
 
   const block1 = (blocks[0] || '').split('\n').map(l => l.trim()).filter(Boolean);
@@ -1049,27 +1047,29 @@ function renderDailyTargets(items) {
   let topics1 = '';
   let subject2 = '';
   let topics2 = '';
+  const subject1Extra = [];
+  const subject2Extra = [];
   const otherItems = [];
 
-  // Block 1: Subject 1 / Topics 1
+  // Block 1: Subject 1 / Topics 1 / extra lines
   block1.forEach(line => {
     if (line.startsWith('Subject 1:')) {
       subject1 = line.replace('Subject 1:', '').trim();
     } else if (line.startsWith('Topics 1:')) {
       topics1 = line.replace('Topics 1:', '').trim();
     } else if (line) {
-      otherItems.push(line);
+      subject1Extra.push(line);
     }
   });
 
-  // Block 2: Subject 2 / Topics 2
+  // Block 2: Subject 2 / Topics 2 / extra lines
   block2.forEach(line => {
     if (line.startsWith('Subject 2:')) {
       subject2 = line.replace('Subject 2:', '').trim();
     } else if (line.startsWith('Topics 2:')) {
       topics2 = line.replace('Topics 2:', '').trim();
     } else if (line) {
-      otherItems.push(line);
+      subject2Extra.push(line);
     }
   });
 
@@ -1088,7 +1088,7 @@ function renderDailyTargets(items) {
   wrapper.style.gap = '12px';
 
   // Subject 1 card
-  if (subject1 || topics1) {
+  if (subject1 || topics1 || subject1Extra.length) {
     const target1Box = document.createElement('div');
     target1Box.style.background = '#eef2ff';
     target1Box.style.padding = '12px 14px';
@@ -1102,15 +1102,33 @@ function renderDailyTargets(items) {
       <div style="font-size: 14px; color: #111827; margin-bottom: 6px;">
         <strong>${subject1 || '—'}</strong>
       </div>
-      <div style="font-size: 13px; color: #4b5563;">
+      <div style="font-size: 13px; color: #4b5563; margin-bottom: 4px;">
         Topics: ${topics1 || '—'}
       </div>
     `;
+
+    if (subject1Extra.length > 0) {
+      const list = document.createElement('ul');
+      list.style.margin = '4px 0 0';
+      list.style.paddingLeft = '18px';
+      list.style.fontSize = '13px';
+      list.style.color = '#374151';
+
+      subject1Extra.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.style.marginBottom = '3px';
+        list.appendChild(li);
+      });
+
+      target1Box.appendChild(list);
+    }
+
     wrapper.appendChild(target1Box);
   }
 
   // Subject 2 card
-  if (subject2 || topics2) {
+  if (subject2 || topics2 || subject2Extra.length) {
     const target2Box = document.createElement('div');
     target2Box.style.background = '#dcfce7';
     target2Box.style.padding = '12px 14px';
@@ -1124,10 +1142,28 @@ function renderDailyTargets(items) {
       <div style="font-size: 14px; color: #111827; margin-bottom: 6px;">
         <strong>${subject2 || '—'}</strong>
       </div>
-      <div style="font-size: 13px; color: #4b5563;">
+      <div style="font-size: 13px; color: #4b5563; margin-bottom: 4px;">
         Topics: ${topics2 || '—'}
       </div>
     `;
+
+    if (subject2Extra.length > 0) {
+      const list = document.createElement('ul');
+      list.style.margin = '4px 0 0';
+      list.style.paddingLeft = '18px';
+      list.style.fontSize = '13px';
+      list.style.color = '#374151';
+
+      subject2Extra.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.style.marginBottom = '3px';
+        list.appendChild(li);
+      });
+
+      target2Box.appendChild(list);
+    }
+
     wrapper.appendChild(target2Box);
   }
 
@@ -1299,40 +1335,54 @@ function loadAnswerSubmissions() {
       data.submissions.forEach(sub => {
         const row = document.createElement('div');
         row.style.display = 'flex';
-        row.style.justifyContent = 'space-between';
-        row.style.alignItems = 'center';
-        row.style.gap = '10px';
+        row.style.flexDirection = 'column';
+        row.style.fontSize = '13px';
+        row.style.border = '1px solid #e5e7eb';
+        row.style.borderRadius = '8px';
+        row.style.padding = '8px 10px';
+        row.style.background = '#f9fafb';
 
-        const left = document.createElement('div');
-        left.innerHTML =
-          `<strong>${sub.paperType}</strong> | ${sub.uploadedOn} ` +
-          `<span class="tag">${sub.status}</span>`;
+        const top = document.createElement('div');
+        top.style.display = 'flex';
+        top.style.justifyContent = 'space-between';
+        top.style.marginBottom = '4px';
 
-        const right = document.createElement('div');
+        const title = document.createElement('span');
+        title.textContent = sub.testName || 'Answer Copy';
 
-        if (sub.candidateFileUrl) {
-          const viewBtn = document.createElement('a');
-          viewBtn.href = sub.candidateFileUrl;
-          viewBtn.target = '_blank';
-          viewBtn.textContent = 'View';
-          viewBtn.style.fontSize = '12px';
-          viewBtn.style.marginRight = '8px';
-          right.appendChild(viewBtn);
-        }
+        const status = document.createElement('span');
+        status.textContent = sub.status || 'Under Evaluation';
+        status.style.fontSize = '11px';
+        status.style.padding = '2px 8px';
+        status.style.borderRadius = '999px';
+        status.style.background = '#eef2ff';
+        status.style.color = '#4f46e5';
 
-        if (sub.status === 'Evaluated' && sub.evaluatedFileUrl) {
-          const getBtn = document.createElement('a');
-          getBtn.href = sub.evaluatedFileUrl;
-          getBtn.target = '_blank';
-          getBtn.textContent = 'Get file';
-          getBtn.style.fontSize = '12px';
-          getBtn.style.color = '#16a34a';
-          getBtn.style.fontWeight = '600';
-          right.appendChild(getBtn);
-        }
+        top.appendChild(title);
+        top.appendChild(status);
+        row.appendChild(top);
 
-        row.appendChild(left);
-        row.appendChild(right);
+        const bottom = document.createElement('div');
+        bottom.style.display = 'flex';
+        bottom.style.justifyContent = 'space-between';
+        bottom.style.fontSize = '11px';
+        bottom.style.color = '#6b7280';
+
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = sub.date || '';
+
+        const link = document.createElement('a');
+        link.href = sub.fileUrl || '#';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'View Copy';
+        link.style.color = '#2563eb';
+        link.style.textDecoration = 'none';
+
+        bottom.appendChild(dateSpan);
+        bottom.appendChild(link);
+        row.appendChild(bottom);
+
         list.appendChild(row);
       });
 
@@ -1340,29 +1390,31 @@ function loadAnswerSubmissions() {
     })
     .catch(err => {
       console.error('loadAnswerSubmissions error:', err);
+      const container = document.getElementById('answerSubmissions');
+      container.innerHTML =
+        '<div class="empty-state">Error loading submissions. Please try again later.</div>';
     });
 }
 
-// ONLOAD
-window.onload = function() {
-  document.getElementById('userName').textContent =
-    localStorage.getItem('name') || 'Candidate';
+// INITIALIZE
+function initUserName() {
+  const name = localStorage.getItem('name') || 'Aspirant';
+  const span = document.getElementById('userName');
+  span.textContent = 'Welcome, ' + name;
+}
 
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
+document.addEventListener('DOMContentLoaded', () => {
+  initUserName();
   setDailyQuote();
-
+  updateCountdown();
   loadTotals();
   loadAnalytics();
   loadDashboardContent();
   loadAnswerSubmissions();
 
-  setInterval(loadDashboardContent, 5 * 60 * 1000);
-  setInterval(loadTotals, 5 * 60 * 1000);
-  setInterval(loadAnalytics, 5 * 60 * 1000);
-  setInterval(loadAnswerSubmissions, 5 * 60 * 1000);
-};
+  // countdown refresh har 1 ghante me
+  setInterval(updateCountdown, 60 * 60 * 1000);
+});
 </script>
 </body>
 </html>
