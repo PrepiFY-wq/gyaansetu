@@ -1029,21 +1029,21 @@
                 topic.textContent = `Topics: ${topics2}`;
                 box.appendChild(topic);
 
-                if (subject2Extra.length) {
-                    const list = document.createElement("ul");
-                    list.style.margin = "6px 0 0";
-                    list.style.paddingLeft = "18px";
-                    list.style.fontSize = "13px";
-                    list.style.color = "#374151";
-                    subject2Extra.forEach(t => {
-                        const li = document.createElement("li");
-                        const li = document.createElement("li");
-                        li.textContent = t;
-                        li.style.marginBottom = "3px";
-                        list.appendChild(li);
-                    });
-                    box.appendChild(list);
-                }
+             if (subject2Extra.length) {
+    const list = document.createElement("ul");
+    list.style.margin = "6px 0 0";
+    list.style.paddingLeft = "18px";
+    list.style.fontSize = "13px";
+    list.style.color = "#374151";
+    subject2Extra.forEach(t => {
+        const li = document.createElement("li");  // ✅ Only one line
+        li.textContent = t;
+        li.style.marginBottom = "3px";
+        list.appendChild(li);
+    });
+    box.appendChild(list);
+}
+
                 s2Container.appendChild(box);
             } else {
                 s2Container.innerHTML = '<div class="empty-state">Admin will update Subject 2 targets here.</div>';
