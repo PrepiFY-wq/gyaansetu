@@ -467,7 +467,7 @@ const UPSC_FOLDER_LINKS = {
   testSeries:     'https://drive.google.com/drive/folders/1bc2B2m6PzdUjbsJlZiRgq1gifccooCsx',
   pyqPapers:      'https://drive.google.com/drive/folders/1ZZtz226dMcQyT2cSa7x5K37NbVVeGHud',
   books:          'https://drive.google.com/drive/folders/1ieWI_ejkVy8RdkKSVgP6svARf9NUJW5W',
-  notesPdfs: 'https://drive.google.com/drive/folders/1Jy8L1JIX0c0Svda5BEoY01R1TBSn7cu_',
+  notesPdfs:      'https://drive.google.com/drive/folders/1Jy8L1JIX0c0Svda5BEoY01R1TBSn7cu_',
   currentAffairs: 'https://drive.google.com/drive/folders/1rLH3T-CU4fkI5FxAHACcXjjA6nPLY1hW'
 };
 
@@ -688,6 +688,11 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
           <div class="empty-state">Admin will upload books list soon.</div>
         </div>
 
+        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Notes / PDFs</h3>
+        <div id="notesPdfsList">
+          <div class="empty-state">Admin will upload notes soon.</div>
+        </div>
+
         <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Current Affairs</h3>
         <div id="currentAffairsList">
           <div class="empty-state">Admin will upload current affairs soon.</div>
@@ -722,7 +727,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </div>
   </section>
 
-  <!-- ROW 6: Answer Writing (left) + placeholder (right) -->
+  <!-- ROW 6: Answer Writing (left) -->
   <div class="section-row two-col">
     <!-- ANSWER WRITING -->
     <section class="section-card">
@@ -1017,13 +1022,12 @@ function renderAnnouncements(items) {
   container.appendChild(list);
 }
 
-// Daily Targets – now split into 3 sections
+// Daily Targets – only latest entry
 function renderDailyTargets(items) {
   const s1Container = document.getElementById('subject1Targets');
   const s2Container = document.getElementById('subject2Targets');
   const otherContainer = document.getElementById('otherTargets');
 
-  // Purane sab clear -> hamesha latest hi show hoga
   s1Container.innerHTML = '';
   s2Container.innerHTML = '';
   otherContainer.innerHTML = '';
@@ -1035,19 +1039,17 @@ function renderDailyTargets(items) {
     return;
   }
 
-  // ✅ Sirf last / latest entry use karo
-  if (Array.isArray(items) && items.length > 1) {
-    items = [items[items.length - 1]];
-  }
+  // Sirf latest row ka text lo
+  const latestRaw = items[items.length - 1];
+  let txt = typeof latestRaw === 'string'
+    ? latestRaw
+    : (latestRaw.text || latestRaw.title || '');
 
-  // Admin side dailyTargets.items ek hi long string ya multiple strings ka array ho sakta hai
-  let txt = '';
-  if (items.length === 1 && typeof items[0] === 'string') {
-    txt = items[0];
-  } else {
-    txt = items
-      .map(raw => (typeof raw === 'string' ? raw : (raw.text || raw.title || '')))
-      .join('\n');
+  if (!txt) {
+    s1Container.innerHTML = '<div class="empty-state">Admin will update Subject 1 targets here.</div>';
+    s2Container.innerHTML = '<div class="empty-state">Admin will update Subject 2 targets here.</div>';
+    otherContainer.innerHTML = '<div class="empty-state">Admin will add other targets here.</div>';
+    return;
   }
 
   // 3 blocks: [Subject1] [Subject2] [others]
@@ -1087,7 +1089,7 @@ function renderDailyTargets(items) {
     }
   });
 
-  // Remaining blocks: other targets (each line ek target)
+  // Remaining blocks: other targets
   if (othersBlock) {
     othersBlock
       .split('\n')
@@ -1230,9 +1232,11 @@ function renderDailyTargets(items) {
   }
 }
 
-// Folder View button renderer
+// Folder View button renderer (null safe)
 function renderFolderButton(containerId, folderUrl, emptyMessage) {
   const container = document.getElementById(containerId);
+  if (!container) return;
+
   container.innerHTML = '';
   if (!folderUrl) {
     container.innerHTML = `<div class="empty-state">${emptyMessage || 'No data yet.'}</div>`;
@@ -1261,7 +1265,7 @@ function loadDashboardContent() {
         renderAnnouncements(p.announcements.items);
       }
 
-      // Daily Targets (3-sections renderer)
+      // Daily Targets (latest only)
       if (p.dailyTargets && Array.isArray(p.dailyTargets.items)) {
         renderDailyTargets(p.dailyTargets.items);
       }
