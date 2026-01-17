@@ -1,3 +1,3 @@
-# GyaanSetu
+# PrepiFY
 
-**Learn. Excel. Achieve.**
+**Prep. Push. Power.**
