@@ -1347,23 +1347,30 @@ function saveUpscDailyTargets() {
   // Block 3+ = Others section
   const blockOthers = othersRaw.join('\n');
 
-  // Final text – student dashboard yahi format 3 sections me tod raha hai
+  // Final text – renderDailyTargets() isi format ko 3 sections me tod raha hai
   const finalTxt = [block1, block2, blockOthers]
     .filter(b => b && b.trim().length > 0)
     .join('\n\n');
 
+  const payload = {
+    examType: 'UPSC',
+    sectionKey: 'dailyTargets',
+    title: title,
+    items: finalTxt      // yahan string dena better hai; backend lines split karega
+  };
+
   const msgEl = document.getElementById('upscdailyTargetsmsg');
   msgEl.textContent = 'Saving...';
 
-  // JSON POST ki jagah simple GET with query string
-  const url = SCRIPTURL
-    + '?action=saveDashboardSection'
-    + '&examType='   + encodeURIComponent('UPSC')
-    + '&sectionKey=' + encodeURIComponent('dailyTargets')
-    + '&title='      + encodeURIComponent(title)
-    + '&items='      + encodeURIComponent(finalTxt);
+  // Form-style POST: action=saveDashboardSection + payload JSON string
+  const formData = new URLSearchParams();
+  formData.append('action', 'saveDashboardSection');
+  formData.append('payload', JSON.stringify(payload));
 
-  fetch(url)
+  fetch(SCRIPTURL, {
+    method: 'POST',
+    body: formData      // Content-Type = application/x-www-form-urlencoded (auto)
+  })
     .then(res => res.json())
     .then(data => {
       if (!data || !data.success) {
