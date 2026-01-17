@@ -1352,6 +1352,7 @@ function saveUpscDailyTargets() {
     .filter(b => b && b.trim().length > 0)
     .join('\n\n');
 
+  // Backend ke liye payload: examType, sectionKey, title, items (ek long string)
   const payload = {
     examType: 'UPSC',
     sectionKey: 'dailyTargets',
@@ -1362,7 +1363,7 @@ function saveUpscDailyTargets() {
   const msgEl = document.getElementById('upscdailyTargetsmsg');
   msgEl.textContent = 'Saving...';
 
-  // YAHAN formData define karo
+  // URL-encoded form POST
   const formData = new URLSearchParams();
   formData.append('action', 'saveDashboardSection');
   formData.append('payload', JSON.stringify(payload));
@@ -1371,16 +1372,8 @@ function saveUpscDailyTargets() {
     method: 'POST',
     body: formData
   })
-    .then(async res => {
-      const text = await res.text();
-      console.log('RAW response:', text);
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (e) {
-        throw new Error('Bad JSON from server: ' + text);
-      }
-
+    .then(res => res.json())
+    .then(data => {
       if (!data || !data.success) {
         throw new Error(data && data.message ? data.message : 'Failed to save');
       }
@@ -1394,6 +1387,7 @@ function saveUpscDailyTargets() {
       setTimeout(() => { msgEl.textContent = ''; }, 3000);
     });
 }
+  
   // ------------ FOLDER OPEN (DRIVE) ------------
   function openFolder(exam, folderKey) {
     const url = SCRIPTURL + '?action=openFolder&exam=' + encodeURIComponent(exam) +
