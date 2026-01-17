@@ -1362,7 +1362,7 @@ function saveUpscDailyTargets() {
   const msgEl = document.getElementById('upscdailyTargetsmsg');
   msgEl.textContent = 'Saving...';
 
-  fetch(SCRIPT_URL + '?action=saveDashboardSection', {
+  fetch(SCRIPTURL + '?action=saveDashboardSection', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
