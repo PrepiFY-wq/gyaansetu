@@ -621,52 +621,35 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </section>
   </div>
 
-  <!-- ROW 2: Announcements (left) + Daily Targets (right) -->
-  <div class="section-row two-col">
-    <!-- ANNOUNCEMENTS -->
-    <section class="section-card">
-      <div class="section-card-inner">
-        <div class="section-header">
-          <h2><span class="icon">📢</span>Announcements</h2>
-          <span>UPSC CSE related updates from admin</span>
-        </div>
-        <div id="announcements">
-          <div class="empty-state">No announcements yet.... Admin will update here.</div>
-        </div>
+<!-- ROW 2: Announcements (left) + Daily Targets (right) -->
+<div class="section-row two-col">
+  <!-- ANNOUNCEMENTS -->
+  <section class="section-card">
+    <div class="section-card-inner">
+      <div class="section-header">
+        <h2><span class="icon">📢</span>Announcements</h2>
+        <span>UPSC CSE related updates from admin</span>
       </div>
-    </section>
-
-    <!-- DAILY TARGETS (now main colourful block) -->
-    <section class="section-card">
-      <div class="section-card-inner">
-        <div class="section-header">
-          <h2><span class="icon">🎯</span>Daily Targets</h2>
-          <span>Latest targets from admin</span>
-        </div>
-
-        <!-- Combined Daily Target Card -->
-        <div id="dailyTargetBox">
-          <div class="empty-state">Admin will add today's target here.</div>
-        </div>
-
-        <!-- Subject-wise breakdown (optional extra details) -->
-        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 6px;">Subject - 1</h3>
-        <div id="subject1Targets">
-          <div class="empty-state">Admin will update Subject 1 targets here.</div>
-        </div>
-
-        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 6px;">Subject - 2</h3>
-        <div id="subject2Targets">
-          <div class="empty-state">Admin will update Subject 2 targets here.</div>
-        </div>
-
-        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 6px;">Other Targets</h3>
-        <div id="otherTargets">
-          <div class="empty-state">Admin will add other targets here.</div>
-        </div>
+      <div id="announcements">
+        <div class="empty-state">No announcements yet.... Admin will update here.</div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
+
+  <!-- DAILY TARGETS (only colourful card) -->
+  <section class="section-card">
+    <div class="section-card-inner">
+      <div class="section-header">
+        <h2><span class="icon">🎯</span>Daily Targets</h2>
+        <span>Latest targets from admin</span>
+      </div>
+
+      <div id="dailyTargetBox">
+        <!-- yahi pe card render hoga -->
+      </div>
+    </div>
+  </section>
+</div>
 
   <!-- ROW 3: Test Portal (left) + Study Materials (right) -->
   <div class="section-row two-col">
