@@ -8,301 +8,399 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-    body {
-      background-color: #0f172a;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #e5e7eb;
-    }
-    .brand {
-      font-weight: 700;
-      font-size: 20px;
-      letter-spacing: 0.03em;
-    }
-    .card {
-      border-radius: 18px;
-      border: none;
-      background: radial-gradient(circle at top left,#111827,#020617);
-      box-shadow: 0 18px 45px rgba(15,23,42,0.65);
-      color: #e5e7eb;
-    }
-    .card-header {
-      background: transparent;
-      border-bottom: 1px solid rgba(148,163,184,0.4);
-    }
-    .metric-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: #f9fafb;
-    }
-    .metric-label {
-      font-size: 14px;
-      color: #9ca3af;
-    }
-    textarea.section-items {
-      min-height: 100px;
-      resize: vertical;
-      background: rgba(15,23,42,0.8);
-      border-color: rgba(148,163,184,0.6);
-      color: #e5e7eb;
-    }
-    .section-title-input {
-      font-size: 14px;
-      background: rgba(15,23,42,0.8);
-      border-color: rgba(148,163,184,0.6);
-      color: #e5e7eb;
-    }
-    .tab-pane {
-      padding-top: 10px;
-    }
-    .action-btn-sm {
-      font-size: 12px;
-    }
-    textarea.section-last {
-      min-height: 220px;
-      resize: vertical;
-      background-color: rgba(15,23,42,0.9);
-      border-color: rgba(148,163,184,0.6);
-      color: #e5e7eb;
-    }
-    .upload-folder-btn {
-      font-size: 12px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      border-width: 1px;
-    }
+ <style>
+  body {
+    background-color: #0f172a;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #e5e7eb;
+  }
 
-    /* Big folder cards on main area */
-    .folder-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-    }
-    .folder-card {
-      border-radius: 22px;
-      color: #fff;
-      padding: 24px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 170px;
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(248,250,252,0.22);
-      box-shadow: 0 22px 50px rgba(15,23,42,0.72);
-    }
-    .folder-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 28px 70px rgba(15,23,42,0.9);
-    }
-    .folder-card.registration-card {
-      background: radial-gradient(circle at top left,#6366f1,#3b82f6 55%,#22c55e 120%);
-    }
-    .folder-card.upsc-card {
-      background: radial-gradient(circle at top left,#f97316,#ec4899 45%,#6366f1 120%);
-    }
+  .brand {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.03em;
+  }
 
-    .folder-badge {
-      font-size: 13px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.25);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .folder-title {
-      font-size: 26px;
-      font-weight: 800;
-      margin-top: 12px;
-      margin-bottom: 4px;
-    }
-    .folder-subtitle {
-      font-size: 14px;
-      opacity: 0.95;
-    }
-    .folder-accent {
-      position: absolute;
-      right: -40px;
-      bottom: -50px;
-      width: 150px;
-      height: 150px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.2);
-      filter: blur(2px);
-    }
-    .folder-accent-2 {
-      position: absolute;
-      right: 10px;
-      top: -35px;
-      width: 90px;
-      height: 90px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-    }
-    .folder-icon {
-      font-size: 28px;
-    }
-    .d-none {
-      display: none !important;
-    }
+  .card {
+    border-radius: 18px;
+    border: none;
+    background: radial-gradient(circle at top left,#111827,#020617);
+    box-shadow: 0 18px 45px rgba(15,23,42,0.65);
+    color: #e5e7eb;
+  }
 
-    /* Top bar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-      gap: 10px;
-    }
-    .topbar-email {
-      font-size: 13px;
-      color: #9ca3af;
-    }
-    .topbar-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
+  .card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(148,163,184,0.4);
+  }
 
-    /* Feature cards base */
-    .feature-card {
-      border-radius: 16px;
-      border: 1px solid rgba(148,163,184,0.5);
-      padding: 0;
-      background: transparent;
-      box-shadow: none;
-      color: #e5e7eb;
-    }
-    .feature-card .card-header {
-      border-bottom: 1px solid rgba(148,163,184,0.6);
-      background: rgba(15,23,42,0.9);
-    }
-    .feature-card .card-body {
-      background: rgba(15,23,42,0.96);
-    }
-    .feature-card .card-footer {
-      background: rgba(15,23,42,0.95);
-      border-top: 1px solid rgba(148,163,184,0.5);
-    }
+  .metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f9fafb;
+  }
 
-    .feature-card.upsc {
-      border-left: 4px solid transparent;
-      box-shadow: none;
-    }
+  .metric-label {
+    font-size: 14px;
+    color: #9ca3af;
+  }
 
-    .feature-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background: rgba(15,23,42,0.8);
-      color: #cbd5f5;
-    }
+  textarea.section-items {
+    min-height: 100px;
+    resize: vertical;
+    background: rgba(15,23,42,0.8);
+    border-color: rgba(148,163,184,0.6);
+    color: #e5e7eb;
+  }
 
-    .form-control,
-    .form-select {
-      background-color: rgba(15,23,42,0.9);
-      border-color: rgba(148,163,184,0.55);
-      color: #e5e7eb;
-    }
-    .form-control:focus,
-    .form-select:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 1px rgba(129,140,248,0.8);
-      background-color: rgba(15,23,42,0.95);
-      color: #f9fafb;
-    }
-    .table {
-      color: #e5e7eb;
-    }
-    .table thead {
-      background: radial-gradient(circle at top left,#111827,#020617);
-    }
-    .table tbody tr:hover {
-      background: rgba(30,64,175,0.45);
-    }
+  .section-title-input {
+    font-size: 14px;
+    background: rgba(15,23,42,0.8);
+    border-color: rgba(148,163,184,0.6);
+    color: #e5e7eb;
+  }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .status-pending {
-      background: rgba(254,243,199,0.15);
-      color: #fbbf24;
-      border: 1px solid rgba(252,211,77,0.5);
-    }
-    .status-verified {
-      background: rgba(220,252,231,0.15);
-      color: #4ade80;
-      border: 1px solid rgba(74,222,128,0.5);
-    }
-    .status-rejected {
-      background: rgba(254,226,226,0.1);
-      color: #f87171;
-      border: 1px solid rgba(248,113,113,0.5);
-    }
+  .tab-pane {
+    padding-top: 10px;
+  }
 
-    .btn-primary {
-      background: linear-gradient(135deg,#6366f1,#4f46e5);
-      border: none;
-    }
-    .btn-primary:hover {
-      background: linear-gradient(135deg,#4f46e5,#4338ca);
-    }
-    .btn-outline-secondary {
-      border-color: rgba(148,163,184,0.7);
-      color: #e5e7eb;
-    }
-    .btn-outline-secondary:hover {
-      background: rgba(148,163,184,0.2);
-      color: #f9fafb;
-    }
+  .action-btn-sm {
+    font-size: 12px;
+  }
 
-    /* Gradient wrapper boxes for UPSC inner sections */
-    .section-gradient-box {
-      border-radius: 20px;
-      padding: 2px;
-      background: linear-gradient(135deg,#f97316,#ec4899,#6366f1);
-      box-shadow: 0 18px 45px rgba(15,23,42,0.85);
-    }
-    .section-gradient-inner {
-      border-radius: 18px;
-      background: radial-gradient(circle at top left,#020617,#0b1120);
-      padding: 0;
-      color: #e5e7eb;
-    }
+  textarea.section-last {
+    min-height: 220px;
+    resize: vertical;
+    background-color: rgba(15,23,42,0.9);
+    border-color: rgba(148,163,184,0.6);
+    color: #e5e7eb;
+  }
 
-    /* UPSC variants */
-    .section-upsc-1 { background: linear-gradient(135deg,#f97316,#ec4899); }
-    .section-upsc-2 { background: linear-gradient(135deg,#6366f1,#0ea5e9); }
-    .section-upsc-3 { background: linear-gradient(135deg,#22c55e,#14b8a6); }
-    .section-upsc-4 { background: linear-gradient(135deg,#eab308,#f97316); }
+  .upload-folder-btn {
+    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border-width: 1px;
+  }
 
-    .section-gradient-inner .card-header {
-      background: transparent;
-      border-bottom: 1px solid rgba(148,163,184,0.6);
+  /* Big folder cards on main area */
+  .folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .folder-card {
+    border-radius: 22px;
+    color: #fff;
+    padding: 24px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 170px;
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(248,250,252,0.22);
+    box-shadow: 0 22px 50px rgba(15,23,42,0.72);
+  }
+
+  .folder-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 28px 70px rgba(15,23,42,0.9);
+  }
+
+  .folder-card.registration-card {
+    background: radial-gradient(circle at top left,#6366f1,#3b82f6 55%,#22c55e 120%);
+  }
+
+  .folder-card.upsc-card {
+    background: radial-gradient(circle at top left,#f97316,#ec4899 45%,#6366f1 120%);
+  }
+
+  .folder-badge {
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(15,23,42,0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .folder-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+
+  .folder-subtitle {
+    font-size: 14px;
+    opacity: 0.95;
+  }
+
+  .folder-accent {
+    position: absolute;
+    right: -40px;
+    bottom: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.2);
+    filter: blur(2px);
+  }
+
+  .folder-accent-2 {
+    position: absolute;
+    right: 10px;
+    top: -35px;
+    width: 90px;
+    height: 90px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.16);
+  }
+
+  .folder-icon {
+    font-size: 28px;
+  }
+
+  .d-none {
+    display: none !important;
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+
+  .topbar-email {
+    font-size: 13px;
+    color: #9ca3af;
+  }
+
+  .topbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+
+  /* Feature cards base */
+  .feature-card {
+    border-radius: 16px;
+    border: 1px solid rgba(148,163,184,0.5);
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    color: #e5e7eb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .feature-card .card-header {
+    border-bottom: 1px solid rgba(148,163,184,0.6);
+    background: rgba(15,23,42,0.9);
+  }
+
+  .feature-card .card-body {
+    background: rgba(15,23,42,0.96);
+  }
+
+  .feature-card .card-footer {
+    background: rgba(15,23,42,0.95);
+    border-top: 1px solid rgba(148,163,184,0.5);
+  }
+
+  .feature-card.upsc {
+    border-left: 4px solid transparent;
+    box-shadow: none;
+  }
+
+  .feature-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: rgba(15,23,42,0.8);
+    color: #cbd5f5;
+  }
+
+  .form-control,
+  .form-select {
+    background-color: rgba(15,23,42,0.9);
+    border-color: rgba(148,163,184,0.55);
+    color: #e5e7eb;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px rgba(129,140,248,0.8);
+    background-color: rgba(15,23,42,0.95);
+    color: #f9fafb;
+  }
+
+  .table {
+    color: #e5e7eb;
+  }
+
+  .table thead {
+    background: radial-gradient(circle at top left,#111827,#020617);
+  }
+
+  .table tbody tr:hover {
+    background: rgba(30,64,175,0.45);
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .status-pending {
+    background: rgba(254,243,199,0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(252,211,77,0.5);
+  }
+
+  .status-verified {
+    background: rgba(220,252,231,0.15);
+    color: #4ade80;
+    border: 1px solid rgba(74,222,128,0.5);
+  }
+
+  .status-rejected {
+    background: rgba(254,226,226,0.1);
+    color: #f87171;
+    border: 1px solid rgba(248,113,113,0.5);
+  }
+
+  /* Button enhancement */
+  .btn-primary {
+    background: linear-gradient(135deg,#6366f1,#4f46e5);
+    border: none;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99,102,241,0.4);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-outline-secondary {
+    border-color: rgba(148,163,184,0.7);
+    color: #e5e7eb;
+  }
+
+  .btn-outline-secondary:hover {
+    background: rgba(148,163,184,0.2);
+    color: #f9fafb;
+  }
+
+  /* Gradient wrapper boxes for UPSC inner sections + animation enhancements */
+  .section-gradient-box {
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg,#f97316,#ec4899,#6366f1);
+    box-shadow: 0 18px 45px rgba(15,23,42,0.85);
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.5s ease-out forwards;
+  }
+
+  .section-gradient-inner {
+    border-radius: 18px;
+    background: radial-gradient(circle at top left,#020617,#0b1120);
+    padding: 0;
+    color: #e5e7eb;
+  }
+
+  /* UPSC variants */
+  .section-upsc-1 { background: linear-gradient(135deg,#f97316,#ec4899); }
+  .section-upsc-2 { background: linear-gradient(135deg,#6366f1,#0ea5e9); }
+  .section-upsc-3 { background: linear-gradient(135deg,#22c55e,#14b8a6); }
+  .section-upsc-4 { background: linear-gradient(135deg,#eab308,#f97316); }
+
+  .section-gradient-inner .card-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(148,163,184,0.6);
+  }
+
+  .section-gradient-inner .card-body {
+    background: transparent;
+  }
+
+  .section-gradient-inner .card-footer {
+    background: transparent;
+    border-top: 1px solid rgba(148,163,184,0.6);
+  }
+
+  /* UPSC Dashboard Grid Enhancement */
+  .row.g-4 {
+    margin-bottom: 8px;
+  }
+
+  /* Extra spacing between row pairs (desktop) */
+  @media (min-width: 992px) {
+    .col-lg-6:nth-child(4n+1) {
+      margin-top: 16px;
     }
-    .section-gradient-inner .card-body {
-      background: transparent;
+  }
+
+  /* Card hover (outer gradient) */
+  .section-gradient-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.65) !important;
+  }
+
+  /* Staggered animation */
+  .col-lg-6:nth-child(1) .section-gradient-box { animation-delay: 0.1s; }
+  .col-lg-6:nth-child(2) .section-gradient-box { animation-delay: 0.2s; }
+  .col-lg-6:nth-child(3) .section-gradient-box { animation-delay: 0.3s; }
+  .col-lg-6:nth-child(4) .section-gradient-box { animation-delay: 0.4s; }
+  .col-lg-6:nth-child(5) .section-gradient-box { animation-delay: 0.5s; }
+  .col-lg-6:nth-child(6) .section-gradient-box { animation-delay: 0.6s; }
+  .col-lg-6:nth-child(7) .section-gradient-box { animation-delay: 0.7s; }
+  .col-lg-6:nth-child(8) .section-gradient-box { animation-delay: 0.8s; }
+  .col-12:last-child .section-gradient-box { animation-delay: 0.9s; }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
-    .section-gradient-inner .card-footer {
-      background: transparent;
-      border-top: 1px solid rgba(148,163,184,0.6);
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-  </style>
+  }
+
+  /* Save message styling (IDs ending with msg) */
+  [id$="msg"] {
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+</style>
 </head>
 
 <body>
@@ -446,7 +544,7 @@
           <div class="card-body">
             <div class="tab-content pt-3">
               <div class="tab-pane fade show active" id="upsc-pane" role="tabpanel">
-                <div class="row g-3">
+                <div class="row g-4">
 
                   <!-- UPSC Announcements -->
                   <div class="col-md-6">
