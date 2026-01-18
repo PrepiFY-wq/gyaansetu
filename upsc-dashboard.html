@@ -12,6 +12,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: radial-gradient(circle at top, #eef2ff 0, #f5f7fa 45%, #e0f2fe 100%);
   min-height: 100vh;
+  color: #0f172a;
 }
 
 /* HEADER */
@@ -63,20 +64,20 @@ body {
 /* MAIN CONTAINER + GRID */
 .container {
   max-width: 1400px;
-  margin: 25px auto 40px;
-  padding: 0 20px 40px;
+  margin: 24px auto 34px;
+  padding: 0 20px 34px;
   position: relative;
 }
 
 .section-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 22px;
-  margin-bottom: 26px;
+  gap: 18px;
+  margin-bottom: 20px;
   position: relative;
 }
 
-/* vertical subtle divider between two cards */
+/* subtle divider */
 .section-row.two-col::after {
   content: "";
   position: absolute;
@@ -88,12 +89,13 @@ body {
   pointer-events: none;
 }
 
-/* SECTION CARD */
+/* SECTION CARD – glassmorphism style */
 .section-card {
-  background: white;
-  padding: 22px 22px 20px;
+  background: radial-gradient(circle at top left, rgba(255,255,255,0.95), rgba(248,250,252,0.9));
+  padding: 18px 18px 16px;
   border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(15,23,42,0.10);
+  box-shadow: 0 10px 26px rgba(15,23,42,0.12);
+  border: 1px solid rgba(148,163,184,0.25);
   position: relative;
   overflow: hidden;
 }
@@ -102,7 +104,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top right, rgba(99,102,241,0.16), transparent 55%);
+  background: radial-gradient(circle at top right, rgba(99,102,241,0.18), transparent 55%);
   opacity: 0.9;
   pointer-events: none;
 }
@@ -116,11 +118,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .section-header h2 {
-  font-size: 16px;
+  font-size: 15px;
   color: #111827;
   display: flex;
   align-items: center;
@@ -140,10 +142,10 @@ body {
 .exam-countdown {
   background: linear-gradient(135deg, #f97316 0%, #ec4899 40%, #6366f1 100%);
   color: white;
-  padding: 24px 24px 22px;
+  padding: 20px 22px 18px;
   border-radius: 18px;
   box-shadow: 0 20px 40px rgba(15,23,42,0.40);
-  margin-bottom: 26px;
+  margin-bottom: 22px;
   position: relative;
   overflow: hidden;
 }
@@ -156,7 +158,7 @@ body {
   width: 180px;
   height: 180px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.22);
   filter: blur(2px);
 }
 
@@ -168,26 +170,26 @@ body {
 .exam-subtitle {
   font-size: 13px;
   opacity: 0.92;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .countdown-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(140px, 1fr));
-  gap: 15px;
-  margin: 15px 0 8px;
+  gap: 12px;
+  margin: 12px 0 6px;
 }
 
 .countdown-item {
-  background: rgba(15,23,42,0.2);
-  padding: 12px;
+  background: rgba(15,23,42,0.22);
+  padding: 10px;
   border-radius: 12px;
   text-align: center;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
 .countdown-item .number {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
 }
 
@@ -198,8 +200,8 @@ body {
 
 .quote {
   font-style: italic;
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 8px;
+  font-size: 13px;
   opacity: 0.96;
 }
 
@@ -207,13 +209,13 @@ body {
 .update-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 16px;
+  gap: 12px;
 }
 
 .update-box {
   background: #f9fafb;
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   border: 1px solid #e5e7eb;
 }
 
@@ -227,7 +229,7 @@ body {
 
 .update-box input {
   width: 100%;
-  padding: 9px 11px;
+  padding: 8px 10px;
   border-radius: 8px;
   border: 2px solid #e5e7eb;
   font-size: 14px;
@@ -248,7 +250,7 @@ body {
 
 /* BUTTONS */
 .btn {
-  padding: 10px 16px;
+  padding: 9px 14px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
@@ -264,33 +266,33 @@ body {
 }
 
 .btn:hover {
-  box-shadow: 0 10px 20px rgba(37,99,235,0.35);
+  box-shadow: 0 8px 18px rgba(37,99,235,0.35);
   transform: translateY(-1px);
 }
 
 /* Telegram button */
 .btn-telegram {
   background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
-  padding: 12px 20px;
-  font-size: 15px;
+  padding: 11px 18px;
+  font-size: 14px;
   text-align: center;
   width: 100%;
 }
 
 .btn-telegram:hover {
-  box-shadow: 0 10px 20px rgba(14,165,233,0.45);
+  box-shadow: 0 8px 18px rgba(14,165,233,0.45);
 }
 
 /* STATS CARDS */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .stat-card {
-  background: #f9fafb;
-  padding: 14px 16px;
+  background: linear-gradient(135deg, #eef2ff 0%, #e0f2fe 100%);
+  padding: 12px 14px;
   border-radius: 14px;
   box-shadow: 0 2px 10px rgba(148,163,184,0.25);
   border-left: 4px solid #6366f1;
@@ -298,17 +300,17 @@ body {
 
 .stat-card h3 {
   color: #4b5563;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .stat-card .number {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .stat-card .meta {
@@ -319,7 +321,7 @@ body {
 /* LIST/EMPTY */
 .empty-state {
   text-align: center;
-  padding: 24px 10px;
+  padding: 18px 8px;
   color: #9ca3af;
   font-size: 13px;
 }
@@ -328,9 +330,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-height: 260px;
+  max-height: 240px;
   overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 3px;
 }
 
 .tag {
@@ -348,7 +350,7 @@ body {
   display: flex;
   justify-content: space-between;
   font-size: 13px;
-  padding: 7px 0 4px;
+  padding: 6px 0 4px;
 }
 
 .progress-bar {
@@ -357,7 +359,7 @@ body {
   border-radius: 999px;
   background: #e5e7eb;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .progress-fill {
@@ -370,13 +372,13 @@ body {
 .community-help-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
+  gap: 14px;
 }
 
 .community-box {
   background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
   color: white;
-  padding: 22px;
+  padding: 18px;
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 12px 28px rgba(8,47,73,0.35);
@@ -384,21 +386,21 @@ body {
 
 .community-box h3 {
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-weight: 600;
 }
 
 .community-box p {
   font-size: 13px;
   opacity: 0.9;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   line-height: 1.5;
 }
 
 .help-box {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
-  padding: 22px;
+  padding: 18px;
   border-radius: 16px;
   text-align: center;
   box-shadow: 0 12px 28px rgba(6,95,70,0.35);
@@ -406,22 +408,22 @@ body {
 
 .help-box h3 {
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-weight: 600;
 }
 
 .help-box p {
   font-size: 13px;
   opacity: 0.9;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.5;
 }
 
 .help-box .email {
   font-size: 14px;
   font-weight: 600;
-  margin-top: 10px;
-  padding: 10px 12px;
+  margin-top: 8px;
+  padding: 8px 10px;
   background: rgba(255,255,255,0.15);
   border-radius: 10px;
   word-break: break-all;
@@ -436,6 +438,50 @@ body {
   text-decoration: underline;
 }
 
+/* DAILY TARGET CARD (inside Daily Targets section) */
+.daily-target-card {
+  background: linear-gradient(135deg,#f97316,#ec4899,#6366f1);
+  padding: 14px 16px;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 32px rgba(15,23,42,0.35);
+  color: #f9fafb;
+}
+
+.daily-target-card .glow {
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  filter: blur(2px);
+}
+
+.daily-target-card .inner {
+  position: relative;
+  z-index: 1;
+}
+
+.daily-target-card .top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.daily-target-card .badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(248,250,252,0.8);
+  background: rgba(15,23,42,0.25);
+  backdrop-filter: blur(4px);
+}
+
+/* RESPONSIVE */
 @media (max-width: 900px) {
   .section-row {
     grid-template-columns: minmax(0, 1fr);
@@ -453,7 +499,7 @@ body {
     gap: 8px;
   }
   .container {
-    padding: 0 14px 30px;
+    padding: 0 14px 28px;
   }
 }
 </style>
@@ -523,21 +569,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </div>
   </section>
 
-  <!-- ROW 1: Update Your Daily Progress (full width) -->
-  <section class="section-card">
-  <div class="section-card-inner">
-    <div class="section-header">
-      <h2><span class="icon">🎯</span>Daily Target</h2>
-      <span>Latest target from admin</span>
-    </div>
-
-    <div id="dailyTargetBox">
-      <div class="empty-state">Admin will add today's target here.</div>
-    </div>
-  </div>
-</section>
-
-  <!-- ROW 2: Overall Totals (left) + Analytics (right) -->
+  <!-- ROW 1: Overall Totals (left) + Analytics (right) -->
   <div class="section-row two-col">
     <!-- OVERALL TOTALS -->
     <section class="section-card">
@@ -589,7 +621,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </section>
   </div>
 
-  <!-- ROW 3: Announcements (left) + Daily Targets (right) -->
+  <!-- ROW 2: Announcements (left) + Daily Targets (right) -->
   <div class="section-row two-col">
     <!-- ANNOUNCEMENTS -->
     <section class="section-card">
@@ -604,27 +636,30 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
       </div>
     </section>
 
-    <!-- DAILY TARGETS (3 sections) -->
+    <!-- DAILY TARGETS (now main colourful block) -->
     <section class="section-card">
       <div class="section-card-inner">
         <div class="section-header">
           <h2><span class="icon">🎯</span>Daily Targets</h2>
-          <span>Subject wise targets for today</span>
+          <span>Latest targets from admin</span>
         </div>
 
-        <!-- Subject 1 -->
-        <h3 style="font-size: 14px; color:#4b5563; margin-bottom:6px;">Subject - 1</h3>
+        <!-- Combined Daily Target Card -->
+        <div id="dailyTargetBox">
+          <div class="empty-state">Admin will add today's target here.</div>
+        </div>
+
+        <!-- Subject-wise breakdown (optional extra details) -->
+        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 6px;">Subject - 1</h3>
         <div id="subject1Targets">
           <div class="empty-state">Admin will update Subject 1 targets here.</div>
         </div>
 
-        <!-- Subject 2 -->
         <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 6px;">Subject - 2</h3>
         <div id="subject2Targets">
           <div class="empty-state">Admin will update Subject 2 targets here.</div>
         </div>
 
-        <!-- Other Targets -->
         <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 6px;">Other Targets</h3>
         <div id="otherTargets">
           <div class="empty-state">Admin will add other targets here.</div>
@@ -633,7 +668,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </section>
   </div>
 
-  <!-- ROW 4: Test Portal (left) + Study Materials (right) -->
+  <!-- ROW 3: Test Portal (left) + Study Materials (right) -->
   <div class="section-row two-col">
     <!-- TEST PORTAL -->
     <section class="section-card">
@@ -648,12 +683,12 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
           <div class="empty-state">Admin will create mock tests soon.</div>
         </div>
 
-        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Test Series</h3>
+        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 8px;">Test Series</h3>
         <div id="testSeriesList">
           <div class="empty-state">Admin will upload test series soon.</div>
         </div>
 
-        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Previous Year Papers</h3>
+        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 8px;">Previous Year Papers</h3>
         <div id="pypList">
           <div class="empty-state">Admin will upload PYQ PDFs soon.</div>
         </div>
@@ -673,12 +708,12 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
           <div class="empty-state">Admin will upload books list soon.</div>
         </div>
 
-        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Notes / PDFs</h3>
+        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 8px;">Notes / PDFs</h3>
         <div id="notesPdfsList">
           <div class="empty-state">Admin will upload notes soon.</div>
         </div>
 
-        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Current Affairs</h3>
+        <h3 style="font-size: 14px; color:#4b5563; margin:14px 0 8px;">Current Affairs</h3>
         <div id="currentAffairsList">
           <div class="empty-state">Admin will upload current affairs soon.</div>
         </div>
@@ -686,7 +721,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </section>
   </div>
 
-  <!-- ROW 5: Syllabus Tracker (full width) -->
+  <!-- ROW 4: Syllabus Tracker (full width) -->
   <section class="section-card">
     <div class="section-card-inner">
       <div class="section-header">
@@ -712,7 +747,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </div>
   </section>
 
-  <!-- ROW 6: Answer Writing (left) -->
+  <!-- ROW 5: Answer Writing (left) -->
   <div class="section-row two-col">
     <!-- ANSWER WRITING -->
     <section class="section-card">
@@ -734,7 +769,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
           </div>
         </div>
 
-        <h3 style="font-size: 14px; color:#4b5563; margin:18px 0 8px;">Your Submissions</h3>
+        <h3 style="font-size: 14px; color:#4b5563; margin:16px 0 8px;">Your Submissions</h3>
         <div id="answerSubmissions">
           <div class="empty-state">You have not uploaded any answer copies yet.</div>
         </div>
@@ -742,7 +777,7 @@ const countdownStart = new Date('2026-01-03T08:00:00+05:30');
     </section>
   </div>
 
-  <!-- ROW 7: Path Pradarshak (full width) -->
+  <!-- ROW 6: Path Pradarshak (full width) -->
   <section class="section-card">
     <div class="section-card-inner">
       <div class="section-header">
@@ -922,7 +957,7 @@ function updateProgress(e) {
         throw new Error(totals && totals.message ? totals.message : 'Failed to load totals');
       }
       alert('Progress updated successfully!');
-      document.getElementById('progressForm').reset();
+      document.getElementById('progressForm')?.reset();
       loadAnalytics();
     })
     .catch(err => {
@@ -1007,8 +1042,7 @@ function renderAnnouncements(items) {
   container.appendChild(list);
 }
 
-// Daily Targets – only latest entry
-// Daily Target – only latest entry (Date + Subject + Topics) with colorful card
+// Daily Target – latest entry with colourful card
 function renderDailyTargets(items) {
   const box = document.getElementById('dailyTargetBox');
   box.innerHTML = '';
@@ -1018,7 +1052,6 @@ function renderDailyTargets(items) {
     return;
   }
 
-  // Sirf latest row ka text
   const latestRaw = items[items.length - 1];
   let txt = typeof latestRaw === 'string'
     ? latestRaw
@@ -1042,36 +1075,17 @@ function renderDailyTargets(items) {
   });
 
   const card = document.createElement('div');
-  card.style.background = 'linear-gradient(135deg,#f97316,#ec4899,#6366f1)';
-  card.style.padding = '14px 16px';
-  card.style.borderRadius = '16px';
-  card.style.position = 'relative';
-  card.style.overflow = 'hidden';
-  card.style.boxShadow = '0 16px 32px rgba(15,23,42,0.35)';
-  card.style.color = '#f9fafb';
+  card.className = 'daily-target-card';
 
-  // subtle glow circle
   const glow = document.createElement('div');
-  glow.style.position = 'absolute';
-  glow.style.right = '-40px';
-  glow.style.bottom = '-40px';
-  glow.style.width = '160px';
-  glow.style.height = '160px';
-  glow.style.borderRadius = '999px';
-  glow.style.background = 'rgba(255,255,255,0.18)';
-  glow.style.filter = 'blur(2px)';
+  glow.className = 'glow';
   card.appendChild(glow);
 
   const inner = document.createElement('div');
-  inner.style.position = 'relative';
-  inner.style.zIndex = '1';
+  inner.className = 'inner';
 
-  // top row: date + badge
   const topRow = document.createElement('div');
-  topRow.style.display = 'flex';
-  topRow.style.justifyContent = 'space-between';
-  topRow.style.alignItems = 'center';
-  topRow.style.marginBottom = '6px';
+  topRow.className = 'top-row';
 
   const dateEl = document.createElement('div');
   dateEl.style.fontSize = '12px';
@@ -1080,18 +1094,12 @@ function renderDailyTargets(items) {
   topRow.appendChild(dateEl);
 
   const badge = document.createElement('span');
+  badge.className = 'badge';
   badge.textContent = 'Today\'s Target';
-  badge.style.fontSize = '11px';
-  badge.style.padding = '3px 10px';
-  badge.style.borderRadius = '999px';
-  badge.style.border = '1px solid rgba(248,250,252,0.8)';
-  badge.style.background = 'rgba(15,23,42,0.25)';
-  badge.style.backdropFilter = 'blur(4px)';
   topRow.appendChild(badge);
 
   inner.appendChild(topRow);
 
-  // subject
   const subjEl = document.createElement('div');
   subjEl.style.fontSize = '16px';
   subjEl.style.fontWeight = '700';
@@ -1099,7 +1107,6 @@ function renderDailyTargets(items) {
   subjEl.textContent = subjTxt || 'Subject not set';
   inner.appendChild(subjEl);
 
-  // topics
   const topicsEl = document.createElement('div');
   topicsEl.style.fontSize = '13px';
   topicsEl.style.lineHeight = '1.5';
@@ -1107,7 +1114,6 @@ function renderDailyTargets(items) {
   topicsEl.textContent = topicsTxt ? `Topics: ${topicsTxt}` : 'Topics not set';
   inner.appendChild(topicsEl);
 
-  // small note
   const note = document.createElement('div');
   note.style.marginTop = '8px';
   note.style.fontSize = '11px';
@@ -1136,7 +1142,7 @@ function renderFolderButton(containerId, folderUrl, emptyMessage) {
   container.appendChild(btn);
 }
 
-// Dashboard content (only text + syllabus + quotes)
+// Dashboard content (text + syllabus + quotes)
 function loadDashboardContent() {
   const url = `${SCRIPT_URL}?action=getDashboardContent&examType=UPSC&_=` + Date.now();
 
@@ -1328,7 +1334,6 @@ document.addEventListener('DOMContentLoaded', () => {
   loadDashboardContent();
   loadAnswerSubmissions();
 
-  // countdown refresh har 1 ghante me
   setInterval(updateCountdown, 60 * 60 * 1000);
 });
 </script>
