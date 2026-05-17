@@ -3,41 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Exam Portal | Login</title>
-  <meta name="description" content="Free online exam portal starter for GitHub Pages with Firebase-ready login and registration." />
+  <title>PrepiFY | Portal Login</title>
+  <meta name="description" content="PrepiFY online examination portal login." />
 
   <style>
     :root {
-      --bg: #f5f3ef;
-      --surface: #fcfbf8;
-      --surface-2: #f0ece6;
+      --bg: #f4f1eb;
+      --surface: #ffffff;
+      --surface-soft: #f7f4ef;
       --text: #1f1b16;
-      --muted: #6f6a61;
-      --border: #ddd6ce;
-      --primary: #0e6b67;
-      --primary-hover: #0a5753;
-      --danger: #a63c52;
-      --success: #2f7b42;
-      --warning: #996515;
-      --shadow: 0 16px 40px rgba(25, 20, 14, 0.08);
-      --radius: 20px;
-      --radius-sm: 12px;
-      --max: 1180px;
+      --muted: #6d675f;
+      --border: #ddd6cc;
+      --primary: #0f5c63;
+      --primary-hover: #0a4a50;
+      --danger: #a53b51;
+      --success: #2d7640;
+      --shadow: 0 20px 50px rgba(24, 20, 15, 0.08);
     }
 
     [data-theme="dark"] {
-      --bg: #161513;
+      --bg: #151412;
       --surface: #1d1c1a;
-      --surface-2: #262422;
-      --text: #efe9df;
-      --muted: #b9b1a5;
+      --surface-soft: #252321;
+      --text: #f0e8de;
+      --muted: #b5aea4;
       --border: #3a3632;
-      --primary: #55a7a0;
-      --primary-hover: #7fc3bd;
-      --danger: #d46b7e;
-      --success: #7fc592;
-      --warning: #d2a14f;
-      --shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+      --primary: #5eaab1;
+      --primary-hover: #78c0c6;
+      --danger: #d36b7d;
+      --success: #78bf8a;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
     }
 
     * {
@@ -48,229 +43,200 @@
 
     html, body {
       min-height: 100%;
-      scroll-behavior: smooth;
     }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(14, 107, 103, 0.10), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(166, 60, 82, 0.08), transparent 24%),
-        var(--bg);
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
     }
 
     button, input, select {
       font: inherit;
     }
 
-    .container {
-      width: min(100% - 32px, var(--max));
-      margin: 0 auto;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      backdrop-filter: blur(12px);
-      background: color-mix(in srgb, var(--bg) 82%, transparent);
-      border-bottom: 1px solid var(--border);
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 520px;
     }
 
-    .topbar-inner {
-      min-height: 72px;
+    .brand-side {
+      position: relative;
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(135deg, rgba(15, 92, 99, 0.06), transparent 45%),
+        linear-gradient(180deg, rgba(255,255,255,0.2), transparent),
+        var(--bg);
+      border-right: 1px solid var(--border);
+    }
+
+    .brand-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand-wrap {
+      display: inline-flex;
+      align-items: center;
       gap: 16px;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: 0.2px;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 65%, white));
+    .brand-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 72%, white));
       display: grid;
       place-items: center;
-      color: white;
       box-shadow: var(--shadow);
-      flex-shrink: 0;
+      color: white;
     }
 
-    .brand svg {
-      width: 22px;
-      height: 22px;
+    .brand-logo svg {
+      width: 40px;
+      height: 40px;
     }
 
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
+    .brand-name {
+      display: grid;
+      gap: 4px;
     }
 
-    .theme-toggle,
-    .ghost-btn,
-    .primary-btn,
-    .secondary-btn {
-      border: 1px solid var(--border);
-      min-height: 46px;
+    .brand-name h1 {
+      font-size: 2rem;
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-name p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .theme-toggle {
+      min-width: 46px;
+      height: 46px;
       border-radius: 999px;
-      padding: 0 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
       cursor: pointer;
       transition: 0.25s ease;
     }
 
-    .theme-toggle,
-    .ghost-btn,
-    .secondary-btn {
-      background: var(--surface);
-      color: var(--text);
-    }
-
-    .primary-btn {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-      font-weight: 700;
-    }
-
-    .primary-btn:hover {
-      background: var(--primary-hover);
-      border-color: var(--primary-hover);
-    }
-
-    .secondary-btn:hover,
-    .ghost-btn:hover,
     .theme-toggle:hover {
-      background: var(--surface-2);
+      background: var(--surface-soft);
     }
 
-    .hero {
-      padding: 56px 0 28px;
+    .brand-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 26px;
-      align-items: stretch;
-    }
-
-    .hero-card,
-    .panel {
-      background: color-mix(in srgb, var(--surface) 94%, transparent);
+    .seal-card {
+      width: min(100%, 520px);
+      background: color-mix(in srgb, var(--surface) 92%, transparent);
       border: 1px solid var(--border);
-      border-radius: 28px;
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+      text-align: center;
+    }
+
+    .seal-mark {
+      width: 124px;
+      height: 124px;
+      margin: 0 auto 20px;
+      border-radius: 32px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 40%),
+        linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 55%, #ffffff));
+      color: white;
       box-shadow: var(--shadow);
     }
 
-    .hero-card {
-      padding: 38px;
-      position: relative;
-      overflow: hidden;
+    .seal-mark svg {
+      width: 68px;
+      height: 68px;
     }
 
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 36px;
-      padding: 0 14px;
-      border-radius: 999px;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      font-size: 0.92rem;
-      color: var(--muted);
-    }
-
-    h1 {
-      font-size: clamp(2rem, 4vw, 4.4rem);
+    .seal-card h2 {
+      font-size: clamp(2.1rem, 4vw, 3.5rem);
       line-height: 1.05;
-      margin-bottom: 14px;
-      max-width: 10ch;
+      margin-bottom: 10px;
     }
 
-    .hero-card p {
+    .seal-card p {
       color: var(--muted);
-      font-size: 1.02rem;
-      max-width: 58ch;
-      margin-bottom: 24px;
+      font-size: 1rem;
+      max-width: 34ch;
+      margin: 0 auto;
     }
 
-    .cta-row {
+    .brand-footer {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .auth-side {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px;
+      background: var(--surface-soft);
     }
 
-    .feature-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .feature-tile {
+    .auth-panel {
+      width: min(100%, 430px);
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-    }
-
-    .feature-tile strong {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 1rem;
-    }
-
-    .feature-tile span {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .panel {
+      border-radius: 28px;
+      box-shadow: var(--shadow);
       padding: 28px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    }
+
+    .auth-head {
+      margin-bottom: 22px;
+    }
+
+    .auth-head h2 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .auth-head p {
+      color: var(--muted);
+      font-size: 0.96rem;
     }
 
     .tabs {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      background: var(--surface-2);
-      border-radius: 16px;
-      padding: 6px;
+      grid-template-columns: 1fr 1fr;
       gap: 6px;
-      margin-bottom: 22px;
+      background: var(--surface-soft);
+      padding: 6px;
+      border-radius: 16px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
-      border: none;
       min-height: 46px;
+      border: 0;
       border-radius: 12px;
       background: transparent;
       color: var(--muted);
@@ -283,17 +249,6 @@
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
-    }
-
-    .panel-title {
-      font-size: 1.55rem;
-      margin-bottom: 6px;
-    }
-
-    .panel-subtitle {
-      color: var(--muted);
-      margin-bottom: 18px;
-      font-size: 0.96rem;
     }
 
     .form {
@@ -315,7 +270,7 @@
     }
 
     .field label {
-      font-size: 0.95rem;
+      font-size: 0.93rem;
       font-weight: 600;
     }
 
@@ -335,7 +290,7 @@
     .field input:focus,
     .field select:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(14, 107, 103, 0.12);
+      box-shadow: 0 0 0 4px rgba(15, 92, 99, 0.12);
     }
 
     .inline-row {
@@ -344,10 +299,22 @@
       gap: 14px;
     }
 
-    .helper {
-      color: var(--muted);
-      font-size: 0.88rem;
-      margin-top: -2px;
+    .primary-btn {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid var(--primary);
+      border-radius: 14px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s ease;
+      margin-top: 4px;
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-hover);
+      border-color: var(--primary-hover);
     }
 
     .status-box {
@@ -356,7 +323,7 @@
       padding: 14px 16px;
       border-radius: 14px;
       border: 1px solid var(--border);
-      background: var(--surface-2);
+      background: var(--surface-soft);
       font-size: 0.94rem;
     }
 
@@ -365,306 +332,218 @@
     }
 
     .status-box.success {
-      border-color: color-mix(in srgb, var(--success) 35%, var(--border));
       color: var(--success);
+      border-color: color-mix(in srgb, var(--success) 34%, var(--border));
     }
 
     .status-box.error {
-      border-color: color-mix(in srgb, var(--danger) 35%, var(--border));
       color: var(--danger);
+      border-color: color-mix(in srgb, var(--danger) 34%, var(--border));
     }
 
     .status-box.info {
-      border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
       color: var(--primary);
+      border-color: color-mix(in srgb, var(--primary) 34%, var(--border));
     }
 
-    .quick-info {
-      padding: 24px 0 50px;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    .info-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .info-card small {
-      display: block;
-      color: var(--muted);
-      margin-bottom: 8px;
-      font-size: 0.88rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .info-card strong {
-      display: block;
-      font-size: 1.28rem;
-      margin-bottom: 8px;
-    }
-
-    .info-card p {
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .footer {
-      padding: 0 0 34px;
-      color: var(--muted);
-      font-size: 0.94rem;
-    }
-
-    .footer-box {
-      border-top: 1px solid var(--border);
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .info-grid,
-      .feature-strip,
-      .inline-row {
+    @media (max-width: 1080px) {
+      .page {
         grid-template-columns: 1fr;
       }
 
-      .hero-card,
-      .panel {
-        padding: 24px;
+      .brand-side {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding: 28px 20px;
       }
 
-      h1 {
+      .brand-center {
+        padding: 24px 0 8px;
+      }
+
+      .seal-card {
         max-width: 100%;
+      }
+
+      .auth-side {
+        padding: 24px 16px 28px;
       }
     }
 
     @media (max-width: 640px) {
-      .topbar-inner {
-        min-height: 64px;
+      .brand-wrap {
+        gap: 12px;
       }
 
-      .hero {
-        padding-top: 28px;
+      .brand-logo {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
       }
 
-      .container {
-        width: min(100% - 20px, var(--max));
+      .brand-logo svg {
+        width: 32px;
+        height: 32px;
       }
 
-      .top-actions {
-        gap: 8px;
+      .brand-name h1 {
+        font-size: 1.6rem;
       }
 
-      .theme-toggle,
-      .ghost-btn,
-      .primary-btn,
-      .secondary-btn {
-        min-height: 44px;
-        padding: 0 14px;
+      .auth-panel,
+      .seal-card {
+        padding: 22px;
       }
 
-      .brand-mark {
-        width: 38px;
-        height: 38px;
+      .inline-row {
+        grid-template-columns: 1fr;
+      }
+
+      .seal-mark {
+        width: 104px;
+        height: 104px;
+        border-radius: 26px;
+      }
+
+      .seal-mark svg {
+        width: 56px;
+        height: 56px;
       }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a href="#" class="brand" aria-label="Exam Portal Home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M5 6.5C5 5.67 5.67 5 6.5 5H17.5C18.33 5 19 5.67 19 6.5V17.5C19 18.33 18.33 19 17.5 19H6.5C5.67 19 5 18.33 5 17.5V6.5Z" fill="white" opacity="0.18"/>
-            <path d="M8 8H16M8 12H16M8 16H13" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <span>ExamPortal Lite</span>
-      </a>
+  <main class="page">
+    <section class="brand-side">
+      <div class="brand-top">
+        <div class="brand-wrap">
+          <div class="brand-logo" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M18 19.5C18 16.46 20.46 14 23.5 14H40.5C43.54 14 46 16.46 46 19.5V44.5C46 47.54 43.54 50 40.5 50H23.5C20.46 50 18 47.54 18 44.5V19.5Z" fill="white" opacity="0.18"/>
+              <path d="M24 23H40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+              <path d="M24 31H40" stroke="white" stroke-width="4" stroke-linecap="round"/>
+              <path d="M24 39H34" stroke="white" stroke-width="4" stroke-linecap="round"/>
+              <path d="M44 18L48 22" stroke="white" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="brand-name">
+            <h1>PrepiFY</h1>
+            <p>Examination Portal</p>
+          </div>
+        </div>
 
-      <div class="top-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">🌙</button>
-        <a class="ghost-btn" href="#portal">Login</a>
-        <a class="primary-btn" href="#portal">Get Started</a>
       </div>
-    </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <article class="hero-card">
-          <div class="badge-row">
-            <span class="badge">GitHub Pages Ready</span>
-            <span class="badge">Firebase Ready</span>
-            <span class="badge">NEET · JEE · UPSC</span>
+      <div class="brand-center">
+        <div class="seal-card">
+          <div class="seal-mark" aria-hidden="true">
+            <svg viewBox="0 0 72 72" fill="none">
+              <path d="M36 10L56 18V34C56 46.5 47.7 58 36 62C24.3 58 16 46.5 16 34V18L36 10Z" fill="white" opacity="0.18"/>
+              <path d="M28 35L34 41L45 28" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M25 21H47" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+            </svg>
           </div>
+          <h2>Secure Candidate Access</h2>
+          <p>Official login portal for candidates and administrators.</p>
+        </div>
+      </div>
 
-          <h1>Free online test portal for structured exam practice.</h1>
-          <p>
-            This starter page works as the homepage, login page, and registration page for your exam platform.
-            Both admin users and candidates can enter the portal through separate role-based access.
-          </p>
-
-          <div class="cta-row">
-            <a class="primary-btn" href="#portal">Open Portal</a>
-            <a class="secondary-btn" href="#features">View Features</a>
-          </div>
-
-          <div class="feature-strip" id="features">
-            <div class="feature-tile">
-              <strong>Admin Control</strong>
-              <span>Create tests, manage sections, set timing, apply marking schemes, and publish results.</span>
-            </div>
-            <div class="feature-tile">
-              <strong>Candidate Access</strong>
-              <span>View notifications, available tests, result status, and published performance analysis.</span>
-            </div>
-            <div class="feature-tile">
-              <strong>Multi Exam Format</strong>
-              <span>Support different layouts and patterns for NEET, JEE, and UPSC test structures.</span>
-            </div>
-          </div>
-        </article>
-
-        <aside class="panel" id="portal">
-          <div class="tabs" role="tablist" aria-label="Login and Register Tabs">
-            <button class="tab-btn active" type="button" id="loginTab" onclick="switchTab('login')">Login</button>
-            <button class="tab-btn" type="button" id="registerTab" onclick="switchTab('register')">Register</button>
-          </div>
-
-          <div id="loginForm" class="form active">
-            <h2 class="panel-title">Portal Login</h2>
-            <p class="panel-subtitle">Sign in as a candidate or admin to continue to your dashboard.</p>
-
-            <form onsubmit="handleLogin(event)">
-              <div class="field-grid">
-                <div class="field">
-                  <label for="loginEmail">Email</label>
-                  <input type="email" id="loginEmail" placeholder="Enter your email" required />
-                </div>
-
-                <div class="field">
-                  <label for="loginPassword">Password</label>
-                  <input type="password" id="loginPassword" placeholder="Enter your password" required />
-                </div>
-
-                <div class="field">
-                  <label for="loginRole">Login As</label>
-                  <select id="loginRole" required>
-                    <option value="">Select role</option>
-                    <option value="candidate">Candidate</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </div>
-
-                <button type="submit" class="primary-btn">Login Now</button>
-              </div>
-            </form>
-
-            <div id="loginStatus" class="status-box" aria-live="polite"></div>
-          </div>
-
-          <div id="registerForm" class="form">
-            <h2 class="panel-title">Create Candidate Account</h2>
-            <p class="panel-subtitle">Register a candidate account. Approval or direct access can be controlled later from the backend and admin panel.</p>
-
-            <form onsubmit="handleRegister(event)">
-              <div class="field-grid">
-                <div class="inline-row">
-                  <div class="field">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" placeholder="Enter full name" required />
-                  </div>
-
-                  <div class="field">
-                    <label for="examField">Exam Field</label>
-                    <select id="examField" required>
-                      <option value="">Select field</option>
-                      <option value="NEET">NEET</option>
-                      <option value="JEE">JEE</option>
-                      <option value="UPSC">UPSC</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="registerEmail">Email</label>
-                  <input type="email" id="registerEmail" placeholder="Enter email address" required />
-                </div>
-
-                <div class="field">
-                  <label for="registerPassword">Password</label>
-                  <input type="password" id="registerPassword" placeholder="Create password" minlength="6" required />
-                </div>
-
-                <div class="field">
-                  <label for="confirmPassword">Confirm Password</label>
-                  <input type="password" id="confirmPassword" placeholder="Confirm password" minlength="6" required />
-                </div>
-
-                <p class="helper">Note: Candidate approval, access rules, and test eligibility can be controlled from the admin panel later.</p>
-
-                <button type="submit" class="primary-btn">Create Account</button>
-              </div>
-            </form>
-
-            <div id="registerStatus" class="status-box" aria-live="polite"></div>
-          </div>
-        </aside>
+      <div class="brand-footer">
+        <span id="yearText"></span>
       </div>
     </section>
 
-    <section class="quick-info">
-      <div class="container">
-        <div class="info-grid">
-          <div class="info-card">
-            <small>Format</small>
-            <strong>Exam-like Interface</strong>
-            <p>An instruction page, timer, sections, question palette, and final submission workflow can be added.</p>
+    <section class="auth-side">
+      <div class="auth-panel">
+        <div class="tabs" role="tablist" aria-label="Login and Register Tabs">
+          <button class="tab-btn active" type="button" id="loginTab" onclick="switchTab('login')">Login</button>
+          <button class="tab-btn" type="button" id="registerTab" onclick="switchTab('register')">Register</button>
+        </div>
+
+        <div id="loginForm" class="form active">
+          <div class="auth-head">
+            <h2>Portal Login</h2>
+            <p>Sign in to continue.</p>
           </div>
 
-          <div class="info-card">
-            <small>Results</small>
-            <strong>Awaited to Published</strong>
-            <p>After submission, candidates can see result awaited status until the admin publishes final scores and analysis.</p>
+          <form onsubmit="handleLogin(event)">
+            <div class="field-grid">
+              <div class="field">
+                abel for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email address" required />
+              </div>
+
+              <div class="field">
+                abel for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required />
+              </div>
+
+              <div class="field">
+                abel for="loginRole">Access Type</label>
+                <select id="loginRole" required>
+                  <option value="">Select access type</option>
+                  <option value="candidate">Candidate</option>
+                  <option value="admin">Administrator</option>
+                </select>
+              </div>
+
+              <button type="submit" class="primary-btn">Login</button>
+            </div>
+          </form>
+
+          <div id="loginStatus" class="status-box" aria-live="polite"></div>
+        </div>
+
+        <div id="registerForm" class="form">
+          <div class="auth-head">
+            <h2>Candidate Registration</h2>
+            <p>Create your account.</p>
           </div>
 
-          <div class="info-card">
-            <small>Admin</small>
-            <strong>Full Control</strong>
-            <p>The admin can manage test count, duration, positive and negative marking, and field-specific patterns.</p>
-          </div>
+          <form onsubmit="handleRegister(event)">
+            <div class="field-grid">
+              <div class="inline-row">
+                <div class="field">
+                  abel for="fullName">Full Name</label>
+                  <input type="text" id="fullName" placeholder="Enter your full name" required />
+                </div>
 
-          <div class="info-card">
-            <small>Cost</small>
-            <strong>Free to Start</strong>
-            <p>Static hosting can run on GitHub Pages while backend services can start on Firebase free tier.</p>
-          </div>
+                <div class="field">
+                  abel for="examField">Exam Field</label>
+                  <select id="examField" required>
+                    <option value="">Select exam field</option>
+                    <option value="NEET">NEET</option>
+                    <option value="JEE">JEE</option>
+                    <option value="UPSC">UPSC</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                abel for="registerEmail">Email Address</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email address" required />
+              </div>
+
+              <div class="field">
+                abel for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" placeholder="Create your password" minlength="6" required />
+              </div>
+
+              <div class="field">
+                abel for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" minlength="6" required />
+              </div>
+
+              <button type="submit" class="primary-btn">Create Account</button>
+            </div>
+          </form>
+
+          <div id="registerStatus" class="status-box" aria-live="polite"></div>
         </div>
       </div>
     </section>
   </main>
-
-  <footer class="footer">
-    <div class="container footer-box">
-      <span>Starter portal for a free online exam setup.</span>
-      <span id="yearText"></span>
-    </div>
-  </footer>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -740,7 +619,7 @@
       }
 
       if (!isFirebaseConfigured) {
-        showStatus(registerStatus, "info", "Firebase configuration is still a placeholder. Add your Firebase project details first.");
+        showStatus(registerStatus, "info", "Add your Firebase configuration to enable live registration.");
         return;
       }
 
@@ -758,7 +637,7 @@
           createdAt: serverTimestamp()
         });
 
-        showStatus(registerStatus, "success", "Registration completed successfully. Access can be approved later by the admin.");
+        showStatus(registerStatus, "success", "Registration completed successfully.");
         event.target.reset();
       } catch (error) {
         showStatus(registerStatus, "error", error.message || "Registration failed.");
@@ -797,7 +676,7 @@
         }
 
         if (role === "candidate" && userData.approvalStatus === "pending") {
-          showStatus(loginStatus, "info", "Your account is pending admin approval.");
+          showStatus(loginStatus, "info", "Your account is pending approval.");
           return;
         }
 
@@ -816,7 +695,7 @@
       }
     };
 
-    document.getElementById("yearText").textContent = `© ${new Date().getFullYear()} ExamPortal Lite`;
+    document.getElementById("yearText").textContent = `© ${new Date().getFullYear()} PrepiFY`;
   </script>
 
   <script>
