@@ -432,10 +432,6 @@
       flex-wrap: wrap;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
     @media (max-width: 980px) {
       .hero-grid,
       .info-grid,
@@ -517,10 +513,10 @@
             <span class="badge">NEET · JEE · UPSC</span>
           </div>
 
-          <h1>Free online test portal for exam practice.</h1>
+          <h1>Free online test portal for structured exam practice.</h1>
           <p>
-            Yeh starter page aapke exam platform ka homepage, login page aur registration page dono ka kaam karega.
-            Iske through admin aur candidates alag role ke saath portal me enter kar sakte hain.
+            This starter page works as the homepage, login page, and registration page for your exam platform.
+            Both admin users and candidates can enter the portal through separate role-based access.
           </p>
 
           <div class="cta-row">
@@ -531,15 +527,15 @@
           <div class="feature-strip" id="features">
             <div class="feature-tile">
               <strong>Admin Control</strong>
-              <span>Test title, sections, timing, marking scheme aur publish flow control kare.</span>
+              <span>Create tests, manage sections, set timing, apply marking schemes, and publish results.</span>
             </div>
             <div class="feature-tile">
-              <strong>Candidate Login</strong>
-              <span>Notifications, available tests, result awaited aur published analysis dekhe.</span>
+              <strong>Candidate Access</strong>
+              <span>View notifications, available tests, result status, and published performance analysis.</span>
             </div>
             <div class="feature-tile">
               <strong>Multi Exam Format</strong>
-              <span>NEET, JEE aur UPSC ke liye alag field-based test design support.</span>
+              <span>Support different layouts and patterns for NEET, JEE, and UPSC test structures.</span>
             </div>
           </div>
         </article>
@@ -552,7 +548,7 @@
 
           <div id="loginForm" class="form active">
             <h2 class="panel-title">Portal Login</h2>
-            <p class="panel-subtitle">Candidate ya admin credentials se login karke apne dashboard me jao.</p>
+            <p class="panel-subtitle">Sign in as a candidate or admin to continue to your dashboard.</p>
 
             <form onsubmit="handleLogin(event)">
               <div class="field-grid">
@@ -584,7 +580,7 @@
 
           <div id="registerForm" class="form">
             <h2 class="panel-title">Create Candidate Account</h2>
-            <p class="panel-subtitle">Candidate account banao. Admin approval ya direct access logic baad me backend se control hoga.</p>
+            <p class="panel-subtitle">Register a candidate account. Approval or direct access can be controlled later from the backend and admin panel.</p>
 
             <form onsubmit="handleRegister(event)">
               <div class="field-grid">
@@ -620,7 +616,7 @@
                   <input type="password" id="confirmPassword" placeholder="Confirm password" minlength="6" required />
                 </div>
 
-                <p class="helper">Note: Candidate registration ke baad actual approval flow admin dashboard aur backend rules se control hoga.</p>
+                <p class="helper">Note: Candidate approval, access rules, and test eligibility can be controlled from the admin panel later.</p>
 
                 <button type="submit" class="primary-btn">Create Account</button>
               </div>
@@ -637,26 +633,26 @@
         <div class="info-grid">
           <div class="info-card">
             <small>Format</small>
-            <strong>Exam-like UI</strong>
-            <p>Instruction page, timer, sections, question palette aur final submit workflow add kiya ja sakta hai.</p>
+            <strong>Exam-like Interface</strong>
+            <p>An instruction page, timer, sections, question palette, and final submission workflow can be added.</p>
           </div>
 
           <div class="info-card">
             <small>Results</small>
             <strong>Awaited to Published</strong>
-            <p>Submit ke baad candidate ko result awaited dikhaya ja sakta hai aur admin publish ke baad marks show honge.</p>
+            <p>After submission, candidates can see result awaited status until the admin publishes final scores and analysis.</p>
           </div>
 
           <div class="info-card">
             <small>Admin</small>
             <strong>Full Control</strong>
-            <p>Admin test count, duration, positive-negative marking aur field-wise format manage karega.</p>
+            <p>The admin can manage test count, duration, positive and negative marking, and field-specific patterns.</p>
           </div>
 
           <div class="info-card">
             <small>Cost</small>
-            <strong>Free Start</strong>
-            <p>Static hosting GitHub Pages par aur backend Firebase free tier par start ho sakta hai.</p>
+            <strong>Free to Start</strong>
+            <p>Static hosting can run on GitHub Pages while backend services can start on Firebase free tier.</p>
           </div>
         </div>
       </div>
@@ -665,16 +661,12 @@
 
   <footer class="footer">
     <div class="container footer-box">
-      <span>Starter portal for free online exam setup.</span>
+      <span>Starter portal for a free online exam setup.</span>
       <span id="yearText"></span>
     </div>
   </footer>
 
   <script type="module">
-    /*
-      Firebase modular SDK setup follows the official web setup/auth guidance.
-      Add your config from Firebase console before using live auth.
-    */
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getAuth,
@@ -743,12 +735,12 @@
       const confirmPassword = document.getElementById("confirmPassword").value;
 
       if (password !== confirmPassword) {
-        showStatus(registerStatus, "error", "Password aur confirm password same hone chahiye.");
+        showStatus(registerStatus, "error", "Password and confirm password must match.");
         return;
       }
 
       if (!isFirebaseConfigured) {
-        showStatus(registerStatus, "info", "Firebase config abhi placeholder par hai. Pehle apni Firebase details add karo.");
+        showStatus(registerStatus, "info", "Firebase configuration is still a placeholder. Add your Firebase project details first.");
         return;
       }
 
@@ -766,7 +758,7 @@
           createdAt: serverTimestamp()
         });
 
-        showStatus(registerStatus, "success", "Registration ho gaya. Abhi account pending/approved flow admin backend se control hoga.");
+        showStatus(registerStatus, "success", "Registration completed successfully. Access can be approved later by the admin.");
         event.target.reset();
       } catch (error) {
         showStatus(registerStatus, "error", error.message || "Registration failed.");
@@ -782,7 +774,7 @@
       const role = document.getElementById("loginRole").value;
 
       if (!isFirebaseConfigured) {
-        showStatus(loginStatus, "info", "Firebase config add karne ke baad login live hoga. Abhi yeh starter UI mode me hai.");
+        showStatus(loginStatus, "info", "Add your Firebase configuration to enable live login.");
         return;
       }
 
@@ -793,19 +785,19 @@
         const userSnap = await getDoc(userRef);
 
         if (!userSnap.exists()) {
-          showStatus(loginStatus, "error", "User profile data nahi mila.");
+          showStatus(loginStatus, "error", "User profile data was not found.");
           return;
         }
 
         const userData = userSnap.data();
 
         if (userData.role !== role) {
-          showStatus(loginStatus, "error", `Yeh account ${userData.role} role ka hai, selected role match nahi karta.`);
+          showStatus(loginStatus, "error", `This account belongs to the ${userData.role} role. Please select the correct role.`);
           return;
         }
 
         if (role === "candidate" && userData.approvalStatus === "pending") {
-          showStatus(loginStatus, "info", "Account abhi pending hai. Admin approval ke baad full access milega.");
+          showStatus(loginStatus, "info", "Your account is pending admin approval.");
           return;
         }
 
