@@ -1,1252 +1,3013 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PrepiFY Admin Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#5b3df5" />
+  <title>Admin Portal | PrepiFY</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
- <style>
-  body {
-    background-color: #0f172a;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    color: #e5e7eb;
-  }
-
-  .brand {
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: 0.03em;
-  }
-
-  .card {
-    border-radius: 18px;
-    border: none;
-    background: radial-gradient(circle at top left,#111827,#020617);
-    box-shadow: 0 18px 45px rgba(15,23,42,0.65);
-    color: #e5e7eb;
-  }
-
-  .card-header {
-    background: transparent;
-    border-bottom: 1px solid rgba(148,163,184,0.4);
-  }
-
-  .metric-value {
-    font-size: 28px;
-    font-weight: 700;
-    color: #f9fafb;
-  }
-
-  .metric-label {
-    font-size: 14px;
-    color: #9ca3af;
-  }
-
-  textarea.section-items {
-    min-height: 100px;
-    resize: vertical;
-    background: rgba(15,23,42,0.8);
-    border-color: rgba(148,163,184,0.6);
-    color: #e5e7eb;
-  }
-
-  .section-title-input {
-    font-size: 14px;
-    background: rgba(15,23,42,0.8);
-    border-color: rgba(148,163,184,0.6);
-    color: #e5e7eb;
-  }
-
-  .tab-pane {
-    padding-top: 10px;
-  }
-
-  .action-btn-sm {
-    font-size: 12px;
-  }
-
-  textarea.section-last {
-    min-height: 220px;
-    resize: vertical;
-    background-color: rgba(15,23,42,0.9);
-    border-color: rgba(148,163,184,0.6);
-    color: #e5e7eb;
-  }
-
-  .upload-folder-btn {
-    font-size: 12px;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border-width: 1px;
-  }
-
-  /* Big folder cards on main area */
-  .folder-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-  }
-
-  .folder-card {
-    border-radius: 22px;
-    color: #fff;
-    padding: 24px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 170px;
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(248,250,252,0.22);
-    box-shadow: 0 22px 50px rgba(15,23,42,0.72);
-  }
-
-  .folder-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 28px 70px rgba(15,23,42,0.9);
-  }
-
-  .folder-card.registration-card {
-    background: radial-gradient(circle at top left,#6366f1,#3b82f6 55%,#22c55e 120%);
-  }
-
-  .folder-card.upsc-card {
-    background: radial-gradient(circle at top left,#f97316,#ec4899 45%,#6366f1 120%);
-  }
-
-  .folder-badge {
-    font-size: 13px;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: rgba(15,23,42,0.25);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .folder-title {
-    font-size: 26px;
-    font-weight: 800;
-    margin-top: 12px;
-    margin-bottom: 4px;
-  }
-
-  .folder-subtitle {
-    font-size: 14px;
-    opacity: 0.95;
-  }
-
-  .folder-accent {
-    position: absolute;
-    right: -40px;
-    bottom: -50px;
-    width: 150px;
-    height: 150px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.2);
-    filter: blur(2px);
-  }
-
-  .folder-accent-2 {
-    position: absolute;
-    right: 10px;
-    top: -35px;
-    width: 90px;
-    height: 90px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.16);
-  }
-
-  .folder-icon {
-    font-size: 28px;
-  }
-
-  .d-none {
-    display: none !important;
-  }
-
-  /* Top bar */
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    gap: 10px;
-  }
-
-  .topbar-email {
-    font-size: 13px;
-    color: #9ca3af;
-  }
-
-  .topbar-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #e5e7eb;
-  }
-
-  /* Feature cards base */
-  .feature-card {
-    border-radius: 16px;
-    border: 1px solid rgba(148,163,184,0.5);
-    padding: 0;
-    background: transparent;
-    box-shadow: none;
-    color: #e5e7eb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .feature-card .card-header {
-    border-bottom: 1px solid rgba(148,163,184,0.6);
-    background: rgba(15,23,42,0.9);
-  }
-
-  .feature-card .card-body {
-    background: rgba(15,23,42,0.96);
-  }
-
-  .feature-card .card-footer {
-    background: rgba(15,23,42,0.95);
-    border-top: 1px solid rgba(148,163,184,0.5);
-  }
-
-  .feature-card.upsc {
-    border-left: 4px solid transparent;
-    box-shadow: none;
-  }
-
-  .feature-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 2px 10px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background: rgba(15,23,42,0.8);
-    color: #cbd5f5;
-  }
-
-  .form-control,
-  .form-select {
-    background-color: rgba(15,23,42,0.9);
-    border-color: rgba(148,163,184,0.55);
-    color: #e5e7eb;
-  }
-
-  .form-control:focus,
-  .form-select:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 1px rgba(129,140,248,0.8);
-    background-color: rgba(15,23,42,0.95);
-    color: #f9fafb;
-  }
-
-  .table {
-    color: #e5e7eb;
-  }
-
-  .table thead {
-    background: radial-gradient(circle at top left,#111827,#020617);
-  }
-
-  .table tbody tr:hover {
-    background: rgba(30,64,175,0.45);
-  }
-
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .status-pending {
-    background: rgba(254,243,199,0.15);
-    color: #fbbf24;
-    border: 1px solid rgba(252,211,77,0.5);
-  }
-
-  .status-verified {
-    background: rgba(220,252,231,0.15);
-    color: #4ade80;
-    border: 1px solid rgba(74,222,128,0.5);
-  }
-
-  .status-rejected {
-    background: rgba(254,226,226,0.1);
-    color: #f87171;
-    border: 1px solid rgba(248,113,113,0.5);
-  }
-
-  /* Button enhancement */
-  .btn-primary {
-    background: linear-gradient(135deg,#6366f1,#4f46e5);
-    border: none;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(99,102,241,0.4);
-  }
-
-  .btn-primary:active {
-    transform: translateY(0);
-  }
-
-  .btn-outline-secondary {
-    border-color: rgba(148,163,184,0.7);
-    color: #e5e7eb;
-  }
-
-  .btn-outline-secondary:hover {
-    background: rgba(148,163,184,0.2);
-    color: #f9fafb;
-  }
-
-  /* Gradient wrapper boxes for UPSC inner sections + animation enhancements */
-  .section-gradient-box {
-    border-radius: 20px;
-    padding: 2px;
-    background: linear-gradient(135deg,#f97316,#ec4899,#6366f1);
-    box-shadow: 0 18px 45px rgba(15,23,42,0.85);
-    margin-bottom: 0;
-    transition: all 0.3s ease;
-    animation: slideInUp 0.5s ease-out forwards;
-  }
-
-  .section-gradient-inner {
-    border-radius: 18px;
-    background: radial-gradient(circle at top left,#020617,#0b1120);
-    padding: 0;
-    color: #e5e7eb;
-  }
-
-  /* UPSC variants */
-  .section-upsc-1 { background: linear-gradient(135deg,#f97316,#ec4899); }
-  .section-upsc-2 { background: linear-gradient(135deg,#6366f1,#0ea5e9); }
-  .section-upsc-3 { background: linear-gradient(135deg,#22c55e,#14b8a6); }
-  .section-upsc-4 { background: linear-gradient(135deg,#eab308,#f97316); }
-
-  .section-gradient-inner .card-header {
-    background: transparent;
-    border-bottom: 1px solid rgba(148,163,184,0.6);
-  }
-
-  .section-gradient-inner .card-body {
-    background: transparent;
-  }
-
-  .section-gradient-inner .card-footer {
-    background: transparent;
-    border-top: 1px solid rgba(148,163,184,0.6);
-  }
-
-  /* UPSC Dashboard Grid Enhancement */
-  .row.g-4 {
-    margin-bottom: 8px;
-  }
-
-  /* Extra spacing between row pairs (desktop) */
-  @media (min-width: 992px) {
-    .col-lg-6:nth-child(4n+1) {
-      margin-top: 16px;
+  <style>
+    :root {
+      --primary: #5b3df5;
+      --primary-dark: #3920bf;
+      --purple: #7c3aed;
+      --cyan: #12bdd5;
+      --pink: #eb4d9c;
+      --orange: #ff9f1c;
+      --green: #069a61;
+      --green-soft: #e6fbf1;
+      --red: #c9342b;
+      --red-soft: #fff0ef;
+      --yellow-soft: #fff8e8;
+      --text: #192136;
+      --muted: #667087;
+      --border: #e3e7ef;
+      --card: rgba(255, 255, 255, 0.95);
+      --shadow: 0 18px 48px rgba(19, 10, 81, 0.21);
     }
-  }
 
-  /* Card hover (outer gradient) */
-  .section-gradient-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.65) !important;
-  }
-
-  /* Staggered animation */
-  .col-lg-6:nth-child(1) .section-gradient-box { animation-delay: 0.1s; }
-  .col-lg-6:nth-child(2) .section-gradient-box { animation-delay: 0.2s; }
-  .col-lg-6:nth-child(3) .section-gradient-box { animation-delay: 0.3s; }
-  .col-lg-6:nth-child(4) .section-gradient-box { animation-delay: 0.4s; }
-  .col-lg-6:nth-child(5) .section-gradient-box { animation-delay: 0.5s; }
-  .col-lg-6:nth-child(6) .section-gradient-box { animation-delay: 0.6s; }
-  .col-lg-6:nth-child(7) .section-gradient-box { animation-delay: 0.7s; }
-  .col-lg-6:nth-child(8) .section-gradient-box { animation-delay: 0.8s; }
-  .col-12:last-child .section-gradient-box { animation-delay: 0.9s; }
-
-  @keyframes slideInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
+    * {
+      box-sizing: border-box;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
-  /* Save message styling (IDs ending with msg) */
-  [id$="msg"] {
-    transition: all 0.3s ease;
-    font-weight: 500;
-  }
-</style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family:
+        "Segoe UI",
+        "Noto Sans Devanagari",
+        "Nirmala UI",
+        Arial,
+        sans-serif;
+      background: #4e30e8;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .animated-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      overflow: hidden;
+      background: linear-gradient(
+        125deg,
+        #3d21ca 0%,
+        #6146f7 27%,
+        #13bbd5 52%,
+        #ec4d9b 77%,
+        #ff9f1c 100%
+      );
+      background-size: 300% 300%;
+      animation: gradientMove 17s ease infinite;
+    }
+
+    .animated-bg::before,
+    .animated-bg::after {
+      position: absolute;
+      border-radius: 50%;
+      content: "";
+      opacity: 0.29;
+      filter: blur(9px);
+    }
+
+    .animated-bg::before {
+      top: -24vw;
+      left: -18vw;
+      width: 62vw;
+      height: 62vw;
+      background: #fff4a8;
+      animation: blobOne 18s ease-in-out infinite alternate;
+    }
+
+    .animated-bg::after {
+      right: -24vw;
+      bottom: -25vw;
+      width: 65vw;
+      height: 65vw;
+      background: #c0f5ff;
+      animation: blobTwo 22s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes blobOne {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(17vw, 10vw) scale(1.17); }
+    }
+
+    @keyframes blobTwo {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-17vw, -9vw) scale(1.18); }
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -65px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.24);
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        opacity: 0;
+        transform: translateY(0) translateX(0);
+      }
+      10% { opacity: 1; }
+      85% { opacity: 0.85; }
+      100% {
+        opacity: 0;
+        transform: translateY(-120vh) translateX(85px);
+      }
+    }
+
+    .page-shell {
+      width: min(1380px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 22px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 21px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      flex-direction: column;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      text-shadow: 0 3px 13px rgba(22, 11, 78, 0.28);
+    }
+
+    .prepi {
+      color: #fff2a5;
+    }
+
+    .fy {
+      color: #b7f4ff;
+    }
+
+    .institute {
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 0.88rem;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .lang-btn {
+      min-width: 67px;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 9px;
+      color: #fff;
+      background: transparent;
+      font-size: 0.82rem;
+      font-weight: 760;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      color: var(--primary-dark);
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(20, 12, 82, 0.16);
+    }
+
+    .logout-btn {
+      display: none;
+      padding: 10px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 11px;
+      color: #fff;
+      background: rgba(98, 21, 102, 0.28);
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .logout-btn.show {
+      display: inline-block;
+    }
+
+    .logout-btn:hover {
+      background: rgba(140, 29, 50, 0.62);
+      transform: translateY(-1px);
+    }
+
+    /* Login */
+    #adminLoginView {
+      width: min(970px, 100%);
+      margin: 34px auto 0;
+    }
+
+    .login-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+      gap: 28px;
+      align-items: center;
+      min-height: 510px;
+    }
+
+    .info-card,
+    .login-card,
+    .dashboard-card {
+      border: 1px solid rgba(255, 255, 255, 0.44);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(15px);
+    }
+
+    .info-card {
+      padding: 34px 29px;
+      color: #fff;
+      background: linear-gradient(
+        150deg,
+        rgba(47, 29, 163, 0.92),
+        rgba(86, 54, 228, 0.78),
+        rgba(18, 157, 194, 0.72)
+      );
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+      font-size: 0.77rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .info-card h1 {
+      margin: 0;
+      font-size: clamp(1.95rem, 3.7vw, 2.85rem);
+      line-height: 1.15;
+    }
+
+    .info-card p {
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.93);
+      line-height: 1.7;
+    }
+
+    .info-features {
+      display: grid;
+      gap: 11px;
+      margin: 27px 0 0;
+    }
+
+    .info-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .check {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      color: #3e24be;
+      background: #fff3a9;
+      font-weight: 900;
+    }
+
+    .login-card {
+      padding: clamp(24px, 4vw, 38px);
+      background: var(--card);
+    }
+
+    .login-card h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin: 8px 0 26px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #273049;
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+      background: #fbfcff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea {
+      min-height: 104px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(91, 61, 245, 0.13);
+    }
+
+    input.invalid {
+      border-color: var(--red);
+      box-shadow: 0 0 0 4px rgba(201, 52, 43, 0.1);
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 84px;
+    }
+
+    .show-password-btn {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 8px;
+      color: var(--primary-dark);
+      background: #edeaff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .small-btn {
+      display: inline-flex;
+      min-height: 43px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 13px;
+      border: 0;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 820;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .primary-btn {
+      width: 100%;
+      min-height: 52px;
+      margin-top: 5px;
+      color: #fff;
+      background: linear-gradient(135deg, #5135ed, #7c3aed 55%, #d94dbb);
+      box-shadow: 0 11px 22px rgba(85, 52, 220, 0.3);
+      font-size: 1rem;
+    }
+
+    .primary-btn:hover:not(:disabled),
+    .small-btn:hover:not(:disabled) {
+      box-shadow: 0 13px 24px rgba(83, 50, 220, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled,
+    .small-btn:disabled,
+    .secondary-btn:disabled,
+    .danger-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
+
+    .secondary-btn {
+      color: #4935b4;
+      background: #eeebff;
+    }
+
+    .danger-btn {
+      color: #fff;
+      background: linear-gradient(135deg, #cc3b35, #e65b44);
+    }
+
+    .small-btn {
+      min-height: 34px;
+      padding: 8px 10px;
+      font-size: 0.76rem;
+    }
+
+    .verify-btn {
+      color: #fff;
+      background: linear-gradient(135deg, #069a61, #13b97b);
+      box-shadow: 0 5px 12px rgba(5, 148, 92, 0.2);
+    }
+
+    .email-btn {
+      color: #fff;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      box-shadow: 0 5px 12px rgba(79, 70, 229, 0.19);
+    }
+
+    .details-btn {
+      color: #4a36b4;
+      background: #eeebff;
+    }
+
+    .delete-btn {
+      color: #a52d28;
+      background: #ffe6e4;
+    }
+
+    .spinner {
+      display: none;
+      width: 17px;
+      height: 17px;
+      border: 2px solid rgba(255,255,255,0.42);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .is-loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      font-size: 0.87rem;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      border: 1px solid #ffc1bd;
+      color: #9f2720;
+      background: #fff0ef;
+    }
+
+    .message.success {
+      border: 1px solid #abe3c9;
+      color: #126344;
+      background: #eafbf2;
+    }
+
+    .home-link {
+      display: block;
+      margin-top: 22px;
+      color: var(--primary);
+      font-size: 0.89rem;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    /* Dashboard */
+    #adminDashboardView {
+      display: none;
+    }
+
+    #adminDashboardView.show {
+      display: block;
+    }
+
+    .admin-welcome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding: 21px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.44);
+      border-radius: 20px;
+      color: #fff;
+      background: linear-gradient(
+        125deg,
+        rgba(52, 29, 171, 0.9),
+        rgba(91, 57, 229, 0.75),
+        rgba(13, 162, 192, 0.72)
+      );
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(15px);
+    }
+
+    .admin-welcome h1 {
+      margin: 0;
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      line-height: 1.3;
+    }
+
+    .admin-welcome p {
+      margin: 6px 0 0;
+      color: rgba(255, 255, 255, 0.91);
+      font-size: 0.89rem;
+      line-height: 1.5;
+    }
+
+    .admin-chip {
+      display: inline-flex;
+      max-width: 300px;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50px;
+      color: #fff;
+      background: rgba(255,255,255,0.13);
+      font-size: 0.8rem;
+      font-weight: 750;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(310px, 0.8fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .dashboard-card {
+      padding: 22px;
+      background: var(--card);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 17px;
+    }
+
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+
+    .card-header p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    .refresh-button {
+      min-height: 37px;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 9px;
+      color: #4c37b6;
+      background: #efedff;
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      padding: 12px 11px;
+      border: 1px solid #e8eaf1;
+      border-radius: 12px;
+      background: #fbfcff;
+    }
+
+    .stat-number {
+      color: #3522b8;
+      font-size: 1.36rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .stat-label {
+      margin-top: 6px;
+      color: #6b7488;
+      font-size: 0.72rem;
+      font-weight: 750;
+      line-height: 1.3;
+    }
+
+    .filter-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 150px;
+      gap: 10px;
+      margin-bottom: 13px;
+    }
+
+    .filter-row input,
+    .filter-row select {
+      min-height: 42px;
+      padding: 10px 11px;
+      font-size: 0.84rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e6e9f0;
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      min-width: 920px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 11px 10px;
+      border-bottom: 1px solid #edf0f4;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 0.8rem;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      color: #4d566d;
+      background: #f6f7fb;
+      font-size: 0.73rem;
+      font-weight: 850;
+      letter-spacing: 0.25px;
+      text-transform: uppercase;
+    }
+
+    tbody tr:hover {
+      background: #fbfbff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .candidate-name {
+      color: #273049;
+      font-weight: 850;
+    }
+
+    .candidate-email {
+      max-width: 160px;
+      overflow: hidden;
+      color: #697287;
+      font-size: 0.74rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 50px;
+      font-size: 0.69rem;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .pending-status {
+      color: #956400;
+      background: #fff3cf;
+    }
+
+    .verified-status {
+      color: #087448;
+      background: #dff9ea;
+    }
+
+    .rejected-status {
+      color: #aa2b25;
+      background: #ffe5e3;
+    }
+
+    .check-cell {
+      text-align: center;
+    }
+
+    .check-cell input {
+      width: 18px;
+      min-height: 18px;
+      height: 18px;
+      padding: 0;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .credential-box {
+      min-width: 132px;
+      color: #4b556d;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.72rem;
+      line-height: 1.55;
+      word-break: break-all;
+    }
+
+    .credential-empty {
+      color: #9ca4b4;
+      font-family: inherit;
+      font-size: 0.76rem;
+    }
+
+    .actions-cell {
+      min-width: 220px;
+    }
+
+    .action-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .no-data {
+      padding: 33px 20px;
+      color: #70798d;
+      text-align: center;
+      font-size: 0.88rem;
+    }
+
+    /* Add test */
+    .test-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .test-form .field {
+      margin: 0;
+    }
+
+    .two-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+    }
+
+    .field-help {
+      display: block;
+      margin-top: 6px;
+      color: #778095;
+      font-size: 0.73rem;
+      line-height: 1.35;
+    }
+
+    .form-action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 2px;
+    }
+
+    .form-action-row .primary-btn {
+      margin: 0;
+    }
+
+    .form-action-row .secondary-btn {
+      display: none;
+    }
+
+    .form-action-row .secondary-btn.show {
+      display: inline-flex;
+    }
+
+    .section-full {
+      grid-column: 1 / -1;
+    }
+
+    .tests-card {
+      margin-top: 20px;
+    }
+
+    .test-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .admin-test-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px;
+      border: 1px solid #e6e9f0;
+      border-radius: 12px;
+      background: #fff;
+    }
+
+    .admin-test-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .admin-test-name {
+      color: #273049;
+      font-size: 0.9rem;
+      font-weight: 850;
+    }
+
+    .test-meta {
+      margin-top: 6px;
+      color: #6e778b;
+      font-size: 0.75rem;
+      line-height: 1.45;
+    }
+
+    .test-item-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .test-status-live {
+      color: #087448;
+      background: #dff9ea;
+    }
+
+    .test-status-upcoming {
+      color: #5635bf;
+      background: #ece8ff;
+    }
+
+    .test-status-recent {
+      color: #697386;
+      background: #edf0f5;
+    }
+
+    .test-status-inactive {
+      color: #a32f2a;
+      background: #ffe7e5;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(12, 7, 47, 0.66);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(720px, 100%);
+      max-height: min(780px, calc(100vh - 36px));
+      overflow-y: auto;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 19px;
+      background: #fff;
+      box-shadow: 0 28px 70px rgba(8, 5, 48, 0.43);
+      animation: modalIn 0.22s ease-out;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .modal-head h2 {
+      margin: 0;
+      color: #263049;
+      font-size: 1.32rem;
+      line-height: 1.35;
+    }
+
+    .modal-close {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      flex: 0 0 auto;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-radius: 9px;
+      color: #586278;
+      background: #edf0f5;
+      font-size: 1.18rem;
+      cursor: pointer;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 130px minmax(0, 1fr);
+      gap: 11px 14px;
+      margin-top: 21px;
+      padding: 16px;
+      border-radius: 13px;
+      background: #f8f9fc;
+    }
+
+    .detail-label {
+      color: #39445d;
+      font-size: 0.82rem;
+      font-weight: 850;
+    }
+
+    .detail-value {
+      color: #5d667a;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .payment-proof-area {
+      margin-top: 20px;
+    }
+
+    .payment-proof-area h3 {
+      margin: 0 0 10px;
+      color: #303a53;
+      font-size: 1rem;
+    }
+
+    .proof-loading,
+    .proof-error {
+      padding: 18px;
+      border-radius: 12px;
+      color: #697386;
+      background: #f6f7fb;
+      font-size: 0.86rem;
+      text-align: center;
+    }
+
+    .proof-error {
+      border: 1px solid #ffc8c4;
+      color: #a02c27;
+      background: #fff1f0;
+    }
+
+    .proof-image-wrap {
+      display: none;
+      overflow: hidden;
+      border: 1px solid #e1e5ed;
+      border-radius: 13px;
+      background: #f6f7fa;
+      text-align: center;
+    }
+
+    .proof-image-wrap.show {
+      display: block;
+    }
+
+    .proof-image {
+      display: block;
+      max-width: 100%;
+      max-height: 500px;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 9px;
+      margin-top: 20px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 70;
+      display: none;
+      max-width: min(420px, calc(100% - 36px));
+      padding: 13px 15px;
+      border-radius: 12px;
+      color: #fff;
+      background: rgba(29, 35, 59, 0.96);
+      box-shadow: 0 14px 35px rgba(8, 6, 47, 0.28);
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .toast.show {
+      display: block;
+      animation: toastIn 0.2s ease;
+    }
+
+    .toast.success {
+      background: #08794d;
+    }
+
+    .toast.error {
+      background: #a92d27;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(11px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1090px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tests-card {
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .login-layout {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .admin-welcome {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-shell {
+        width: min(100% - 22px, 1380px);
+        padding-top: 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .top-actions {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .lang-btn {
+        min-width: 56px;
+        padding: 7px 8px;
+        font-size: 0.75rem;
+      }
+
+      .logout-btn {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+      }
+
+      .info-card,
+      .login-card,
+      .dashboard-card,
+      .admin-welcome {
+        border-radius: 17px;
+      }
+
+      .info-card {
+        padding: 25px 20px;
+      }
+
+      .login-card,
+      .dashboard-card {
+        padding: 20px 15px;
+      }
+
+      .admin-welcome {
+        padding: 19px 16px;
+      }
+
+      .two-fields,
+      .filter-row {
+        grid-template-columns: 1fr;
+      }
+
+      .admin-test-item {
+        grid-template-columns: 1fr;
+      }
+
+      .test-item-actions {
+        justify-content: flex-start;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .modal {
+        padding: 21px 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="container-fluid">
-  <div class="row">
-    <!-- MAIN CONTENT -->
-    <main class="col-12 px-4 py-4">
+  <div class="animated-bg"></div>
+  <div class="particles" id="particles"></div>
 
-      <!-- top bar with logout -->
-      <div class="topbar">
-        <div class="topbar-title">PrepiFY Admin Panel</div>
-        <div class="d-flex align-items-center gap-2">
-          <span id="adminEmailDisplay" class="topbar-email"></span>
-          <button class="btn btn-outline-danger btn-sm" onclick="logoutAdmin()">Logout</button>
+  <main class="page-shell">
+    <header class="topbar">
+      <a href="index.html" class="brand-link" aria-label="PrepiFY Home">
+        <div class="brand">
+          <span class="prepi">Prepi</span><span class="fy">FY</span>
         </div>
+        <div class="institute">GyaanSetu Maths</div>
+      </a>
+
+      <div class="top-actions">
+        <div class="language-switch" aria-label="Language selector">
+          <button id="englishButton" class="lang-btn active" type="button">
+            English
+          </button>
+          <button id="hindiButton" class="lang-btn" type="button">
+            हिन्दी
+          </button>
+        </div>
+
+        <button id="logoutButton" class="logout-btn" type="button" data-i18n="logout">
+          Logout
+        </button>
       </div>
+    </header>
 
-      <!-- Big folder home view -->
-      <section id="home-folders">
-        <h4 class="mb-3">Admin Sections</h4>
-        <div class="folder-grid">
+    <!-- ADMIN LOGIN VIEW -->
+    <section id="adminLoginView">
+      <div class="login-layout">
+        <aside class="info-card">
+          <span class="eyebrow" data-i18n="adminPortal">Admin Portal</span>
 
-          <!-- Registration -->
-          <div class="folder-card registration-card" onclick="openFolderSectionregistration, this">
-            <div>
-              <div class="folder-badge">
-                <span class="folder-icon">🧾</span>
-                <span>Student Management</span>
-              </div>
-              <div class="folder-title">Registration</div>
-              <div class="folder-subtitle">
-                Approvals, fee verification, login mails and status tracking.
+          <h1 data-i18n="adminHeading">
+            Manage your PrepiFY examination portal.
+          </h1>
+
+          <p data-i18n="adminDescription">
+            Verify registrations, generate candidate credentials, send emails,
+            and manage upcoming, live and completed tests from one dashboard.
+          </p>
+
+          <div class="info-features">
+            <div class="info-feature">
+              <span class="check">✓</span>
+              <span data-i18n="feature1">Verify payment and candidate details</span>
+            </div>
+
+            <div class="info-feature">
+              <span class="check">✓</span>
+              <span data-i18n="feature2">Generate UID and secure password</span>
+            </div>
+
+            <div class="info-feature">
+              <span class="check">✓</span>
+              <span data-i18n="feature3">Create and manage online tests</span>
+            </div>
+          </div>
+        </aside>
+
+        <section class="login-card">
+          <h2 data-i18n="adminLoginTitle">Admin Login</h2>
+
+          <p class="subtitle" data-i18n="adminLoginSubtitle">
+            Enter your authorized admin email and password.
+          </p>
+
+          <form id="adminLoginForm" novalidate>
+            <div class="field">
+              <label for="adminEmail" data-i18n="emailLabel">Admin E-mail</label>
+              <input
+                id="adminEmail"
+                type="email"
+                autocomplete="username"
+                required
+                placeholder="admin@example.com"
+              />
+            </div>
+
+            <div class="field">
+              <label for="adminPassword" data-i18n="passwordLabel">Password</label>
+
+              <div class="password-wrap">
+                <input
+                  id="adminPassword"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  placeholder="Enter admin password"
+                />
+
+                <button id="toggleAdminPassword" class="show-password-btn" type="button">
+                  Show
+                </button>
               </div>
             </div>
-            <div class="folder-accent"></div>
-            <div class="folder-accent-2"></div>
-          </div>
 
-          <!-- UPSC -->
-          <div class="folder-card upsc-card" onclick="openFolderSectionupsc, this">
-            <div>
-              <div class="folder-badge">
-                <span class="folder-icon">📚</span>
-                <span>UPSC Dashboard</span>
-              </div>
-              <div class="folder-title">UPSC</div>
-              <div class="folder-subtitle">
-                Announcements, daily targets, tests, PYQs, notes and more.
-              </div>
-            </div>
-            <div class="folder-accent"></div>
-            <div class="folder-accent-2"></div>
-          </div>
+            <button id="adminLoginButton" class="primary-btn" type="submit">
+              <span class="spinner"></span>
+              <span id="adminLoginButtonText" data-i18n="loginButton">Login as Admin</span>
+            </button>
 
+            <div id="adminLoginMessage" class="message" role="alert" aria-live="polite"></div>
+
+            <a href="index.html" class="home-link" data-i18n="backHome">
+              ← Back to Home
+            </a>
+          </form>
+        </section>
+      </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD VIEW -->
+    <section id="adminDashboardView">
+      <section class="admin-welcome">
+        <div>
+          <h1>
+            <span data-i18n="welcomeAdmin">Welcome,</span>
+            <span id="adminNameText">Admin</span>
+          </h1>
+          <p data-i18n="dashboardDescription">
+            Monitor registrations and manage test schedules from your dashboard.
+          </p>
         </div>
+
+        <div id="adminEmailText" class="admin-chip">admin@example.com</div>
       </section>
 
-      <!-- REGISTRATIONS VIEW -->
-      <section id="view-registrations" class="d-none">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="mb-0">Registrations & Fees</h4>
-          <button class="btn btn-link btn-sm text-info" onclick="showHome()">← Back to Sections</button>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-4">
-            <div class="card p-3">
-              <div class="metric-label">Total Registrations</div>
-              <div class="metric-value" id="totalRegistrations">0</div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card p-3">
-              <div class="metric-label">Pending Verification</div>
-              <div class="metric-value" id="pendingPayments">0</div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card p-3">
-              <div class="metric-label">Approved Active Users</div>
-              <div class="metric-value" id="verifiedPayments">0</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-4">
-          <div class="card-header d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="mb-0">Registrations</h5>
-              <small class="text-muted">Approve / Reject / send login mail</small>
-            </div>
-            <div class="d-flex gap-2">
-              <select id="filterExam" class="form-select form-select-sm" style="width:auto;">
-                <option value="">All Exams</option>
-                <option value="UPSC CSE">UPSC CSE</option>
-              </select>
-              <select id="filterStatus" class="form-select form-select-sm" style="width:auto;">
-                <option value="">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-          </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover mb-0 align-middle">
-                <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Student</th>
-                  <th>Exam & User ID</th>
-                  <th>Payment / Verification</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody id="registrationsBody"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- UPSC CONTENT VIEW -->
-      <section id="view-upsc" class="d-none">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="mb-0">UPSC Dashboard Content</h4>
-          <button class="btn btn-link btn-sm text-info" onclick="showHome()">← Back to Sections</button>
-        </div>
-
-        <div class="card mb-4 feature-card upsc">
+      <div class="dashboard-grid">
+        <!-- REGISTRATIONS -->
+        <section class="dashboard-card section-full">
           <div class="card-header">
-            <h5 class="mb-0">UPSC Dashboard Content</h5>
-            <small class="text-muted">
-              UPSC dashboard ke saare sections yahan se update honge.
-            </small>
-          </div>
-          <div class="card-body">
-            <div class="tab-content pt-3">
-              <div class="tab-pane fade show active" id="upsc-pane" role="tabpanel">
-                <div class="row g-4">
+            <div>
+              <h2 data-i18n="registrations">Candidate Registrations</h2>
+              <p data-i18n="registrationsSubtitle">
+                Review payment proof, verify details, generate credentials and email candidates.
+              </p>
+            </div>
 
-                  <!-- UPSC Announcements -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-1">
-                      <div class="card h-100 section-gradient-inner feature-card upsc">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                          <span>UPSC Announcements</span>
-                          <small id="upscannouncementsmsg" class="text-muted small"></small>
-                        </div>
-                        <div class="card-body">
-                          <div class="mb-2">
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscannouncementstitle"
-                                   class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Important Updates">
-                          </div>
-                          <div class="mb-2">
-                            <label class="form-label small">Items (each line one announcement)</label>
-                            <textarea id="upscannouncementsitems"
-                                      class="form-control form-control-sm section-items"
-                                      placeholder="New test series from 10 Jan&#10;Syllabus completion target for this week"></textarea>
-                          </div>
-                          <div>
-                            <label class="form-label small">Last saved (shown to students)</label>
-                            <textarea id="upscannouncementslast"
-                                      class="form-control form-control-sm section-last"
-                                      readonly></textarea>
-                          </div>
-                        </div>
-                        <div class="card-footer text-end">
-                          <button class="btn btn-sm btn-primary"
-                                  onclick="saveSection('UPSC','announcements')">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-               <!-- UPSC Daily Target (latest only) -->
-<div class="col-md-6">
-  <div class="section-gradient-box section-upsc-2">
-    <div class="card h-100 section-gradient-inner feature-card upsc">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <span>UPSC Daily Target</span>
-        <small id="upscdailyTargetsmsg" class="text-muted small"></small>
-      </div>
-      <div class="card-body">
-        <!-- Date -->
-        <div class="mb-2">
-          <label class="form-label small mb-1">Date</label>
-          <input
-            type="text"
-            id="upscdailyTargetsDate"
-            class="form-control form-control-sm section-title-input"
-            placeholder="e.g. 18 Jan 2026">
-        </div>
-
-        <!-- Subject -->
-        <div class="mb-2">
-          <label class="form-label small mb-1">Subject</label>
-          <input
-            type="text"
-            id="upscdailyTargetsSubject"
-            class="form-control form-control-sm"
-            placeholder="e.g. Polity">
-        </div>
-
-        <!-- Topics -->
-        <div class="mb-2">
-          <label class="form-label small mb-1">Topics / Details</label>
-          <textarea
-            id="upscdailyTargetsTopics"
-            class="form-control form-control-sm section-items"
-            rows="3"
-            placeholder="e.g. Laxmikanth - FR, DPSP, Preamble"></textarea>
-        </div>
-
-        <!-- Last saved -->
-        <div class="mb-2">
-          <label class="form-label small">Last saved (shown to students)</label>
-          <textarea
-            id="upscdailyTargetslast"
-            class="form-control form-control-sm section-last"
-            readonly></textarea>
-        </div>
-      </div>
-      <div class="card-footer text-end">
-        <button class="btn btn-sm btn-primary"
-                onclick="saveUpscDailyTargetSimple()">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-                  <!-- UPSC Mock Tests -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-3">
-                      <div class="card h-100 section-gradient-inner feature-card upsc">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                          <span>UPSC Mock Tests</span>
-                          <small id="upscmockTestsmsg" class="text-muted small"></small>
-                        </div>
-                        <div class="card-body">
-                          <div class="mb-2">
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscmockTeststitle"
-                                   class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Full-length Tests">
-                          </div>
-                          <div class="mb-2">
-                            <label class="form-label small">Items (each line test link)</label>
-                            <textarea id="upscmockTestsitems"
-                                      class="form-control form-control-sm section-items"
-                                      placeholder="FLT-1 Polity - Drive link"></textarea>
-                          </div>
-                          <div>
-                            <label class="form-label small">Last saved (shown to students)</label>
-                            <textarea id="upscmockTestslast"
-                                      class="form-control form-control-sm section-last"
-                                      readonly></textarea>
-                          </div>
-                        </div>
-                        <div class="card-footer text-end">
-                          <button class="btn btn-sm btn-primary"
-                                  onclick="saveSection('UPSC','mockTests')">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- UPSC Test Series -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-4">
-                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
-                        <div class="card-header">
-                          <span>UPSC Test Series</span>
-                        </div>
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn"
-                                  onclick="openFolder('UPSC','testSeries')">
-                            Open folder to upload Test Series
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- UPSC PYQs -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-1">
-                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
-                        <div class="card-header">
-                          <span>UPSC PYQs</span>
-                        </div>
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn"
-                                  onclick="openFolder('UPSC','pyqPapers')">
-                            Open folder to upload PYQs
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- UPSC Books & Materials -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-2">
-                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
-                        <div class="card-header">
-                          <span>UPSC Books & Materials</span>
-                        </div>
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn"
-                                  onclick="openFolder('UPSC','books')">
-                            Open folder to upload Books / Materials
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- UPSC Current Affairs -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-3">
-                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
-                        <div class="card-header">
-                          <span>UPSC Current Affairs</span>
-                        </div>
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn"
-                                  onclick="openFolder('UPSC','currentAffairs')">
-                            Open folder to upload Current Affairs files
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- UPSC Notes & PDFs -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-4">
-                      <div class="card h-100 d-flex flex-column section-gradient-inner feature-card upsc">
-                        <div class="card-header">
-                          <span>UPSC Notes & PDFs</span>
-                        </div>
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                          <button type="button"
-                                  class="btn btn-outline-secondary upload-folder-btn"
-                                  onclick="openFolder('UPSC','notesPdfs')">
-                            Open folder to upload Notes / PDFs
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- UPSC Quotes -->
-                  <div class="col-md-6">
-                    <div class="section-gradient-box section-upsc-1">
-                      <div class="card h-100 section-gradient-inner feature-card upsc">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                          <span>UPSC Path Pradarshak Quotes</span>
-                          <small id="upscquotesmsg" class="text-muted small"></small>
-                        </div>
-                        <div class="card-body">
-                          <div class="mb-2">
-                            <label class="form-label small">Section Title</label>
-                            <input id="upscquotestitle"
-                                   class="form-control form-control-sm section-title-input"
-                                   placeholder="e.g. Path Pradarshak">
-                          </div>
-                          <div class="mb-2">
-                            <label class="form-label small">Items (each line one quote)</label>
-                            <textarea id="upscquotesitems"
-                                      class="form-control form-control-sm section-items"
-                                      placeholder="The future belongs to those who believe in the beauty of their dreams."></textarea>
-                          </div>
-                          <div>
-                            <label class="form-label small">Last saved (shown to students)</label>
-                            <textarea id="upscquoteslast"
-                                      class="form-control form-control-sm section-last"
-                                      readonly></textarea>
-                          </div>
-                        </div>
-                        <div class="card-footer text-end">
-                          <button class="btn btn-sm btn-primary"
-                                  onclick="saveSection('UPSC','quotes')">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div><!-- row -->
-              </div><!-- upsc-pane -->
-            </div><!-- tab-content -->
-          </div><!-- card-body -->
-        </div><!-- card -->
-      </section>
-
-    </main>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-  const SCRIPTURL = "https://script.google.com/macros/s/AKfycbzyvzuU8GqKfyeJ4hmP0EAKYzm4gNndftUj7eVOJXze-Z_9rFDYPeUyJfvGWG3Tg87SGg/exec";
-
-  let registrationsData = [];
-
-  // ------------ VIEW HANDLING ------------
-  function hideAllViews() {
-    document.getElementById('home-folders').classList.add('d-none');
-    document.getElementById('view-registrations').classList.add('d-none');
-    document.getElementById('view-upsc').classList.add('d-none');
-  }
-
-  function showHome() {
-    hideAllViews();
-    document.getElementById('home-folders').classList.remove('d-none');
-  }
-
-  function openFolderSection(section, btn) {
-    hideAllViews();
-    if (section === 'registration') {
-      document.getElementById('view-registrations').classList.remove('d-none');
-    } else if (section === 'upsc') {
-      document.getElementById('view-upsc').classList.remove('d-none');
-      loadDashboardContentForAdmin('UPSC');
-    } else {
-      showHome();
-    }
-  }
-
-  function safeFetchJson(url, options) {
-    return fetch(url, options).then(r => {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    });
-  }
-
-  // ------------ REGISTRATIONS ------------
-  function loadRegistrations() {
-    const url = SCRIPTURL + '?action=getUsers';
-    safeFetchJson(url)
-      .then(res => {
-        if (!res.success) throw new Error(res.message || 'Failed to load');
-        registrationsData = res.users || [];
-        renderRegistrations();
-        updateStats();
-      })
-      .catch(err => {
-        console.error('loadRegistrations error', err);
-      });
-  }
-
-  function renderRegistrations() {
-    const tbody = document.getElementById('registrationsBody');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-
-    if (!registrationsData || !registrationsData.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = '<td colspan="6" class="text-center text-muted">No registrations</td>';
-      tbody.appendChild(tr);
-      return;
-    }
-
-    const examFilter = document.getElementById('filterExam').value;
-    const statusFilter = document.getElementById('filterStatus').value;
-
-    const filtered = registrationsData.filter(row => {
-      const exam = row.exam || '';
-      const ps = (row.paymentStatus || '').toLowerCase();
-      const vs = (row.verificationStatus || '').toLowerCase();
-
-      if (examFilter && exam !== examFilter) return false;
-
-      if (statusFilter === 'pending') {
-        const isPending =
-          (ps !== 'verified' || vs !== 'verified') &&
-          (ps !== 'rejected' && vs !== 'rejected');
-        return isPending;
-      }
-
-      if (statusFilter === 'approved') {
-        return ps === 'verified' && vs === 'verified';
-      }
-
-      if (statusFilter === 'rejected') {
-        return ps === 'rejected' || vs === 'rejected';
-      }
-
-      return true;
-    });
-
-    filtered.forEach((row, index) => {
-      const tr = document.createElement('tr');
-      const statusPay = (row.paymentStatus || '').toLowerCase();
-      const statusVer = (row.verificationStatus || '').toLowerCase();
-
-      let statusClass = 'status-pending';
-      let statusLabel = 'Pending';
-
-      if (statusPay === 'verified' && statusVer === 'verified') {
-        statusClass = 'status-verified';
-        statusLabel = 'Approved';
-      } else if (statusPay === 'rejected' || statusVer === 'rejected') {
-        statusClass = 'status-rejected';
-        statusLabel = 'Rejected';
-      }
-
-      const bothVerified = statusPay === 'verified' && statusVer === 'verified';
-
-      tr.innerHTML = `
-        <td>${index + 1}</td>
-        <td>
-          <div class="fw-semibold">${row.name || '-'}</div>
-          <div class="small text-muted">${row.email || '-'}</div>
-          <div class="small text-muted">${row.contact || '-'}</div>
-        </td>
-        <td>
-          <div class="small">Exam: <span class="fw-semibold">${row.exam || '-'}</span></div>
-          <div class="small text-muted">User ID: ${row.userId || '-'}</div>
-        </td>
-        <td>
-          <div class="small">Payment: <span class="fw-semibold">${row.paymentStatus || '-'}</span></div>
-          <div class="small text-muted">Verification: ${row.verificationStatus || '-'}</div>
-        </td>
-        <td>
-          <span class="status-pill ${statusClass}">${statusLabel}</span>
-        </td>
-        <td>
-          <div class="d-flex flex-column gap-1">
-            <button class="btn btn-success btn-sm action-btn-sm"
-                    onclick="markPaymentVerified(${row.row})">
-              Payment
-            </button>
-            <button class="btn btn-primary btn-sm action-btn-sm"
-                    onclick="markRegistrationVerified('${row.contact}')">
-              Registration
-            </button>
-            <button class="btn btn-outline-secondary btn-sm action-btn-sm"
-                    onclick="sendLoginMail('${row.email}')"
-                    ${bothVerified ? '' : 'disabled'}>
-              Send Login Mail
-            </button>
-            <button class="btn btn-outline-danger btn-sm action-btn-sm"
-                    onclick="markRejected('${row.contact}')">
-              Reject
+            <button id="refreshRegistrationsButton" class="refresh-button" type="button">
+              ↻ <span data-i18n="refresh">Refresh</span>
             </button>
           </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
 
-  function updateStats() {
-    const totalEl = document.getElementById('totalRegistrations');
-    const pendingEl = document.getElementById('pendingPayments');
-    const verifiedEl = document.getElementById('verifiedPayments');
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div id="totalRegistrations" class="stat-number">0</div>
+              <div class="stat-label" data-i18n="total">Total</div>
+            </div>
 
-    let total = registrationsData.length;
-    let pending = 0;
-    let verified = 0;
+            <div class="stat-card">
+              <div id="pendingRegistrations" class="stat-number">0</div>
+              <div class="stat-label" data-i18n="pending">Pending</div>
+            </div>
 
-    registrationsData.forEach(row => {
-      const ps = (row.paymentStatus || '').toLowerCase();
-      const vs = (row.verificationStatus || '').toLowerCase();
-      if (ps === 'verified' && vs === 'verified') {
-        verified++;
-      } else if (ps !== 'rejected' && vs !== 'rejected') {
-        pending++;
+            <div class="stat-card">
+              <div id="verifiedRegistrations" class="stat-number">0</div>
+              <div class="stat-label" data-i18n="verified">Verified</div>
+            </div>
+
+            <div class="stat-card">
+              <div id="emailSentRegistrations" class="stat-number">0</div>
+              <div class="stat-label" data-i18n="credentialsSent">Credentials Sent</div>
+            </div>
+          </div>
+
+          <div class="filter-row">
+            <input
+              id="registrationSearch"
+              type="search"
+              data-placeholder-en="Search by name, email, UID or WhatsApp number..."
+              data-placeholder-hi="नाम, ई-मेल, UID या व्हाट्सऐप नंबर से खोजें..."
+              placeholder="Search by name, email, UID or WhatsApp number..."
+            />
+
+            <select id="registrationStatusFilter">
+              <option value="all" data-i18n="allStatuses">All Statuses</option>
+              <option value="Pending" data-i18n="pending">Pending</option>
+              <option value="Verified" data-i18n="verified">Verified</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th data-i18n="candidate">Candidate</th>
+                  <th data-i18n="contact">Contact</th>
+                  <th data-i18n="payment">Payment</th>
+                  <th data-i18n="paymentVerified">Payment Verified</th>
+                  <th data-i18n="detailsVerified">Details Verified</th>
+                  <th data-i18n="status">Status</th>
+                  <th data-i18n="credentials">Credentials</th>
+                  <th data-i18n="actions">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody id="registrationsTableBody">
+                <tr>
+                  <td colspan="8" class="no-data" data-i18n="loadingRegistrations">
+                    Loading registrations...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- TEST FORM -->
+        <section class="dashboard-card">
+          <div class="card-header">
+            <div>
+              <h2 id="testFormTitle" data-i18n="addTest">Add New Test</h2>
+              <p data-i18n="addTestSubtitle">
+                Set test details, portal link, start and end date/time.
+              </p>
+            </div>
+          </div>
+
+          <form id="testForm" class="test-form" novalidate>
+            <input id="editingTestId" type="hidden" />
+
+            <div class="field">
+              <label for="testName">
+                <span data-i18n="testName">Test Name</span> *
+              </label>
+              <input
+                id="testName"
+                type="text"
+                maxlength="150"
+                required
+                data-placeholder-en="Example: Weekly Maths Test 01"
+                data-placeholder-hi="उदाहरण: साप्ताहिक गणित टेस्ट 01"
+                placeholder="Example: Weekly Maths Test 01"
+              />
+            </div>
+
+            <div class="field">
+              <label for="testDescription">
+                <span data-i18n="testDescription">Test Description</span> *
+              </label>
+              <textarea
+                id="testDescription"
+                maxlength="3000"
+                required
+                data-placeholder-en="Mention syllabus, instructions, total questions, duration, etc."
+                data-placeholder-hi="सिलेबस, निर्देश, कुल प्रश्न, अवधि आदि लिखें।"
+                placeholder="Mention syllabus, instructions, total questions, duration, etc."
+              ></textarea>
+            </div>
+
+            <div class="field">
+              <label for="testLink">
+                <span data-i18n="testLink">Test Portal Link</span> *
+              </label>
+              <input
+                id="testLink"
+                type="url"
+                required
+                placeholder="https://..."
+              />
+              <span class="field-help" data-i18n="testLinkHelp">
+                The link must start with https:// or http://
+              </span>
+            </div>
+
+            <div class="two-fields">
+              <div class="field">
+                <label for="testStart">
+                  <span data-i18n="startDateTime">Start Date & Time</span> *
+                </label>
+                <input id="testStart" type="datetime-local" required />
+              </div>
+
+              <div class="field">
+                <label for="testEnd">
+                  <span data-i18n="endDateTime">End Date & Time</span> *
+                </label>
+                <input id="testEnd" type="datetime-local" required />
+              </div>
+            </div>
+
+            <div class="form-action-row">
+              <button id="saveTestButton" class="primary-btn" type="submit">
+                <span class="spinner"></span>
+                <span id="saveTestText" data-i18n="saveTest">Add Test</span>
+              </button>
+
+              <button id="cancelEditButton" class="secondary-btn" type="button" data-i18n="cancel">
+                Cancel
+              </button>
+            </div>
+
+            <div id="testFormMessage" class="message" role="alert" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <!-- TEST LIST -->
+        <section class="dashboard-card tests-card">
+          <div class="card-header">
+            <div>
+              <h2 data-i18n="allTests">All Tests</h2>
+              <p data-i18n="allTestsSubtitle">
+                Status changes automatically according to test start and end time.
+              </p>
+            </div>
+
+            <button id="refreshTestsButton" class="refresh-button" type="button">
+              ↻ <span data-i18n="refresh">Refresh</span>
+            </button>
+          </div>
+
+          <div id="adminTestList" class="test-list">
+            <div class="no-data" data-i18n="loadingTests">Loading tests...</div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- CANDIDATE DETAILS + PAYMENT PROOF MODAL -->
+  <div id="candidateModalOverlay" class="modal-overlay" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="candidateModalTitle">
+      <div class="modal-head">
+        <h2 id="candidateModalTitle">Candidate Details</h2>
+
+        <button id="candidateModalCloseIcon" class="modal-close" type="button" aria-label="Close">
+          ×
+        </button>
+      </div>
+
+      <div id="candidateDetailsContent" class="detail-grid"></div>
+
+      <div class="payment-proof-area">
+        <h3 data-i18n="paymentProof">Payment Proof</h3>
+
+        <div id="paymentProofLoading" class="proof-loading" data-i18n="loadingProof">
+          Loading payment screenshot...
+        </div>
+
+        <div id="paymentProofError" class="proof-error" style="display: none"></div>
+
+        <div id="paymentProofImageWrap" class="proof-image-wrap">
+          <img id="paymentProofImage" class="proof-image" alt="Payment proof" />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="candidateModalCloseButton" class="secondary-btn" type="button" data-i18n="close">
+          Close
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    /*
+      IMPORTANT:
+      Keep the same Apps Script /exec Web App URL in all files.
+    */
+    const GAS_URL =
+      "https://script.google.com/macros/s/AKfycby-m3o9rQfaRIn51M8Z-18xpIfKFPGmXmRbExyBhv6e1yKVZfvmFi7mVMsCw4zgHmPs/exec";
+
+    const translations = {
+      en: {
+        title: "Admin Portal | PrepiFY",
+        logout: "Logout",
+        adminPortal: "Admin Portal",
+        adminHeading: "Manage your PrepiFY examination portal.",
+        adminDescription:
+          "Verify registrations, generate candidate credentials, send emails, and manage upcoming, live and completed tests from one dashboard.",
+        feature1: "Verify payment and candidate details",
+        feature2: "Generate UID and secure password",
+        feature3: "Create and manage online tests",
+        adminLoginTitle: "Admin Login",
+        adminLoginSubtitle: "Enter your authorized admin email and password.",
+        emailLabel: "Admin E-mail",
+        passwordLabel: "Password",
+        show: "Show",
+        hide: "Hide",
+        loginButton: "Login as Admin",
+        loggingIn: "Logging in...",
+        backHome: "← Back to Home",
+        welcomeAdmin: "Welcome",
+        dashboardDescription:
+          "Monitor registrations and manage test schedules from your dashboard.",
+        registrations: "Candidate Registrations",
+        registrationsSubtitle:
+          "Review payment proof, verify details, generate credentials and email candidates.",
+        refresh: "Refresh",
+        total: "Total",
+        pending: "Pending",
+        verified: "Verified",
+        credentialsSent: "Credentials Sent",
+        allStatuses: "All Statuses",
+        candidate: "Candidate",
+        contact: "Contact",
+        payment: "Payment",
+        paymentVerified: "Payment Verified",
+        detailsVerified: "Details Verified",
+        status: "Status",
+        credentials: "Credentials",
+        actions: "Actions",
+        loadingRegistrations: "Loading registrations...",
+        noRegistrations: "No registrations found.",
+        viewDetails: "View Details",
+        verifyGenerate: "Verify & Generate",
+        sendEmail: "Send Email",
+        uid: "UID",
+        password: "Password",
+        notGenerated: "Not generated",
+        addTest: "Add New Test",
+        editTest: "Edit Test",
+        addTestSubtitle:
+          "Set test details, portal link, start and end date/time.",
+        testName: "Test Name",
+        testDescription: "Test Description",
+        testLink: "Test Portal Link",
+        testLinkHelp: "The link must start with https:// or http://",
+        startDateTime: "Start Date & Time",
+        endDateTime: "End Date & Time",
+        saveTest: "Add Test",
+        updateTest: "Update Test",
+        saving: "Saving...",
+        cancel: "Cancel",
+        allTests: "All Tests",
+        allTestsSubtitle:
+          "Status changes automatically according to test start and end time.",
+        loadingTests: "Loading tests...",
+        noTests: "No tests available.",
+        edit: "Edit",
+        deactivate: "Deactivate",
+        inactive: "Inactive",
+        upcoming: "Upcoming",
+        live: "Live",
+        recent: "Recent",
+        candidateDetails: "Candidate Details",
+        paymentProof: "Payment Proof",
+        loadingProof: "Loading payment screenshot...",
+        close: "Close",
+        registeredAt: "Registered At",
+        name: "Name",
+        gender: "Gender",
+        email: "E-mail",
+        whatsapp: "WhatsApp",
+        address: "Address",
+        upiId: "UPI ID",
+        registrationId: "Registration ID",
+        preferredLanguage: "Preferred Language",
+        verifyCandidate: "Verify Candidate",
+        verifyConfirm:
+          "Confirm verification? UID and password will be generated only if both Payment Verified and Details Verified are checked.",
+        sendEmailConfirm:
+          "Send UID and password to this candidate's registered email?",
+        deactivateConfirm:
+          "Deactivate this test? Candidates will no longer see it in their dashboard.",
+        requiredLogin: "Please enter admin email and password.",
+        invalidLogin: "Admin login failed. Please check email and password.",
+        loginNetworkError: "Unable to connect to the admin service. Please try again.",
+        loginExpired: "Admin session expired. Please log in again.",
+        registrationLoadError: "Unable to load registrations.",
+        testsLoadError: "Unable to load tests.",
+        proofLoadError: "Unable to load payment proof.",
+        verifySuccess: "Candidate verification updated successfully.",
+        verifyError: "Unable to update candidate verification.",
+        credentialsSuccess: "Credentials email sent successfully.",
+        credentialsError: "Unable to send credentials email.",
+        testAdded: "Test added successfully.",
+        testUpdated: "Test updated successfully.",
+        testDeleted: "Test deactivated successfully.",
+        testSaveError: "Unable to save test.",
+        testDeleteError: "Unable to deactivate test.",
+        testRequired: "Please fill all test fields.",
+        invalidTestTimes: "End date and time must be later than start date and time.",
+        invalidTestUrl: "Please enter a valid test URL starting with http:// or https://",
+        logoutConfirm: "Do you want to log out from the admin portal?",
+        yes: "Yes",
+        no: "No",
+        en: "English",
+        hi: "Hindi",
+        active: "Active"
+      },
+
+      hi: {
+        title: "एडमिन पोर्टल | PrepiFY",
+        logout: "लॉग आउट",
+        adminPortal: "एडमिन पोर्टल",
+        adminHeading: "अपने PrepiFY परीक्षा पोर्टल को मैनेज करें।",
+        adminDescription:
+          "रजिस्ट्रेशन सत्यापित करें, कैंडिडेट के login विवरण बनाएँ, ई-मेल भेजें और सभी टेस्ट एक ही डैशबोर्ड से मैनेज करें।",
+        feature1: "पेमेंट और कैंडिडेट विवरण सत्यापित करें",
+        feature2: "UID और सुरक्षित पासवर्ड जनरेट करें",
+        feature3: "ऑनलाइन टेस्ट बनाएं और मैनेज करें",
+        adminLoginTitle: "एडमिन लॉगिन",
+        adminLoginSubtitle: "अपना अधिकृत एडमिन ई-मेल और पासवर्ड दर्ज करें।",
+        emailLabel: "एडमिन ई-मेल",
+        passwordLabel: "पासवर्ड",
+        show: "दिखाएं",
+        hide: "छुपाएं",
+        loginButton: "एडमिन के रूप में लॉगिन करें",
+        loggingIn: "लॉगिन हो रहा है...",
+        backHome: "← होम पर जाएं",
+        welcomeAdmin: "स्वागत है",
+        dashboardDescription:
+          "रजिस्ट्रेशन मॉनिटर करें और टेस्ट शेड्यूल मैनेज करें।",
+        registrations: "कैंडिडेट रजिस्ट्रेशन",
+        registrationsSubtitle:
+          "पेमेंट प्रूफ देखें, विवरण सत्यापित करें, credentials बनाएँ और ई-मेल भेजें।",
+        refresh: "रिफ्रेश",
+        total: "कुल",
+        pending: "लंबित",
+        verified: "सत्यापित",
+        credentialsSent: "Credentials भेजे गए",
+        allStatuses: "सभी स्थितियाँ",
+        candidate: "कैंडिडेट",
+        contact: "संपर्क",
+        payment: "पेमेंट",
+        paymentVerified: "पेमेंट सत्यापित",
+        detailsVerified: "विवरण सत्यापित",
+        status: "स्थिति",
+        credentials: "लॉगिन विवरण",
+        actions: "एक्शन",
+        loadingRegistrations: "रजिस्ट्रेशन लोड हो रहे हैं...",
+        noRegistrations: "कोई रजिस्ट्रेशन नहीं मिला।",
+        viewDetails: "विवरण देखें",
+        verifyGenerate: "सत्यापित करें",
+        sendEmail: "ई-मेल भेजें",
+        uid: "UID",
+        password: "पासवर्ड",
+        notGenerated: "बना नहीं है",
+        addTest: "नया टेस्ट जोड़ें",
+        editTest: "टेस्ट एडिट करें",
+        addTestSubtitle:
+          "टेस्ट विवरण, पोर्टल लिंक, शुरू और समाप्त होने की तारीख/समय भरें।",
+        testName: "टेस्ट का नाम",
+        testDescription: "टेस्ट विवरण",
+        testLink: "टेस्ट पोर्टल लिंक",
+        testLinkHelp: "लिंक https:// या http:// से शुरू होना चाहिए।",
+        startDateTime: "शुरू होने की तारीख और समय",
+        endDateTime: "समाप्त होने की तारीख और समय",
+        saveTest: "टेस्ट जोड़ें",
+        updateTest: "टेस्ट अपडेट करें",
+        saving: "सेव हो रहा है...",
+        cancel: "रद्द करें",
+        allTests: "सभी टेस्ट",
+        allTestsSubtitle:
+          "टेस्ट का status शुरू और समाप्त समय के अनुसार अपने आप बदलता है।",
+        loadingTests: "टेस्ट लोड हो रहे हैं...",
+        noTests: "कोई टेस्ट उपलब्ध नहीं है।",
+        edit: "एडिट",
+        deactivate: "निष्क्रिय करें",
+        inactive: "निष्क्रिय",
+        upcoming: "आगामी",
+        live: "लाइव",
+        recent: "पूर्ण",
+        candidateDetails: "कैंडिडेट विवरण",
+        paymentProof: "पेमेंट प्रूफ",
+        loadingProof: "पेमेंट स्क्रीनशॉट लोड हो रहा है...",
+        close: "बंद करें",
+        registeredAt: "रजिस्ट्रेशन समय",
+        name: "नाम",
+        gender: "लिंग",
+        email: "ई-मेल",
+        whatsapp: "व्हाट्सऐप",
+        address: "पता",
+        upiId: "UPI ID",
+        registrationId: "रजिस्ट्रेशन ID",
+        preferredLanguage: "चुनी गई भाषा",
+        verifyCandidate: "कैंडिडेट सत्यापित करें",
+        verifyConfirm:
+          "क्या सत्यापन करना है? UID और पासवर्ड तभी बनेंगे जब पेमेंट और विवरण दोनों सत्यापित हों।",
+        sendEmailConfirm:
+          "क्या कैंडिडेट के रजिस्टर्ड ई-मेल पर UID और पासवर्ड भेजना है?",
+        deactivateConfirm:
+          "क्या इस टेस्ट को निष्क्रिय करना है? इसके बाद कैंडिडेट इसे डैशबोर्ड में नहीं देख पाएँगे।",
+        requiredLogin: "कृपया एडमिन ई-मेल और पासवर्ड भरें।",
+        invalidLogin: "एडमिन लॉगिन नहीं हो पाया। ई-मेल और पासवर्ड जाँचें।",
+        loginNetworkError: "एडमिन सर्विस से कनेक्ट नहीं हो पाया। कृपया फिर से प्रयास करें।",
+        loginExpired: "एडमिन सेशन समाप्त हो गया है। कृपया दोबारा लॉगिन करें।",
+        registrationLoadError: "रजिस्ट्रेशन लोड नहीं हो पाए।",
+        testsLoadError: "टेस्ट लोड नहीं हो पाए।",
+        proofLoadError: "पेमेंट प्रूफ लोड नहीं हो पाया।",
+        verifySuccess: "कैंडिडेट सत्यापन सफलतापूर्वक अपडेट हो गया।",
+        verifyError: "कैंडिडेट सत्यापन अपडेट नहीं हो पाया।",
+        credentialsSuccess: "Credentials ई-मेल सफलतापूर्वक भेज दिया गया।",
+        credentialsError: "Credentials ई-मेल नहीं भेजा जा सका।",
+        testAdded: "टेस्ट सफलतापूर्वक जोड़ दिया गया।",
+        testUpdated: "टेस्ट सफलतापूर्वक अपडेट हो गया।",
+        testDeleted: "टेस्ट सफलतापूर्वक निष्क्रिय कर दिया गया।",
+        testSaveError: "टेस्ट सेव नहीं हो पाया।",
+        testDeleteError: "टेस्ट निष्क्रिय नहीं हो पाया।",
+        testRequired: "कृपया टेस्ट की सभी जानकारी भरें।",
+        invalidTestTimes: "टेस्ट का समाप्त समय शुरू समय से बाद का होना चाहिए।",
+        invalidTestUrl: "कृपया http:// या https:// से शुरू होने वाला सही टेस्ट लिंक लिखें।",
+        logoutConfirm: "क्या आप एडमिन पोर्टल से लॉग आउट करना चाहते हैं?",
+        yes: "हाँ",
+        no: "नहीं",
+        en: "अंग्रेज़ी",
+        hi: "हिंदी",
+        active: "सक्रिय"
       }
-    });
-
-    if (totalEl) totalEl.textContent = total;
-    if (pendingEl) pendingEl.textContent = pending;
-    if (verifiedEl) verifiedEl.textContent = verified;
-  }
-
-  function markPaymentVerified(row) {
-    const url = SCRIPTURL + '?action=updateUser&row=' + encodeURIComponent(row) +
-      '&paymentStatus=Verified';
-    safeFetchJson(url)
-      .then(res => {
-        if (!res.success) throw new Error(res.message || 'Failed to update');
-        loadRegistrations();
-      })
-      .catch(err => console.error('markPaymentVerified error', err));
-  }
-
-  function markRegistrationVerified(contact) {
-    const url = SCRIPTURL + '?action=updateUserRegistration&contact=' + encodeURIComponent(contact);
-    safeFetchJson(url)
-      .then(res => {
-        if (!res.success) throw new Error(res.message || 'Failed to update registration');
-        loadRegistrations();
-      })
-      .catch(err => console.error('markRegistrationVerified error', err));
-  }
-
-  function markRejected(contact) {
-    if (!confirm('Mark this candidate as Rejected?')) return;
-    const url = SCRIPTURL + '?action=rejectUser&contact=' + encodeURIComponent(contact);
-    safeFetchJson(url)
-      .then(res => {
-        if (!res.success) throw new Error(res.message || 'Failed to reject user');
-        loadRegistrations();
-      })
-      .catch(err => console.error('markRejected error', err));
-  }
-
-  function sendLoginMail(email) {
-    const url = SCRIPTURL + '?action=sendLoginMail&email=' + encodeURIComponent(email);
-    safeFetchJson(url)
-      .then(res => {
-        if (!res.success) throw new Error(res.message || 'Failed to send login mail');
-        alert('Login mail sent (if user exists)');
-      })
-      .catch(err => console.error('sendLoginMail error', err));
-  }
-
-  // ------------ DASHBOARD CONTENT (UPSC) ------------
-  function saveSection(exam, sectionKey) {
-    const prefix = exam.toLowerCase();
-    const key = sectionKey;
-
-    const titleId = prefix + key + 'title';
-    const itemsId = prefix + key + 'items';
-    const lastId  = prefix + key + 'last';
-    const msgId   = prefix + key + 'msg';
-
-    const titleEl = document.getElementById(titleId);
-    const itemsEl = document.getElementById(itemsId);
-    const lastEl  = document.getElementById(lastId);
-    const msgEl   = document.getElementById(msgId);
-
-    if (!titleEl || !itemsEl || !lastEl || !msgEl) {
-      console.warn('Missing elements for section', exam, sectionKey);
-      return;
-    }
-
-    const payload = {
-      action: 'saveSection',
-      exam: exam,
-      sectionKey: sectionKey,
-      title: titleEl.value || '',
-      items: itemsEl.value || ''
     };
 
-    msgEl.textContent = 'Saving...';
+    let currentLanguage = localStorage.getItem("prepifyLanguage") || "en";
+    let adminToken = localStorage.getItem("prepifyAdminToken") || "";
+    let adminData = null;
+    let registrations = [];
+    let tests = [];
+    let selectedCandidate = null;
+    let toastTimer = null;
 
-    fetch(SCRIPTURL, {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    })
-      .then(r => r.text())
-      .then(txt => {
-        let data;
-        try { data = JSON.parse(txt); } catch (e) {
-          throw new Error('Invalid JSON: ' + e.message);
-        }
-        if (!data.success) throw new Error(data.message || 'Failed to save section');
-        lastEl.value = data.lastSaved || '';
-        msgEl.textContent = 'Saved at ' + (data.savedAt || '');
-        setTimeout(() => { msgEl.textContent = ''; }, 4000);
-      })
-      .catch(err => {
-        console.error('saveSection error', err);
-        msgEl.textContent = 'Error saving section';
-        setTimeout(() => { msgEl.textContent = ''; }, 4000);
+    const englishButton = document.getElementById("englishButton");
+    const hindiButton = document.getElementById("hindiButton");
+    const logoutButton = document.getElementById("logoutButton");
+
+    const adminLoginView = document.getElementById("adminLoginView");
+    const adminDashboardView = document.getElementById("adminDashboardView");
+
+    const adminLoginForm = document.getElementById("adminLoginForm");
+    const adminEmailInput = document.getElementById("adminEmail");
+    const adminPasswordInput = document.getElementById("adminPassword");
+    const toggleAdminPassword = document.getElementById("toggleAdminPassword");
+    const adminLoginButton = document.getElementById("adminLoginButton");
+    const adminLoginButtonText = document.getElementById("adminLoginButtonText");
+    const adminLoginMessage = document.getElementById("adminLoginMessage");
+
+    const adminNameText = document.getElementById("adminNameText");
+    const adminEmailText = document.getElementById("adminEmailText");
+
+    const totalRegistrations = document.getElementById("totalRegistrations");
+    const pendingRegistrations = document.getElementById("pendingRegistrations");
+    const verifiedRegistrations = document.getElementById("verifiedRegistrations");
+    const emailSentRegistrations = document.getElementById("emailSentRegistrations");
+
+    const registrationSearch = document.getElementById("registrationSearch");
+    const registrationStatusFilter = document.getElementById("registrationStatusFilter");
+    const registrationsTableBody = document.getElementById("registrationsTableBody");
+    const refreshRegistrationsButton = document.getElementById("refreshRegistrationsButton");
+
+    const testForm = document.getElementById("testForm");
+    const editingTestId = document.getElementById("editingTestId");
+    const testFormTitle = document.getElementById("testFormTitle");
+    const testNameInput = document.getElementById("testName");
+    const testDescriptionInput = document.getElementById("testDescription");
+    const testLinkInput = document.getElementById("testLink");
+    const testStartInput = document.getElementById("testStart");
+    const testEndInput = document.getElementById("testEnd");
+    const saveTestButton = document.getElementById("saveTestButton");
+    const saveTestText = document.getElementById("saveTestText");
+    const cancelEditButton = document.getElementById("cancelEditButton");
+    const testFormMessage = document.getElementById("testFormMessage");
+    const adminTestList = document.getElementById("adminTestList");
+    const refreshTestsButton = document.getElementById("refreshTestsButton");
+
+    const candidateModalOverlay = document.getElementById("candidateModalOverlay");
+    const candidateModalTitle = document.getElementById("candidateModalTitle");
+    const candidateModalCloseIcon = document.getElementById("candidateModalCloseIcon");
+    const candidateModalCloseButton = document.getElementById("candidateModalCloseButton");
+    const candidateDetailsContent = document.getElementById("candidateDetailsContent");
+    const paymentProofLoading = document.getElementById("paymentProofLoading");
+    const paymentProofError = document.getElementById("paymentProofError");
+    const paymentProofImageWrap = document.getElementById("paymentProofImageWrap");
+    const paymentProofImage = document.getElementById("paymentProofImage");
+    const toast = document.getElementById("toast");
+
+    function t(key) {
+      return translations[currentLanguage][key] || translations.en[key] || key;
+    }
+
+    function setLanguage(language) {
+      currentLanguage = language === "hi" ? "hi" : "en";
+      localStorage.setItem("prepifyLanguage", currentLanguage);
+
+      document.documentElement.lang = currentLanguage === "hi" ? "hi" : "en";
+      document.title = t("title");
+
+      englishButton.classList.toggle("active", currentLanguage === "en");
+      hindiButton.classList.toggle("active", currentLanguage === "hi");
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.getAttribute("data-i18n");
+        element.textContent = t(key);
       });
-  }
 
-  // UPSC Daily Targets: Subject 1 + Subject 2 + Others (latest only – overwrite)
-// UPSC Daily Target: Date + Subject + Topics (latest only – overwrite)
-function saveUpscDailyTargetSimple() {
-  const dateTxt = document.getElementById('upscdailyTargetsDate').value.trim();
-  const subject = document.getElementById('upscdailyTargetsSubject').value.trim();
-  const topics  = document.getElementById('upscdailyTargetsTopics').value.trim();
-  const msgEl   = document.getElementById('upscdailyTargetsmsg');
+      document.querySelectorAll("[data-placeholder-en]").forEach((element) => {
+        element.placeholder =
+          currentLanguage === "hi"
+            ? element.getAttribute("data-placeholder-hi")
+            : element.getAttribute("data-placeholder-en");
+      });
 
-  if (!dateTxt || !subject || !topics) {
-    msgEl.textContent = 'Please fill Date, Subject and Topics.';
-    setTimeout(() => { msgEl.textContent = ''; }, 3000);
-    return;
-  }
-
-  // Sheet me jane wala final text
-  const finalTxt = [
-    `Date: ${dateTxt}`,
-    `Subject: ${subject}`,
-    `Topics: ${topics}`
-  ].join('\n');
-
-  const payload = {
-    examType: 'UPSC',
-    sectionKey: 'dailyTargets',
-    title: dateTxt,     // title me date rakh sakte ho
-    items: finalTxt     // Apps Script se itemText column me save hoga
-  };
-
-  msgEl.textContent = 'Saving...';
-
-  const formData = new URLSearchParams();
-  formData.append('action', 'saveDashboardSection');
-  formData.append('payload', JSON.stringify(payload));
-
-  fetch(SCRIPTURL, {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (!data || !data.success) {
-        throw new Error(data && data.message ? data.message : 'Failed to save');
+      if (!adminLoginButton.disabled) {
+        adminLoginButtonText.textContent = t("loginButton");
       }
-      msgEl.textContent = 'Saved ✔';
-      document.getElementById('upscdailyTargetslast').value = finalTxt;
-      setTimeout(() => { msgEl.textContent = ''; }, 2000);
-    })
-    .catch(err => {
-      console.error('saveUpscDailyTargetSimple error:', err);
-      msgEl.textContent = 'Error ❌';
-      setTimeout(() => { msgEl.textContent = ''; }, 3000);
-    });
-}
 
-  // ------------ FOLDER OPEN (DRIVE) ------------
-  function openFolder(exam, folderKey) {
-    const url = SCRIPTURL + '?action=openFolder&exam=' + encodeURIComponent(exam) +
-      '&folderKey=' + encodeURIComponent(folderKey);
+      if (!saveTestButton.disabled) {
+        saveTestText.textContent = editingTestId.value ? t("updateTest") : t("saveTest");
+      }
 
-    fetch(url)
-      .then(r => r.json())
-      .then(res => {
-        if (res.success && res.url) {
-          window.open(res.url, '_blank');
-        } else {
-          alert('Folder URL nahi mila.');
+      toggleAdminPassword.textContent =
+        adminPasswordInput.type === "password" ? t("show") : t("hide");
+
+      renderRegistrations();
+      renderTests();
+
+      if (selectedCandidate) {
+        renderCandidateModalDetails(selectedCandidate);
+      }
+    }
+
+    function createParticles() {
+      const container = document.getElementById("particles");
+      const count = window.innerWidth < 600 ? 16 : 30;
+
+      for (let i = 0; i < count; i += 1) {
+        const particle = document.createElement("span");
+        const size = Math.floor(Math.random() * 25) + 8;
+
+        particle.className = "particle";
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 13 + 12}s`;
+        particle.style.animationDelay = `${Math.random() * 12}s`;
+        particle.style.opacity = `${Math.random() * 0.35 + 0.12}`;
+
+        container.appendChild(particle);
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showMessage(element, type, message) {
+      element.className = `message show ${type}`;
+      element.textContent = message;
+    }
+
+    function clearMessage(element) {
+      element.className = "message";
+      element.textContent = "";
+    }
+
+    function showToast(message, type = "") {
+      window.clearTimeout(toastTimer);
+      toast.textContent = message;
+      toast.className = `toast show ${type}`.trim();
+
+      toastTimer = window.setTimeout(() => {
+        toast.className = "toast";
+      }, 3600);
+    }
+
+    function setButtonLoading(button, isLoading, textElement, loadingText, normalText) {
+      button.disabled = isLoading;
+      button.classList.toggle("is-loading", isLoading);
+
+      if (textElement) {
+        textElement.textContent = isLoading ? loadingText : normalText;
+      }
+    }
+
+    function formatDateTime(value) {
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) return "—";
+
+      return new Intl.DateTimeFormat(
+        currentLanguage === "hi" ? "hi-IN" : "en-IN",
+        {
+          dateStyle: "medium",
+          timeStyle: "short"
         }
-      })
-      .catch(err => {
-        console.error('openFolder error', err);
-        alert('Folder open karne me error aa gaya.');
+      ).format(date);
+    }
+
+    function toDateTimeLocal(value) {
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) return "";
+
+      const offset = date.getTimezoneOffset();
+      const localDate = new Date(date.getTime() - offset * 60 * 1000);
+
+      return localDate.toISOString().slice(0, 16);
+    }
+
+    function getStatusClass(status) {
+      if (status === "Live") return "test-status-live";
+      if (status === "Recent") return "test-status-recent";
+      if (status === "Inactive") return "test-status-inactive";
+      return "test-status-upcoming";
+    }
+
+    function getStatusText(status) {
+      if (status === "Live") return t("live");
+      if (status === "Recent") return t("recent");
+      if (status === "Inactive") return t("inactive");
+      return t("upcoming");
+    }
+
+    function setAdminView(isLoggedIn) {
+      adminLoginView.style.display = isLoggedIn ? "none" : "block";
+      adminDashboardView.classList.toggle("show", isLoggedIn);
+      logoutButton.classList.toggle("show", isLoggedIn);
+
+      if (isLoggedIn && adminData) {
+        adminNameText.textContent = adminData.name || "Admin";
+        adminEmailText.textContent = adminData.email || "";
+      }
+    }
+
+    async function apiPost(payload) {
+      const response = await fetch(GAS_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload),
+        redirect: "follow"
       });
-  }
 
-  function loadDashboardContentForAdmin(exam) {
-    const url = SCRIPTURL + '?action=getAllSections&exam=' + encodeURIComponent(exam);
-    safeFetchJson(url)
-      .then(data => {
-        if (!data.success) throw new Error(data.message || 'Failed to load dashboard content');
+      const responseText = await response.text();
 
-        const sections = data.sections || {};
-        Object.keys(sections).forEach(key => {
-          const section = sections[key] || {};
-          const prefix = exam.toLowerCase();
-          const titleEl = document.getElementById(prefix + key + 'title');
-          const itemsEl = document.getElementById(prefix + key + 'items');
-          const lastEl  = document.getElementById(prefix + key + 'last');
+      try {
+        return JSON.parse(responseText);
+      } catch (error) {
+        throw new Error("INVALID_RESPONSE");
+      }
+    }
 
-          if (titleEl) titleEl.value = section.title || '';
-          if (itemsEl) itemsEl.value = section.items || '';
-          if (lastEl)  lastEl.value  = section.lastSaved || '';
+    async function apiGet(action, params = {}) {
+      const searchParams = new URLSearchParams({
+        action: action,
+        ...params,
+        _: String(Date.now())
+      });
 
-        if (exam === 'UPSC' && key === 'dailyTargets' && section.items) {
-  const txt = section.items || '';
-  const dateEl    = document.getElementById('upscdailyTargetsDate');
-  const subjectEl = document.getElementById('upscdailyTargetsSubject');
-  const topicsEl  = document.getElementById('upscdailyTargetsTopics');
+      const response = await fetch(`${GAS_URL}?${searchParams.toString()}`, {
+        method: "GET",
+        redirect: "follow"
+      });
 
-  if (dateEl && subjectEl && topicsEl) {
-    let dateTxt = '', subjTxt = '', topicsTxt = '';
+      const responseText = await response.text();
 
-    txt.split('\n').map(l => l.trim()).forEach(line => {
-      if (line.startsWith('Date:')) {
-        dateTxt = line.replace('Date:', '').trim();
-      } else if (line.startsWith('Subject:')) {
-        subjTxt = line.replace('Subject:', '').trim();
-      } else if (line.startsWith('Topics:')) {
-        topicsTxt = line.replace('Topics:', '').trim();
+      try {
+        return JSON.parse(responseText);
+      } catch (error) {
+        throw new Error("INVALID_RESPONSE");
+      }
+    }
+
+    function isSessionError(message) {
+      return /session|expired|log in|login|token|admin access/i.test(String(message || ""));
+    }
+
+    function handleSessionError(message) {
+      localStorage.removeItem("prepifyAdminToken");
+      localStorage.removeItem("prepifyAdmin");
+
+      adminToken = "";
+      adminData = null;
+      registrations = [];
+      tests = [];
+
+      setAdminView(false);
+      showMessage(adminLoginMessage, "error", message || t("loginExpired"));
+    }
+
+    async function loginAdmin(email, password) {
+      return apiPost({
+        action: "adminLogin",
+        email: email,
+        password: password
+      });
+    }
+
+    async function loadRegistrations() {
+      if (!adminToken) return;
+
+      registrationsTableBody.innerHTML = `
+        <tr>
+          <td colspan="8" class="no-data">${escapeHtml(t("loadingRegistrations"))}</td>
+        </tr>
+      `;
+
+      try {
+        const result = await apiGet("getRegistrations", { token: adminToken });
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("registrationLoadError");
+
+          if (isSessionError(errorMessage)) {
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        registrations = Array.isArray(result.registrations) ? result.registrations : [];
+        renderRegistrations();
+
+      } catch (error) {
+        console.error("Registration load error:", error);
+
+        registrationsTableBody.innerHTML = `
+          <tr>
+            <td colspan="8" class="no-data">
+              ${escapeHtml(error.message === "INVALID_RESPONSE" ? t("registrationLoadError") : error.message)}
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    async function loadTests() {
+      if (!adminToken) return;
+
+      adminTestList.innerHTML = `<div class="no-data">${escapeHtml(t("loadingTests"))}</div>`;
+
+      try {
+        const result = await apiGet("getTestsAdmin", { token: adminToken });
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("testsLoadError");
+
+          if (isSessionError(errorMessage)) {
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        tests = Array.isArray(result.tests) ? result.tests : [];
+        renderTests();
+
+      } catch (error) {
+        console.error("Tests load error:", error);
+
+        adminTestList.innerHTML = `
+          <div class="no-data">
+            ${escapeHtml(error.message === "INVALID_RESPONSE" ? t("testsLoadError") : error.message)}
+          </div>
+        `;
+      }
+    }
+
+    function updateRegistrationStats() {
+      const total = registrations.length;
+      const pending = registrations.filter((item) => item.status === "Pending").length;
+      const verified = registrations.filter((item) => item.status === "Verified").length;
+      const sent = registrations.filter((item) => item.credentialsSent === true).length;
+
+      totalRegistrations.textContent = total;
+      pendingRegistrations.textContent = pending;
+      verifiedRegistrations.textContent = verified;
+      emailSentRegistrations.textContent = sent;
+    }
+
+    function getFilteredRegistrations() {
+      const search = registrationSearch.value.trim().toLowerCase();
+      const status = registrationStatusFilter.value;
+
+      return registrations.filter((item) => {
+        const matchStatus = status === "all" || item.status === status;
+
+        if (!search) return matchStatus;
+
+        const searchable = [
+          item.name,
+          item.email,
+          item.uid,
+          item.whatsapp,
+          item.registrationId
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return matchStatus && searchable.includes(search);
+      });
+    }
+
+    function checkboxHtml(registrationId, type, checked) {
+      return `
+        <input
+          type="checkbox"
+          data-check-type="${type}"
+          data-registration-id="${escapeHtml(registrationId)}"
+          ${checked ? "checked" : ""}
+          aria-label="${type}"
+        />
+      `;
+    }
+
+    function renderRegistrations() {
+      updateRegistrationStats();
+
+      if (!adminToken) return;
+
+      const filtered = getFilteredRegistrations();
+
+      if (!filtered.length) {
+        registrationsTableBody.innerHTML = `
+          <tr>
+            <td colspan="8" class="no-data">${escapeHtml(t("noRegistrations"))}</td>
+          </tr>
+        `;
+        return;
+      }
+
+      registrationsTableBody.innerHTML = filtered
+        .map((item) => {
+          const isVerified = item.status === "Verified";
+
+          const statusClass =
+            item.status === "Verified"
+              ? "verified-status"
+              : item.status === "Rejected"
+                ? "rejected-status"
+                : "pending-status";
+
+          const credentialsHtml = item.uid
+            ? `
+              <div class="credential-box">
+                <div><strong>${escapeHtml(t("uid"))}:</strong> ${escapeHtml(item.uid)}</div>
+                <div><strong>${escapeHtml(t("password"))}:</strong> ${escapeHtml(item.password || "—")}</div>
+              </div>
+            `
+            : `<span class="credential-empty">${escapeHtml(t("notGenerated"))}</span>`;
+
+          return `
+            <tr>
+              <td>
+                <div class="candidate-name">${escapeHtml(item.name)}</div>
+                <div class="candidate-email">${escapeHtml(item.registrationId)}</div>
+              </td>
+
+              <td>
+                <div>${escapeHtml(item.whatsapp || "—")}</div>
+                <div class="candidate-email">${escapeHtml(item.email || "—")}</div>
+              </td>
+
+              <td>
+                <span class="candidate-email">${escapeHtml(item.paymentProofFileName || "—")}</span>
+              </td>
+
+              <td class="check-cell">
+                ${checkboxHtml(item.registrationId, "payment", item.paymentVerified)}
+              </td>
+
+              <td class="check-cell">
+                ${checkboxHtml(item.registrationId, "details", item.detailsVerified)}
+              </td>
+
+              <td>
+                <span class="status-badge ${statusClass}">
+                  ${escapeHtml(item.status === "Verified" ? t("verified") : t("pending"))}
+                </span>
+              </td>
+
+              <td>${credentialsHtml}</td>
+
+              <td class="actions-cell">
+                <div class="action-stack">
+                  <button
+                    class="small-btn details-btn"
+                    type="button"
+                    data-action="details"
+                    data-registration-id="${escapeHtml(item.registrationId)}"
+                  >
+                    ${escapeHtml(t("viewDetails"))}
+                  </button>
+
+                  <button
+                    class="small-btn verify-btn"
+                    type="button"
+                    data-action="verify"
+                    data-registration-id="${escapeHtml(item.registrationId)}"
+                  >
+                    ${escapeHtml(isVerified ? t("verifyGenerate") : t("verifyGenerate"))}
+                  </button>
+
+                  <button
+                    class="small-btn email-btn"
+                    type="button"
+                    data-action="email"
+                    data-registration-id="${escapeHtml(item.registrationId)}"
+                    ${!isVerified ? "disabled" : ""}
+                  >
+                    ${escapeHtml(t("sendEmail"))}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+
+    function getCheckboxValue(registrationId, type) {
+      const checkbox = document.querySelector(
+        `input[data-registration-id="${CSS.escape(registrationId)}"][data-check-type="${type}"]`
+      );
+
+      return checkbox ? checkbox.checked : false;
+    }
+
+    async function verifyCandidate(registrationId, button) {
+      const paymentVerified = getCheckboxValue(registrationId, "payment");
+      const detailsVerified = getCheckboxValue(registrationId, "details");
+
+      const confirmed = window.confirm(t("verifyConfirm"));
+      if (!confirmed) return;
+
+      const oldText = button.textContent;
+      button.disabled = true;
+      button.textContent = "...";
+
+      try {
+        const result = await apiPost({
+          action: "verifyCandidate",
+          token: adminToken,
+          registrationId: registrationId,
+          paymentVerified: paymentVerified,
+          detailsVerified: detailsVerified,
+          note: ""
+        });
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("verifyError");
+
+          if (isSessionError(errorMessage)) {
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        showToast(
+          result.status === "Verified" && result.uid
+            ? `${t("verifySuccess")} UID: ${result.uid}`
+            : result.message || t("verifySuccess"),
+          "success"
+        );
+
+        await loadRegistrations();
+
+      } catch (error) {
+        console.error("Verify error:", error);
+        showToast(error.message === "INVALID_RESPONSE" ? t("verifyError") : error.message, "error");
+      } finally {
+        if (document.body.contains(button)) {
+          button.disabled = false;
+          button.textContent = oldText;
+        }
+      }
+    }
+
+    async function sendCredentialsEmail(registrationId, button) {
+      const candidate = registrations.find((item) => item.registrationId === registrationId);
+      const confirmed = window.confirm(
+        `${t("sendEmailConfirm")}\n\n${candidate ? candidate.email : ""}`
+      );
+
+      if (!confirmed) return;
+
+      const oldText = button.textContent;
+      button.disabled = true;
+      button.textContent = "...";
+
+      try {
+        const result = await apiPost({
+          action: "sendCredentials",
+          token: adminToken,
+          registrationId: registrationId
+        });
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("credentialsError");
+
+          if (isSessionError(errorMessage)) {
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        showToast(result.message || t("credentialsSuccess"), "success");
+        await loadRegistrations();
+
+      } catch (error) {
+        console.error("Credentials email error:", error);
+        showToast(
+          error.message === "INVALID_RESPONSE" ? t("credentialsError") : error.message,
+          "error"
+        );
+      } finally {
+        if (document.body.contains(button)) {
+          button.disabled = false;
+          button.textContent = oldText;
+        }
+      }
+    }
+
+    function renderCandidateModalDetails(candidate) {
+      candidateModalTitle.textContent = `${t("candidateDetails")} — ${candidate.name || ""}`;
+
+      const languageText =
+        candidate.preferredLanguage === "hi" ? t("hi") : t("en");
+
+      candidateDetailsContent.innerHTML = `
+        <div class="detail-label">${escapeHtml(t("registrationId"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.registrationId || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("registeredAt"))}</div>
+        <div class="detail-value">${escapeHtml(formatDateTime(candidate.registeredAt))}</div>
+
+        <div class="detail-label">${escapeHtml(t("name"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.name || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("gender"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.gender || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("email"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.email || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("whatsapp"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.whatsapp || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("address"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.address || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("upiId"))}</div>
+        <div class="detail-value">${escapeHtml(candidate.upiId || "—")}</div>
+
+        <div class="detail-label">${escapeHtml(t("preferredLanguage"))}</div>
+        <div class="detail-value">${escapeHtml(languageText)}</div>
+      `;
+    }
+
+    async function openCandidateDetails(registrationId) {
+      const candidate = registrations.find((item) => item.registrationId === registrationId);
+
+      if (!candidate) {
+        showToast(t("registrationLoadError"), "error");
+        return;
+      }
+
+      selectedCandidate = candidate;
+      renderCandidateModalDetails(candidate);
+
+      paymentProofLoading.style.display = "block";
+      paymentProofError.style.display = "none";
+      paymentProofError.textContent = "";
+      paymentProofImageWrap.classList.remove("show");
+      paymentProofImage.removeAttribute("src");
+
+      candidateModalOverlay.classList.add("show");
+      candidateModalOverlay.setAttribute("aria-hidden", "false");
+
+      try {
+        const result = await apiGet("getPaymentProof", {
+          token: adminToken,
+          registrationId: registrationId
+        });
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("proofLoadError");
+
+          if (isSessionError(errorMessage)) {
+            closeCandidateModal();
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        paymentProofImage.src = `data:${result.mimeType};base64,${result.base64}`;
+        paymentProofImage.alt = result.fileName || "Payment proof";
+        paymentProofImageWrap.classList.add("show");
+
+      } catch (error) {
+        console.error("Proof load error:", error);
+        paymentProofError.textContent =
+          error.message === "INVALID_RESPONSE" ? t("proofLoadError") : error.message;
+        paymentProofError.style.display = "block";
+      } finally {
+        paymentProofLoading.style.display = "none";
+      }
+    }
+
+    function closeCandidateModal() {
+      selectedCandidate = null;
+      candidateModalOverlay.classList.remove("show");
+      candidateModalOverlay.setAttribute("aria-hidden", "true");
+      paymentProofImage.removeAttribute("src");
+    }
+
+    function renderTests() {
+      if (!adminToken) return;
+
+      if (!tests.length) {
+        adminTestList.innerHTML = `<div class="no-data">${escapeHtml(t("noTests"))}</div>`;
+        return;
+      }
+
+      adminTestList.innerHTML = tests
+        .map((test) => {
+          const statusClass = getStatusClass(test.status);
+
+          return `
+            <article class="admin-test-item">
+              <div>
+                <div class="admin-test-title-row">
+                  <span class="admin-test-name">${escapeHtml(test.testName)}</span>
+                  <span class="status-badge ${statusClass}">
+                    ${escapeHtml(getStatusText(test.status))}
+                  </span>
+                </div>
+
+                <div class="test-meta">
+                  <strong>${escapeHtml(t("startDateTime"))}:</strong>
+                  ${escapeHtml(formatDateTime(test.startDateTime))}
+                  <br>
+                  <strong>${escapeHtml(t("endDateTime"))}:</strong>
+                  ${escapeHtml(formatDateTime(test.endDateTime))}
+                </div>
+              </div>
+
+              <div class="test-item-actions">
+                <button
+                  class="small-btn details-btn"
+                  type="button"
+                  data-test-action="edit"
+                  data-test-id="${escapeHtml(test.testId)}"
+                >
+                  ${escapeHtml(t("edit"))}
+                </button>
+
+                <button
+                  class="small-btn delete-btn"
+                  type="button"
+                  data-test-action="delete"
+                  data-test-id="${escapeHtml(test.testId)}"
+                  ${test.active === false ? "disabled" : ""}
+                >
+                  ${escapeHtml(t("deactivate"))}
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    function resetTestForm() {
+      editingTestId.value = "";
+      testForm.reset();
+
+      testFormTitle.textContent = t("addTest");
+      saveTestText.textContent = t("saveTest");
+      cancelEditButton.classList.remove("show");
+      clearMessage(testFormMessage);
+
+      [testNameInput, testDescriptionInput, testLinkInput, testStartInput, testEndInput].forEach(
+        (input) => input.classList.remove("invalid")
+      );
+    }
+
+    function editTest(testId) {
+      const test = tests.find((item) => item.testId === testId);
+
+      if (!test) {
+        showToast(t("testsLoadError"), "error");
+        return;
+      }
+
+      editingTestId.value = test.testId;
+      testNameInput.value = test.testName || "";
+      testDescriptionInput.value = test.testDescription || "";
+      testLinkInput.value = test.testLink || "";
+      testStartInput.value = toDateTimeLocal(test.startDateTime);
+      testEndInput.value = toDateTimeLocal(test.endDateTime);
+
+      testFormTitle.textContent = t("editTest");
+      saveTestText.textContent = t("updateTest");
+      cancelEditButton.classList.add("show");
+      clearMessage(testFormMessage);
+
+      testForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      testNameInput.focus();
+    }
+
+    async function saveTest() {
+      clearMessage(testFormMessage);
+
+      const testName = testNameInput.value.trim();
+      const testDescription = testDescriptionInput.value.trim();
+      const testLink = testLinkInput.value.trim();
+      const testStart = testStartInput.value;
+      const testEnd = testEndInput.value;
+      const isEditing = Boolean(editingTestId.value);
+
+      [testNameInput, testDescriptionInput, testLinkInput, testStartInput, testEndInput].forEach(
+        (input) => input.classList.remove("invalid")
+      );
+
+      let firstInvalid = null;
+      const markInvalid = (input) => {
+        input.classList.add("invalid");
+        if (!firstInvalid) firstInvalid = input;
+      };
+
+      if (!testName) markInvalid(testNameInput);
+      if (!testDescription) markInvalid(testDescriptionInput);
+      if (!testLink) markInvalid(testLinkInput);
+      if (!testStart) markInvalid(testStartInput);
+      if (!testEnd) markInvalid(testEndInput);
+
+      if (firstInvalid) {
+        showMessage(testFormMessage, "error", t("testRequired"));
+        firstInvalid.focus();
+        return;
+      }
+
+      if (!/^https?:\/\/.+/i.test(testLink)) {
+        testLinkInput.classList.add("invalid");
+        showMessage(testFormMessage, "error", t("invalidTestUrl"));
+        testLinkInput.focus();
+        return;
+      }
+
+      const startDate = new Date(testStart);
+      const endDate = new Date(testEnd);
+
+      if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime()) || endDate <= startDate) {
+        testEndInput.classList.add("invalid");
+        showMessage(testFormMessage, "error", t("invalidTestTimes"));
+        testEndInput.focus();
+        return;
+      }
+
+      setButtonLoading(
+        saveTestButton,
+        true,
+        saveTestText,
+        t("saving"),
+        isEditing ? t("updateTest") : t("saveTest")
+      );
+
+      try {
+        const payload = {
+          action: isEditing ? "updateTest" : "addTest",
+          token: adminToken,
+          testName: testName,
+          testDescription: testDescription,
+          testLink: testLink,
+          startDateTime: startDate.toISOString(),
+          endDateTime: endDate.toISOString()
+        };
+
+        if (isEditing) {
+          payload.testId = editingTestId.value;
+          payload.active = true;
+        }
+
+        const result = await apiPost(payload);
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("testSaveError");
+
+          if (isSessionError(errorMessage)) {
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        showToast(
+          result.message || (isEditing ? t("testUpdated") : t("testAdded")),
+          "success"
+        );
+
+        resetTestForm();
+        await loadTests();
+
+      } catch (error) {
+        console.error("Save test error:", error);
+
+        showMessage(
+          testFormMessage,
+          "error",
+          error.message === "INVALID_RESPONSE" ? t("testSaveError") : error.message
+        );
+      } finally {
+        setButtonLoading(
+          saveTestButton,
+          false,
+          saveTestText,
+          t("saving"),
+          editingTestId.value ? t("updateTest") : t("saveTest")
+        );
+      }
+    }
+
+    async function deactivateTest(testId, button) {
+      const confirmed = window.confirm(t("deactivateConfirm"));
+      if (!confirmed) return;
+
+      const oldText = button.textContent;
+      button.disabled = true;
+      button.textContent = "...";
+
+      try {
+        const result = await apiPost({
+          action: "deleteTest",
+          token: adminToken,
+          testId: testId
+        });
+
+        if (!result || !result.success) {
+          const errorMessage = (result && result.message) || t("testDeleteError");
+
+          if (isSessionError(errorMessage)) {
+            handleSessionError(t("loginExpired"));
+            return;
+          }
+
+          throw new Error(errorMessage);
+        }
+
+        showToast(result.message || t("testDeleted"), "success");
+        await loadTests();
+
+      } catch (error) {
+        console.error("Deactivate test error:", error);
+        showToast(
+          error.message === "INVALID_RESPONSE" ? t("testDeleteError") : error.message,
+          "error"
+        );
+      } finally {
+        if (document.body.contains(button)) {
+          button.disabled = false;
+          button.textContent = oldText;
+        }
+      }
+    }
+
+    async function logoutAdmin() {
+      const confirmed = window.confirm(t("logoutConfirm"));
+      if (!confirmed) return;
+
+      try {
+        if (adminToken) {
+          await apiPost({
+            action: "adminLogout",
+            token: adminToken
+          });
+        }
+      } catch (error) {
+        console.warn("Admin server logout failed:", error);
+      } finally {
+        localStorage.removeItem("prepifyAdminToken");
+        localStorage.removeItem("prepifyAdmin");
+
+        adminToken = "";
+        adminData = null;
+        registrations = [];
+        tests = [];
+
+        adminEmailInput.value = "";
+        adminPasswordInput.value = "";
+        clearMessage(adminLoginMessage);
+        setAdminView(false);
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    /* Login events */
+    adminLoginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage(adminLoginMessage);
+
+      const email = adminEmailInput.value.trim().toLowerCase();
+      const password = adminPasswordInput.value;
+
+      adminEmailInput.classList.remove("invalid");
+      adminPasswordInput.classList.remove("invalid");
+
+      if (!email || !password) {
+        if (!email) adminEmailInput.classList.add("invalid");
+        if (!password) adminPasswordInput.classList.add("invalid");
+
+        showMessage(adminLoginMessage, "error", t("requiredLogin"));
+        return;
+      }
+
+      setButtonLoading(
+        adminLoginButton,
+        true,
+        adminLoginButtonText,
+        t("loggingIn"),
+        t("loginButton")
+      );
+
+      try {
+        const result = await loginAdmin(email, password);
+
+        if (!result || !result.success) {
+          throw new Error((result && result.message) || t("invalidLogin"));
+        }
+
+        adminToken = result.token;
+        adminData = result.admin || { email: email, name: "Admin" };
+
+        localStorage.setItem("prepifyAdminToken", adminToken);
+        localStorage.setItem("prepifyAdmin", JSON.stringify(adminData));
+
+        setAdminView(true);
+        showToast(result.message || "Admin login successful.", "success");
+
+        await Promise.all([loadRegistrations(), loadTests()]);
+
+      } catch (error) {
+        console.error("Admin login error:", error);
+
+        showMessage(
+          adminLoginMessage,
+          "error",
+          error.message === "INVALID_RESPONSE"
+            ? t("invalidLogin")
+            : error.message || t("loginNetworkError")
+        );
+      } finally {
+        setButtonLoading(
+          adminLoginButton,
+          false,
+          adminLoginButtonText,
+          t("loggingIn"),
+          t("loginButton")
+        );
       }
     });
 
-    dateEl.value    = dateTxt;
-    subjectEl.value = subjTxt;
-    topicsEl.value  = topicsTxt;
-  }
-}
-      .catch(err => {
-        console.error('loadDashboardContentForAdmin error', err);
-      });
-  }
+    toggleAdminPassword.addEventListener("click", () => {
+      const hidden = adminPasswordInput.type === "password";
+      adminPasswordInput.type = hidden ? "text" : "password";
+      toggleAdminPassword.textContent = hidden ? t("hide") : t("show");
+    });
 
-  function logoutAdmin() {
-    if (!confirm('Are you sure you want to logout?')) return;
+    [adminEmailInput, adminPasswordInput].forEach((input) => {
+      input.addEventListener("input", () => input.classList.remove("invalid"));
+    });
+
+    /* Registration table events */
+    registrationSearch.addEventListener("input", renderRegistrations);
+    registrationStatusFilter.addEventListener("change", renderRegistrations);
+
+    refreshRegistrationsButton.addEventListener("click", loadRegistrations);
+    refreshTestsButton.addEventListener("click", loadTests);
+
+    registrationsTableBody.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+
+      const registrationId = button.dataset.registrationId;
+      const action = button.dataset.action;
+
+      if (action === "details") {
+        openCandidateDetails(registrationId);
+      }
+
+      if (action === "verify") {
+        verifyCandidate(registrationId, button);
+      }
+
+      if (action === "email") {
+        sendCredentialsEmail(registrationId, button);
+      }
+    });
+
+    /* Test events */
+    testForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      saveTest();
+    });
+
+    cancelEditButton.addEventListener("click", resetTestForm);
+
+    adminTestList.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-test-action]");
+      if (!button) return;
+
+      const action = button.dataset.testAction;
+      const testId = button.dataset.testId;
+
+      if (action === "edit") {
+        editTest(testId);
+      }
+
+      if (action === "delete") {
+        deactivateTest(testId, button);
+      }
+    });
+
+    [testNameInput, testDescriptionInput, testLinkInput, testStartInput, testEndInput].forEach(
+      (input) => {
+        input.addEventListener("input", () => input.classList.remove("invalid"));
+        input.addEventListener("change", () => input.classList.remove("invalid"));
+      }
+    );
+
+    /* Modal events */
+    candidateModalCloseIcon.addEventListener("click", closeCandidateModal);
+    candidateModalCloseButton.addEventListener("click", closeCandidateModal);
+
+    candidateModalOverlay.addEventListener("click", (event) => {
+      if (event.target === candidateModalOverlay) {
+        closeCandidateModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeCandidateModal();
+      }
+    });
+
+    /* Top actions */
+    englishButton.addEventListener("click", () => setLanguage("en"));
+    hindiButton.addEventListener("click", () => setLanguage("hi"));
+    logoutButton.addEventListener("click", logoutAdmin);
+
+    /* Initial startup */
+    createParticles();
+    setLanguage(currentLanguage);
+
+    const savedAdmin = localStorage.getItem("prepifyAdmin");
+
     try {
-      localStorage.removeItem('adminEmail');
-      window.location.href = 'admin-login.html';
-    } catch (e) {
-      console.error('logoutAdmin error', e);
-      window.location.reload();
-    }
-  }
-
-  function init() {
-    const email = localStorage.getItem('adminEmail') || '';
-
-    const emailSpan = document.getElementById('adminEmailDisplay');
-    if (emailSpan && email) {
-      emailSpan.textContent = email;
+      adminData = savedAdmin ? JSON.parse(savedAdmin) : null;
+    } catch (error) {
+      adminData = null;
     }
 
-    if (!email) {
-      window.location.href = 'admin-login.html';
-      return;
+    if (adminToken && adminData) {
+      setAdminView(true);
+      Promise.all([loadRegistrations(), loadTests()]);
+    } else {
+      setAdminView(false);
     }
-
-    // Ab role-based RPSC/UPSC toggle ki zaroorat nahi, sirf UPSC admin panel hai
-    showHome();
-
-    const examFilterEl = document.getElementById('filterExam');
-    const statusFilterEl = document.getElementById('filterStatus');
-    if (examFilterEl) {
-      examFilterEl.addEventListener('change', renderRegistrations);
-    }
-    if (statusFilterEl) {
-      statusFilterEl.addEventListener('change', renderRegistrations);
-    }
-
-    loadRegistrations();
-  }
-
-  document.addEventListener('DOMContentLoaded', init);
-
-  // Safety: ensure openFolderSection is reachable from inline onclick
-  window.openFolderSection = openFolderSection;
-</script>
+  </script>
 </body>
 </html>
