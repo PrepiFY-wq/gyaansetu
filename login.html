@@ -1,1 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Candidate Login | PrepiFY</title>
 
+  <style>
+    :root {
+      --primary: #5b3df5;
+      --primary-dark: #3d24c7;
+      --cyan: #13bdd7;
+      --pink: #ea4d9e;
+      --orange: #ff9e1c;
+      --text: #182033;
+      --muted: #687086;
+      --line: #e2e6ef;
+      --error: #b42318;
+      --success: #067647;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      font-family: "Segoe UI", "Noto Sans Devanagari", Arial, sans-serif;
+      overflow-x: hidden;
+      background: #4d2be6;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(
+        125deg,
+        #3b21c9,
+        #6045f7,
+        #13bdd7,
+        #e94d9a,
+        #ff9e1c
+      );
+      background-size: 300% 300%;
+      animation: gradientMove 14s ease infinite;
+    }
+
+    .bg::before,
+    .bg::after {
+      position: absolute;
+      border-radius: 50%;
+      content: "";
+      opacity: 0.32;
+      filter: blur(8px);
+    }
+
+    .bg::before {
+      top: -180px;
+      left: -150px;
+      width: 520px;
+      height: 520px;
+      background: #fff1a7;
+      animation: blobOne 17s ease-in-out infinite alternate;
+    }
+
+    .bg::after {
+      right: -200px;
+      bottom: -220px;
+      width: 620px;
+      height: 620px;
+      background: #c0f4ff;
+      animation: blobTwo 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes blobOne {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(180px, 90px) scale(1.15); }
+    }
+
+    @keyframes blobTwo {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-150px, -70px) scale(1.16); }
+    }
+
+    .page {
+      width: min(1050px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 45px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .brand-link {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      text-shadow: 0 3px 12px rgba(25, 10, 85, 0.25);
+    }
+
+    .prepi {
+      color: #fff3a8;
+    }
+
+    .fy {
+      color: #b7f5ff;
+    }
+
+    .institute {
+      margin-top: 6px;
+      color: rgba(255,255,255,0.92);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .language-switch {
+      display: inline-flex;
+      padding: 4px;
+      border: 1px solid rgba(255,255,255,0.38);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .lang-btn {
+      min-width: 70px;
+      padding: 8px 11px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #fff;
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      background: #fff;
+      color: var(--primary-dark);
+      box-shadow: 0 2px 10px rgba(20, 12, 82, 0.16);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.9fr) minmax(0, 1.1fr);
+      gap: 28px;
+      align-items: center;
+      min-height: 510px;
+    }
+
+    .info-card,
+    .login-card {
+      border: 1px solid rgba(255,255,255,0.42);
+      border-radius: 22px;
+      box-shadow: 0 22px 55px rgba(20, 10, 78, 0.3);
+      backdrop-filter: blur(15px);
+    }
+
+    .info-card {
+      padding: 34px 29px;
+      color: #fff;
+      background: linear-gradient(
+        150deg,
+        rgba(47, 29, 163, 0.92),
+        rgba(86, 54, 228, 0.78),
+        rgba(18, 157, 194, 0.72)
+      );
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 7px 11px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.12);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .info-card h1 {
+      margin: 0;
+      font-size: clamp(1.95rem, 3.6vw, 2.9rem);
+      line-height: 1.15;
+    }
+
+    .info-card p {
+      margin: 16px 0 0;
+      color: rgba(255,255,255,0.93);
+      line-height: 1.7;
+    }
+
+    .quote {
+      margin-top: 28px;
+      padding: 16px;
+      border-left: 4px solid #ffe17d;
+      border-radius: 11px;
+      color: #fff2af;
+      background: rgba(11, 8, 65, 0.19);
+      font-weight: 750;
+      line-height: 1.6;
+    }
+
+    .login-card {
+      padding: clamp(24px, 4vw, 38px);
+      background: rgba(255,255,255,0.94);
+    }
+
+    .login-card h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.15rem);
+    }
+
+    .subtitle {
+      margin: 8px 0 26px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #273049;
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    input {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 13px;
+      border: 1.5px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+      background: #fbfcff;
+      font: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(91, 61, 245, 0.13);
+    }
+
+    input.invalid {
+      border-color: var(--error);
+      box-shadow: 0 0 0 4px rgba(180, 35, 24, 0.1);
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 82px;
+    }
+
+    .show-btn {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 8px;
+      background: #edeaff;
+      color: var(--primary-dark);
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+      transform: translateY(-50%);
+    }
+
+    .submit-btn {
+      display: flex;
+      width: 100%;
+      min-height: 52px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, #5135ed, #7c3aed 55%, #d94dbb);
+      box-shadow: 0 11px 22px rgba(85, 52, 220, 0.3);
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 28px rgba(85, 52, 220, 0.4);
+    }
+
+    .submit-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
+    .spinner {
+      display: none;
+      width: 17px;
+      height: 17px;
+      border: 2px solid rgba(255,255,255,0.42);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .is-loading .spinner {
+      display: block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      border: 1px solid #ffc1bd;
+      color: #9f2720;
+      background: #fff0ef;
+    }
+
+    .message.success {
+      border: 1px solid #abe3c9;
+      color: #126344;
+      background: #eafbf2;
+    }
+
+    .register-text {
+      margin: 22px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .register-text a {
+      color: var(--primary);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .register-text a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: rgba(255,255,255,0.9);
+      text-align: center;
+      font-size: 0.82rem;
+    }
+
+    .footer a {
+      color: #fff2a5;
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    @media (max-width: 790px) {
+      .layout {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .page {
+        width: min(100% - 22px, 1050px);
+        padding-top: 14px;
+      }
+
+      .topbar {
+        margin-bottom: 20px;
+      }
+
+      .lang-btn {
+        min-width: 57px;
+        padding: 7px 8px;
+        font-size: 0.77rem;
+      }
+
+      .info-card,
+      .login-card {
+        border-radius: 18px;
+      }
+
+      .info-card {
+        padding: 25px 20px;
+      }
+
+      .login-card {
+        padding: 25px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg"></div>
+
+  <main class="page">
+    <header class="topbar">
+      <a href="index.html" class="brand-link">
+        <div class="brand">
+          <span class="prepi">Prepi</span><span class="fy">FY</span>
+        </div>
+        <div class="institute">GyaanSetu Maths</div>
+      </a>
+
+      <div class="language-switch">
+        <button class="lang-btn active" id="englishButton" type="button">
+          English
+        </button>
+        <button class="lang-btn" id="hindiButton" type="button">
+          हिन्दी
+        </button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <aside class="info-card">
+        <span class="pill" data-i18n="portalLabel">Candidate Portal</span>
+
+        <h1 data-i18n="welcomeTitle">Welcome back, future achiever.</h1>
+
+        <p data-i18n="welcomeText">
+          Use the UID and password sent to your registered email after
+          verification to securely access your dashboard.
+        </p>
+
+        <div class="quote" data-i18n="quote">
+          मेहनत इतनी खामोशी से करो कि सफलता शोर मचा दे।
+        </div>
+      </aside>
+
+      <section class="login-card">
+        <h2 data-i18n="loginTitle">Candidate Login</h2>
+
+        <p class="subtitle" data-i18n="loginSubtitle">
+          Enter your registered Name, UID and Password.
+        </p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="candidateName" data-i18n="nameLabel">
+              Candidate Name
+            </label>
+
+            <input
+              id="candidateName"
+              type="text"
+              autocomplete="name"
+              required
+              placeholder="Enter your registered name"
+            />
+          </div>
+
+          <div class="field">
+            <label for="candidateUid" data-i18n="uidLabel">UID</label>
+
+            <input
+              id="candidateUid"
+              type="text"
+              autocomplete="username"
+              required
+              placeholder="Example: GS26123456"
+              style="text-transform: uppercase"
+            />
+          </div>
+
+          <div class="field">
+            <label for="candidatePassword" data-i18n="passwordLabel">
+              Password
+            </label>
+
+            <div class="password-wrap">
+              <input
+                id="candidatePassword"
+                type="password"
+                autocomplete="current-password"
+                required
+                placeholder="Enter your password"
+              />
+
+              <button id="showPasswordButton" class="show-btn" type="button">
+                Show
+              </button>
+            </div>
+          </div>
+
+          <button id="loginButton" class="submit-btn" type="submit">
+            <span class="spinner"></span>
+            <span id="loginButtonText" data-i18n="loginButton">
+              Login to Dashboard
+            </span>
+          </button>
+
+          <div
+            id="messageBox"
+            class="message"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <p class="register-text">
+            <span data-i18n="notRegistered">Not registered yet?</span>
+            <a href="register.html" data-i18n="registerLink">Register here</a>
+          </p>
+        </form>
+      </section>
+    </section>
+
+    <div class="footer">
+      <a href="index.html" data-i18n="backHome">← Back to Home</a>
+    </div>
+  </main>
+
+  <script>
+    const GAS_URL =
+      "https://script.google.com/macros/s/AKfycby-m3o9rQfaRIn51M8Z-18xpIfKFPGmXmRbExyBhv6e1yKVZfvmFi7mVMsCw4zgHmPs/exec";
+
+    const translations = {
+      en: {
+        title: "Candidate Login | PrepiFY",
+        portalLabel: "Candidate Portal",
+        welcomeTitle: "Welcome back, future achiever.",
+        welcomeText:
+          "Use the UID and password sent to your registered email after verification to securely access your dashboard.",
+        quote: "Work so quietly that your success makes the noise.",
+        loginTitle: "Candidate Login",
+        loginSubtitle: "Enter your registered Name, UID and Password.",
+        nameLabel: "Candidate Name",
+        uidLabel: "UID",
+        passwordLabel: "Password",
+        loginButton: "Login to Dashboard",
+        loggingIn: "Checking details...",
+        show: "Show",
+        hide: "Hide",
+        notRegistered: "Not registered yet?",
+        registerLink: "Register here",
+        backHome: "← Back to Home",
+        namePlaceholder: "Enter your registered name",
+        uidPlaceholder: "Example: GS26123456",
+        passwordPlaceholder: "Enter your password",
+        requiredError: "Please enter Name, UID and Password.",
+        configError: "Apps Script URL is not configured.",
+        loginError: "Invalid Name, UID or Password. Please check and try again.",
+        networkError: "Unable to reach the login service. Please try again.",
+        success: "Login successful. Opening dashboard..."
+      },
+
+      hi: {
+        title: "कैंडिडेट लॉगिन | PrepiFY",
+        portalLabel: "कैंडिडेट पोर्टल",
+        welcomeTitle: "वापसी पर स्वागत है, भावी सफल अभ्यर्थी।",
+        welcomeText:
+          "सत्यापन के बाद आपके रजिस्टर्ड ई-मेल पर भेजे गए UID और पासवर्ड से सुरक्षित लॉगिन करें।",
+        quote: "मेहनत इतनी खामोशी से करो कि सफलता शोर मचा दे।",
+        loginTitle: "कैंडिडेट लॉगिन",
+        loginSubtitle: "अपना रजिस्टर्ड नाम, UID और पासवर्ड भरें।",
+        nameLabel: "अभ्यर्थी का नाम",
+        uidLabel: "UID",
+        passwordLabel: "पासवर्ड",
+        loginButton: "डैशबोर्ड में लॉगिन करें",
+        loggingIn: "जानकारी जाँची जा रही है...",
+        show: "दिखाएं",
+        hide: "छुपाएं",
+        notRegistered: "अभी रजिस्ट्रेशन नहीं किया है?",
+        registerLink: "यहाँ रजिस्टर करें",
+        backHome: "← होम पर जाएं",
+        namePlaceholder: "अपना रजिस्टर्ड नाम लिखें",
+        uidPlaceholder: "उदाहरण: GS26123456",
+        passwordPlaceholder: "अपना पासवर्ड लिखें",
+        requiredError: "कृपया नाम, UID और पासवर्ड भरें।",
+        configError: "Apps Script URL कॉन्फ़िगर नहीं है।",
+        loginError: "नाम, UID या पासवर्ड गलत है। कृपया जाँचकर दोबारा प्रयास करें।",
+        networkError: "लॉगिन सर्विस से कनेक्ट नहीं हो पाया। कृपया पुनः प्रयास करें।",
+        success: "लॉगिन सफल रहा। डैशबोर्ड खोला जा रहा है..."
+      }
+    };
+
+    let language = localStorage.getItem("prepifyLanguage") || "en";
+
+    const englishButton = document.getElementById("englishButton");
+    const hindiButton = document.getElementById("hindiButton");
+    const loginForm = document.getElementById("loginForm");
+    const nameInput = document.getElementById("candidateName");
+    const uidInput = document.getElementById("candidateUid");
+    const passwordInput = document.getElementById("candidatePassword");
+    const showPasswordButton = document.getElementById("showPasswordButton");
+    const loginButton = document.getElementById("loginButton");
+    const loginButtonText = document.getElementById("loginButtonText");
+    const messageBox = document.getElementById("messageBox");
+
+    function setLanguage(selectedLanguage) {
+      language = selectedLanguage;
+      localStorage.setItem("prepifyLanguage", language);
+
+      document.documentElement.lang = language === "hi" ? "hi" : "en";
+      document.title = translations[language].title;
+
+      englishButton.classList.toggle("active", language === "en");
+      hindiButton.classList.toggle("active", language === "hi");
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.getAttribute("data-i18n");
+
+        if (translations[language][key]) {
+          element.textContent = translations[language][key];
+        }
+      });
+
+      nameInput.placeholder = translations[language].namePlaceholder;
+      uidInput.placeholder = translations[language].uidPlaceholder;
+      passwordInput.placeholder = translations[language].passwordPlaceholder;
+
+      if (!loginButton.disabled) {
+        loginButtonText.textContent = translations[language].loginButton;
+      }
+
+      showPasswordButton.textContent =
+        passwordInput.type === "password"
+          ? translations[language].show
+          : translations[language].hide;
+    }
+
+    function showMessage(type, message) {
+      messageBox.className = `message show ${type}`;
+      messageBox.textContent = message;
+    }
+
+    function clearMessage() {
+      messageBox.className = "message";
+      messageBox.textContent = "";
+    }
+
+    function setLoading(loading) {
+      loginButton.disabled = loading;
+      loginButton.classList.toggle("is-loading", loading);
+
+      loginButtonText.textContent = loading
+        ? translations[language].loggingIn
+        : translations[language].loginButton;
+    }
+
+    async function sendLoginRequest(payload) {
+      const response = await fetch(GAS_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload),
+        redirect: "follow"
+      });
+
+      const responseText = await response.text();
+
+      try {
+        return JSON.parse(responseText);
+      } catch (error) {
+        throw new Error("INVALID_RESPONSE");
+      }
+    }
+
+    englishButton.addEventListener("click", () => setLanguage("en"));
+    hindiButton.addEventListener("click", () => setLanguage("hi"));
+
+    showPasswordButton.addEventListener("click", () => {
+      const isHidden = passwordInput.type === "password";
+
+      passwordInput.type = isHidden ? "text" : "password";
+
+      showPasswordButton.textContent = isHidden
+        ? translations[language].hide
+        : translations[language].show;
+    });
+
+    uidInput.addEventListener("input", () => {
+      uidInput.value = uidInput.value.toUpperCase().replace(/\s/g, "");
+      uidInput.classList.remove("invalid");
+    });
+
+    [nameInput, passwordInput].forEach((input) => {
+      input.addEventListener("input", () => input.classList.remove("invalid"));
+    });
+
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage();
+
+      const name = nameInput.value.trim();
+      const uid = uidInput.value.trim().toUpperCase();
+      const password = passwordInput.value;
+
+      [nameInput, uidInput, passwordInput].forEach((input) => {
+        input.classList.remove("invalid");
+      });
+
+      if (!name || !uid || !password) {
+        if (!name) nameInput.classList.add("invalid");
+        if (!uid) uidInput.classList.add("invalid");
+        if (!password) passwordInput.classList.add("invalid");
+
+        showMessage("error", translations[language].requiredError);
+        return;
+      }
+
+      if (!GAS_URL || !GAS_URL.includes("script.google.com")) {
+        showMessage("error", translations[language].configError);
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const result = await sendLoginRequest({
+          action: "candidateLogin",
+          name: name,
+          uid: uid,
+          password: password
+        });
+
+        if (result && result.success) {
+          localStorage.setItem("prepifyCandidateToken", result.token);
+          localStorage.setItem(
+            "prepifyCandidate",
+            JSON.stringify(result.candidate || {})
+          );
+
+          if (result.candidate && result.candidate.language) {
+            localStorage.setItem(
+              "prepifyLanguage",
+              result.candidate.language
+            );
+          }
+
+          showMessage("success", translations[language].success);
+
+          setTimeout(() => {
+            window.location.href = "candidate.html";
+          }, 650);
+
+          return;
+        }
+
+        showMessage(
+          "error",
+          (result && result.message) || translations[language].loginError
+        );
+
+      } catch (error) {
+        console.error("Candidate login error:", error);
+
+        showMessage(
+          "error",
+          error.message === "INVALID_RESPONSE"
+            ? translations[language].loginError
+            : translations[language].networkError
+        );
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    setLanguage(language);
+  </script>
+</body>
+</html>
