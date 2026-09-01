@@ -887,6 +887,60 @@
                 placeholder="Enter your complete address"
               ></textarea>
             </div>
+            <!-- Payment QR Section: Address के बाद और UPI ID field के पहले -->
+<div class="payment-card">
+  <div class="payment-qr-wrap">
+    <img
+      class="payment-qr"
+      src="payment.jpeg"
+      alt="Scan QR code to make payment"
+    />
+  </div>
+
+  <div class="payment-content">
+    <h3 data-i18n="paymentTitle">Complete Your Registration Payment</h3>
+
+    <p data-i18n="paymentInstructions">
+      Scan the QR code using any UPI app, complete the payment, and then enter
+      the UPI ID used for payment below.
+    </p>
+
+    <div class="payment-details">
+      <div class="payment-detail">
+        <strong data-i18n="payToLabel">Pay To:</strong>
+        <span>GyaanSetu Maths</span>
+      </div>
+
+      <div class="payment-detail">
+        <strong data-i18n="upiIdLabel">UPI ID:</strong>
+
+        <!-- अपनी actual receiving UPI ID यहाँ लिखें -->
+        <span id="displayUpiId">pranshupanniwal2004@okhdfcbank</span>
+      </div>
+
+      <div class="payment-detail">
+        <strong data-i18n="feeLabel">Registration Fee:</strong>
+
+        <!-- अपनी exact registration fee यहाँ लिखें -->
+        <span>₹101</span>
+      </div>
+    </div>
+
+    <button
+      id="copyUpiButton"
+      class="copy-upi-btn"
+      type="button"
+      data-i18n="copyUpiBtn"
+    >
+      Copy UPI ID
+    </button>
+
+    <p class="payment-note" data-i18n="paymentNote">
+      Important: Submit the form only after completing payment and uploading a
+      valid payment screenshot.
+    </p>
+  </div>
+</div>
 
             <div class="field full">
               <label for="upiId">
