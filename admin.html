@@ -1427,21 +1427,23 @@
           <div class="table-wrap">
             <table>
               <thead>
-                <tr>
-                  <th data-i18n="candidate">Candidate</th>
-                  <th data-i18n="contact">Contact</th>
-                  <th data-i18n="payment">Payment</th>
-                  <th data-i18n="paymentVerified">Payment Verified</th>
-                  <th data-i18n="detailsVerified">Details Verified</th>
-                  <th data-i18n="status">Status</th>
-                  <th data-i18n="credentials">Credentials</th>
-                  <th data-i18n="actions">Actions</th>
-                </tr>
+               <tr>
+  <th data-i18n="candidate">Candidate</th>
+  <th data-i18n="contact">Contact</th>
+  <th data-i18n="examCategory">Exam Category</th>
+  <th data-i18n="registrationFee">Registration Fee</th>
+  <th data-i18n="payment">Payment</th>
+  <th data-i18n="paymentVerified">Payment Verified</th>
+  <th data-i18n="detailsVerified">Details Verified</th>
+  <th data-i18n="status">Status</th>
+  <th data-i18n="credentials">Credentials</th>
+  <th data-i18n="actions">Actions</th>
+</tr>
               </thead>
 
               <tbody id="registrationsTableBody">
                 <tr>
-                  <td colspan="8" class="no-data" data-i18n="loadingRegistrations">
+                  <td colspan="10" class="no-data" data-i18n="loadingRegistrations">
                     Loading registrations...
                   </td>
                 </tr>
@@ -1507,6 +1509,25 @@
                 The link must start with https:// or http://
               </span>
             </div>
+
+            <div class="field">
+  <label for="testCategory">
+    Test Category <span class="required">*</span>
+  </label>
+
+  <select id="testCategory" required>
+    <option value="">Select category</option>
+    <option value="TGT">TGT</option>
+    <option value="PGT">PGT</option>
+    <option value="TGT+PGT Combo">TGT + PGT Combo</option>
+    <option value="All">All Candidates</option>
+  </select>
+
+  <span class="field-help">
+    TGT tests are visible to TGT and Combo candidates. PGT tests are visible
+    to PGT and Combo candidates.
+  </span>
+</div>
 
             <div class="two-fields">
               <div class="field">
@@ -1691,6 +1712,11 @@
         whatsapp: "WhatsApp",
         address: "Address",
         upiId: "UPI ID",
+        examCategory: "Exam Category",
+registrationFee: "Registration Fee",
+testCategory: "Test Category",
+selectTestCategory: "Select category",
+allCandidates: "All Candidates",
         registrationId: "Registration ID",
         preferredLanguage: "Preferred Language",
         verifyCandidate: "Verify Candidate",
@@ -1810,6 +1836,11 @@
         whatsapp: "व्हाट्सऐप",
         address: "पता",
         upiId: "UPI ID",
+        examCategory: "परीक्षा श्रेणी",
+registrationFee: "रजिस्ट्रेशन शुल्क",
+testCategory: "टेस्ट श्रेणी",
+selectTestCategory: "श्रेणी चुनें",
+allCandidates: "सभी कैंडिडेट",
         registrationId: "रजिस्ट्रेशन ID",
         preferredLanguage: "चुनी गई भाषा",
         verifyCandidate: "कैंडिडेट सत्यापित करें",
@@ -1889,6 +1920,7 @@
     const testNameInput = document.getElementById("testName");
     const testDescriptionInput = document.getElementById("testDescription");
     const testLinkInput = document.getElementById("testLink");
+    const testCategoryInput = document.getElementById("testCategory");
     const testStartInput = document.getElementById("testStart");
     const testEndInput = document.getElementById("testEnd");
     const saveTestButton = document.getElementById("saveTestButton");
@@ -2132,7 +2164,7 @@
 
       registrationsTableBody.innerHTML = `
         <tr>
-          <td colspan="8" class="no-data">${escapeHtml(t("loadingRegistrations"))}</td>
+          <td colspan="10" class="no-data">${escapeHtml(t("loadingRegistrations"))}</td>
         </tr>
       `;
 
@@ -2158,7 +2190,7 @@
 
         registrationsTableBody.innerHTML = `
           <tr>
-            <td colspan="8" class="no-data">
+            <td colspan="10" class="no-data">
               ${escapeHtml(error.message === "INVALID_RESPONSE" ? t("registrationLoadError") : error.message)}
             </td>
           </tr>
@@ -2256,7 +2288,7 @@
       if (!filtered.length) {
         registrationsTableBody.innerHTML = `
           <tr>
-            <td colspan="8" class="no-data">${escapeHtml(t("noRegistrations"))}</td>
+            <td colspan="10" class="no-data">${escapeHtml(t("noRegistrations"))}</td>
           </tr>
         `;
         return;
@@ -2290,13 +2322,18 @@
               </td>
 
               <td>
-                <div>${escapeHtml(item.whatsapp || "—")}</div>
-                <div class="candidate-email">${escapeHtml(item.email || "—")}</div>
-              </td>
+               <td>
+  <div>${escapeHtml(item.whatsapp || "—")}</div>
+  <div class="candidate-email">${escapeHtml(item.email || "—")}</div>
+</td>
 
-              <td>
-                <span class="candidate-email">${escapeHtml(item.paymentProofFileName || "—")}</span>
-              </td>
+<td>${escapeHtml(item.examCategory || "—")}</td>
+
+<td>₹${escapeHtml(String(item.registrationFee || 0))}</td>
+
+<td>
+  <span class="candidate-email">${escapeHtml(item.paymentProofFileName || "—")}</span>
+</td>
 
               <td class="check-cell">
                 ${checkboxHtml(item.registrationId, "payment", item.paymentVerified)}
@@ -2484,10 +2521,16 @@
         <div class="detail-value">${escapeHtml(candidate.whatsapp || "—")}</div>
 
         <div class="detail-label">${escapeHtml(t("address"))}</div>
-        <div class="detail-value">${escapeHtml(candidate.address || "—")}</div>
+<div class="detail-value">${escapeHtml(candidate.address || "—")}</div>
 
-        <div class="detail-label">${escapeHtml(t("upiId"))}</div>
-        <div class="detail-value">${escapeHtml(candidate.upiId || "—")}</div>
+<div class="detail-label">${escapeHtml(t("examCategory"))}</div>
+<div class="detail-value">${escapeHtml(candidate.examCategory || "—")}</div>
+
+<div class="detail-label">${escapeHtml(t("registrationFee"))}</div>
+<div class="detail-value">₹${escapeHtml(String(candidate.registrationFee || 0))}</div>
+
+<div class="detail-label">${escapeHtml(t("upiId"))}</div>
+<div class="detail-value">${escapeHtml(candidate.upiId || "—")}</div>
 
         <div class="detail-label">${escapeHtml(t("preferredLanguage"))}</div>
         <div class="detail-value">${escapeHtml(languageText)}</div>
@@ -2568,12 +2611,17 @@
           return `
             <article class="admin-test-item">
               <div>
-                <div class="admin-test-title-row">
-                  <span class="admin-test-name">${escapeHtml(test.testName)}</span>
-                  <span class="status-badge ${statusClass}">
-                    ${escapeHtml(getStatusText(test.status))}
-                  </span>
-                </div>
+              <div class="admin-test-title-row">
+  <span class="admin-test-name">${escapeHtml(test.testName)}</span>
+
+  <span class="status-badge test-status-upcoming">
+    ${escapeHtml(test.testCategory || "All")}
+  </span>
+
+  <span class="status-badge ${statusClass}">
+    ${escapeHtml(getStatusText(test.status))}
+  </span>
+</div>
 
                 <div class="test-meta">
                   <strong>${escapeHtml(t("startDateTime"))}:</strong>
@@ -2613,15 +2661,21 @@
     function resetTestForm() {
       editingTestId.value = "";
       testForm.reset();
+      testCategoryInput.value = "";
 
       testFormTitle.textContent = t("addTest");
       saveTestText.textContent = t("saveTest");
       cancelEditButton.classList.remove("show");
       clearMessage(testFormMessage);
 
-      [testNameInput, testDescriptionInput, testLinkInput, testStartInput, testEndInput].forEach(
-        (input) => input.classList.remove("invalid")
-      );
+     [
+  testNameInput,
+  testDescriptionInput,
+  testLinkInput,
+  testCategoryInput,
+  testStartInput,
+  testEndInput
+].forEach((input) => input.classList.remove("invalid"));
     }
 
     function editTest(testId) {
@@ -2633,11 +2687,12 @@
       }
 
       editingTestId.value = test.testId;
-      testNameInput.value = test.testName || "";
-      testDescriptionInput.value = test.testDescription || "";
-      testLinkInput.value = test.testLink || "";
-      testStartInput.value = toDateTimeLocal(test.startDateTime);
-      testEndInput.value = toDateTimeLocal(test.endDateTime);
+testNameInput.value = test.testName || "";
+testDescriptionInput.value = test.testDescription || "";
+testLinkInput.value = test.testLink || "";
+testCategoryInput.value = test.testCategory || "All";
+testStartInput.value = toDateTimeLocal(test.startDateTime);
+testEndInput.value = toDateTimeLocal(test.endDateTime);
 
       testFormTitle.textContent = t("editTest");
       saveTestText.textContent = t("updateTest");
@@ -2651,14 +2706,22 @@
     async function saveTest() {
       clearMessage(testFormMessage);
 
-      const testName = testNameInput.value.trim();
-      const testDescription = testDescriptionInput.value.trim();
-      const testLink = testLinkInput.value.trim();
-      const testStart = testStartInput.value;
+const testName = testNameInput.value.trim();
+const testDescription = testDescriptionInput.value.trim();
+const testLink = testLinkInput.value.trim();
+const testCategory = testCategoryInput.value;
+const testStart = testStartInput.value;
       const testEnd = testEndInput.value;
       const isEditing = Boolean(editingTestId.value);
 
-      [testNameInput, testDescriptionInput, testLinkInput, testStartInput, testEndInput].forEach(
+      [
+  testNameInput,
+  testDescriptionInput,
+  testLinkInput,
+  testCategoryInput,
+  testStartInput,
+  testEndInput
+].forEach(
         (input) => input.classList.remove("invalid")
       );
 
@@ -2671,6 +2734,7 @@
       if (!testName) markInvalid(testNameInput);
       if (!testDescription) markInvalid(testDescriptionInput);
       if (!testLink) markInvalid(testLinkInput);
+      if (!testCategory) markInvalid(testCategoryInput);
       if (!testStart) markInvalid(testStartInput);
       if (!testEnd) markInvalid(testEndInput);
 
@@ -2707,20 +2771,20 @@
 
       try {
         const payload = {
-          action: isEditing ? "updateTest" : "addTest",
-          token: adminToken,
-          testName: testName,
-          testDescription: testDescription,
-          testLink: testLink,
-          startDateTime: startDate.toISOString(),
-          endDateTime: endDate.toISOString()
-        };
+  action: isEditing ? "updateTest" : "addTest",
+  token: adminToken,
+  testId: editingTestId.value,
+  testName: testName,
+  testDescription: testDescription,
+  testLink: testLink,
+  testCategory: testCategory,
+  startDateTime: testStart,
+  endDateTime: testEnd
+};
 
-        if (isEditing) {
-          payload.testId = editingTestId.value;
-          payload.active = true;
-        }
-
+       if (isEditing) {
+  payload.active = true;
+}
         const result = await apiPost(payload);
 
         if (!result || !result.success) {
@@ -2943,7 +3007,6 @@
       event.preventDefault();
       saveTest();
     });
-
     cancelEditButton.addEventListener("click", resetTestForm);
 
     adminTestList.addEventListener("click", (event) => {
@@ -2962,12 +3025,17 @@
       }
     });
 
-    [testNameInput, testDescriptionInput, testLinkInput, testStartInput, testEndInput].forEach(
-      (input) => {
-        input.addEventListener("input", () => input.classList.remove("invalid"));
-        input.addEventListener("change", () => input.classList.remove("invalid"));
-      }
-    );
+    [
+  testNameInput,
+  testDescriptionInput,
+  testLinkInput,
+  testCategoryInput,
+  testStartInput,
+  testEndInput
+].forEach((input) => {
+  input.addEventListener("input", () => input.classList.remove("invalid"));
+  input.addEventListener("change", () => input.classList.remove("invalid"));
+});
 
     /* Modal events */
     candidateModalCloseIcon.addEventListener("click", closeCandidateModal);
