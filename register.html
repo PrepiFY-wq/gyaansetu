@@ -1499,12 +1499,11 @@ function setLanguage(language) {
     submitText.textContent = translations[currentLanguage].submitBtn;
   }
 
-  updatePaymentSection();
+    updatePaymentSection();
 }
-      });
 
-    englishButton.addEventListener("click", () => setLanguage("en"));
-    hindiButton.addEventListener("click", () => setLanguage("hi"));
+englishButton.addEventListener("click", () => setLanguage("en"));
+hindiButton.addEventListener("click", () => setLanguage("hi"));
 
     function createParticles() {
       const particleContainer = document.getElementById("particles");
