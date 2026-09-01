@@ -222,6 +222,11 @@
       color: #111827;
     }
 
+    .btn-admin {
+  background: linear-gradient(135deg, #0f766e, #0891b2);
+  color: #ffffff;
+}
+
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.22);
@@ -300,14 +305,26 @@
       </div>
     </div>
 
-    <div class="right-panel">
-      <div class="login-box">
-        <h3 data-i18n="loginTitle">Login to your personalised dashboard</h3>
-       <a href="login.html" class="btn btn-primary" data-i18n="loginBtn">Login</a>
-        <a href="register.html" class="btn btn-secondary" data-i18n="registerBtn">Register Here</a>
-      </div>
-    </div>
+   <div class="right-panel">
+  <div class="login-box">
+    <h3 data-i18n="loginTitle">Login to your personalised dashboard</h3>
+
+    <!-- Candidate Login -->
+    <a href="login.html" class="btn btn-primary" data-i18n="loginBtn">
+      Login
+    </a>
+
+    <!-- New Candidate Registration -->
+    <a href="register.html" class="btn btn-secondary" data-i18n="registerBtn">
+      Register Here
+    </a>
+
+    <!-- Admin Login -->
+    <a href="admin.html" class="btn btn-admin" data-i18n="adminLoginBtn">
+      Admin Login
+    </a>
   </div>
+</div>
 
   <script>
     // ---------------- Language Data ----------------
@@ -320,6 +337,7 @@
         loginTitle: "Login to your personalised dashboard",
         loginBtn: "Login",
         registerBtn: "Register Here",
+         adminLoginBtn: "Admin Login",
         shlokLabel: "Shlok",
         arthLabel: "Meaning"
       },
@@ -331,6 +349,7 @@
         loginTitle: "अपने पर्सनलाइज़्ड डैशबोर्ड में लॉग इन करें",
         loginBtn: "लॉग इन",
         registerBtn: "यहाँ रजिस्टर करें",
+        adminLoginBtn: "एडमिन लॉगिन",
         shlokLabel: "श्लोक",
         arthLabel: "अर्थ"
       }
