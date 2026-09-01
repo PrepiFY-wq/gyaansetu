@@ -737,7 +737,7 @@
 ================================== */
 .payment-card {
   grid-column: 1 / -1;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   gap: 14px;
@@ -749,6 +749,7 @@
   box-shadow: 0 7px 18px rgba(82, 58, 205, 0.1);
   text-align: center;
 }
+
 
 .payment-qr-wrap {
   display: flex;
@@ -841,6 +842,25 @@
   font-size: 0.78rem !important;
   font-weight: 700;
 }
+
+    .exam-category-card {
+  grid-column: 1 / -1;
+  padding: 15px;
+  border: 1px solid #ddd9ff;
+  border-radius: 14px;
+  background: rgba(248, 247, 255, 0.82);
+}
+
+.exam-category-card .field {
+  margin: 0;
+}
+
+.exam-category-card .field-help {
+  margin-top: 7px;
+}
+
+
+    
   </style>
 </head>
 
@@ -996,13 +1016,39 @@
                 placeholder="Enter your complete address"
               ></textarea>
             </div>
-            <!-- Payment QR Section: Address के बाद और UPI ID field के पहले -->
-<div class="payment-card">
+ <!-- Exam Category Selection -->
+<div class="exam-category-card">
+  <div class="field">
+    <label for="examCategory">
+      <span data-i18n="examCategoryLabel">Select Exam Category</span>
+      <span class="required">*</span>
+    </label>
+
+    <select id="examCategory" name="examCategory" required>
+      <option value="" data-i18n="selectCategory">
+        Select TGT, PGT or Combo
+      </option>
+      <option value="PGT" data-i18n="pgtOption">PGT</option>
+      <option value="TGT" data-i18n="tgtOption">TGT</option>
+      <option value="TGT+PGT Combo" data-i18n="comboOption">
+        TGT + PGT Combo
+      </option>
+    </select>
+
+    <span class="field-help" data-i18n="categoryHelp">
+      Select a category to see the required registration fee and QR code.
+    </span>
+  </div>
+</div>
+
+<!-- Dynamic Payment QR: category select होने पर दिखेगा -->
+<div id="paymentCard" class="payment-card">
   <div class="payment-qr-wrap">
     <img
+      id="paymentQrImage"
       class="payment-qr"
-      src="Payment.jpeg"
-      alt="Scan QR code to make payment"
+      src=""
+      alt="Payment QR Code"
     />
   </div>
 
@@ -1010,11 +1056,16 @@
     <h3 data-i18n="paymentTitle">Complete Your Registration Payment</h3>
 
     <p data-i18n="paymentInstructions">
-      Scan the QR code using any UPI app, complete the payment, and then enter
+      Scan the QR code using any UPI app, pay the shown amount, and then enter
       the UPI ID used for payment below.
     </p>
 
     <div class="payment-details">
+      <div class="payment-detail">
+        <strong data-i18n="selectedCategoryLabel">Selected Category:</strong>
+        <span id="selectedCategoryText">—</span>
+      </div>
+
       <div class="payment-detail">
         <strong data-i18n="payToLabel">Pay To:</strong>
         <span>GyaanSetu Maths</span>
@@ -1022,16 +1073,12 @@
 
       <div class="payment-detail">
         <strong data-i18n="upiIdLabel">UPI ID:</strong>
-
-        <!-- अपनी actual receiving UPI ID यहाँ लिखें -->
         <span id="displayUpiId">pranshupanniwal2004@okhdfcbank</span>
       </div>
 
       <div class="payment-detail">
         <strong data-i18n="feeLabel">Registration Fee:</strong>
-
-        <!-- अपनी exact registration fee यहाँ लिखें -->
-        <span>₹101</span>
+        <span id="registrationFee">₹0</span>
       </div>
     </div>
 
@@ -1045,32 +1092,35 @@
     </button>
 
     <p class="payment-note" data-i18n="paymentNote">
-      Important: Submit the form only after completing payment and uploading a
-      valid payment screenshot.
+      Submit the form only after completing payment and uploading a valid
+      payment screenshot.
     </p>
   </div>
 </div>
 
-            <div class="field full">
-              <label for="upiId">
-                <span data-i18n="upiLabel">UPI ID used for payment</span>
-                <span class="required">*</span>
-              </label>
-              <input
-                id="upiId"
-                name="upiId"
-                type="text"
-                maxlength="100"
-                autocomplete="off"
-                required
-                data-placeholder-en="Example: name@upi"
-                data-placeholder-hi="उदाहरण: name@upi"
-                placeholder="Example: name@upi"
-              />
-              <span class="field-help" data-i18n="upiHelp">
-                Enter the UPI ID from which you made the payment.
-              </span>
-            </div>
+<!-- UPI ID field -->
+<div class="field full">
+  <label for="upiId">
+    <span data-i18n="upiLabel">UPI ID used for payment</span>
+    <span class="required">*</span>
+  </label>
+
+  <input
+    id="upiId"
+    name="upiId"
+    type="text"
+    maxlength="100"
+    autocomplete="off"
+    required
+    data-placeholder-en="Example: name@upi"
+    data-placeholder-hi="उदाहरण: name@upi"
+    placeholder="Example: name@upi"
+  />
+
+  <span class="field-help" data-i18n="upiHelp">
+    Enter the UPI ID from which you made the payment.
+  </span>
+</div>
 
             <div class="field full">
               <label>
@@ -1209,11 +1259,37 @@
           "Registration service is not configured. Please add your Apps Script Web App URL in this file.",
         success:
           "Registration submitted successfully. Verification is pending. A confirmation email has been sent to your registered email address.",
-        generalError:
-          "Your registration could not be submitted. Please try again after some time.",
-        networkError:
-          "Unable to connect to the registration service. Check your internet connection and try again."
-      },
+      generalError:
+  "Your registration could not be submitted. Please try again after some time.",
+
+networkError:
+  "Unable to connect to the registration service. Check your internet connection and try again.",
+
+examCategoryLabel: "Select Exam Category",
+selectCategory: "Select TGT, PGT or Combo",
+pgtOption: "PGT",
+tgtOption: "TGT",
+comboOption: "TGT + PGT Combo",
+
+categoryHelp:
+  "Select a category to see the required registration fee and QR code.",
+
+paymentTitle: "Complete Your Registration Payment",
+
+paymentInstructions:
+  "Scan the QR code using any UPI app, pay the shown amount, and then enter the UPI ID used for payment below.",
+
+selectedCategoryLabel: "Selected Category:",
+payToLabel: "Pay To:",
+upiIdLabel: "UPI ID:",
+feeLabel: "Registration Fee:",
+copyUpiBtn: "Copy UPI ID",
+
+paymentNote:
+  "Submit the form only after completing payment and uploading a valid payment screenshot.",
+
+upiCopied: "UPI ID copied successfully."
+},
 
       hi: {
         pageTitle: "रजिस्ट्रेशन | PrepiFY - GyaanSetu Maths",
@@ -1268,12 +1344,55 @@
           "रजिस्ट्रेशन सर्विस कॉन्फ़िगर नहीं है। कृपया इस file में Apps Script Web App URL जोड़ें।",
         success:
           "रजिस्ट्रेशन सफलतापूर्वक जमा हो गया है। सत्यापन लंबित है। आपके रजिस्टर्ड ई-मेल पर पुष्टि संदेश भेज दिया गया है।",
-        generalError:
-          "रजिस्ट्रेशन जमा नहीं हो सका। कृपया कुछ समय बाद पुनः प्रयास करें।",
-        networkError:
-          "रजिस्ट्रेशन सर्विस से कनेक्ट नहीं हो पाया। इंटरनेट जाँचकर दोबारा प्रयास करें।"
-      }
+       generalError:
+  "रजिस्ट्रेशन जमा नहीं हो सका। कृपया कुछ समय बाद पुनः प्रयास करें।",
+
+networkError:
+  "रजिस्ट्रेशन सर्विस से कनेक्ट नहीं हो पाया। इंटरनेट जाँचकर दोबारा प्रयास करें।",
+
+examCategoryLabel: "परीक्षा श्रेणी चुनें",
+selectCategory: "TGT, PGT या कॉम्बो चुनें",
+pgtOption: "PGT",
+tgtOption: "TGT",
+comboOption: "TGT + PGT कॉम्बो",
+
+categoryHelp:
+  "श्रेणी चुनने पर आवश्यक रजिस्ट्रेशन शुल्क और QR code दिखाई देगा।",
+
+paymentTitle: "रजिस्ट्रेशन पेमेंट पूरा करें",
+
+paymentInstructions:
+  "किसी भी UPI ऐप से QR code scan करके दिखाई गई राशि का भुगतान करें, फिर नीचे उपयोग की गई UPI ID लिखें।",
+
+selectedCategoryLabel: "चुनी गई श्रेणी:",
+payToLabel: "भुगतान प्राप्तकर्ता:",
+upiIdLabel: "UPI ID:",
+feeLabel: "रजिस्ट्रेशन शुल्क:",
+copyUpiBtn: "UPI ID कॉपी करें",
+
+paymentNote:
+  "पेमेंट करने और सही पेमेंट स्क्रीनशॉट अपलोड करने के बाद ही फॉर्म submit करें।",
+
+upiCopied: "UPI ID कॉपी हो गई है।"
+}
     };
+
+    const PAYMENT_OPTIONS = {
+  PGT: {
+    fee: 101,
+    qrImage: "Payment.jpeg"
+  },
+
+  TGT: {
+    fee: 149,
+    qrImage: "Payment combo.jpeg"
+  },
+
+  "TGT+PGT Combo": {
+    fee: 199,
+    qrImage: "Payment cb.jpeg"
+  }
+};
 
     let currentLanguage = localStorage.getItem("prepifyLanguage") || "en";
 
@@ -1283,8 +1402,16 @@
     const emailInput = document.getElementById("email");
     const whatsappInput = document.getElementById("whatsapp");
     const addressInput = document.getElementById("address");
-    const upiInput = document.getElementById("upiId");
-    const paymentProofInput = document.getElementById("paymentProof");
+   const upiInput = document.getElementById("upiId");
+
+const examCategoryInput = document.getElementById("examCategory");
+const paymentCard = document.getElementById("paymentCard");
+const paymentQrImage = document.getElementById("paymentQrImage");
+const selectedCategoryText = document.getElementById("selectedCategoryText");
+const registrationFeeText = document.getElementById("registrationFee");
+const copyUpiButton = document.getElementById("copyUpiButton");
+
+const paymentProofInput = document.getElementById("paymentProof");
     const declarationInput = document.getElementById("declaration");
     const declarationBox = document.getElementById("declarationBox");
 
@@ -1299,38 +1426,82 @@
     const submitText = document.getElementById("submitText");
     const statusMessage = document.getElementById("statusMessage");
 
-    function setLanguage(language) {
-      currentLanguage = language;
-      localStorage.setItem("prepifyLanguage", language);
+    function getCategoryDisplayName(category) {
+  if (category === "PGT") {
+    return translations[currentLanguage].pgtOption;
+  }
 
-      document.documentElement.lang = language === "hi" ? "hi" : "en";
-      document.title = translations[language].pageTitle;
+  if (category === "TGT") {
+    return translations[currentLanguage].tgtOption;
+  }
 
-      englishButton.classList.toggle("active", language === "en");
-      hindiButton.classList.toggle("active", language === "hi");
+  if (category === "TGT+PGT Combo") {
+    return translations[currentLanguage].comboOption;
+  }
 
-      document.querySelectorAll("[data-i18n]").forEach((element) => {
-        const key = element.getAttribute("data-i18n");
-        if (translations[language][key]) {
-          element.innerHTML = translations[language][key];
-        }
-      });
+  return "—";
+}
 
-      document.querySelectorAll("[data-placeholder-en]").forEach((element) => {
-        const placeholder =
-          language === "hi"
-            ? element.getAttribute("data-placeholder-hi")
-            : element.getAttribute("data-placeholder-en");
+function updatePaymentSection() {
+  const category = examCategoryInput.value;
+  const selectedOption = PAYMENT_OPTIONS[category];
 
-        if (placeholder) {
-          element.placeholder = placeholder;
-        }
-      });
+  if (!selectedOption) {
+    paymentCard.style.display = "none";
+    paymentQrImage.removeAttribute("src");
+    selectedCategoryText.textContent = "—";
+    registrationFeeText.textContent = "₹0";
+    return;
+  }
 
-      if (!submitButton.disabled) {
-        submitText.textContent = translations[language].submitBtn;
-      }
+  paymentCard.style.display = "flex";
+
+  // Filename में space होने पर URL सही बनाने के लिए encodeURI
+  paymentQrImage.src = encodeURI(selectedOption.qrImage);
+
+  paymentQrImage.alt =
+    getCategoryDisplayName(category) + " payment QR code";
+
+  selectedCategoryText.textContent = getCategoryDisplayName(category);
+  registrationFeeText.textContent = "₹" + selectedOption.fee;
+}
+
+function setLanguage(language) {
+  currentLanguage = language === "hi" ? "hi" : "en";
+  localStorage.setItem("prepifyLanguage", currentLanguage);
+
+  document.documentElement.lang = currentLanguage === "hi" ? "hi" : "en";
+  document.title = translations[currentLanguage].pageTitle;
+
+  englishButton.classList.toggle("active", currentLanguage === "en");
+  hindiButton.classList.toggle("active", currentLanguage === "hi");
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.getAttribute("data-i18n");
+
+    if (translations[currentLanguage][key]) {
+      element.innerHTML = translations[currentLanguage][key];
     }
+  });
+
+  document.querySelectorAll("[data-placeholder-en]").forEach((element) => {
+    const placeholder =
+      currentLanguage === "hi"
+        ? element.getAttribute("data-placeholder-hi")
+        : element.getAttribute("data-placeholder-en");
+
+    if (placeholder) {
+      element.placeholder = placeholder;
+    }
+  });
+
+  if (!submitButton.disabled) {
+    submitText.textContent = translations[currentLanguage].submitBtn;
+  }
+
+  updatePaymentSection();
+}
+      });
 
     englishButton.addEventListener("click", () => setLanguage("en"));
     hindiButton.addEventListener("click", () => setLanguage("hi"));
@@ -1419,8 +1590,24 @@
       filePreview.classList.add("visible");
       clearStatus();
     }
+    copyUpiButton.addEventListener("click", async () => {
+  const upiId = document.getElementById("displayUpiId").textContent.trim();
+
+  try {
+    await navigator.clipboard.writeText(upiId);
+    showStatus("success", translations[currentLanguage].upiCopied);
+  } catch (error) {
+    showStatus("success", upiId);
+  }
+});
 
     paymentProofInput.addEventListener("change", showSelectedFile);
+  examCategoryInput.addEventListener("change", () => {
+  setFieldInvalid(examCategoryInput, false);
+  clearStatus();
+  updatePaymentSection();
+});
+    
 
     removeFileButton.addEventListener("click", () => {
       resetFilePreview();
@@ -1463,10 +1650,11 @@
       const gender = genderInput.value;
       const email = emailInput.value.trim();
       const phone = normalizePhone(whatsappInput.value);
-      const address = addressInput.value.trim();
-      const upiId = upiInput.value.trim();
-      const file = paymentProofInput.files[0];
-
+     const address = addressInput.value.trim();
+const examCategory = examCategoryInput.value;
+const upiId = upiInput.value.trim();
+const file = paymentProofInput.files[0];
+      
       let firstInvalidElement = null;
 
       const markInvalid = (element) => {
@@ -1477,9 +1665,10 @@
       if (!name) markInvalid(nameInput);
       if (!gender) markInvalid(genderInput);
       if (!email) markInvalid(emailInput);
-      if (!phone) markInvalid(whatsappInput);
-      if (!address) markInvalid(addressInput);
-      if (!upiId) markInvalid(upiInput);
+     if (!phone) markInvalid(whatsappInput);
+if (!address) markInvalid(addressInput);
+if (!examCategory) markInvalid(examCategoryInput);
+if (!upiId) markInvalid(upiInput);
 
       if (firstInvalidElement) {
         showStatus("error", translations[currentLanguage].requiredError);
@@ -1602,8 +1791,10 @@
           email: emailInput.value.trim().toLowerCase(),
           whatsapp: normalizePhone(whatsappInput.value),
           address: addressInput.value.trim(),
-          upiId: upiInput.value.trim(),
-          language: currentLanguage,
+examCategory: examCategoryInput.value,
+registrationFee: PAYMENT_OPTIONS[examCategoryInput.value].fee,
+upiId: upiInput.value.trim(),
+language: currentLanguage,
           submittedAt: new Date().toISOString(),
           paymentProof: {
             fileName: file.name,
@@ -1616,8 +1807,9 @@
 
         if (result && (result.success === true || result.status === "success")) {
           form.reset();
-          resetFilePreview();
-          resetValidation();
+resetFilePreview();
+resetValidation();
+updatePaymentSection();
 
           showStatus(
             "success",
