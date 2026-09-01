@@ -1,720 +1,425 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PrepiFY | Portal Login</title>
-  <meta name="description" content="PrepiFY online examination portal login." />
-
+  <title>PrepiFY - GyaanSetu Maths</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #f4f1eb;
-      --surface: #ffffff;
-      --surface-soft: #f7f4ef;
-      --text: #1f1b16;
-      --muted: #6d675f;
-      --border: #ddd6cc;
-      --primary: #0f5c63;
-      --primary-hover: #0a4a50;
-      --danger: #a53b51;
-      --success: #2d7640;
-      --shadow: 0 20px 50px rgba(24, 20, 15, 0.08);
-    }
-
-    [data-theme="dark"] {
-      --bg: #151412;
-      --surface: #1d1c1a;
-      --surface-soft: #252321;
-      --text: #f0e8de;
-      --muted: #b5aea4;
-      --border: #3a3632;
-      --primary: #5eaab1;
-      --primary-hover: #78c0c6;
-      --danger: #d36b7d;
-      --success: #78bf8a;
-      --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+      --bg1: #4f46e5;
+      --bg2: #f59e0b;
+      --bg3: #06b6d4;
+      --bg4: #ec4899;
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --text-dark: #111827;
+      --text-muted: #4b5563;
+      --accent: #7c3aed;
     }
 
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      min-height: 100%;
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    button, input, select {
-      font: inherit;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .page {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-dark);
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 520px;
-    }
-
-    .brand-side {
       position: relative;
-      padding: 48px 56px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background:
-        linear-gradient(135deg, rgba(15, 92, 99, 0.06), transparent 45%),
-        linear-gradient(180deg, rgba(255,255,255,0.2), transparent),
-        var(--bg);
-      border-right: 1px solid var(--border);
+      overflow-x: hidden;
     }
 
-    .brand-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+    /* Animated gradient background */
+    .animated-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(
+        120deg,
+        var(--bg1),
+        var(--bg2),
+        var(--bg3),
+        var(--bg4),
+        var(--bg1)
+      );
+      background-size: 300% 300%;
+      animation: gradientShift 12s ease infinite;
     }
 
-    .brand-wrap {
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
-    .brand-logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 72%, white));
-      display: grid;
-      place-items: center;
-      box-shadow: var(--shadow);
-      color: white;
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
     }
 
-    .brand-logo svg {
-      width: 40px;
-      height: 40px;
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      animation: floatUp linear infinite;
     }
 
-    .brand-name {
-      display: grid;
-      gap: 4px;
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.6);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-20vh) scale(1);
+        opacity: 0;
+      }
     }
 
-    .brand-name h1 {
-      font-size: 2rem;
-      line-height: 1;
-      letter-spacing: 0.02em;
-    }
-
-    .brand-name p {
-      color: var(--muted);
-      font-size: 0.98rem;
-    }
-
-    .theme-toggle {
-      min-width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.25s ease;
-    }
-
-    .theme-toggle:hover {
-      background: var(--surface-soft);
-    }
-
-    .brand-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 0;
-    }
-
-    .seal-card {
-      width: min(100%, 520px);
-      background: color-mix(in srgb, var(--surface) 92%, transparent);
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      box-shadow: var(--shadow);
-      padding: 34px;
+    .header {
       text-align: center;
+      padding: 24px 10px 12px;
+      position: relative;
+      z-index: 1;
     }
 
-    .seal-mark {
-      width: 124px;
-      height: 124px;
-      margin: 0 auto 20px;
-      border-radius: 32px;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.22), transparent 40%),
-        linear-gradient(135deg, var(--primary), color-mix(in srgb, var(--primary) 55%, #ffffff));
-      color: white;
-      box-shadow: var(--shadow);
+    .brand {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+      color: #fff;
     }
 
-    .seal-mark svg {
-      width: 68px;
-      height: 68px;
+    .brand span.c1 {
+      color: #ffd56b;
+    }
+    .brand span.c2 {
+      color: #93c5fd;
     }
 
-    .seal-card h2 {
-      font-size: clamp(2.1rem, 4vw, 3.5rem);
-      line-height: 1.05;
-      margin-bottom: 10px;
+    .subbrand {
+      font-size: 22px;
+      color: #fff;
+      margin-top: 6px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
-    .seal-card p {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 34ch;
-      margin: 0 auto;
+    .tagline {
+      font-size: 17px;
+      color: #f3f4f6;
+      margin-top: 8px;
+      font-style: italic;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.35);
     }
 
-    .brand-footer {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .auth-side {
+    .container {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 36px 24px;
-      background: var(--surface-soft);
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: 30px auto;
+      gap: 30px;
+      padding: 0 15px;
+      position: relative;
+      z-index: 1;
     }
 
-    .auth-panel {
-      width: min(100%, 430px);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-    }
-
-    .auth-head {
-      margin-bottom: 22px;
-    }
-
-    .auth-head h2 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-
-    .auth-head p {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      background: var(--surface-soft);
-      padding: 6px;
+    .left-panel,
+    .right-panel {
+      flex: 1 1 320px;
+      background: var(--card-bg);
       border-radius: 16px;
-      margin-bottom: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
     }
 
-    .tab-btn {
-      min-height: 46px;
-      border: 0;
-      border-radius: 12px;
-      background: transparent;
-      color: var(--muted);
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.25s ease;
+    h2 {
+      margin-top: 0;
+      color: #1f2937;
     }
 
-    .tab-btn.active {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
+    .quote-box {
+      background: #f9fafb;
+      border-left: 5px solid var(--accent);
+      padding: 16px 16px 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      transition: all 0.35s ease;
     }
 
-    .form {
-      display: none;
-    }
-
-    .form.active {
-      display: block;
-    }
-
-    .field-grid {
-      display: grid;
-      gap: 14px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 0.93rem;
+    .shlok {
+      font-size: 19px;
+      color: #111827;
+      margin-bottom: 6px;
+      line-height: 1.45;
       font-weight: 600;
     }
 
-    .field input,
-    .field select {
+    .arth {
+      font-size: 15px;
+      color: #4b5563;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .custom-tagline {
+      font-size: 17px;
+      color: var(--accent);
+      font-weight: 700;
+      text-align: center;
+      margin-top: 18px;
+      line-height: 1.45;
+      text-shadow: 0 1px 4px rgba(124, 58, 237, 0.15);
+    }
+
+    .login-box h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #111827;
+      font-size: 20px;
+    }
+
+    .btn {
+      display: block;
       width: 100%;
-      min-height: 52px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      padding: 0 16px;
-      outline: none;
-      transition: 0.25s ease;
-    }
-
-    .field input:focus,
-    .field select:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(15, 92, 99, 0.12);
-    }
-
-    .inline-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .primary-btn {
-      width: 100%;
-      min-height: 52px;
-      border: 1px solid var(--primary);
-      border-radius: 14px;
-      background: var(--primary);
-      color: #fff;
+      padding: 13px 0;
+      margin: 10px 0 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      transition: 0.25s ease;
-      margin-top: 4px;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
     }
 
-    .primary-btn:hover {
-      background: var(--primary-hover);
-      border-color: var(--primary-hover);
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
     }
 
-    .status-box {
-      display: none;
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--surface-soft);
-      font-size: 0.94rem;
+    .btn-secondary {
+      background: linear-gradient(135deg, #f59e0b, #f97316);
+      color: #111827;
     }
 
-    .status-box.show {
-      display: block;
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+      opacity: 0.95;
     }
 
-    .status-box.success {
-      color: var(--success);
-      border-color: color-mix(in srgb, var(--success) 34%, var(--border));
+    /* Language switcher */
+    .lang-switcher {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      z-index: 10;
     }
 
-    .status-box.error {
-      color: var(--danger);
-      border-color: color-mix(in srgb, var(--danger) 34%, var(--border));
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #fff;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+      transition: all 0.2s ease;
     }
 
-    .status-box.info {
-      color: var(--primary);
-      border-color: color-mix(in srgb, var(--primary) 34%, var(--border));
+    .lang-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.25);
     }
 
-    @media (max-width: 1080px) {
-      .page {
-        grid-template-columns: 1fr;
+    @media (max-width: 700px) {
+      .container {
+        flex-direction: column;
       }
-
-      .brand-side {
-        border-right: 0;
-        border-bottom: 1px solid var(--border);
-        padding: 28px 20px;
+      .brand {
+        font-size: 38px;
       }
-
-      .brand-center {
-        padding: 24px 0 8px;
+      .subbrand {
+        font-size: 18px;
       }
-
-      .seal-card {
-        max-width: 100%;
-      }
-
-      .auth-side {
-        padding: 24px 16px 28px;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .brand-wrap {
-        gap: 12px;
-      }
-
-      .brand-logo {
-        width: 58px;
-        height: 58px;
-        border-radius: 18px;
-      }
-
-      .brand-logo svg {
-        width: 32px;
-        height: 32px;
-      }
-
-      .brand-name h1 {
-        font-size: 1.6rem;
-      }
-
-      .auth-panel,
-      .seal-card {
-        padding: 22px;
-      }
-
-      .inline-row {
-        grid-template-columns: 1fr;
-      }
-
-      .seal-mark {
-        width: 104px;
-        height: 104px;
-        border-radius: 26px;
-      }
-
-      .seal-mark svg {
-        width: 56px;
-        height: 56px;
+      .tagline {
+        font-size: 15px;
       }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="brand-side">
-      <div class="brand-top">
-        <div class="brand-wrap">
-          <div class="brand-logo" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none">
-              <path d="M18 19.5C18 16.46 20.46 14 23.5 14H40.5C43.54 14 46 16.46 46 19.5V44.5C46 47.54 43.54 50 40.5 50H23.5C20.46 50 18 47.54 18 44.5V19.5Z" fill="white" opacity="0.18"/>
-              <path d="M24 23H40" stroke="white" stroke-width="4" stroke-linecap="round"/>
-              <path d="M24 31H40" stroke="white" stroke-width="4" stroke-linecap="round"/>
-              <path d="M24 39H34" stroke="white" stroke-width="4" stroke-linecap="round"/>
-              <path d="M44 18L48 22" stroke="white" stroke-width="4" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="brand-name">
-            <h1>PrepiFY</h1>
-            <p>Examination Portal</p>
-          </div>
-        </div>
+  <!-- Animated background -->
+  <div class="animated-bg"></div>
+  <div class="particles" id="particles"></div>
 
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">🌙</button>
+  <!-- Language switcher -->
+  <div class="lang-switcher">
+    <button id="langToggle" class="lang-btn">हिन्दी</button>
+  </div>
+
+  <div class="header">
+    <div class="brand">
+      <span class="c1">Prepi</span><span class="c2">FY</span>
+    </div>
+    <div class="subbrand" data-i18n="subbrand">GyaanSetu Maths</div>
+    <div class="tagline" data-i18n="tagline">Empowering minds, building futures.</div>
+  </div>
+
+  <div class="container">
+    <div class="left-panel">
+      <h2 data-i18n="motivationalCorner">Motivational Corner</h2>
+      <div id="quoteBox" class="quote-box">
+        <div id="shlok" class="shlok"></div>
+        <div id="arth" class="arth"></div>
       </div>
-
-      <div class="brand-center">
-        <div class="seal-card">
-          <div class="seal-mark" aria-hidden="true">
-            <svg viewBox="0 0 72 72" fill="none">
-              <path d="M36 10L56 18V34C56 46.5 47.7 58 36 62C24.3 58 16 46.5 16 34V18L36 10Z" fill="white" opacity="0.18"/>
-              <path d="M28 35L34 41L45 28" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M25 21H47" stroke="white" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
-            </svg>
-          </div>
-          <h2>Examination Services Portal</h2>
-          <p>Authorized access for candidates and administrators.</p>
-        </div>
+      <div class="custom-tagline" data-i18n="customTagline">
+        पढ़ लो चाहे कहीं से,<br>
+        मंज़िल का रास्ता मिलेगा यहीं से।
       </div>
+    </div>
 
-      <div class="brand-footer">
-        <span id="yearText"></span>
+    <div class="right-panel">
+      <div class="login-box">
+        <h3 data-i18n="loginTitle">Login to your personalised dashboard</h3>
+        <a href="candidate.html" class="btn btn-primary" data-i18n="loginBtn">Login</a>
+        <a href="register.html" class="btn btn-secondary" data-i18n="registerBtn">Register Here</a>
       </div>
-    </section>
-
-    <section class="auth-side">
-      <div class="auth-panel">
-        <div class="tabs" role="tablist" aria-label="Login and Register Tabs">
-          <button class="tab-btn active" type="button" id="loginTab" onclick="switchTab('login')">Login</button>
-          <button class="tab-btn" type="button" id="registerTab" onclick="switchTab('register')">Register</button>
-        </div>
-
-        <div id="loginForm" class="form active">
-          <div class="auth-head">
-            <h2>Portal Login</h2>
-            <p>Sign in to continue.</p>
-          </div>
-
-          <form onsubmit="handleLogin(event)">
-            <div class="field-grid">
-              <div class="field">
-                <label for="loginEmail">Email Address</label>
-                <input type="email" id="loginEmail" placeholder="Enter your email address" required />
-              </div>
-
-              <div class="field">
-                <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" placeholder="Enter your password" required />
-              </div>
-
-              <div class="field">
-                <label for="loginRole">Access Type</label>
-                <select id="loginRole" required>
-                  <option value="">Select access type</option>
-                  <option value="candidate">Candidate</option>
-                  <option value="admin">Administrator</option>
-                </select>
-              </div>
-
-              <button type="submit" class="primary-btn">Login</button>
-            </div>
-          </form>
-
-          <div id="loginStatus" class="status-box" aria-live="polite"></div>
-        </div>
-
-        <div id="registerForm" class="form">
-          <div class="auth-head">
-            <h2>Candidate Registration</h2>
-            <p>Create your account.</p>
-          </div>
-
-          <form onsubmit="handleRegister(event)">
-            <div class="field-grid">
-              <div class="inline-row">
-                <div class="field">
-                  <label for="fullName">Full Name</label>
-                  <input type="text" id="fullName" placeholder="Enter your full name" required />
-                </div>
-
-                <div class="field">
-                  <label for="examField">Exam Field</label>
-                  <select id="examField" required>
-                    <option value="">Select exam field</option>
-                    <option value="NEET">NEET</option>
-                    <option value="JEE">JEE</option>
-                    <option value="UPSC">UPSC</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="field">
-                <label for="registerEmail">Email Address</label>
-                <input type="email" id="registerEmail" placeholder="Enter your email address" required />
-              </div>
-
-              <div class="field">
-                <label for="registerPassword">Password</label>
-                <input type="password" id="registerPassword" placeholder="Create your password" minlength="6" required />
-              </div>
-
-              <div class="field">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" placeholder="Confirm your password" minlength="6" required />
-              </div>
-
-              <button type="submit" class="primary-btn">Create Account</button>
-            </div>
-          </form>
-
-          <div id="registerStatus" class="status-box" aria-live="polite"></div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const isFirebaseConfigured = !Object.values(firebaseConfig).some(value => String(value).includes("YOUR_"));
-
-    let app = null;
-    let auth = null;
-    let db = null;
-
-    if (isFirebaseConfigured) {
-      app = initializeApp(firebaseConfig);
-      auth = getAuth(app);
-      db = getFirestore(app);
-    }
-
-    const loginStatus = document.getElementById("loginStatus");
-    const registerStatus = document.getElementById("registerStatus");
-
-    function showStatus(el, type, message) {
-      el.className = `status-box show ${type}`;
-      el.textContent = message;
-    }
-
-    function clearStatus(el) {
-      el.className = "status-box";
-      el.textContent = "";
-    }
-
-    window.switchTab = function(tab) {
-      document.getElementById("loginTab").classList.toggle("active", tab === "login");
-      document.getElementById("registerTab").classList.toggle("active", tab === "register");
-      document.getElementById("loginForm").classList.toggle("active", tab === "login");
-      document.getElementById("registerForm").classList.toggle("active", tab === "register");
-      clearStatus(loginStatus);
-      clearStatus(registerStatus);
-    };
-
-    window.handleRegister = async function(event) {
-      event.preventDefault();
-      clearStatus(registerStatus);
-
-      const fullName = document.getElementById("fullName").value.trim();
-      const examField = document.getElementById("examField").value;
-      const email = document.getElementById("registerEmail").value.trim();
-      const password = document.getElementById("registerPassword").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
-
-      if (password !== confirmPassword) {
-        showStatus(registerStatus, "error", "Password and confirm password must match.");
-        return;
-      }
-
-      if (!isFirebaseConfigured) {
-        showStatus(registerStatus, "info", "Add your Firebase configuration to enable live registration.");
-        return;
-      }
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          fullName,
-          email,
-          examField,
-          role: "candidate",
-          approvalStatus: "pending",
-          createdAt: serverTimestamp()
-        });
-
-        showStatus(registerStatus, "success", "Registration completed successfully.");
-        event.target.reset();
-      } catch (error) {
-        showStatus(registerStatus, "error", error.message || "Registration failed.");
-      }
-    };
-
-    window.handleLogin = async function(event) {
-      event.preventDefault();
-      clearStatus(loginStatus);
-
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value;
-      const role = document.getElementById("loginRole").value;
-
-      if (!isFirebaseConfigured) {
-        showStatus(loginStatus, "info", "Add your Firebase configuration to enable live login.");
-        return;
-      }
-
-      try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          showStatus(loginStatus, "error", "User profile data was not found.");
-          return;
-        }
-
-        const userData = userSnap.data();
-
-        if (userData.role !== role) {
-          showStatus(loginStatus, "error", `This account belongs to the ${userData.role} role. Please select the correct role.`);
-          return;
-        }
-
-        if (role === "candidate" && userData.approvalStatus === "pending") {
-          showStatus(loginStatus, "info", "Your account is pending approval.");
-          return;
-        }
-
-        showStatus(loginStatus, "success", "Login successful. Redirecting...");
-
-        setTimeout(() => {
-          if (role === "admin") {
-            window.location.href = "admin.html";
-          } else {
-            window.location.href = "candidate.html";
-          }
-        }, 900);
-
-      } catch (error) {
-        showStatus(loginStatus, "error", error.message || "Login failed.");
-      }
-    };
-
-    document.getElementById("yearText").textContent = `© ${new Date().getFullYear()} PrepiFY`;
-  </script>
+    </div>
+  </div>
 
   <script>
-    const root = document.documentElement;
-    const toggleBtn = document.getElementById("themeToggle");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+    // ---------------- Language Data ----------------
+    const translations = {
+      en: {
+        subbrand: "GyaanSetu Maths",
+        tagline: "Empowering minds, building futures.",
+        motivationalCorner: "Motivational Corner",
+        customTagline: "Study from anywhere,<br>the path to your goal starts here.",
+        loginTitle: "Login to your personalised dashboard",
+        loginBtn: "Login",
+        registerBtn: "Register Here",
+        shlokLabel: "Shlok",
+        arthLabel: "Meaning"
+      },
+      hi: {
+        subbrand: "ज्ञानसेतु Maths",
+        tagline: "मन को सशक्त बनाना, भविष्य को गढ़ना।",
+        motivationalCorner: "प्रेरणा कोना",
+        customTagline: "पढ़ लो चाहे कहीं से,<br>मंज़िल का रास्ता मिलेगा यहीं से।",
+        loginTitle: "अपने पर्सनलाइज़्ड डैशबोर्ड में लॉग इन करें",
+        loginBtn: "लॉग इन",
+        registerBtn: "यहाँ रजिस्टर करें",
+        shlokLabel: "श्लोक",
+        arthLabel: "अर्थ"
+      }
+    };
 
-    function applyTheme(theme) {
-      root.setAttribute("data-theme", theme);
-      toggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
-      toggleBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    const quotes = [
+      {
+        shlok: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।",
+        arth: "तेरा कर्म करने पर ही अधिकार है, फल पर नहीं।"
+      },
+      {
+        shlok: "योगः कर्मसु कौशलम्।",
+        arth: "कर्मों में कुशलता ही योग है।"
+      },
+      {
+        shlok: "उद्धरेदात्मनात्मानं नात्मानमवसादयेत्।",
+        arth: "मनुष्य को अपने द्वारा अपना उद्धार करना चाहिए, अपने को गिरना नहीं चाहिए।"
+      },
+      {
+        shlok: "मनो एव बन्धुः आत्मनो, मनो एव रिपुः आत्मनः।",
+        arth: "मन ही अपना मित्र है और मन ही अपना शत्रु।"
+      }
+    ];
+
+    let currentLang = 'en';
+    let quoteIndex = 0;
+
+    // ---------------- Language Toggle ----------------
+    const langToggleBtn = document.getElementById('langToggle');
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      langToggleBtn.textContent = lang === 'en' ? 'हिन्दी' : 'English';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      // Re-render current quote in selected language (same text, just labels if needed)
+      renderQuote();
     }
 
-    applyTheme(prefersDark.matches ? "dark" : "light");
-
-    toggleBtn.addEventListener("click", () => {
-      const current = root.getAttribute("data-theme");
-      applyTheme(current === "dark" ? "light" : "dark");
+    langToggleBtn.addEventListener('click', () => {
+      setLanguage(currentLang === 'en' ? 'hi' : 'en');
     });
+
+    // ---------------- Quote Rotation ----------------
+    function renderQuote() {
+      const q = quotes[quoteIndex];
+      document.getElementById('shlok').textContent = q.shlok;
+      document.getElementById('arth').textContent = q.arth;
+    }
+
+    function rotateQuote() {
+      renderQuote();
+      quoteIndex = (quoteIndex + 1) % quotes.length;
+    }
+
+    rotateQuote();
+    setInterval(rotateQuote, 6000); // change every 6 seconds
+
+    // ---------------- Animated Particles ----------------
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 25;
+
+      for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+
+        const size = Math.random() * 25 + 10; // 10–35px
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (Math.random() * 10 + 10) + 's'; // 10–20s
+        p.style.animationDelay = (Math.random() * 5) + 's';
+
+        container.appendChild(p);
+      }
+    }
+
+    createParticles();
+
+    // Initialize language (default English)
+    setLanguage('en');
   </script>
 </body>
 </html>
