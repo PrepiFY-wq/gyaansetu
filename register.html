@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#5b3df5" />
+  <title>Register | PrepiFY - GyaanSetu Maths</title>
+
+  <style>
+    :root {
+      --primary: #5b3df5;
+      --primary-dark: #3d24c7;
+      --secondary: #ff9f1c;
+      --cyan: #16c7d9;
+      --pink: #f54b9a;
+      --success: #11a36a;
+      --danger: #d93025;
+      --text: #182033;
+      --muted: #687086;
+      --line: #e5e7ef;
+      --card: rgba(255, 255, 255, 0.94);
+      --input: #fbfcff;
+      --shadow: 0 20px 55px rgba(20, 16, 76, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      font-family:
+        "Segoe UI",
+        "Noto Sans Devanagari",
+        "Nirmala UI",
+        Arial,
+        sans-serif;
+      overflow-x: hidden;
+      background: #4f2ee8;
+    }
+
+    .animated-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          125deg,
+          #3d22cc 0%,
+          #6448f7 24%,
+          #1aa9d6 49%,
+          #f05b9a 75%,
+          #ff9f1c 100%
+        );
+      background-size: 300% 300%;
+      animation: gradientMove 16s ease-in-out infinite;
+    }
+
+    .animated-bg::before,
+    .animated-bg::after {
+      position: absolute;
+      width: 55vw;
+      height: 55vw;
+      border-radius: 50%;
+      content: "";
+      opacity: 0.35;
+      filter: blur(8px);
+    }
+
+    .animated-bg::before {
+      top: -25vw;
+      left: -16vw;
+      background: #fff4a9;
+      animation: blobOne 18s ease-in-out infinite alternate;
+    }
+
+    .animated-bg::after {
+      right: -20vw;
+      bottom: -22vw;
+      background: #d3f8ff;
+      animation: blobTwo 21s ease-in-out infinite alternate;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes blobOne {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(18vw, 10vw) scale(1.18); }
+    }
+
+    @keyframes blobTwo {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-15vw, -10vw) scale(1.22); }
+    }
+
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -70px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 28px rgba(255, 255, 255, 0.22);
+      animation: rise linear infinite;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 1; }
+      85% { opacity: 0.95; }
+      100% {
+        transform: translateY(-120vh) translateX(90px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .brand-link {
+      display: inline-flex;
+      flex-direction: column;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand {
+      font-size: clamp(2rem, 4vw, 2.85rem);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      text-shadow: 0 3px 14px rgba(19, 11, 81, 0.33);
+    }
+
+    .brand .prepi {
+      color: #fff2a5;
+    }
+
+    .brand .fy {
+      color: #baf3ff;
+    }
+
+    .brand-subtitle {
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 0.93rem;
+      font-weight: 650;
+      letter-spacing: 0.3px;
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      padding: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 7px 20px rgba(29, 13, 96, 0.16);
+    }
+
+    .lang-btn {
+      min-width: 70px;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 9px;
+      color: #fff;
+      background: transparent;
+      font: inherit;
+      font-size: 0.86rem;
+      font-weight: 750;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .lang-btn.active {
+      color: var(--primary-dark);
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(22, 14, 91, 0.15);
+    }
+
+    .register-layout {
+      display: grid;
+      grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.22fr);
+      gap: 26px;
+      align-items: start;
+    }
+
+    .info-card,
+    .form-card {
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(15px);
+    }
+
+    .info-card {
+      position: sticky;
+      top: 22px;
+      padding: 32px 27px;
+      overflow: hidden;
+      color: #fff;
+      background:
+        linear-gradient(
+          155deg,
+          rgba(51, 31, 178, 0.92),
+          rgba(83, 49, 230, 0.78) 52%,
+          rgba(23, 154, 195, 0.72)
+        );
+    }
+
+    .info-card::after {
+      position: absolute;
+      right: -80px;
+      bottom: -80px;
+      width: 230px;
+      height: 230px;
+      border: 35px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.13);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .info-card h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: clamp(1.85rem, 3vw, 2.55rem);
+      line-height: 1.14;
+    }
+
+    .info-card p {
+      position: relative;
+      z-index: 1;
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .steps {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 13px;
+      margin: 28px 0;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .step-number {
+      display: grid;
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: 50%;
+      color: #36219b;
+      background: #fff2a5;
+      font-size: 0.89rem;
+      font-weight: 900;
+    }
+
+    .step-text {
+      font-size: 0.92rem;
+      font-weight: 650;
+      line-height: 1.35;
+    }
+
+    .mini-quote {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      padding: 16px;
+      border-left: 4px solid #ffe177;
+      border-radius: 10px;
+      background: rgba(10, 9, 66, 0.2);
+      color: #fff3b1;
+      font-size: 1rem;
+      font-weight: 750;
+      line-height: 1.55;
+    }
+
+    .form-card {
+      padding: clamp(22px, 4vw, 36px);
+      background: var(--card);
+    }
+
+    .form-heading {
+      margin-bottom: 26px;
+    }
+
+    .form-heading h2 {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(1.65rem, 3vw, 2.1rem);
+    }
+
+    .form-heading p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      color: #273049;
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 47px;
+      padding: 12px 13px;
+      border: 1.5px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+      background: var(--input);
+      font: inherit;
+      font-size: 0.94rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #9da5b6;
+    }
+
+    textarea {
+      min-height: 103px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(91, 61, 245, 0.13);
+    }
+
+    input.invalid,
+    select.invalid,
+    textarea.invalid {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 4px rgba(217, 48, 37, 0.1);
+    }
+
+    .field-help {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .upload-box {
+      position: relative;
+      display: flex;
+      min-height: 130px;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      border: 2px dashed #b7b5f3;
+      border-radius: 14px;
+      color: #4f46b5;
+      background: linear-gradient(135deg, #f5f4ff, #effcff);
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .upload-box:hover,
+    .upload-box.dragging {
+      border-color: var(--primary);
+      background: #ebeaff;
+      transform: translateY(-1px);
+    }
+
+    .upload-box input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      min-height: auto;
+      padding: 0;
+      border: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .upload-content {
+      pointer-events: none;
+    }
+
+    .upload-icon {
+      display: grid;
+      width: 39px;
+      height: 39px;
+      margin: 0 auto 8px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--cyan));
+      font-size: 1.25rem;
+      font-weight: 900;
+      box-shadow: 0 6px 13px rgba(74, 55, 210, 0.24);
+    }
+
+    .upload-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+    }
+
+    .upload-subtitle {
+      display: block;
+      margin-top: 5px;
+      color: #707796;
+      font-size: 0.78rem;
+    }
+
+    .file-preview {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 10px;
+      padding: 10px 11px;
+      border: 1px solid #bde8d5;
+      border-radius: 10px;
+      color: #176447;
+      background: #effcf6;
+      font-size: 0.84rem;
+      font-weight: 650;
+    }
+
+    .file-preview.visible {
+      display: flex;
+    }
+
+    .file-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .remove-file {
+      flex: 0 0 auto;
+      padding: 4px 7px;
+      border: 0;
+      border-radius: 7px;
+      color: #9c281f;
+      background: #ffe2df;
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .declaration {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 22px 0 0;
+      padding: 13px 14px;
+      border-radius: 12px;
+      background: #f8f8fd;
+      color: #596176;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .declaration input {
+      width: 17px;
+      min-height: 17px;
+      height: 17px;
+      margin: 1px 0 0;
+      padding: 0;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .declaration.invalid {
+      outline: 2px solid rgba(217, 48, 37, 0.45);
+    }
+
+    .submit-btn {
+      display: inline-flex;
+      width: 100%;
+      min-height: 51px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, #5135ed, #7c3aed 55%, #d84cbb);
+      box-shadow: 0 11px 22px rgba(86, 53, 221, 0.3);
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 850;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 28px rgba(86, 53, 221, 0.4);
+    }
+
+    .submit-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
+    .loader {
+      display: none;
+      width: 17px;
+      height: 17px;
+      border: 2px solid rgba(255, 255, 255, 0.42);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .is-loading .loader {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status-message {
+      display: none;
+      margin-top: 15px;
+      padding: 12px 13px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 650;
+      line-height: 1.45;
+    }
+
+    .status-message.show {
+      display: block;
+    }
+
+    .status-message.success {
+      border: 1px solid #a8e2c7;
+      color: #126344;
+      background: #eafbf2;
+    }
+
+    .status-message.error {
+      border: 1px solid #ffc1bd;
+      color: #a32923;
+      background: #fff0ef;
+    }
+
+    .login-prompt {
+      margin: 20px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .login-prompt a {
+      color: var(--primary);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .login-prompt a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      margin: 23px 0 0;
+      color: rgba(255, 255, 255, 0.88);
+      text-align: center;
+      font-size: 0.82rem;
+      text-shadow: 0 1px 5px rgba(12, 7, 61, 0.18);
+    }
+
+    .footer-note a {
+      color: #fff4ac;
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    @media (max-width: 850px) {
+      .register-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .info-card {
+        position: relative;
+        top: auto;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .page-shell {
+        width: min(100% - 22px, 1120px);
+        padding-top: 14px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        margin-bottom: 17px;
+      }
+
+      .brand-subtitle {
+        font-size: 0.78rem;
+      }
+
+      .lang-btn {
+        min-width: 57px;
+        padding: 7px 9px;
+        font-size: 0.78rem;
+      }
+
+      .info-card,
+      .form-card {
+        border-radius: 18px;
+      }
+
+      .info-card {
+        padding: 25px 20px;
+      }
+
+      .form-card {
+        padding: 23px 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animated-bg"></div>
+  <div class="particles" id="particles"></div>
+
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand-link" href="index.html" aria-label="PrepiFY Home">
+        <div class="brand">
+          <span class="prepi">Prepi</span><span class="fy">FY</span>
+        </div>
+        <div class="brand-subtitle">GyaanSetu Maths</div>
+      </a>
+
+      <div class="lang-switch" aria-label="Language selector">
+        <button class="lang-btn active" id="englishBtn" type="button">English</button>
+        <button class="lang-btn" id="hindiBtn" type="button">हिन्दी</button>
+      </div>
+    </header>
+
+    <section class="register-layout">
+      <aside class="info-card">
+        <span class="eyebrow" data-i18n="registrationOpen">Registration Open</span>
+
+        <h1 data-i18n="joinHeading">
+          Begin your learning journey with PrepiFY.
+        </h1>
+
+        <p data-i18n="joinText">
+          Complete your registration and upload the payment proof. Our team will
+          verify your details and send your UID and password to your registered email.
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <span class="step-text" data-i18n="step1">Fill in your personal details.</span>
+          </div>
+
+          <div class="step">
+            <span class="step-number">2</span>
+            <span class="step-text" data-i18n="step2">Upload your payment screenshot.</span>
+          </div>
+
+          <div class="step">
+            <span class="step-number">3</span>
+            <span class="step-text" data-i18n="step3">Receive verified login credentials by email.</span>
+          </div>
+        </div>
+
+        <div class="mini-quote" data-i18n="motivationLine">
+          पढ़ लो चाहे कहीं से,<br />
+          मंज़िल का रास्ता मिलेगा यहीं से।
+        </div>
+      </aside>
+
+      <section class="form-card" aria-labelledby="registerTitle">
+        <div class="form-heading">
+          <h2 id="registerTitle" data-i18n="formTitle">Create Your Account</h2>
+          <p data-i18n="formSubtitle">
+            All fields marked with * are required.
+          </p>
+        </div>
+
+        <form id="registrationForm" novalidate>
+          <div class="form-grid">
+            <div class="field">
+              <label for="name">
+                <span data-i18n="nameLabel">Candidate Name</span>
+                <span class="required">*</span>
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                maxlength="80"
+                autocomplete="name"
+                required
+                data-placeholder-en="Enter your full name"
+                data-placeholder-hi="अपना पूरा नाम लिखें"
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            <div class="field">
+              <label for="gender">
+                <span data-i18n="genderLabel">Gender</span>
+                <span class="required">*</span>
+              </label>
+              <select id="gender" name="gender" required>
+                <option value="" data-i18n="selectGender">Select gender</option>
+                <option value="Male" data-i18n="male">Male</option>
+                <option value="Female" data-i18n="female">Female</option>
+                <option value="Not to say" data-i18n="notToSay">Prefer not to say</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="email">
+                <span data-i18n="emailLabel">E-mail ID</span>
+                <span class="required">*</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                maxlength="120"
+                autocomplete="email"
+                required
+                data-placeholder-en="example@email.com"
+                data-placeholder-hi="example@email.com"
+                placeholder="example@email.com"
+              />
+            </div>
+
+            <div class="field">
+              <label for="whatsapp">
+                <span data-i18n="whatsappLabel">WhatsApp Number</span>
+                <span class="required">*</span>
+              </label>
+              <input
+                id="whatsapp"
+                name="whatsapp"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel"
+                maxlength="15"
+                required
+                data-placeholder-en="Enter 10-digit mobile number"
+                data-placeholder-hi="10 अंकों का मोबाइल नंबर लिखें"
+                placeholder="Enter 10-digit mobile number"
+              />
+              <span class="field-help" data-i18n="whatsappHelp">
+                Use an active WhatsApp number.
+              </span>
+            </div>
+
+            <div class="field full">
+              <label for="address">
+                <span data-i18n="addressLabel">Address</span>
+                <span class="required">*</span>
+              </label>
+              <textarea
+                id="address"
+                name="address"
+                maxlength="300"
+                autocomplete="street-address"
+                required
+                data-placeholder-en="Enter your complete address"
+                data-placeholder-hi="अपना पूरा पता लिखें"
+                placeholder="Enter your complete address"
+              ></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="upiId">
+                <span data-i18n="upiLabel">UPI ID used for payment</span>
+                <span class="required">*</span>
+              </label>
+              <input
+                id="upiId"
+                name="upiId"
+                type="text"
+                maxlength="100"
+                autocomplete="off"
+                required
+                data-placeholder-en="Example: name@upi"
+                data-placeholder-hi="उदाहरण: name@upi"
+                placeholder="Example: name@upi"
+              />
+              <span class="field-help" data-i18n="upiHelp">
+                Enter the UPI ID from which you made the payment.
+              </span>
+            </div>
+
+            <div class="field full">
+              <label>
+                <span data-i18n="proofLabel">Payment Proof</span>
+                <span class="required">*</span>
+              </label>
+
+              <label class="upload-box" id="uploadBox" for="paymentProof">
+                <input
+                  id="paymentProof"
+                  name="paymentProof"
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  required
+                />
+                <span class="upload-content">
+                  <span class="upload-icon">↑</span>
+                  <span class="upload-title" data-i18n="uploadTitle">
+                    Click to upload payment screenshot
+                  </span>
+                  <span class="upload-subtitle" data-i18n="uploadSubtitle">
+                    PNG, JPG, JPEG or WEBP • Maximum 5 MB
+                  </span>
+                </span>
+              </label>
+
+              <div class="file-preview" id="filePreview">
+                <span class="file-name" id="fileName"></span>
+                <button class="remove-file" id="removeFile" type="button" data-i18n="remove">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <label class="declaration" id="declarationBox">
+            <input id="declaration" type="checkbox" required />
+            <span data-i18n="declaration">
+              I confirm that the information provided by me is correct and that
+              the attached payment proof belongs to my registration.
+            </span>
+          </label>
+
+          <button id="submitBtn" class="submit-btn" type="submit">
+            <span class="loader" aria-hidden="true"></span>
+            <span id="submitText" data-i18n="submitBtn">Submit Registration</span>
+          </button>
+
+          <div
+            id="statusMessage"
+            class="status-message"
+            role="alert"
+            aria-live="polite"
+          ></div>
+
+          <p class="login-prompt">
+            <span data-i18n="alreadyRegistered">Already registered?</span>
+            <a href="login.html" data-i18n="loginHere">Login here</a>
+          </p>
+        </form>
+      </section>
+    </section>
+
+    <p class="footer-note">
+      <span data-i18n="footerPrefix">© PrepiFY • GyaanSetu Maths • </span>
+      <a href="index.html" data-i18n="backHome">Back to Home</a>
+    </p>
+  </main>
+
+  <script>
+    /*
+      =============================================================
+      IMPORTANT:
+      Paste your Google Apps Script Web App URL below.
+      Example:
+      const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
+      =============================================================
+    */
+    const GAS_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL";
+
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    const ALLOWED_FILE_TYPES = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+
+    const translations = {
+      en: {
+        pageTitle: "Register | PrepiFY - GyaanSetu Maths",
+        registrationOpen: "Registration Open",
+        joinHeading: "Begin your learning journey with PrepiFY.",
+        joinText:
+          "Complete your registration and upload the payment proof. Our team will verify your details and send your UID and password to your registered email.",
+        step1: "Fill in your personal details.",
+        step2: "Upload your payment screenshot.",
+        step3: "Receive verified login credentials by email.",
+        motivationLine:
+          "Study from anywhere,<br>the path to your goal starts here.",
+        formTitle: "Create Your Account",
+        formSubtitle: "All fields marked with * are required.",
+        nameLabel: "Candidate Name",
+        genderLabel: "Gender",
+        selectGender: "Select gender",
+        male: "Male",
+        female: "Female",
+        notToSay: "Prefer not to say",
+        emailLabel: "E-mail ID",
+        whatsappLabel: "WhatsApp Number",
+        whatsappHelp: "Use an active WhatsApp number.",
+        addressLabel: "Address",
+        upiLabel: "UPI ID used for payment",
+        upiHelp: "Enter the UPI ID from which you made the payment.",
+        proofLabel: "Payment Proof",
+        uploadTitle: "Click to upload payment screenshot",
+        uploadSubtitle: "PNG, JPG, JPEG or WEBP • Maximum 5 MB",
+        remove: "Remove",
+        declaration:
+          "I confirm that the information provided by me is correct and that the attached payment proof belongs to my registration.",
+        submitBtn: "Submit Registration",
+        submitting: "Submitting...",
+        alreadyRegistered: "Already registered?",
+        loginHere: "Login here",
+        footerPrefix: "© PrepiFY • GyaanSetu Maths • ",
+        backHome: "Back to Home",
+        namePlaceholder: "Enter your full name",
+        whatsappPlaceholder: "Enter 10-digit mobile number",
+        addressPlaceholder: "Enter your complete address",
+        upiPlaceholder: "Example: name@upi",
+        requiredError: "Please complete all required fields.",
+        invalidEmail: "Please enter a valid e-mail address.",
+        invalidPhone: "Please enter a valid 10-digit WhatsApp number.",
+        invalidUpi: "Please enter a valid UPI ID, for example: name@upi.",
+        paymentRequired: "Please upload your payment screenshot.",
+        fileTypeError: "Only PNG, JPG, JPEG, or WEBP images are allowed.",
+        fileSizeError: "The payment screenshot must be 5 MB or smaller.",
+        declarationError: "Please confirm the declaration before submitting.",
+        configError:
+          "Registration service is not configured. Please add your Apps Script Web App URL in this file.",
+        success:
+          "Registration submitted successfully. Verification is pending. A confirmation email has been sent to your registered email address.",
+        generalError:
+          "Your registration could not be submitted. Please try again after some time.",
+        networkError:
+          "Unable to connect to the registration service. Check your internet connection and try again."
+      },
+
+      hi: {
+        pageTitle: "रजिस्ट्रेशन | PrepiFY - GyaanSetu Maths",
+        registrationOpen: "रजिस्ट्रेशन शुरू है",
+        joinHeading: "PrepiFY के साथ अपनी सीखने की यात्रा शुरू करें।",
+        joinText:
+          "अपना रजिस्ट्रेशन पूरा करें और पेमेंट प्रूफ अपलोड करें। हमारी टीम आपके विवरण की जाँच करेगी और आपके रजिस्टर्ड ई-मेल पर UID व पासवर्ड भेजेगी।",
+        step1: "अपनी व्यक्तिगत जानकारी भरें।",
+        step2: "पेमेंट का स्क्रीनशॉट अपलोड करें।",
+        step3: "सत्यापन के बाद ई-मेल पर लॉगिन विवरण प्राप्त करें।",
+        motivationLine:
+          "पढ़ लो चाहे कहीं से,<br>मंज़िल का रास्ता मिलेगा यहीं से।",
+        formTitle: "अपना अकाउंट बनाएं",
+        formSubtitle: "* से चिन्हित सभी फ़ील्ड भरना अनिवार्य है।",
+        nameLabel: "अभ्यर्थी का नाम",
+        genderLabel: "लिंग",
+        selectGender: "लिंग चुनें",
+        male: "पुरुष",
+        female: "महिला",
+        notToSay: "नहीं बताना चाहते",
+        emailLabel: "ई-मेल आईडी",
+        whatsappLabel: "व्हाट्सऐप नंबर",
+        whatsappHelp: "चालू व्हाट्सऐप नंबर का उपयोग करें।",
+        addressLabel: "पता",
+        upiLabel: "पेमेंट के लिए उपयोग की गई UPI ID",
+        upiHelp: "जिस UPI ID से पेमेंट किया है, वही दर्ज करें।",
+        proofLabel: "पेमेंट प्रूफ",
+        uploadTitle: "पेमेंट स्क्रीनशॉट अपलोड करने के लिए क्लिक करें",
+        uploadSubtitle: "PNG, JPG, JPEG या WEBP • अधिकतम 5 MB",
+        remove: "हटाएं",
+        declaration:
+          "मैं पुष्टि करता/करती हूँ कि मेरे द्वारा दी गई जानकारी सही है और संलग्न पेमेंट प्रूफ मेरे रजिस्ट्रेशन से संबंधित है।",
+        submitBtn: "रजिस्ट्रेशन सबमिट करें",
+        submitting: "सबमिट हो रहा है...",
+        alreadyRegistered: "पहले से रजिस्टर्ड हैं?",
+        loginHere: "यहाँ लॉगिन करें",
+        footerPrefix: "© PrepiFY • GyaanSetu Maths • ",
+        backHome: "होम पर जाएं",
+        namePlaceholder: "अपना पूरा नाम लिखें",
+        whatsappPlaceholder: "10 अंकों का मोबाइल नंबर लिखें",
+        addressPlaceholder: "अपना पूरा पता लिखें",
+        upiPlaceholder: "उदाहरण: name@upi",
+        requiredError: "कृपया सभी अनिवार्य फ़ील्ड भरें।",
+        invalidEmail: "कृपया सही ई-मेल आईडी दर्ज करें।",
+        invalidPhone: "कृपया सही 10 अंकों का व्हाट्सऐप नंबर दर्ज करें।",
+        invalidUpi: "कृपया सही UPI ID दर्ज करें, जैसे: name@upi।",
+        paymentRequired: "कृपया पेमेंट का स्क्रीनशॉट अपलोड करें।",
+        fileTypeError: "केवल PNG, JPG, JPEG या WEBP इमेज स्वीकार हैं।",
+        fileSizeError: "पेमेंट स्क्रीनशॉट 5 MB या उससे कम होना चाहिए।",
+        declarationError: "सबमिट करने से पहले कृपया घोषणा की पुष्टि करें।",
+        configError:
+          "रजिस्ट्रेशन सर्विस कॉन्फ़िगर नहीं है। कृपया इस file में Apps Script Web App URL जोड़ें।",
+        success:
+          "रजिस्ट्रेशन सफलतापूर्वक जमा हो गया है। सत्यापन लंबित है। आपके रजिस्टर्ड ई-मेल पर पुष्टि संदेश भेज दिया गया है।",
+        generalError:
+          "रजिस्ट्रेशन जमा नहीं हो सका। कृपया कुछ समय बाद पुनः प्रयास करें।",
+        networkError:
+          "रजिस्ट्रेशन सर्विस से कनेक्ट नहीं हो पाया। इंटरनेट जाँचकर दोबारा प्रयास करें।"
+      }
+    };
+
+    let currentLanguage = localStorage.getItem("prepifyLanguage") || "en";
+
+    const form = document.getElementById("registrationForm");
+    const nameInput = document.getElementById("name");
+    const genderInput = document.getElementById("gender");
+    const emailInput = document.getElementById("email");
+    const whatsappInput = document.getElementById("whatsapp");
+    const addressInput = document.getElementById("address");
+    const upiInput = document.getElementById("upiId");
+    const paymentProofInput = document.getElementById("paymentProof");
+    const declarationInput = document.getElementById("declaration");
+    const declarationBox = document.getElementById("declarationBox");
+
+    const uploadBox = document.getElementById("uploadBox");
+    const filePreview = document.getElementById("filePreview");
+    const fileName = document.getElementById("fileName");
+    const removeFileButton = document.getElementById("removeFile");
+
+    const englishButton = document.getElementById("englishBtn");
+    const hindiButton = document.getElementById("hindiBtn");
+    const submitButton = document.getElementById("submitBtn");
+    const submitText = document.getElementById("submitText");
+    const statusMessage = document.getElementById("statusMessage");
+
+    function setLanguage(language) {
+      currentLanguage = language;
+      localStorage.setItem("prepifyLanguage", language);
+
+      document.documentElement.lang = language === "hi" ? "hi" : "en";
+      document.title = translations[language].pageTitle;
+
+      englishButton.classList.toggle("active", language === "en");
+      hindiButton.classList.toggle("active", language === "hi");
+
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const key = element.getAttribute("data-i18n");
+        if (translations[language][key]) {
+          element.innerHTML = translations[language][key];
+        }
+      });
+
+      document.querySelectorAll("[data-placeholder-en]").forEach((element) => {
+        const placeholder =
+          language === "hi"
+            ? element.getAttribute("data-placeholder-hi")
+            : element.getAttribute("data-placeholder-en");
+
+        if (placeholder) {
+          element.placeholder = placeholder;
+        }
+      });
+
+      if (!submitButton.disabled) {
+        submitText.textContent = translations[language].submitBtn;
+      }
+    }
+
+    englishButton.addEventListener("click", () => setLanguage("en"));
+    hindiButton.addEventListener("click", () => setLanguage("hi"));
+
+    function createParticles() {
+      const particleContainer = document.getElementById("particles");
+      const particleCount = window.innerWidth < 600 ? 17 : 29;
+
+      for (let i = 0; i < particleCount; i += 1) {
+        const particle = document.createElement("span");
+        const size = Math.floor(Math.random() * 24) + 9;
+
+        particle.className = "particle";
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 13 + 11}s`;
+        particle.style.animationDelay = `${Math.random() * 12}s`;
+        particle.style.opacity = `${Math.random() * 0.35 + 0.12}`;
+
+        particleContainer.appendChild(particle);
+      }
+    }
+
+    function showStatus(type, message) {
+      statusMessage.className = `status-message show ${type}`;
+      statusMessage.textContent = message;
+      statusMessage.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function clearStatus() {
+      statusMessage.className = "status-message";
+      statusMessage.textContent = "";
+    }
+
+    function setFieldInvalid(field, invalid) {
+      field.classList.toggle("invalid", invalid);
+    }
+
+    function resetValidation() {
+      document.querySelectorAll(".invalid").forEach((element) => {
+        element.classList.remove("invalid");
+      });
+      declarationBox.classList.remove("invalid");
+    }
+
+    function resetFilePreview() {
+      paymentProofInput.value = "";
+      filePreview.classList.remove("visible");
+      fileName.textContent = "";
+    }
+
+    function validatePaymentFile(file) {
+      if (!file) {
+        return { valid: false, message: translations[currentLanguage].paymentRequired };
+      }
+
+      if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+        return { valid: false, message: translations[currentLanguage].fileTypeError };
+      }
+
+      if (file.size > MAX_FILE_SIZE) {
+        return { valid: false, message: translations[currentLanguage].fileSizeError };
+      }
+
+      return { valid: true, message: "" };
+    }
+
+    function showSelectedFile() {
+      const file = paymentProofInput.files[0];
+
+      if (!file) {
+        resetFilePreview();
+        return;
+      }
+
+      const fileCheck = validatePaymentFile(file);
+
+      if (!fileCheck.valid) {
+        resetFilePreview();
+        showStatus("error", fileCheck.message);
+        return;
+      }
+
+      fileName.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+      filePreview.classList.add("visible");
+      clearStatus();
+    }
+
+    paymentProofInput.addEventListener("change", showSelectedFile);
+
+    removeFileButton.addEventListener("click", () => {
+      resetFilePreview();
+      clearStatus();
+    });
+
+    ["dragenter", "dragover"].forEach((eventName) => {
+      uploadBox.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        uploadBox.classList.add("dragging");
+      });
+    });
+
+    ["dragleave", "drop"].forEach((eventName) => {
+      uploadBox.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        uploadBox.classList.remove("dragging");
+      });
+    });
+
+    uploadBox.addEventListener("drop", (event) => {
+      const droppedFiles = event.dataTransfer.files;
+      if (!droppedFiles || !droppedFiles.length) return;
+
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(droppedFiles[0]);
+      paymentProofInput.files = dataTransfer.files;
+      showSelectedFile();
+    });
+
+    function normalizePhone(value) {
+      return value.replace(/\D/g, "").replace(/^91(?=\d{10}$)/, "");
+    }
+
+    function validateForm() {
+      resetValidation();
+      clearStatus();
+
+      const name = nameInput.value.trim();
+      const gender = genderInput.value;
+      const email = emailInput.value.trim();
+      const phone = normalizePhone(whatsappInput.value);
+      const address = addressInput.value.trim();
+      const upiId = upiInput.value.trim();
+      const file = paymentProofInput.files[0];
+
+      let firstInvalidElement = null;
+
+      const markInvalid = (element) => {
+        setFieldInvalid(element, true);
+        if (!firstInvalidElement) firstInvalidElement = element;
+      };
+
+      if (!name) markInvalid(nameInput);
+      if (!gender) markInvalid(genderInput);
+      if (!email) markInvalid(emailInput);
+      if (!phone) markInvalid(whatsappInput);
+      if (!address) markInvalid(addressInput);
+      if (!upiId) markInvalid(upiInput);
+
+      if (firstInvalidElement) {
+        showStatus("error", translations[currentLanguage].requiredError);
+        firstInvalidElement.focus();
+        return false;
+      }
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      if (!emailPattern.test(email)) {
+        markInvalid(emailInput);
+        showStatus("error", translations[currentLanguage].invalidEmail);
+        emailInput.focus();
+        return false;
+      }
+
+      if (!/^\d{10}$/.test(phone)) {
+        markInvalid(whatsappInput);
+        showStatus("error", translations[currentLanguage].invalidPhone);
+        whatsappInput.focus();
+        return false;
+      }
+
+      const upiPattern = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z]{2,64}$/;
+      if (!upiPattern.test(upiId)) {
+        markInvalid(upiInput);
+        showStatus("error", translations[currentLanguage].invalidUpi);
+        upiInput.focus();
+        return false;
+      }
+
+      const fileCheck = validatePaymentFile(file);
+      if (!fileCheck.valid) {
+        showStatus("error", fileCheck.message);
+        uploadBox.scrollIntoView({ behavior: "smooth", block: "center" });
+        return false;
+      }
+
+      if (!declarationInput.checked) {
+        declarationBox.classList.add("invalid");
+        showStatus("error", translations[currentLanguage].declarationError);
+        declarationInput.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    function readFileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          const result = reader.result;
+          resolve(String(result).split(",")[1]);
+        };
+
+        reader.onerror = () => {
+          reject(new Error("FILE_READ_ERROR"));
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function setSubmitting(isSubmitting) {
+      submitButton.disabled = isSubmitting;
+      submitButton.classList.toggle("is-loading", isSubmitting);
+      submitText.textContent = isSubmitting
+        ? translations[currentLanguage].submitting
+        : translations[currentLanguage].submitBtn;
+    }
+
+    async function submitRegistration(payload) {
+      /*
+        text/plain intentionally avoids an application/json CORS preflight
+        when this frontend is hosted on GitHub Pages.
+      */
+      const response = await fetch(GAS_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload),
+        redirect: "follow"
+      });
+
+      const rawResponse = await response.text();
+
+      try {
+        return JSON.parse(rawResponse);
+      } catch (error) {
+        throw new Error("INVALID_SERVER_RESPONSE");
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!validateForm()) return;
+
+      if (
+        !GAS_URL ||
+        GAS_URL === "YOUR_APPS_SCRIPT_WEB_APP_URL" ||
+        !GAS_URL.includes("script.google.com")
+      ) {
+        showStatus("error", translations[currentLanguage].configError);
+        return;
+      }
+
+      const file = paymentProofInput.files[0];
+      setSubmitting(true);
+
+      try {
+        const paymentProofBase64 = await readFileAsBase64(file);
+
+        const payload = {
+          action: "register",
+          name: nameInput.value.trim(),
+          gender: genderInput.value,
+          email: emailInput.value.trim().toLowerCase(),
+          whatsapp: normalizePhone(whatsappInput.value),
+          address: addressInput.value.trim(),
+          upiId: upiInput.value.trim(),
+          language: currentLanguage,
+          submittedAt: new Date().toISOString(),
+          paymentProof: {
+            fileName: file.name,
+            mimeType: file.type,
+            base64: paymentProofBase64
+          }
+        };
+
+        const result = await submitRegistration(payload);
+
+        if (result && (result.success === true || result.status === "success")) {
+          form.reset();
+          resetFilePreview();
+          resetValidation();
+
+          showStatus(
+            "success",
+            result.message || translations[currentLanguage].success
+          );
+        } else {
+          showStatus(
+            "error",
+            (result && result.message) || translations[currentLanguage].generalError
+          );
+        }
+      } catch (error) {
+        console.error("Registration error:", error);
+
+        const message =
+          error.message === "FILE_READ_ERROR"
+            ? translations[currentLanguage].paymentRequired
+            : error.message === "INVALID_SERVER_RESPONSE"
+              ? translations[currentLanguage].generalError
+              : translations[currentLanguage].networkError;
+
+        showStatus("error", message);
+      } finally {
+        setSubmitting(false);
+      }
+    });
+
+    [nameInput, genderInput, emailInput, whatsappInput, addressInput, upiInput].forEach(
+      (element) => {
+        element.addEventListener("input", () => setFieldInvalid(element, false));
+        element.addEventListener("change", () => setFieldInvalid(element, false));
+      }
+    );
+
+    declarationInput.addEventListener("change", () => {
+      declarationBox.classList.remove("invalid");
+    });
+
+    createParticles();
+    setLanguage(currentLanguage);
+  </script>
+</body>
+</html>
